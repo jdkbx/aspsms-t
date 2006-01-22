@@ -1,0 +1,2 @@
+* Crashs on delivery notifigations with ö in jid
+* Crashs on jabber_iq_disco_info with Gaim Client

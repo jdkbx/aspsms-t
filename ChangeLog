@@ -1,0 +1,195 @@
+2006-01-19:
+
+    * aspsms-t.pl: Crash fix in InPresence()
+    * aspsms-t.pl: Crash fix in sendPrecense()
+    * aspsms-t.pl: Crash fix in InIQ()
+
+
+2006-01-11  Marco Balmer  <mb@micressor.ch>
+
+    * aspsms-t.pl: Add <message/> notification on Buffered and NonDelivered status
+
+2005-12-16  Marco Balmer  <mb@micressor.ch>
+
+    * Send only a <message/> elemet if the message was successfully
+      deliverd
+
+2005-12-15  Marco Balmer  <mb@micressor.ch>
+
+    * Revision 27
+    * Change syslog types of log messages
+
+2005-12-14  Marco Balmer  <mb@micressor.ch>
+
+    * remove release from aspsms.xml configuration
+    * Presence change on working sms deliveries
+
+2005-12-13  Marco Balmer  <mb@micressor.ch>
+
+    * doc cleanups
+    * Change folder structur ./ASPSMS added
+
+2005-12-12  Marco Balmer  <mb@micressor.ch>
+
+    * now reachable under svn://svn.micressor.ch/aspsms-t 
+    * README: docs
+    * TODO: docs
+
+2005-11-30  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.79-dev
+    * aspsms-t.pl: add aspsmst_log function
+    * aspsms-t.pl: Disco support added
+    * aspsms-t.pl: update syslog messages
+    * aspsmshandler.pm: same
+    * userhandler.pm: same
+
+2005-11-29  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.78-dev
+    * aspsms-t.pl: Migration to Net::Jabber 2.0
+    * aspsms-t.pl: User registration bug fixed
+
+2005-11-28  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.77-dev
+    * aspsms-t.pl: syslog facility fix (aspsms-t.pl crashed)
+    * aspsms-t.pl: Add Global Two-Way functionality
+    * aspsms-notification.pl: same
+    * xmlmodel.pm: same
+    * aspsms-t.pl: Migration to Net::Jabber 2.0
+
+
+2005-06-14  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.76
+    * aspsms.notification.pl: Crash Net::Jabber presence fix
+
+2005-04-25  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.75
+    * aspsmshandler.pm: Change logging of non success sms deliveries
+    * README: Change important installation task for aspsms.notification.pl
+    * xmlmodel.pm: <URLBufferedMessageNotification/> Fix
+    * userhandler: Use no default banner if user has not defined a customer
+    signature
+
+    Problems:
+    * Sending doublepoint (:) character to aspsms xmlsrv. That's an aspsms.com problem. The developers of aspsms working on it.
+
+2005-03-01  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.74
+    * aspsms-t.pl: Change number presence %prefixes
+
+
+2005-02-28  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.73
+    * aspsmshandler.pm: change div logging messages
+    * aspsms-t.pl: change div logging messages
+    * aspsms.notification.pl: change div logging messages
+
+2005-02-26  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.72
+    * config.pm: Added $Message_Counter variables
+    * aspsmshandler.pm: Added message counting of success and non success sms
+    deliveries
+    * aspsms-t.pl: Added logging of success/non success messages all 5 minutes
+
+2005-02-23  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.71
+    * aspsmshandler.pm: Fix exeption handling / change div logging messages
+    * aspsms-t.pl: Fix exeption handling
+    * aspsms-t.pl: Change div logging messages
+    * aspsms.notification.pl: Rewrite http notification receiver
+
+2005-02-23  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.70
+    * aspsmshandler.pm: Change "delivery status" message / hange div logging messages
+    * config.pm: Cleanup bad code
+    * aspsms-t.pl: Change div logging messages
+
+2005-02-22  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.69
+    * aspsms-t.pl: Cleanup functions/documentation
+    * README: Update documentation
+    * aspsms.xml.dist: Update documentation
+    * TODO: Added
+    * COPYING: Added
+
+2005-02-12  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.68
+    * aspsms.notification.pl: Reading syslog facility from aspsms.xml now
+    * aspsms.notification.pl: Remove unused configuration tag
+    * aspsms-t.pl: Logging improved
+    * aspsmshandler.pm: Hardcoded links and swissjabber specific stuff removed
+    * README: Update documentation
+
+2005-02-09  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.66
+    * aspsms.notification.pl: License update
+    * aspsms-t.pl: -c parameter added, exeption handling fixes
+    * aspsmshandler.pm: License update
+    * userhandler.pm: License update
+    * xmlmodel.pm: License update
+    * config.pm: License update
+    * README: Documentation update
+    * aspsms.xml.dist: Documentation update
+
+2005-02-08  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.64
+    * aspsms.notification.pl: Configuration options added to aspsms.xml
+    * aspsms.xml: Documentation updated
+
+2005-01-07  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.63
+    * aspsms-t.pl: Change syslog facilities
+
+2004-12-29  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.62
+    * aspsms-t.pl: syslog changes
+
+2004-12-23  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.61
+    * aspsms-t.pl: delivery notification message changed
+
+2004-12-22  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.60
+    * aspsms-t.pl: localtime(); added to delivery notification
+
+2004-12-21  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.59
+    * aspsmshandler.pm: regexes(); fix stupied charachters which crashes the aspsms xml-server
+    * README: Install doc added
+
+2004-11-19  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.58
+    * aspsms-t.exec.pl: use XML::Smart and XML::Parser removed
+
+2004-11-18  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.57
+    * aspsms-t.exec.pl: rewrite...
+    * aspsms.xml: version update
+    * xmlmodel.pm: Affiliate id out
+
+2004-10-29  Marco Balmer  <mb@micressor.ch>
+
+    * v0.9.56
+    * aspsms-t.pl: Update message handling, umask(0177)
+    * aspsms.xml: Cleanup 
+    * xmlmodel.pm: Modification for delivery notification service

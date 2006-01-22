@@ -1,0 +1,112 @@
+aspsms-t by Marco Balmer <mb@micressor.ch> @2004
+================================================
+
+Check this site for the latest version of this software.
+
+http://www.micressor.ch/content/projects/aspsms-t
+
+Contact
+-------
+jid:   micressor@swissjabber.ch
+email: mb@micressor.ch
+       admin@swissjabber.ch
+       
+
+Features
+--------
+- aspsms xmlsrv v1.6 by https://www.aspsms.com
+- It supports simple text SMS with a maximum of 160 characters. If your 
+  message is >160 characters, aspsms-t will split it automatically in more 
+  than one part.
+- Very fast delivery
+- Delivery notification for each sms with a unique transaction number
+- It can set alphanumeric originator of every SMS. This can be a mobile phone or 
+  a short text with a maximum of 11 characters.
+- Two-Way SMS
+
+Requirements
+------------
+
+- Net::Jabber v2.0
+- XML::Parser
+- XML::Smart
+
+Connectivity
+-------------
+The transport must have access to the aspsms xml srv systems:
+
+xml1.aspsms.com:5061
+xml1.aspsms.com:5098
+xml2.aspsms.com:5061
+xml2.aspsms.com:5098
+
+Overview
+--------
+aspsms-t allows you to send sms messages over the jabber network through 
+the gateway of https://www.aspsms.com. A lot of networks are supported. 
+Normal TextSMS messages usually costs 1 aspsms Credit. aspsms-t deliver 
+very fast and send you a jabber message, if your sms was accepted by the 
+sms-centre and a second jabber messsage if the sms was successfully 
+delivered to the mobile device.
+
+Configuration
+-------------
+
+1) Add the following lines to jabber.xml for jabberd14:
+
+<service id='sms-linker'>
+ <host>sms.domain.ch</host>
+ <accept>
+  <ip>127.0.0.1</ip>
+  <port>5245</port>
+  <secret>secret</secret>
+  <timeout>30</timeout>
+ </accept>
+</service>
+
+Restart your jabberd.
+
+2) Add the SRV Record to the dns zone:
+_xmpp-server._tcp.sms.domain.ch. 900 IN SRV 1 1 5269 domain.ch.
+
+Restart your nameserver.
+
+3) Copy aspsms.xml.dist to aspsms.xml and configure it
+
+4) Configuring the delivery notification agent (not necessary for running aspsms-t --> optional)
+- aspsms-t working directory /home/foo/aspsms-t
+- Webservice directory /home/www/website/
+
+cd /home/www/website
+ln -s /home/foo/aspsms-t/aspsms.notification.pl aspsms.notification.pl
+chmod 755 aspsms.notification.pl
+
+vi aspsms.notification.pl
+Update the following line:
+my $Config              = XML::Smart->new('/home/jabberd/etc/aspsms.xml');
+to your configuration path and make sure, that your apache user can access
+to the configuration file.
+
+- Configure section <notification/> in aspsms.xml
+
+
+Running
+-------
+./aspsms-t.pl -c aspsms.xml
+aspsms-t running... (CTRL-C to break)
+
+Better you're running aspsms-t under daemontools from djb http://cr.yp.to/daemontools.html
+
+and then check /var/log/messages ;)
+
+
+Syslog configuration
+--------------------
+
+/etc/syslog.conf
+
+Normal log entries:
+local4.=info                            -/var/log/jabberd/aspsms-t.log
+
+Full Debug log:
+local4.info;local4.=warn;local4.=notice        -/var/log/jabberd/aspsms-t.log
