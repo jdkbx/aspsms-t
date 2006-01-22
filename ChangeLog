@@ -1,9 +1,14 @@
-2006-01-19:
+
+2006-01-22 Marco Balmer  <mb@micressor.ch>
+
+    * aspsms-t.pl: Crash fix in jabber_iq_disco_info()
+    * aspsms-t.pl: Crash fix in jabber_iq_disco_items()
+
+2006-01-19: Marco Balmer  <mb@micressor.ch>
 
     * aspsms-t.pl: Crash fix in InPresence()
     * aspsms-t.pl: Crash fix in sendPrecense()
     * aspsms-t.pl: Crash fix in InIQ()
-
 
 2006-01-11  Marco Balmer  <mb@micressor.ch>
 

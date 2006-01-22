@@ -737,7 +737,8 @@ eval {
 
    if ($type eq 'get')
     {
-    aspsmst_log('notice',"jabber_iq_disco_info(): Processing disco query from $from");
+    my $barejid=get_barejid($from);
+    aspsmst_log('notice',"jabber_iq_disco_info(): Processing disco query from $barejid");
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
@@ -777,7 +778,8 @@ my $xml		= $iq->GetXML();
 
     if($type eq 'get')
      {
-      aspsmst_log('info',"jabber_iq_disco_items(): Processing disco query from $from");
+      my $barejid=get_barejid($from);
+      aspsmst_log('info',"jabber_iq_disco_items(): Processing disco query from $barejid");
       $iq->SetType('result');
       $iq->SetFrom($iq->GetTo());
       $iq->SetTo($from);
