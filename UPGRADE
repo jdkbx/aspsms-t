@@ -1,4 +1,4 @@
-Upgrade from 0.9.76 to aktually svn
+Upgrade from 0.9.76 to actually svn trunk
 
  * Upgrade from Net::Jabber v1.30 to Net::Jabber v.2.0
  * Check documetation in aspsms.notification.pl about the new notify syntax
