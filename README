@@ -9,20 +9,18 @@ Contact
 -------
 jid:   micressor@swissjabber.ch
 email: mb@micressor.ch
-       admin@swissjabber.ch
+    
        
 
 Features
 --------
-- aspsms xmlsrv v1.6 by https://www.aspsms.com
-- It supports simple text SMS with a maximum of 160 characters. If your 
-  message is >160 characters, aspsms-t will split it automatically in more 
-  than one part.
-- Very fast delivery
-- Delivery notification for each sms with a unique transaction number
-- It can set alphanumeric originator of every SMS. This can be a mobile phone or 
-  a short text with a maximum of 11 characters.
-- Two-Way SMS
+*  aspsms xmlsrv v1.6 by https://www.aspsms.com
+* It supports simple text SMS with a maximum of 160 characters. If your message 
+  is >160 characters, aspsms-t will split it automatically in more than one part.
+* Very fast delivery
+* Delivery notification for each sms with a unique transaction number
+* It can set alphanumeric originator of every SMS. This can be a mobile phone or a 
+  short text with a maximum of 11 characters.
 
 Requirements
 ------------
@@ -42,12 +40,13 @@ xml2.aspsms.com:5098
 
 Overview
 --------
-aspsms-t allows you to send sms messages over the jabber network through 
-the gateway of https://www.aspsms.com. A lot of networks are supported. 
-Normal TextSMS messages usually costs 1 aspsms Credit. aspsms-t deliver 
-very fast and send you a jabber message, if your sms was accepted by the 
-sms-centre and a second jabber messsage if the sms was successfully 
-delivered to the mobile device.
+aspsms-t is an open source /*GPL*/ (http://www.fsf.org/licensing/licenses/gpl.txt) jabber2sms 
+transport, which allows you to send sms messages over the jabber network through the gateway-system 
+of aspsms.com (https://www.aspsms.com). A lot of networks are supported.
+
+Normal TextSMS messages usually costs 1 aspsms Credit. aspsms-t deliver very fast and will send 
+you a jabber status message. A second message will receive,If your sms was successfully delivered 
+to the mobile device.
 
 Configuration
 -------------
