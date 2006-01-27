@@ -1,6 +1,5 @@
 * Automatically change of aspsms.com Servers if one is not available
 * Better docs abount aspsms.notification.pl (concept)
-* Update README (install doc)
 * Code redesign, modules which split ASPSMS functions from aspsms-t functions
 * xdb functionality for separate spoolfile/mysql drivers
 * Diff messages on perl -cw aspsms-t.pl

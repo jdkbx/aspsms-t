@@ -61,7 +61,6 @@ use XML::Smart;
 use ASPSMS::xmlmodel;
 use ASPSMS::userhandler;
 use ASPSMS::handler;
-#use strict;
 
 umask(0177);
 
@@ -187,6 +186,9 @@ http://www.micressor.ch/content/projects/aspsms-t
 				body    =>"SMS $transid for $number has status: $notify_message @ $now
 
 $config::ident Gateway system v$config::release
+
+Project-Page: 
+http://www.micressor.ch/content/projects/aspsms-t
 ");	
   	   $config::Connection->Send($msg);
 
@@ -207,6 +209,9 @@ $config::ident Gateway system v$config::release
 $notify_message
 
 $config::ident Gateway system v$config::release
+
+Project-Page: 
+http://www.micressor.ch/content/projects/aspsms-t
 ");
   	   $config::Connection->Send($msg);
 	  }
@@ -252,13 +257,6 @@ $config::ident Gateway system v$config::release
 	  sendContactStatus($from,$to,'away',"Delivered to aspsms.com, waiting for delivery status notification
 Balance: $Credits Used: $CreditsUsed");
 
-	  # Otherwise we send a delivery notification
-	  #$message->SetTo("$from");
-	  #$message->SetSubject("Delivery status");
-	  #$message->SetBody($ret);
-	  #$message->SetFrom("$to");
-	  #$message->SetThread($thread);
-	  #$Connection->Send($message);
 	 }
 	 }; ### END OF EVAL
 	 if($?) { core_debug($?); } 

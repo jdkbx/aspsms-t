@@ -7,14 +7,12 @@ http://www.micressor.ch/content/projects/aspsms-t
 
 Contact
 -------
-jid:   micressor@swissjabber.ch
-email: mb@micressor.ch
-    
-       
+Marco Balmer jid: <micressor@swissjabber.ch> e-mail: <mb@micressor.ch> web: http://www.micressor.ch
+
 
 Features
 --------
-*  aspsms xmlsrv v1.6 by https://www.aspsms.com
+* aspsms xmlsrv v1.6 by https://www.aspsms.com
 * It supports simple text SMS with a maximum of 160 characters. If your message 
   is >160 characters, aspsms-t will split it automatically in more than one part.
 * Very fast delivery
@@ -25,9 +23,9 @@ Features
 Requirements
 ------------
 
-- Net::Jabber v2.0
-- XML::Parser
-- XML::Smart
+* Net::Jabber v2.0
+* XML::Parser
+* XML::Smart
 
 Connectivity
 -------------
@@ -48,8 +46,8 @@ Normal TextSMS messages usually costs 1 aspsms Credit. aspsms-t deliver very fas
 you a jabber status message. A second message will receive,If your sms was successfully delivered 
 to the mobile device.
 
-Configuration
--------------
+Configuration with jabbed14
+---------------------------
 
 1) Add the following lines to jabber.xml for jabberd14:
 
@@ -65,28 +63,37 @@ Configuration
 
 Restart your jabberd.
 
-2) Add the SRV Record to the dns zone:
+
+DNS configuration
+-----------------
+
+Add the SRV Record to the dns zone:
 _xmpp-server._tcp.sms.domain.ch. 900 IN SRV 1 1 5269 domain.ch.
 
 Restart your nameserver.
 
-3) Copy aspsms.xml.dist to aspsms.xml and configure it
+aspsms-t configuration
+----------------------
 
-4) Configuring the delivery notification agent (not necessary for running aspsms-t --> optional)
-- aspsms-t working directory /home/foo/aspsms-t
-- Webservice directory /home/www/website/
+* Copy aspsms.xml.dist to aspsms.xml and configure it
 
-cd /home/www/website
-ln -s /home/foo/aspsms-t/aspsms.notification.pl aspsms.notification.pl
-chmod 755 aspsms.notification.pl
+* Configuring the delivery notification agent (not necessary for running aspsms-t --> optional)
+  - aspsms-t working directory /home/foo/aspsms-t
+  - Webservice directory /home/www/website/
 
-vi aspsms.notification.pl
-Update the following line:
-my $Config              = XML::Smart->new('/home/jabberd/etc/aspsms.xml');
-to your configuration path and make sure, that your apache user can access
-to the configuration file.
+  cd /home/www/website
+  ln -s /home/foo/aspsms-t/aspsms.notification.pl aspsms.notification.pl
+  chmod 755 aspsms.notification.pl
 
-- Configure section <notification/> in aspsms.xml
+  vi aspsms.notification.pl
+  
+  Update the following line:
+  my $Config              = XML::Smart->new('/home/jabberd/etc/aspsms.xml');
+
+  to your configuration path and make sure, that your apache user can access
+  to the configuration file.
+
+  - Configure section <notification/> in aspsms.xml
 
 
 Running
