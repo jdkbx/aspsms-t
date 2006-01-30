@@ -379,7 +379,7 @@ my ($number, $to) = @_;
 my $prefix = substr($number, 1, 5);
 my $presence = new Net::Jabber::Presence();
 
-$presence->SetType('available');
+#$presence->SetType('available');
 $presence->SetShow(undef);
 $presence->SetStatus(undef);
 $presence->SetTo($to);

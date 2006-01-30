@@ -1,4 +1,8 @@
 
+2006-01-30 Marco Balmer  <mb@micressor.ch>
+
+    * aspsms-t.pl: message elemente fix on login
+
 2006-01-22 Marco Balmer  <mb@micressor.ch>
 
     * aspsms-t.pl: Crash fix in jabber_iq_disco_info()
