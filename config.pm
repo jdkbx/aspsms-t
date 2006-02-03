@@ -17,7 +17,7 @@ package config;
 use vars qw(@EXPORT @ISA);
 use Exporter;
 
-our $release = " svn build";
+our $release = " 1.0";
 
 our $aspsmssocket;
 

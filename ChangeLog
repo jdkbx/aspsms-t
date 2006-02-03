@@ -1,4 +1,11 @@
+2006-02-03 Marco Balmer  <mb@micressor.ch>
 
+    * Tagging Release 1.0
+    * trunk/README: renamed to INSTALL
+    * trunk/NEWS: Added News
+    * trunk/UPGRADE: Added upgrade informations
+    * trunk/config.pm: Version update to 1.0
+  
 2006-01-30 Marco Balmer  <mb@micressor.ch>
 
     * aspsms-t.pl: message elemente fix on login

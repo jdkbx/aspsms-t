@@ -1,0 +1,9 @@
+aspsms-t Release 1.0
+--------------------
+
+* Global Two-Way SMS (Receiving of sms messages directly to the jabber client)
+* Delivery notification for each sms via jabber
+* Alphanumeric originator (max 11 characters) of every SMS.
+* Over 400 mobile networks in 200 countries
+* Recharge SMS credits via Internet
+
