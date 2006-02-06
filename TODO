@@ -1,5 +1,10 @@
-* Automatically change of aspsms.com Servers if one is not available
-* Better docs abount aspsms.notification.pl (concept)
-* Code redesign, modules which split ASPSMS functions from aspsms-t functions
-* xdb functionality for separate spoolfile/mysql drivers
-* Diff messages on perl -cw aspsms-t.pl
+aspsms-t Road MAP
+
+* 1.1
+** xdb functionality for separate spoolfile/mysql drivers
+** Code cleanup; Modules which split apsms functions from aspsms-t functions
+** Operator list in service discovery (operator name, operator fee each sms)
+
+* 1.2
+** Full Two-Way support for everyone. A separate two-way number is not longer necessary
+
