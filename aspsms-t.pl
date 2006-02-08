@@ -20,6 +20,8 @@ use config;
 use ASPSMS::aspsmstlog;
 use ASPSMS::Sendaspsms;
 use ASPSMS::Message;
+use ASPSMS::xmlmodel;
+use ASPSMS::Connection;
 				  
 ### BEGIN CONFIGURATION ###
 use constant SERVER       	=> 	$config::server;
@@ -79,7 +81,7 @@ use constant DEFAULT_GATEWAY => 'aspsms';
 SetupConnection();
 Connect();
 
-sendAdminMessage("info","Starting up v $config::release");
+sendAdminMessage("info","Starting up...");
 
 # Loop until we're finished.
 while () 
@@ -189,12 +191,22 @@ Project-Page:
 http://www.micressor.ch/content/projects/aspsms-t
 ");
   	   $config::Connection->Send($msg);
-	  }
-	
+	  } ### END of if ($streamtype eq 'twoway')
 
-		$config::Message_Notification_Counter++;
+	$config::Message_Notification_Counter++;
 	return;
-        }
+        } ### END of if ( $to eq $config::service_name or $to eq "$co.....
+	if ( $to eq $config::service_name."/xmlsrv.asp")
+	 {
+	   my $xmlsrv_completerequest     = xmlGenerateRequest($body);
+	   my @ret_CompleteRequest 	  = exec_ConnectionASPSMS($xmlsrv_completerequest);
+	   SendMessage(	"$config::service_name",
+	   		$barejid,
+			"xmlsrv.asp",
+			$ret_CompleteRequest[10]);
+	   return undef;
+	 } ### END of if ( $to eq $config::service_name."/xmlsrv.asp")
+
 
 	if ($type eq 'error') {
 		aspsmst_log('info',"InMessage(): Error received: \n\n" . $message->GetXML());

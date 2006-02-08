@@ -19,7 +19,7 @@ use vars qw(@EXPORT @ISA);
 use Exporter;
 
 @ISA                    = qw(Exporter);
-@EXPORT                 = qw(exec_SendTextSMS ConnectAspsms DisconnectAspsms);
+@EXPORT                 = qw(exec_SendTextSMS ConnectAspsms DisconnectAspsms exec_ConnectionASPSMS);
 
 use IO::Socket;
 use ASPSMS::aspsmstlog;
