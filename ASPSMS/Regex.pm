@@ -57,7 +57,7 @@ my $signature   = shift;
 
         if ($sms_length <=160)
                                 {
-                                aspsmst_log('notice',"Sendaspsms::regexes(): Signature: enabled");
+                                aspsmst_log('notice',"regexes(): Signature: enabled");
                                 $mess = $mess . " " . $signature;
                                 }
 return ($mess,$number);

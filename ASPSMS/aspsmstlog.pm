@@ -32,11 +32,11 @@ sub aspsmst_log
 
    unless ($type eq 'debug')
     {
-     print "\n($type) $msg";
+     print "\n$type>   $msg";
     }
    else
     {
-     print "\n\n(DEBUG)\n---\n$msg\n---";
+     print "\n\nDEBUG>  \n---\n$msg\n---";
     }
 
 

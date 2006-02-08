@@ -14,12 +14,13 @@
 
 package ASPSMS::Message;
 
+use strict;
 use config;
 use vars qw(@EXPORT @ISA);
 use Exporter;
 
 @ISA 			= qw(Exporter);
-@EXPORT 		= qw(sendAdminMessage);
+@EXPORT 		= qw(sendAdminMessage WelcomeMessage SendMessage);
 
 
 use Sys::Syslog;
@@ -35,16 +36,56 @@ sub sendAdminMessage
    $jabber_msg->SetMessage(      type    =>"message",
    			 	 subject =>"aspsms-t Core Message",
                                  to      =>$config::admin_jid,
-                                 from    =>SERVICE_NAME,
-                                 body    =>"CORE Message:\n$msg
-				 
-$config::ident Starting up v".RELEASE);
+                                 from    =>$config::service_name,
+                                 body    =>"\n$msg\n\n
+---				 
+$config::ident v $config::release");
 
   $config::Connection->Send($jabber_msg);
 
-   print "\n($type) $msg";
-   syslog($type,$msg);
+ }
+
+sub WelcomeMessage
+ {
+   my $from = shift;
+   my $msg= new Net::Jabber::Message();
+  	 
+	 $msg->SetMessage(	type    =>"",
+	 			subject =>"Wecome to $config::ident",
+				to      =>$from,
+				from    =>$config::service_name,
+				body    => "Hello, this is $config::ident at $config::service_name. 
+It is a sms-transport gateway. If you wish to operate with it, please 
+register an https://www.aspsms.com account, afterwards you can use 
+it to send sms like +4178xxxxxxx@$config::service_name
+
+$config::ident Gateway system v$config::release
+
+Project-Page: 
+http://www.micressor.ch/content/projects/aspsms-t
+
+");
+				
+$config::Connection->Send($msg);
+}
+
+sub SendMessage
+ {
+   my $from 	= shift;
+   my $to	= shift;
+   my $subject	= shift;
+   my $text	= shift;
+
+   my $msg= new Net::Jabber::Message();
+
+   $msg->SetMessage(      	type    =>"",
+   			 	 subject =>$subject,
+                                 to      =>$to,
+                                 from    =>$from,
+                                 body    =>$text);
+
+  $config::Connection->Send($msg);
+
  }
 
 1;
-

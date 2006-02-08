@@ -20,12 +20,13 @@ Features
 * It can set alphanumeric originator of every SMS. This can be a mobile phone or a 
   short text with a maximum of 11 characters.
 
-Requirements
-------------
+Requirements Debian
+-------------------
 
-* Net::Jabber v2.0
-* XML::Parser
-* XML::Smart
+* apt-get install libobject-multitype-perl
+* apt-get install libauthen-sasl-perl
+* apt-get install libdigest-sha1-perl
+* apt-get install libxml-parser-perl
 
 Connectivity
 -------------

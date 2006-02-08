@@ -18,16 +18,15 @@ use lib "./";
 
 use config;
 use ASPSMS::aspsmstlog;
+use ASPSMS::Sendaspsms;
 use ASPSMS::Message;
-use ASPSMS::Debug;
 				  
 ### BEGIN CONFIGURATION ###
-use constant SERVICE_NAME 	=> 	$config::service_name;
 use constant SERVER       	=> 	$config::server;
 use constant PORT         	=> 	$config::port;
 use constant SECRET       	=> 	$config::secret;
 use constant PASSWORDS    	=> 	$config::passwords;
-use constant RELEASE      	=> 	$config::release;
+#use constant RELEASE      	=> 	$config::release;
 use constant XMLSPEC		=> 	$config::xmlspec;
 my $aspsmssocket		= 	$config::aspsmssocket;
 my $banner			= 	$config::banner;
@@ -48,7 +47,7 @@ use Sys::Syslog;
 openlog($config::ident,'',"$config::facility");
 
 aspsmst_log("info","Starting up...");
-aspsmst_log('info',"init(): ".SERVICE_NAME." - Version ".RELEASE);
+aspsmst_log('info',"init(): $config::servicename - Version $config::release");
 aspsmst_log('info',"init(): Using XML-Spec: ".XMLSPEC);
 aspsmst_log('info',"init(): Using AffilliateId: $config::affiliateid");
 aspsmst_log('info',"init(): Using Notifcation URL: $config::notificationurl");
@@ -58,9 +57,10 @@ aspsmst_log('info',"init(): Using banner $banner");
 use Net::Jabber qw(Component);
 use XML::Parser;
 use XML::Smart;
-use ASPSMS::xmlmodel;
+
+#use ASPSMS::xmlmodel;
 use ASPSMS::userhandler;
-use ASPSMS::handler;
+use ASPSMS::Sendaspsms;
 
 umask(0177);
 
@@ -79,13 +79,7 @@ use constant DEFAULT_GATEWAY => 'aspsms';
 SetupConnection();
 Connect();
 
- my $initialmsg                = new Net::Jabber::Message();
- $initialmsg->SetMessage(      type    =>"",
-                               subject =>"Wecome to $config::ident",
-			       to      =>$config::admin_jid,
-			       from    =>SERVICE_NAME,
-			       body    =>"$config::ident Starting up v".RELEASE);
- $config::Connection->Send($initialmsg);
+sendAdminMessage("info","Starting up v $config::release");
 
 # Loop until we're finished.
 while () 
@@ -123,37 +117,19 @@ sub InMessage {
 
 	aspsmst_log('info',"InMessage($from): Begin job");
 	
-       if ( $to eq SERVICE_NAME or $to eq SERVICE_NAME."/registered" ) 
+       if ( $to eq $config::service_name or $to eq "$config::service_nameregistered" ) 
         {
 	 my $msg		= new Net::Jabber::Message();
          
 	 aspsmst_log('notice',"InMessage(): Sending welcome message for $from");
-  	 
-	 $msg->SetMessage(	type    =>"",
-	 			subject =>"Wecome to $config::ident",
-				to      =>$from,
-				from    =>SERVICE_NAME,
-				body    =>
-"Hello, this is $config::ident at $config::service_name. 
-It is a sms-transport gateway. If you wish to operate with it, please 
-register an https://www.aspsms.com account, afterwards you can use 
-it to send sms like +4178xxxxxxx@".SERVICE_NAME."
-
-$config::ident Gateway system v$config::release
-
-Project-Page: 
-http://www.micressor.ch/content/projects/aspsms-t
-
-");
-				
-	 $config::Connection->Send($msg);
+  	 WelcomeMessage($from);
 	 return;
 	} # end of welcome message
 	
-	eval {
+	#eval {
 
 	
-       if ( $to eq SERVICE_NAME."/notification" and $barejid eq $config::notificationjid ) 
+       if ( $to eq $config::service_name."/notification" and $barejid eq $config::notificationjid ) 
         {
 	 my $msg		= new Net::Jabber::Message();
 	 # Get the <stream/> from aspsms.notification.pl
@@ -170,28 +146,27 @@ http://www.micressor.ch/content/projects/aspsms-t
 	  {
 	   if ($notify_message eq 'Delivered')
 	    {
-	     sendContactStatus($to_jid,"$number"."@".SERVICE_NAME,'online',"Message $transid successfully delivered. Now I am idle...");
+	     sendContactStatus($to_jid,"$number"."@".$config::service_name,'online',"Message $transid successfully delivered. Now I am idle...");
 	    } ### END of if ($notify_message eq 'Delivered')  ###
+
 	   # send contact status
 	   if ($notify_message eq 'Buffered')
 	    {
-	     sendContactStatus($to_jid,"$number"."@".SERVICE_NAME,'xa','Sorry, message buffered, waiting for better results ;-)');
+	     sendContactStatus($to_jid,"$number @$config::service_Name",'xa','Sorry, message buffered, waiting for better results ;-)');
 	    } ### END of if ($notify_message eq 'Buffered')  ###
 
 	   aspsmst_log('info',"InMessage($to_jid): Send `$notify_message` notification for message  $transid");
-	   $msg->SetMessage(	type    =>"",
-	 			subject =>"$notify_message status for message $transid",
-				to      =>$to_jid,
-				from    =>"$number"."@".SERVICE_NAME,
-				body    =>"SMS $transid for $number has status: $notify_message @ $now
+
+	   SendMessage(	"$number@$config::service_name",
+	   		$to_jid,
+			"$notify_message status for message $transid",
+			"SMS $transid for $number has status: $notify_message @ $now
 
 $config::ident Gateway system v$config::release
 
 Project-Page: 
 http://www.micressor.ch/content/projects/aspsms-t
 ");	
-  	   $config::Connection->Send($msg);
-
 
           } # END of if ($streamtype eq 'notify')
 	
@@ -203,7 +178,7 @@ http://www.micressor.ch/content/projects/aspsms-t
 	   $msg->SetMessage(	type    =>"",
 	 			subject =>"Global Two-Way Message from $number",
 				to      =>$to_jid,
-				from    =>"$number"."@".SERVICE_NAME,
+				from    =>"$number@$config::service_name",
 				body    =>"$number wrote @ $now :
 
 $notify_message
@@ -226,7 +201,7 @@ http://www.micressor.ch/content/projects/aspsms-t
 		return;
 	}
   	if ( $number !~ /^\+[0-9]{3,50}$/ ) {
-		my $msg = "Invalid number $number got, try a number like: +41xxx@".SERVICE_NAME;
+		my $msg = "Invalid number $number got, try a number like: +41xxx@$config::service_name";
 		sendError($message, $from, $to, 404, $msg);
 		return;
 	}
@@ -258,8 +233,13 @@ http://www.micressor.ch/content/projects/aspsms-t
 Balance: $Credits Used: $CreditsUsed");
 
 	 }
-	 }; ### END OF EVAL
-	 if($?) { core_debug($?); } 
+
+	 #SendMessage(	$config::service_name,
+	 # 		$barejid,
+ 	 #		"test",
+	 #		"msg");
+
+	 #}; ### END OF EVAL
 		
 aspsmst_log('info',"InMessage($from): End job");
 }
@@ -316,7 +296,7 @@ elsif ($xmlns eq 'jabber:iq:version')
      $iq->SetFrom($iq->GetTo());
      $iq->SetTo($from);
      $query->SetName($config::browseservicename);
-     $query->SetVer('R'.RELEASE);
+     $query->SetVer($config::release);
      $query->SetOS($^O);
      $config::Connection->Send($iq);
     }
@@ -384,7 +364,7 @@ $presence->SetShow(undef);
 $presence->SetStatus(undef);
 $presence->SetTo($to);
 
-    $presence->SetFrom($number."@".SERVICE_NAME);
+    $presence->SetFrom($number."@$config::service_name");
     $presence->SetPriority(5);
     aspsmst_log('notice',"sendGWNumPresences(): Sending presence from ".$presence->GetFrom()." to $to.");
     $config::Connection->Send($presence);
@@ -408,7 +388,7 @@ aspsmst_log('notice',"InPresence(): Got `$type' type presence from $barejid");
 
 if ($type eq 'subscribe') 
  {
-  if ( ($number !~ /^\+[0-9]{3,50}$/) && ($to ne SERVICE_NAME.'/registered') ) 
+  if ( ($number !~ /^\+[0-9]{3,50}$/) && ($to ne "$config::service_name/registered") ) 
    {
     aspsmst_log('info',"InPresence(): Error: Invalid number `$number' got.");
 
@@ -417,7 +397,7 @@ if ($type eq 'subscribe')
    }
   
   sendPresence($presence, $from, $to, 'subscribed', );
-  if ($to eq SERVICE_NAME.'/registered') 
+  if ($to eq "$config::service_name/registered") 
    {
     sendPresence($presence, $from, $to, 'available', );
    } 
@@ -433,7 +413,7 @@ elsif (($type eq 'available') or ($type eq 'probe'))
     sendGWNumPresences($number, $from);
    }
   
-  if ($to eq SERVICE_NAME.'/registered') 
+  if ($to eq "$config::service_name/registered") 
    {
     sendPresence($presence, $from, $to, 'available', );
    }
@@ -465,7 +445,7 @@ sub SetupConnection {
 
 $config::Connection = new Net::Jabber::Component(debuglevel=>0, debugfile=>"stdout");
 
-my $status = $config::Connection->Connect("hostname" => SERVER, "port" => PORT, "secret" => SECRET, "componentname" => SERVICE_NAME);
+my $status = $config::Connection->Connect("hostname" => SERVER, "port" => PORT, "secret" => SECRET, "componentname" => $config::service_name);
 $config::Connection->AuthSend("secret" => SECRET);
 
 if (!(defined($status))) {
@@ -519,7 +499,7 @@ my $iq;
                        	to		=>$to,
                        	errorcode	=>$errorcode,
                        	error		=>$error,
-			from		=>SERVICE_NAME,
+			from		=>$config::service_name,
                       	id		=>$id);			
 
 
@@ -591,12 +571,12 @@ aspsms.com account:');
 	
     # send unsubscribe presence
     my $presence = new Net::Jabber::Presence;	
-    sendPresence($presence, $from,SERVICE_NAME.'/registered', 'unsubscribe');
+    sendPresence($presence, $from,"$config::service_name/registered", 'unsubscribe');
     # send iq result
     my $iq	= new Net::Jabber::IQ;
     $iq->SetIQ(	type	=>"result",
               	to	=>$barefrom,
-		from	=>SERVICE_NAME,
+		from	=>$config::service_name,
                	id	=>$id);			
 
     $config::Connection->Send($iq);
@@ -605,7 +585,7 @@ aspsms.com account:');
     $message->SetMessage(
 			type	=>"",
 			to	=>$barefrom,
-			from	=>SERVICE_NAME,
+			from	=>$config::service_name,
 			body	=>"Sucessfully unregistred" );
 
     $config::Connection->Send($message);
@@ -624,7 +604,7 @@ aspsms.com account:');
   my $confirm = new Net::Jabber::Message();
   $confirm->SetTo($admin_jid);
   $confirm->SetType('message');
-  $confirm->SetFrom(SERVICE_NAME);
+  $confirm->SetFrom($config::service_name);
   $confirm->SetBody("RegisterManager.Complete: for \n\n$from $name:$phone:$pass:$signature \n\non $config::service_name");
   $config::Connection->Send($confirm);
   my $presence = new Net::Jabber::Presence();
@@ -632,7 +612,7 @@ aspsms.com account:');
   aspsmst_log('info',"jabber_register(): RegisterManager.Complete: for $from $name:$phone:$pass:$signature");
   
   close(F);
-  sendPresence($presence, $from,SERVICE_NAME.'/registered', 'subscribe');
+  sendPresence($presence, $from,"$config::service_name/registered", 'subscribe');
  } else 
     {
      sendError($iq, $from, $to, 501, 'jabber:iq:register request not implemented');
@@ -675,8 +655,8 @@ my $xml		= $iq->GetXML();
    $iq->SetType('result');
    $iq->SetFrom($iq->GetTo());
    $iq->SetTo($from);
-   $query->SetPrompt("$number@".SERVICE_NAME);
-   $query->SetJID("$number@".SERVICE_NAME);
+   $query->SetPrompt("$number@$config::service_name");
+   $query->SetJID("$number@$config::service_name");
    $config::Connection->Send($iq);
   }
  else 
@@ -705,7 +685,7 @@ my $xml		= $iq->GetXML();
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
-    $query->SetJID(SERVICE_NAME);
+    $query->SetJID($config::service_name);
     $query->SetCategory("service");
     $query->SetType($config::browseservicetype);
     $query->SetName($config::browseservicename);
@@ -731,7 +711,7 @@ my $type 	= $iq->GetType();
 my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
 
-eval {
+#eval {
 
    if ($type eq 'get')
     {
@@ -757,8 +737,8 @@ eval {
 
     } # END of if ($type eq 'get'
 
-};
-if($?) { core_debug($?); }
+#};
+#if($?) { core_debug($?); }
 
 } ### END of jabber_iq_disco_info ###
 

@@ -17,6 +17,8 @@ package ASPSMS::userhandler;
 use strict;
 use config;
 use ASPSMS::aspsmstlog;
+use ASPSMS::Connection;
+use ASPSMS::xmlmodel;
 use vars qw(@EXPORT @ISA);
 use Exporter;
 
@@ -24,7 +26,7 @@ use Sys::Syslog;
 
 
 @ISA 			= qw(Exporter);
-@EXPORT 		= qw(getUserPass);
+@EXPORT 		= qw(getUserPass CheckNewUser);
 
 
 use constant PASSWORDS	=> $config::passwords;
@@ -62,6 +64,41 @@ return $user;
 }
 ########################################################################
 
+
+
+
+##########################################################################
+sub CheckNewUser { 
+###########################################################################
+
+my $username =	shift;
+my $password = 	shift;
+my @answer;
+
+aspsmst_log('info',"handler::CheckNewUser(): Check new user on aspsms xml-server $username/$password");
+unless(ConnectAspsms() eq '0') {
+my $value1 = $_[0]; my $value2 = $_[1];
+return ($value1,$value2); }
+
+my $aspsmsrequest       = xmlShowCredits($username,$password);
+my $completerequest    	= xmlGenerateRequest($aspsmsrequest);
+
+
+print $aspsmssocket::config $completerequest;
+@answer = <$aspsmssocket::config>;
+DisconnectAspsms();
+
+my $ErrorStatus         =       XML::Smart->new($answer[10]);
+my $ErrorCode           =       $ErrorStatus->{aspsms}{ErrorCode};
+my $ErrorDescription    =       $ErrorStatus->{aspsms}{ErrorDescription};
+
+aspsmst_log('info',"handler::CheckNewUser(): Result for $username is: $ErrorDescription");
+$ErrorDescription = "This user does\'n exist at aspsms.com. Please register first an user on http://www.aspsms.com then try again.";
+
+return ($ErrorCode,$ErrorDescription);
+
+
+}
 
 
 1;
