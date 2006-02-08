@@ -116,7 +116,7 @@ sub exec_ConnectionASPSMS
   eval 
    {
     # Timeout alarm
-    alarm(60);
+    alarm(10);
     @answer = <$aspsmssocket::config>;
     aspsmst_log('debug',"exec_ConnectionASPSMS(): \@answer=@answer");
     alarm(0);
@@ -125,8 +125,8 @@ sub exec_ConnectionASPSMS
    # If alarm do action
    if($@) 
     {
-     aspsmst_log('info',"aspsmshandler:send_aspsms(): No response of aspsms after sent request");
-     return ('-21','No response of aspsms after sent request. Please try again later or contact your transport administrator.');
+     aspsmst_log('info',"exec_ConnectionASPSMS(): No response of aspsms after sent request");
+     return ('-21','exec_ConnectionASPSMS(): No response of aspsms after sent request. Please try again later or contact your transport administrator.');
     } ### END of exec_ConnectionASPSMS ###
 
     DisconnectAspsms();

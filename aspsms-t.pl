@@ -196,14 +196,19 @@ http://www.micressor.ch/content/projects/aspsms-t
 	$config::Message_Notification_Counter++;
 	return;
         } ### END of if ( $to eq $config::service_name or $to eq "$co.....
+
+	#
+	# Direct access to the aspsms:com xml srv
+	#
+
 	if ( $to eq $config::service_name."/xmlsrv.asp")
 	 {
 	   my $xmlsrv_completerequest     = xmlGenerateRequest($body);
 	   my @ret_CompleteRequest 	  = exec_ConnectionASPSMS($xmlsrv_completerequest);
-	   SendMessage(	"$config::service_name",
+	   SendMessage(	"$config::service_name/xmlsrv.asp",
 	   		$barejid,
-			"xmlsrv.asp",
-			$ret_CompleteRequest[10]);
+			"xmlsrv.asp - Response",
+			@ret_CompleteRequest[10]);
 	   return undef;
 	 } ### END of if ( $to eq $config::service_name."/xmlsrv.asp")
 
