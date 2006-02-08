@@ -1,6 +1,7 @@
 2006-02-08 Marco Balmer  <mb@micressor.ch>
 
     * trunk/*: A lot of code cleanup
+    * trunk/*: Add /xmlsrv.asp support 
 
 2006-02-03 Marco Balmer  <mb@micressor.ch>
 
