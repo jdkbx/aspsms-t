@@ -258,28 +258,11 @@ my $id 		= $iq->GetID();
 my $type 	= $iq->GetType();
 my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
-return unless $query;
 my $barejid=get_barejid($from);
+aspsmst_log('notice',"InIQ(): Processing iq query to $to");
 
-	#
-	# Direct access to the aspsms:com xml srv
-	#
 
-	if ( $to eq $config::service_name."/xmlsrv.asp")
-	 {
-	   my $xmlsrv_completerequest     = xmlGenerateRequest($query);
-	   my @ret_CompleteRequest 	  = exec_ConnectionASPSMS($xmlsrv_completerequest);
-	   SendMessage(	"$config::service_name/xmlsrv.asp",
-	   		$barejid,
-			"xmlsrv.asp - Response",
-			@ret_CompleteRequest[10]);
-	   return undef;
-	 } ### END of if ( $to eq $config::service_name."/xmlsrv.asp")
-
-	#
-	# END of Direct access to the aspsms:com xml srv
-	#
-
+return unless $query;
 # If error in <iq/> 
 if ($type eq 'error') 
 {
@@ -302,6 +285,10 @@ elsif ($xmlns eq 'jabber:iq:browse')
  {
   my $ret = jabber_iq_browse($sid,$iq,$from,$to,$id,$type,$query,$xml);
  } ### END jabber:iq:browse ###
+elsif ($xmlns eq 'jabber:iq:xmlsrv.asp') 
+ {
+  my $ret = jabber_iq_xmlsrv($sid,$iq,$from,$to,$id,$type,$query,$xml);
+ } ### END jabber:iq:xmlsrv.asp ###
 elsif ($xmlns eq 'http://jabber.org/protocol/disco#info')
  {
    my $ret = jabber_iq_disco_info($sid,$iq,$from,$to,$id,$type,$query,$xml);
@@ -818,3 +805,58 @@ sub get_barejid
   my ($barejid) 		= split (/\//, $jid);
   return $barejid;
  } # END of get_barejid
+
+sub jabber_iq_xmlsrv
+{
+my $sid 	= shift;
+my $iq 		= shift;
+my $from 	= $iq->GetFrom();
+my $to 		= $iq->GetTo();
+my $id 		= $iq->GetID();
+my $type 	= $iq->GetType();
+my $query 	= $iq->GetQuery();
+my $xml		= $iq->GetXML();
+my $barejid	= get_barejid($from);
+aspsmst_log('notice',"jabber_iq_xmlsrv(): Processing xmlsrv.asp query from $barejid");
+
+	#
+	# Direct access to the aspsms:com xml srv
+	#
+
+	if ($to eq $config::service_name and $type eq 'set')
+	 {
+ 	   aspsmst_log('info',"InIQ(): Processing /xmlsrv.asp query type `$type`");
+	   aspsmst_log('debug',$iq->GetXML());
+	   my $xmlsrv_completerequest     = xmlGenerateRequest($query);
+	   my @ret_CompleteRequest 	  = exec_ConnectionASPSMS($xmlsrv_completerequest);
+	   SendMessage(	"$config::service_name/xmlsrv.asp",
+	   		$barejid,
+			"xmlsrv.asp - Response",
+			@ret_CompleteRequest[10]);
+	   return undef;
+	 } ### END of if ( $to eq $config::service_name."/xmlsrv.asp")
+
+	#
+	# END of Direct access to the aspsms:com xml srv
+	#
+
+    $iq->SetType('result');
+    $iq->SetFrom($iq->GetTo());
+    $iq->SetTo($from);
+    
+    #my $iqQuery = $iq->NewQuery("http://www.aspsms.com/xml/doc/xmlsvr18.pdf");
+
+
+    #$iqQuery->AddIdentity(	category=>"gateway",
+    #                    	type=>"sms",
+    #				name=>$config::browseservicename);
+
+    #$iqQuery->AddFeature(var=>"http://jabber.org/protocol/disco");
+    #$iqQuery->AddFeature(var=>"jabber:iq:register");
+    #$iqQuery->AddFeature(var=>"jabber:iq:gateway");
+    #$iqQuery->AddFeature(var=>"jabber:iq:version");
+
+    $config::Connection->Send($iq);
+
+
+} ### END of jabber_iq_xmlsrv ###
