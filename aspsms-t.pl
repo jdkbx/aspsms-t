@@ -159,7 +159,7 @@ sub InMessage {
 
 	   aspsmst_log('info',"InMessage($to_jid): Send `$notify_message` notification for message  $transid");
 
-	   SendMessage(	"$number@$config::service_name",
+	   SendMessage(	"$number\@$config::service_name",
 	   		$to_jid,
 			"$notify_message status for message $transid",
 			"SMS $transid for $number has status: $notify_message @ $now
@@ -197,20 +197,6 @@ http://www.micressor.ch/content/projects/aspsms-t
 	return;
         } ### END of if ( $to eq $config::service_name or $to eq "$co.....
 
-	#
-	# Direct access to the aspsms:com xml srv
-	#
-
-	if ( $to eq $config::service_name."/xmlsrv.asp")
-	 {
-	   my $xmlsrv_completerequest     = xmlGenerateRequest($body);
-	   my @ret_CompleteRequest 	  = exec_ConnectionASPSMS($xmlsrv_completerequest);
-	   SendMessage(	"$config::service_name/xmlsrv.asp",
-	   		$barejid,
-			"xmlsrv.asp - Response",
-			@ret_CompleteRequest[10]);
-	   return undef;
-	 } ### END of if ( $to eq $config::service_name."/xmlsrv.asp")
 
 
 	if ($type eq 'error') {
@@ -273,6 +259,26 @@ my $type 	= $iq->GetType();
 my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
 return unless $query;
+my $barejid=get_barejid($from);
+
+	#
+	# Direct access to the aspsms:com xml srv
+	#
+
+	if ( $to eq $config::service_name."/xmlsrv.asp")
+	 {
+	   my $xmlsrv_completerequest     = xmlGenerateRequest($query);
+	   my @ret_CompleteRequest 	  = exec_ConnectionASPSMS($xmlsrv_completerequest);
+	   SendMessage(	"$config::service_name/xmlsrv.asp",
+	   		$barejid,
+			"xmlsrv.asp - Response",
+			@ret_CompleteRequest[10]);
+	   return undef;
+	 } ### END of if ( $to eq $config::service_name."/xmlsrv.asp")
+
+	#
+	# END of Direct access to the aspsms:com xml srv
+	#
 
 # If error in <iq/> 
 if ($type eq 'error') 
@@ -282,7 +288,6 @@ if ($type eq 'error')
 }
 
 my $xmlns = $query->GetXMLNS();
-my $barejid=get_barejid($from);
 aspsmst_log('notice',"InIQ(): Incoming from $barejid");
 aspsmst_log('debug',"InIQ(): $xml");
 if ($xmlns eq 'jabber:iq:register') 
