@@ -1,3 +1,9 @@
+
+2006-02-09 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/aspsms-t.pl: Support aspsms xml interface by iq query
+    * trunk/README.xmlsrv.asp: Documentation
+
 2006-02-08 Marco Balmer  <mb@micressor.ch>
 
     * trunk/*: A lot of code cleanup

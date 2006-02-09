@@ -248,19 +248,27 @@ aspsmst_log('info',"InMessage($from): End job");
 }
 
 sub InIQ {
-# Incoming IQ. Handle jabber:iq:registration with add/remove source dialog, return error 501 for other NS's.
 
-my $sid 	= shift;
-my $iq 		= shift;
-my $from 	= $iq->GetFrom();
-my $to 		= $iq->GetTo();
-my $id 		= $iq->GetID();
-my $type 	= $iq->GetType();
-my $query 	= $iq->GetQuery();
-my $xml		= $iq->GetXML();
-my $barejid=get_barejid($from);
+ # Incoming IQ. Handle jabber:iq:registration with add/remove source 
+ # dialog, return error 501 for other NS's.
+
+ my $sid 	= shift;
+ my $iq 	= shift;
+ my $from 	= $iq->GetFrom();
+ my $to 	= $iq->GetTo();
+ my $id 	= $iq->GetID();
+ my $type 	= $iq->GetType();
+ my $query 	= $iq->GetQuery();
+ my $xml	= $iq->GetXML();
+ my $barejid	= get_barejid($from);
+
+aspsmst_log('debug',"XMPP:\n $xml");
 aspsmst_log('notice',"InIQ(): Processing iq query to $to");
 
+if ($to eq "$config::service_name/xmlsrv.asp") 
+ {
+  my $ret = jabber_iq_xmlsrv($sid,$iq,$from,$to,$id,$type,$query,$xml);
+ } ### END jabber:iq:xmlsrv.asp ###
 
 return unless $query;
 # If error in <iq/> 
@@ -285,10 +293,6 @@ elsif ($xmlns eq 'jabber:iq:browse')
  {
   my $ret = jabber_iq_browse($sid,$iq,$from,$to,$id,$type,$query,$xml);
  } ### END jabber:iq:browse ###
-elsif ($xmlns eq 'jabber:iq:xmlsrv.asp') 
- {
-  my $ret = jabber_iq_xmlsrv($sid,$iq,$from,$to,$id,$type,$query,$xml);
- } ### END jabber:iq:xmlsrv.asp ###
 elsif ($xmlns eq 'http://jabber.org/protocol/disco#info')
  {
    my $ret = jabber_iq_disco_info($sid,$iq,$from,$to,$id,$type,$query,$xml);
@@ -814,7 +818,6 @@ my $from 	= $iq->GetFrom();
 my $to 		= $iq->GetTo();
 my $id 		= $iq->GetID();
 my $type 	= $iq->GetType();
-my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
 my $barejid	= get_barejid($from);
 aspsmst_log('notice',"jabber_iq_xmlsrv(): Processing xmlsrv.asp query from $barejid");
@@ -823,16 +826,23 @@ aspsmst_log('notice',"jabber_iq_xmlsrv(): Processing xmlsrv.asp query from $bare
 	# Direct access to the aspsms:com xml srv
 	#
 
-	if ($to eq $config::service_name and $type eq 'set')
+	if ($type eq 'set')
 	 {
- 	   aspsmst_log('info',"InIQ(): Processing /xmlsrv.asp query type `$type`");
+ 	   aspsmst_log('info',"InIQ(): Processing type `$type`");
 	   aspsmst_log('debug',$iq->GetXML());
-	   my $xmlsrv_completerequest     = xmlGenerateRequest($query);
+	   
+	   # processing request to aspsms and wait for result
+	   my $xmlsrv_completerequest     = xmlGenerateRequest($xml);
 	   my @ret_CompleteRequest 	  = exec_ConnectionASPSMS($xmlsrv_completerequest);
-	   SendMessage(	"$config::service_name/xmlsrv.asp",
-	   		$barejid,
-			"xmlsrv.asp - Response",
-			@ret_CompleteRequest[10]);
+
+    	   my $iq_xmlsrv_result = new Net::Jabber::IQ();
+	   
+    	   $iq_xmlsrv_result->SetType('result');
+           $iq_xmlsrv_result->SetFrom($iq->GetTo());
+           $iq_xmlsrv_result->SetID($id);
+           $iq_xmlsrv_result->SetTo($from);
+	   $iq_xmlsrv_result->InsertRawXML($ret_CompleteRequest[10]);
+           $config::Connection->Send($iq_xmlsrv_result);
 	   return undef;
 	 } ### END of if ( $to eq $config::service_name."/xmlsrv.asp")
 
@@ -840,23 +850,6 @@ aspsmst_log('notice',"jabber_iq_xmlsrv(): Processing xmlsrv.asp query from $bare
 	# END of Direct access to the aspsms:com xml srv
 	#
 
-    $iq->SetType('result');
-    $iq->SetFrom($iq->GetTo());
-    $iq->SetTo($from);
     
-    #my $iqQuery = $iq->NewQuery("http://www.aspsms.com/xml/doc/xmlsvr18.pdf");
-
-
-    #$iqQuery->AddIdentity(	category=>"gateway",
-    #                    	type=>"sms",
-    #				name=>$config::browseservicename);
-
-    #$iqQuery->AddFeature(var=>"http://jabber.org/protocol/disco");
-    #$iqQuery->AddFeature(var=>"jabber:iq:register");
-    #$iqQuery->AddFeature(var=>"jabber:iq:gateway");
-    #$iqQuery->AddFeature(var=>"jabber:iq:version");
-
-    $config::Connection->Send($iq);
-
 
 } ### END of jabber_iq_xmlsrv ###
