@@ -120,7 +120,7 @@ sub InMessage {
 
 
 
-	aspsmst_log('info',"InMessage($from): Begin job");
+	aspsmst_log('notice',"InMessage($from): Begin job");
 	
        if ( $to eq $config::service_name or $to eq "$config::service_nameregistered" ) 
         {
@@ -247,7 +247,7 @@ Balance: $Credits Used: $CreditsUsed");
 
 	 #}; ### END OF EVAL
 		
-aspsmst_log('info',"InMessage($from): End job");
+aspsmst_log('notice',"InMessage($from): End job");
 }
 
 sub sendContactStatus

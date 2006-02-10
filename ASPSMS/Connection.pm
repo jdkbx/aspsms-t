@@ -100,7 +100,7 @@ return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,$random);
 
 sub exec_ConnectionASPSMS
  {
-  aspsmst_log('notice',"exec_ConnectionASPSMS(): Begin");
+  aspsmst_log('debug',"exec_ConnectionASPSMS(): Begin");
   my $completerequest = shift;
 	
   # /Generate SMS Request
@@ -108,7 +108,7 @@ sub exec_ConnectionASPSMS
    { return ('-1','Sorry, aspsms are temporary not available. Please try again later or contact your administrator of http://www.aspsms.com'); }
  
   # Send request to socket
-  aspsmst_log('notice',"exec_ConnectionASPSMS(): Sending: $completerequest");
+  aspsmst_log('debug',"exec_ConnectionASPSMS(): Sending: $completerequest");
   print $aspsmssocket::config $completerequest;
 
   my @answer;
