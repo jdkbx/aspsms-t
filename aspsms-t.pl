@@ -183,7 +183,7 @@ http://www.micressor.ch/content/projects/aspsms-t
 	  {
 	   
   	   $number =~ s/\+00/\+/g;
-	   aspsmst_log('info',"InMessage(): Notification.Two-Way: Message from $number to $to_jid");
+	   aspsmst_log('info',"InMessage(): Incoming two-way message from $number to $to_jid");
 	   $msg->SetMessage(	type    =>"",
 	 			subject =>"Global Two-Way Message from $number",
 				to      =>$to_jid,
