@@ -425,8 +425,9 @@ aspsmst_log('notice',"jabber_iq_xmlsrv(): Processing xmlsrv.asp query from=$bare
 	   aspsmst_log('debug',$iq->GetXML());
 	   
 	   # processing request to aspsms and wait for result
-	   my $xmlsrv_completerequest     = xmlGenerateRequest($xml);
-	   my @ret_CompleteRequest 	  = exec_ConnectionASPSMS($xmlsrv_completerequest);
+	   my $xmlsrv_completerequest  = xmlGenerateRequest($xml);
+	   my $xmlsrv_completerequest_1 = $xmlsrv_completerequest . "\r\n\r\r\n";
+	   my @ret_CompleteRequest 	  	= exec_ConnectionASPSMS($xmlsrv_completerequest_1);
 
     	   my $iq_xmlsrv_result = new Net::Jabber::IQ();
 	   
