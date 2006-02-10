@@ -42,7 +42,7 @@ my $aspsms_port                 =       $config::aspsms_port;
 
 sub exec_SendTextSMS 
  {
-   aspsmst_log('info',"exec_SendTextSMS(): Begin");
+   aspsmst_log('notice',"exec_SendTextSMS(): Begin");
 	my $number              = shift;
 	my $numbernotification 	= $number;
 	my $mess                = shift;
@@ -92,7 +92,6 @@ my $Credits             =       $CreditStatus->{aspsms}{Credits};
 
 
 aspsmst_log('notice',"exec_SendTextSMS(): return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,$random)");
-aspsmst_log('info',"exec_SendTextSMS(): End");
 return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,$random);
 ########################################################################
 }
