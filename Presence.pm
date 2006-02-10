@@ -127,7 +127,7 @@ $presence->SetShow(undef);
 $presence->SetStatus(undef);
 $presence->SetTo($to);
 
-    $presence->SetFrom($number."@$config::service_name");
+    $presence->SetFrom("$number\@$config::service_name");
     $presence->SetPriority(5);
     aspsmst_log('notice',"sendGWNumPresences(): Sending presence from ".$presence->GetFrom()." to $to.");
     $config::Connection->Send($presence);
