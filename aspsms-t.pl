@@ -145,6 +145,10 @@ sub InMessage {
 	 my $number 		= "+" . $stattmp[3];
 	 my $notify_message 	= $stattmp[4];
 	 my $to_jid 		= get_jid_from_userkey($userkey);
+	 if ($to_jid eq 'no file')
+	  {
+	   aspsmst_log("info","Can not find file for userkey $userkey");
+	  }
 	 my $now 		= localtime;
 
          if ($streamtype eq 'notify')
@@ -340,7 +344,7 @@ sub get_jid_from_userkey
    opendir(DIR,$spooldir) or die;
    while (defined(my $file = readdir(DIR))) 
     {
-     open(FILE,"<$spooldir/$file") or die;
+     open(FILE,"<$spooldir/$file") or return "no file";
      my @lines = <FILE>;
      close(FILE);
      # process 
