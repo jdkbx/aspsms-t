@@ -61,7 +61,7 @@ sub InIQ {
  my $barejid	= get_barejid($from);
 
 aspsmst_log('debug',"XMPP:\n $xml");
-aspsmst_log('notice',"InIQ(): Processing iq query to $to");
+aspsmst_log('notice',"InIQ(): Processing iq query from from=$from id=$id");
 
 if ($to eq "$config::service_name/xmlsrv.asp") 
  {
@@ -319,7 +319,7 @@ my $xml		= $iq->GetXML();
 
   if ($type eq 'get') 
    {
-    aspsmst_log('notice',"jabber_iq_browse(): Processing browse query for $from");
+    aspsmst_log('notice',"jabber_iq_browse(): Processing browse query from=$from id=$id");
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
@@ -354,7 +354,7 @@ my $xml		= $iq->GetXML();
    if ($type eq 'get')
     {
     my $barejid=get_barejid($from);
-    aspsmst_log('notice',"jabber_iq_disco_info(): Processing disco query from $barejid");
+    aspsmst_log('notice',"jabber_iq_disco_info(): Processing disco query from= $barejid id=$id");
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
@@ -395,7 +395,7 @@ my $xml		= $iq->GetXML();
     if($type eq 'get')
      {
       my $barejid=get_barejid($from);
-      aspsmst_log('info',"jabber_iq_disco_items(): Processing disco query from $barejid");
+      aspsmst_log('info',"jabber_iq_disco_items(): Processing disco query from=$barejid id=$id");
       $iq->SetType('result');
       $iq->SetFrom($iq->GetTo());
       $iq->SetTo($from);
@@ -413,7 +413,7 @@ my $id 		= $iq->GetID();
 my $type 	= $iq->GetType();
 my $xml		= $iq->GetXML();
 my $barejid	= get_barejid($from);
-aspsmst_log('notice',"jabber_iq_xmlsrv(): Processing xmlsrv.asp query from $barejid");
+aspsmst_log('notice',"jabber_iq_xmlsrv(): Processing xmlsrv.asp query from=$barejid id=$id");
 
 	#
 	# Direct access to the aspsms:com xml srv
