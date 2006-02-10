@@ -1,4 +1,16 @@
 
+2006-02-10 Marco Balmer  <mb@micressor.ch>
+    *  trunk/fees.xml: Added
+    *  trunk/networks.xml: Added
+    *  trunk/README.Operatorlist: Added
+    *  trunk/docs/xmlsvr16.pdf: Added
+    *  trunk/docs/xmlsvr18.pdf: Added
+    *  trunk/aspsms-t.pl: Code cleanup
+    *  trunk/Presence.pm: same
+    *  trunk/Iq.pm: same
+    *  trunk/ASPSMS/Jid.pm: same
+
+
 2006-02-09 Marco Balmer  <mb@micressor.ch>
 
     * trunk/aspsms-t.pl: Support aspsms xml interface by iq query

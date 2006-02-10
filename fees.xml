@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<fees>
+<country name="AUSTRIA">
+<network name="Mobilkom Austria" credits="2.75">
+<prefix number="0043664"/>
+</network>
+<network name="T-Mobile Austria GmbH" credits="2.75">
+<prefix number="0043676"/>
+</network>
+</country>
+<country name="BELGIUM">
+<network name="Belgacom Mobile" credits="2.75">
+<prefix number="003203"/>
+<prefix number="003204"/>
+<prefix number="0032472"/>
+<prefix number="0032473"/>
+<prefix number="0032474"/>
+<prefix number="0032475"/>
+<prefix number="0032476"/>
+<prefix number="0032477"/>
+<prefix number="0032478"/>
+<prefix number="0032479"/>
+</network>
+</country>
+<country name="CHINA">
+<network name="China Mobile" credits="2.75">
+<prefix number="00861340"/>
+<prefix number="00861341"/>
+<prefix number="00861342"/>
+<prefix number="00861343"/>
+<prefix number="00861344"/>
+<prefix number="00861345"/>
+<prefix number="00861346"/>
+<prefix number="00861347"/>
+<prefix number="00861348"/>
+<prefix number="0086135"/>
+<prefix number="0086136"/>
+<prefix number="0086137"/>
+<prefix number="0086138"/>
+<prefix number="0086139"/>
+</network>
+</country>
+<country name="CZECH REPUBLIC">
+<network name="T-Mobile Czech Republic" credits="2.75">
+<prefix number="00420603"/>
+<prefix number="00420604"/>
+<prefix number="00420605"/>
+<prefix number="0042073"/>
+<prefix number="0042093"/>
+<prefix number="00420963"/>
+<prefix number="00420964"/>
+<prefix number="00420965"/>
+</network>
+</country>
+<country name="FRANCE">
+<network name="SFR" credits="2.75">
+<prefix number="0033603"/>
+<prefix number="0033609"/>
+<prefix number="0033610"/>
+<prefix number="0033611"/>
+<prefix number="0033612"/>
+<prefix number="0033613"/>
+<prefix number="0033614"/>
+<prefix number="0033615"/>
+<prefix number="0033616"/>
+<prefix number="0033617"/>
+<prefix number="0033618"/>
+<prefix number="0033619"/>
+<prefix number="0033620"/>
+<prefix number="0033621"/>
+<prefix number="0033622"/>
+<prefix number="0033623"/>
+<prefix number="0033624"/>
+<prefix number="0033625"/>
+<prefix number="0033626"/>
+<prefix number="0033627"/>
+<prefix number="0033628"/>
+<prefix number="0033629"/>
+</network>
+<network name="Bouygues Telecom" credits="2.75">
+<prefix number="0033653"/>
+<prefix number="0033660"/>
+<prefix number="0033661"/>
+<prefix number="0033662"/>
+<prefix number="0033663"/>
+<prefix number="0033664"/>
+<prefix number="0033665"/>
+<prefix number="0033666"/>
+<prefix number="0033667"/>
+<prefix number="0033668"/>
+<prefix number="0033698"/>
+<prefix number="0033699"/>
+</network>
+<network name="Orange FR" credits="2.75">
+<prefix number="0033607"/>
+<prefix number="0033608"/>
+<prefix number="0033630"/>
+<prefix number="0033631"/>
+<prefix number="0033632"/>
+<prefix number="0033633"/>
+<prefix number="003367"/>
+<prefix number="003368"/>
+</network>
+</country>
+<country name="GERMANY">
+<network name="T-Mobile Germany" credits="1.75">
+<prefix number="0049151"/>
+<prefix number="0049160"/>
+<prefix number="0049170"/>
+<prefix number="0049171"/>
+<prefix number="0049175"/>
+</network>
+<network name="E-Plus" credits="1.75">
+<prefix number="0049163"/>
+<prefix number="0049177"/>
+<prefix number="0049178"/>
+</network>
+<network name="Vodafone" credits="1.75">
+<prefix number="00491520"/>
+<prefix number="0049162"/>
+<prefix number="0049172"/>
+<prefix number="0049173"/>
+<prefix number="0049174"/>
+</network>
+<network name="O2 Germany" credits="1.75">
+<prefix number="00491608435630"/>
+<prefix number="00491743352685"/>
+<prefix number="0049176"/>
+<prefix number="0049179"/>
+</network>
+</country>
+<country name="GREECE">
+<network name="Cosmote" credits="2.75">
+<prefix number="0030697"/>
+<prefix number="003097"/>
+</network>
+</country>
+<country name="HUNGARY">
+<network name="Pannon GSM" credits="2.75">
+<prefix number="003620"/>
+</network>
+</country>
+<country name="ICELAND">
+<network name="Og Vodafone" credits="2.75">
+<prefix number="00354616"/>
+<prefix number="00354617"/>
+<prefix number="00354659"/>
+<prefix number="0035466"/>
+<prefix number="0035467"/>
+<prefix number="0035468"/>
+<prefix number="0035469"/>
+<prefix number="0035482"/>
+</network>
+</country>
+<country name="INDIA">
+<network name="Bharti Cellular Andhra Pradesh" credits="2.75">
+<prefix number="00919849"/>
+<prefix number="009198660"/>
+<prefix number="009198661"/>
+<prefix number="009198662"/>
+<prefix number="009198663"/>
+<prefix number="009198664"/>
+</network>
+<network name="IDEA Circle Haryana" credits="2.75">
+<prefix number="009198120"/>
+<prefix number="009198121"/>
+<prefix number="009198122"/>
+</network>
+<network name="IDEA Circle Kerala - Escotel" credits="2.75">
+<prefix number="00919847"/>
+</network>
+<network name="IDEA Circle UP West - Escotel" credits="2.75">
+<prefix number="00919837"/>
+</network>
+</country>
+<country name="ITALY">
+<network name="Telecom Italia Mobile - TIM" credits="1.75">
+<prefix number="0039330"/>
+<prefix number="0039333"/>
+<prefix number="0039334"/>
+<prefix number="0039335"/>
+<prefix number="0039336"/>
+<prefix number="0039337"/>
+<prefix number="0039338"/>
+<prefix number="0039339"/>
+<prefix number="0039360"/>
+<prefix number="0039368"/>
+</network>
+<network name="WIND Telecomunicazioni" credits="1.75">
+<prefix number="0039320"/>
+<prefix number="0039327"/>
+<prefix number="0039328"/>
+<prefix number="0039329"/>
+<prefix number="0039380"/>
+<prefix number="0039388"/>
+<prefix number="0039389"/>
+</network>
+<network name="Vodafone Omnitel" credits="1.75">
+<prefix number="0039340"/>
+<prefix number="0039343"/>
+<prefix number="0039346"/>
+<prefix number="0039347"/>
+<prefix number="0039348"/>
+<prefix number="0039349"/>
+</network>
+</country>
+<country name="LEBANON">
+<network name="alfa - MIC 1 S.A.L." credits="2.75">
+<prefix number="0096131"/>
+<prefix number="0096132"/>
+<prefix number="0096133"/>
+<prefix number="0096134"/>
+<prefix number="0096135"/>
+</network>
+</country>
+<country name="MOLDOVA">
+<network name="Moldcell" credits="2.75">
+<prefix number="00373791"/>
+<prefix number="00373794"/>
+<prefix number="00373795"/>
+<prefix number="00373796"/>
+<prefix number="00373797"/>
+<prefix number="0037394"/>
+</network>
+</country>
+<country name="NETHERLANDS">
+<network name="Orange Netherlands" credits="2.75">
+<prefix number="0031618"/>
+<prefix number="0031628"/>
+<prefix number="0031638"/>
+<prefix number="0031648"/>
+</network>
+<network name="T-Mobile Nederlands BV" credits="2.75">
+<prefix number="0031614"/>
+<prefix number="0031624"/>
+<prefix number="0031641"/>
+<prefix number="0031642"/>
+<prefix number="0031643"/>
+</network>
+<network name="KPN Mobiel" credits="2.75">
+<prefix number="0031610"/>
+<prefix number="0031612"/>
+<prefix number="0031613"/>
+<prefix number="0031620"/>
+<prefix number="0031622"/>
+<prefix number="0031623"/>
+<prefix number="0031630"/>
+<prefix number="0031651"/>
+<prefix number="0031653"/>
+</network>
+<network name="Vodafone Libertel" credits="2.75">
+<prefix number="0031611"/>
+<prefix number="0031615"/>
+<prefix number="0031621"/>
+<prefix number="0031625"/>
+<prefix number="0031627"/>
+<prefix number="0031629"/>
+<prefix number="0031646"/>
+<prefix number="0031650"/>
+<prefix number="0031652"/>
+<prefix number="0031654"/>
+<prefix number="0031655"/>
+</network>
+<network name="Telfort" credits="2.75">
+<prefix number="0031616"/>
+<prefix number="0031617"/>
+<prefix number="0031619"/>
+<prefix number="0031626"/>
+<prefix number="0031633"/>
+<prefix number="0031640"/>
+<prefix number="0031644"/>
+<prefix number="0031645"/>
+<prefix number="0031647"/>
+<prefix number="0031649"/>
+</network>
+</country>
+<country name="NEW CALEDONIA">
+<network name="OPT New Caledonia" credits="2.75">
+<prefix number="0068776"/>
+<prefix number="0068777"/>
+<prefix number="0068778"/>
+<prefix number="0068779"/>
+<prefix number="0068781"/>
+<prefix number="0068782"/>
+<prefix number="0068783"/>
+<prefix number="0068784"/>
+<prefix number="0068785"/>
+<prefix number="0068786"/>
+<prefix number="0068787"/>
+<prefix number="0068791"/>
+<prefix number="0068792"/>
+<prefix number="0068793"/>
+<prefix number="0068794"/>
+<prefix number="0068795"/>
+<prefix number="0068796"/>
+<prefix number="0068797"/>
+<prefix number="0068798"/>
+<prefix number="0068799"/>
+</network>
+</country>
+<country name="POLAND">
+<network name="Polkomtel" credits="2.75">
+<prefix number="0048601"/>
+<prefix number="0048603"/>
+<prefix number="0048605"/>
+<prefix number="0048607"/>
+<prefix number="0048609"/>
+<prefix number="0048661"/>
+<prefix number="0048663"/>
+<prefix number="0048691"/>
+<prefix number="0048693"/>
+<prefix number="0048695"/>
+<prefix number="0048697"/>
+<prefix number="0048887"/>
+</network>
+</country>
+<country name="PORTUGAL">
+<network name="Optimus" credits="2.75">
+<prefix number="003511693"/>
+<prefix number="003511893"/>
+<prefix number="003516093"/>
+<prefix number="003516693"/>
+<prefix number="0035193"/>
+</network>
+<network name="TMN - Telecomunicacoes Moveis Nac." credits="2.75">
+<prefix number="0035196"/>
+</network>
+<network name="Vodafone Telecel" credits="2.75">
+<prefix number="0035191"/>
+</network>
+</country>
+<country name="SPAIN">
+<network name="Vodafone Spain" credits="2.75">
+<prefix number="0034600"/>
+<prefix number="0034607"/>
+<prefix number="0034610"/>
+<prefix number="0034617"/>
+<prefix number="0034627"/>
+<prefix number="0034637"/>
+<prefix number="0034647"/>
+<prefix number="0034661"/>
+<prefix number="0034662"/>
+<prefix number="0034666"/>
+<prefix number="0034667"/>
+<prefix number="0034670"/>
+<prefix number="0034677"/>
+<prefix number="0034678"/>
+<prefix number="0034687"/>
+<prefix number="0034697"/>
+</network>
+<network name="AMENA - Retevision Movil" credits="2.75">
+<prefix number="0034605"/>
+<prefix number="0034615"/>
+<prefix number="0034625"/>
+<prefix number="0034635"/>
+<prefix number="0034645"/>
+<prefix number="0034651"/>
+<prefix number="0034652"/>
+<prefix number="0034653"/>
+<prefix number="0034654"/>
+<prefix number="0034655"/>
+<prefix number="0034656"/>
+<prefix number="0034657"/>
+<prefix number="0034658"/>
+<prefix number="0034665"/>
+<prefix number="0034675"/>
+<prefix number="0034685"/>
+<prefix number="0034695"/>
+</network>
+<network name="Telefonica Moviles" credits="2.75">
+<prefix number="0034606"/>
+<prefix number="0034608"/>
+<prefix number="0034609"/>
+<prefix number="0034616"/>
+<prefix number="0034618"/>
+<prefix number="0034619"/>
+<prefix number="0034620"/>
+<prefix number="0034626"/>
+<prefix number="0034628"/>
+<prefix number="0034629"/>
+<prefix number="0034630"/>
+<prefix number="0034636"/>
+<prefix number="0034638"/>
+<prefix number="0034639"/>
+<prefix number="0034646"/>
+<prefix number="0034648"/>
+<prefix number="0034649"/>
+<prefix number="0034650"/>
+<prefix number="0034659"/>
+<prefix number="0034660"/>
+<prefix number="0034669"/>
+<prefix number="0034676"/>
+<prefix number="0034679"/>
+<prefix number="0034680"/>
+<prefix number="0034686"/>
+<prefix number="0034689"/>
+<prefix number="0034690"/>
+<prefix number="0034696"/>
+<prefix number="0034699"/>
+</network>
+</country>
+<country name="SWEDEN">
+<network name="TeliaSonera Mobile Networks AB" credits="2.75">
+<prefix number="00467010"/>
+<prefix number="00467012"/>
+<prefix number="00467013"/>
+<prefix number="00467017"/>
+<prefix number="00467018"/>
+<prefix number="004670190"/>
+<prefix number="004670191"/>
+<prefix number="0046702"/>
+<prefix number="0046703"/>
+<prefix number="0046705"/>
+<prefix number="0046706"/>
+<prefix number="004673010"/>
+<prefix number="004673011"/>
+<prefix number="004673012"/>
+<prefix number="004673013"/>
+<prefix number="004673014"/>
+<prefix number="004673015"/>
+<prefix number="004673016"/>
+<prefix number="004673017"/>
+<prefix number="004673018"/>
+<prefix number="004673019"/>
+<prefix number="00467302"/>
+<prefix number="00467303"/>
+<prefix number="00467304"/>
+<prefix number="00467305"/>
+<prefix number="00467306"/>
+<prefix number="00467307"/>
+<prefix number="00467308"/>
+<prefix number="00467309"/>
+<prefix number="00467316"/>
+<prefix number="004673170"/>
+<prefix number="00467318"/>
+<prefix number="00467319"/>
+<prefix number="00467327"/>
+<prefix number="004673456"/>
+<prefix number="00467380"/>
+<prefix number="00467381"/>
+<prefix number="00467382"/>
+<prefix number="00467383"/>
+<prefix number="00467384"/>
+<prefix number="00467680"/>
+<prefix number="00467681"/>
+<prefix number="00467682"/>
+<prefix number="00467683"/>
+<prefix number="00467684"/>
+<prefix number="00467890"/>
+</network>
+</country>
+<country name="TUNISIA">
+<network name="Tunisiana - Orascom Telecom Tunisia" credits="2.75">
+<prefix number="0021621"/>
+<prefix number="0021622"/>
+</network>
+</country>
+<country name="TURKEY">
+<network name="Turkcell" credits="2.75">
+<prefix number="0090532"/>
+<prefix number="0090533"/>
+<prefix number="0090535"/>
+<prefix number="0090536"/>
+<prefix number="0090537"/>
+<prefix number="0090538"/>
+</network>
+</country>
+<country name="UNITED KINGDOM">
+<network name="O2 United Kingdom" credits="1.75">
+<prefix number="00447701"/>
+<prefix number="00447702"/>
+<prefix number="00447703"/>
+<prefix number="00447705"/>
+<prefix number="00447708"/>
+<prefix number="00447709"/>
+<prefix number="00447710"/>
+<prefix number="00447711"/>
+<prefix number="00447712"/>
+<prefix number="00447713"/>
+<prefix number="00447714"/>
+<prefix number="00447715"/>
+<prefix number="00447718"/>
+<prefix number="00447719"/>
+<prefix number="00447720"/>
+<prefix number="00447729"/>
+<prefix number="00447730"/>
+<prefix number="00447731"/>
+<prefix number="00447732"/>
+<prefix number="00447734"/>
+<prefix number="00447736"/>
+<prefix number="00447739"/>
+<prefix number="00447740"/>
+<prefix number="00447742"/>
+<prefix number="00447743"/>
+<prefix number="00447745"/>
+<prefix number="00447746"/>
+<prefix number="00447749"/>
+<prefix number="00447751"/>
+<prefix number="00447752"/>
+<prefix number="00447753"/>
+<prefix number="00447754"/>
+<prefix number="00447759"/>
+<prefix number="00447761"/>
+<prefix number="00447762"/>
+<prefix number="00447763"/>
+<prefix number="00447764"/>
+<prefix number="00447793"/>
+<prefix number="00447801"/>
+<prefix number="00447802"/>
+<prefix number="00447803"/>
+<prefix number="00447808"/>
+<prefix number="00447809"/>
+<prefix number="00447819"/>
+<prefix number="00447820"/>
+<prefix number="00447850"/>
+<prefix number="00447860"/>
+<prefix number="00447885"/>
+<prefix number="00447889"/>
+</network>
+<network name="Manx Telecom - Isle of Man" credits="2.75">
+<prefix number="00447624"/>
+</network>
+<network name="T-Mobile UK Ltd" credits="1.75">
+<prefix number="00447831620000"/>
+<prefix number="00447903"/>
+<prefix number="00447904"/>
+<prefix number="00447905"/>
+<prefix number="00447906"/>
+<prefix number="00447908"/>
+<prefix number="00447910"/>
+<prefix number="00447913"/>
+<prefix number="00447914"/>
+<prefix number="00447930"/>
+<prefix number="00447931"/>
+<prefix number="00447932"/>
+<prefix number="00447939"/>
+<prefix number="00447940"/>
+<prefix number="00447941"/>
+<prefix number="00447944"/>
+<prefix number="00447946"/>
+<prefix number="00447947"/>
+<prefix number="00447949"/>
+<prefix number="00447950"/>
+<prefix number="00447951"/>
+<prefix number="00447952"/>
+<prefix number="00447953"/>
+<prefix number="00447956"/>
+<prefix number="00447957"/>
+<prefix number="00447958"/>
+<prefix number="00447959"/>
+<prefix number="00447960"/>
+<prefix number="00447961"/>
+<prefix number="00447962"/>
+<prefix number="00447963"/>
+<prefix number="00447981"/>
+<prefix number="00447984"/>
+<prefix number="00447985"/>
+<prefix number="00447986"/>
+<prefix number="00447987"/>
+</network>
+</country>
+</fees>
