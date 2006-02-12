@@ -1,5 +1,5 @@
 #!/usr/bin/perl 
-# aspsms-t by Marco Balmer <mb@micressor.ch> @2004 
+# aspsms-t by Marco Balmer <mb@micressor.ch> @2006
 # http://web.swissjabber.ch/
 # http://www.micressor.ch/content/projects/aspsms-t/
 #
@@ -19,20 +19,21 @@ use lib "./";
 use config;
 use Iq;
 use Presence;
-use ASPSMS::aspsmstlog;
-use ASPSMS::Sendaspsms;
+
+use Net::Jabber qw(Component);
+
+use XML::Parser;
+use XML::Smart;
+
 use ASPSMS::Message;
-use ASPSMS::xmlmodel;
+use ASPSMS::Sendaspsms;
 use ASPSMS::Connection;
+use ASPSMS::userhandler;
+use ASPSMS::xmlmodel;
+use ASPSMS::aspsmstlog;
 
 				  
 ### BEGIN CONFIGURATION ###
-use constant SERVER       	=> 	$config::server;
-use constant PORT         	=> 	$config::port;
-use constant SECRET       	=> 	$config::secret;
-use constant PASSWORDS    	=> 	$config::passwords;
-#use constant RELEASE      	=> 	$config::release;
-use constant XMLSPEC		=> 	$config::xmlspec;
 my $aspsmssocket		= 	$config::aspsmssocket;
 my $banner			= 	$config::banner;
 my $admin_jid			= 	$config::admin_jid;
@@ -45,6 +46,7 @@ my $timer				= 295;
 $config::Message_Counter 		= 0;
 $config::Message_Counter_Error 		= 0;
 $config::Message_Notification_Counter 	= 0;
+
 ### END BASIC CONFIGURATION ###
 
 use Sys::Syslog;
@@ -53,19 +55,12 @@ openlog($config::ident,'',"$config::facility");
 
 aspsmst_log("info","Starting up...");
 aspsmst_log('info',"init(): $config::servicename - Version $config::release");
-aspsmst_log('info',"init(): Using XML-Spec: ".XMLSPEC);
+aspsmst_log('info',"init(): Using XML-Spec: $config::xmlspec");
 aspsmst_log('info',"init(): Using AffilliateId: $config::affiliateid");
 aspsmst_log('info',"init(): Using Notifcation URL: $config::notificationurl");
 aspsmst_log('info',"init(): Using admin jid: $admin_jid");
 aspsmst_log('info',"init(): Using banner $banner");
 
-use Net::Jabber qw(Component);
-use XML::Parser;
-use XML::Smart;
-
-#use ASPSMS::xmlmodel;
-use ASPSMS::userhandler;
-use ASPSMS::Sendaspsms;
 
 umask(0177);
 
@@ -298,8 +293,8 @@ sub SetupConnection {
 
 $config::Connection = new Net::Jabber::Component(debuglevel=>0, debugfile=>"stdout");
 
-my $status = $config::Connection->Connect("hostname" => SERVER, "port" => PORT, "secret" => SECRET, "componentname" => $config::service_name);
-$config::Connection->AuthSend("secret" => SECRET);
+my $status = $config::Connection->Connect("hostname" => $config::server, "port" => $config::port, "secret" => $config::secret, "componentname" => $config::service_name);
+$config::Connection->AuthSend("secret" => $config::secret);
 
 if (!(defined($status))) {
   aspsmst_log("info","SetupConnection(): Error: Jabber server is down or connection was not allowed. $!\n");
@@ -314,7 +309,7 @@ sub Connect {
 
 #$Connection->Connect();
 my $status = $config::Connection->Connected();
-aspsmst_log('info',"Connect(): Transport connected to jabber-server " . SERVER . ":" . PORT) if($status == 1);
+aspsmst_log('info',"Connect(): Transport connected to jabber-server $config::server:$config::port") if($status == 1);
 aspsmst_log('info',"Connect(): aspsms-t running and ready for queries") if ($status == 1) ;
 
 

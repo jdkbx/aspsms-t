@@ -29,7 +29,6 @@ use Sys::Syslog;
 @EXPORT 		= qw(getUserPass CheckNewUser);
 
 
-use constant PASSWORDS	=> $config::passwords;
 
 openlog($config::ident,'','$config::facility');
 
@@ -39,7 +38,7 @@ sub getUserPass {
 ########################################################################
 my ($from,$banner) = @_;
 my ($barejid) = split (/\//, $from);
-my $passfile = PASSWORDS."/$barejid";
+my $passfile = "$config::passwords/$barejid";
 my $user = {};
 
 open(F, "<$passfile");

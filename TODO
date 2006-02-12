@@ -2,8 +2,7 @@ aspsms-t Road MAP
 
 * 1.1
 ** xdb functionality for separate spoolfile/mysql drivers
-** Code cleanup; Modules which split apsms functions from aspsms-t functions
-** Operator list in service discovery (operator name, operator fee each sms)
+** Operator list in service discovery (operator name, operator fee per each sms)
 
 * 1.2
 ** Full Two-Way support for everyone. A separate two-way number is not longer necessary
