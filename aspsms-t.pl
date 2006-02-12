@@ -167,8 +167,6 @@ sub InMessage {
 			"SMS $transid for $number has status: $notify_message @ $now
 
 $config::ident Gateway system v$config::release
-
-Project-Page: 
 http://www.micressor.ch/content/projects/aspsms-t
 ");	
 
@@ -346,10 +344,10 @@ sub get_jid_from_userkey
      my $line 	= $lines[0];
      my @data	= split(/:/,$line);
      my $get_userkey	= $data[1];
-     aspsmst_log('notice',"get_jid_from_userkey($userkey): Return: $get_userkey");
      if ($userkey eq $get_userkey)
       {
         closedir(DIR);
+        aspsmst_log('notice',"get_jid_from_userkey($userkey): Return: $get_userkey");
 	return $file;
       }
     } # END of while
