@@ -54,7 +54,7 @@ use Sys::Syslog;
 openlog($config::ident,'',"$config::facility");
 
 aspsmst_log("info","Starting up...");
-aspsmst_log('info',"init(): $config::servicename - Version $config::release");
+aspsmst_log('info',"init(): $config::service_name - Version $config::release");
 aspsmst_log('info',"init(): Using XML-Spec: $config::xmlspec");
 aspsmst_log('info',"init(): Using AffilliateId: $config::affiliateid");
 aspsmst_log('info',"init(): Using Notifcation URL: $config::notificationurl");
