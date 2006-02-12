@@ -61,7 +61,7 @@ sub InIQ {
  my $barejid	= get_barejid($from);
 
 aspsmst_log('debug',"XMPP:\n $xml");
-aspsmst_log('notice',"InIQ(): Processing iq query from from=$from id=$id");
+aspsmst_log('notice',"InIQ(): Processing iq query from from=$barejid id=$id");
 
 if ($to eq "$config::service_name/xmlsrv.asp") 
  {
@@ -313,13 +313,14 @@ my $to 		= $iq->GetTo();
 my $id 		= $iq->GetID();
 my $type 	= $iq->GetType();
 my $query 	= $iq->GetQuery();
-my $xml		= $iq->GetXML();
+my $xml		= $iq->GetXML();  
+my $barejid	= get_barejid($from);
 
   my $namespaces = [ 'jabber:iq:register', 'jabber:iq:gateway','jabber:iq:version' ];
 
   if ($type eq 'get') 
    {
-    aspsmst_log('notice',"jabber_iq_browse(): Processing browse query from=$from id=$id");
+    aspsmst_log('notice',"jabber_iq_browse(): Processing browse query from=$barejid id=$id");
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
@@ -348,13 +349,13 @@ my $id 		= $iq->GetID();
 my $type 	= $iq->GetType();
 my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
+my $barejid	= get_barejid($from);
 
 #eval {
 
    if ($type eq 'get')
     {
-    my $barejid=get_barejid($from);
-    aspsmst_log('notice',"jabber_iq_disco_info(): Processing disco query from= $barejid id=$id");
+    aspsmst_log('notice',"jabber_iq_disco_info(): Processing disco query from=$barejid id=$id");
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);

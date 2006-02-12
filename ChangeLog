@@ -1,5 +1,10 @@
 
+2006-02-12 Marco Balmer  <mb@micressor.ch>
+
+    *  trunk/Iq.pm: Fix crash during iq stanza
+
 2006-02-10 Marco Balmer  <mb@micressor.ch>
+
     *  trunk/fees.xml: Added
     *  trunk/networks.xml: Added
     *  trunk/README.Operatorlist: Added
