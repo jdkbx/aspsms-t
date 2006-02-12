@@ -384,23 +384,29 @@ my $barejid	= get_barejid($from);
 ### jabber_iq_disco_items ###
 sub jabber_iq_disco_items
 {
-my $sid = shift;
-my $iq = shift;
-my $from = $iq->GetFrom();
-my $to = $iq->GetTo();
-my $id = $iq->GetID();
-my $type = $iq->GetType();
-my $query = $iq->GetQuery();
+my $sid 	= shift;
+my $iq 		= shift;
+my $from 	= $iq->GetFrom();
+my $to 		= $iq->GetTo();
+my $id 		= $iq->GetID();
+my $type 	= $iq->GetType();
+my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
+my $barejid	= get_barejid($from);
 
-    if($type eq 'get')
+    if($type eq 'DEV_get')
      {
-      my $barejid=get_barejid($from);
-      aspsmst_log('info',"jabber_iq_disco_items(): Processing disco query from=$barejid id=$id");
-      $iq->SetType('result');
-      $iq->SetFrom($iq->GetTo());
-      $iq->SetTo($from);
-      $config::Connection->Send($iq);
+      	aspsmst_log('info',"jabber_iq_disco_items(): Processing disco query from=$barejid id=$id");
+
+      
+    	$iq->NewChild("http://jabber.org/protocol/disco#items");
+      	$iq->SetType('result');
+      	$iq->SetFrom($iq->GetTo());
+      	$iq->SetTo($from);
+      	$iq->SetID($id);
+    	$iq->SetDiscoItems("TEST");
+	
+      	$config::Connection->Send($iq);
     }
 } ### END of jabber_iq_disco_items ###
 
