@@ -36,7 +36,7 @@ sub aspsmst_log
     }
    else
     {
-     print "\n\nDEBUG>  \n---\n$msg\n---";
+     print "\n\nDEBUG:\n-----\n$msg\n-----";
     }
 
 

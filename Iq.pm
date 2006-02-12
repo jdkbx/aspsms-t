@@ -59,9 +59,10 @@ sub InIQ {
  my $query 	= $iq->GetQuery();
  my $xml	= $iq->GetXML();
  my $barejid	= get_barejid($from);
+ my $xmlns 	= $query->GetXMLNS();
 
-aspsmst_log('debug',"XMPP:\n $xml");
 aspsmst_log('notice',"InIQ(): Processing iq query from from=$barejid id=$id");
+aspsmst_log('debug',"XMPP():\n $xml");
 
 if ($to eq "$config::service_name/xmlsrv.asp") 
  {
@@ -76,9 +77,6 @@ if ($type eq 'error')
  return;
 }
 
-my $xmlns = $query->GetXMLNS();
-aspsmst_log('notice',"InIQ(): Incoming from $barejid");
-aspsmst_log('debug',"InIQ(): $xml");
 if ($xmlns eq 'jabber:iq:register') 
  {
   my $ret = jabber_register($sid,$iq,$from,$to,$id,$type,$query,$xml);
@@ -376,8 +374,6 @@ my $barejid	= get_barejid($from);
 
     } # END of if ($type eq 'get'
 
-#};
-#if($?) { core_debug($?); }
 
 } ### END of jabber_iq_disco_info ###
 
@@ -429,7 +425,7 @@ aspsmst_log('notice',"jabber_iq_xmlsrv(): Processing xmlsrv.asp query from=$bare
 	if ($type eq 'set')
 	 {
  	   aspsmst_log('info',"InIQ(): Processing type `$type`");
-	   aspsmst_log('debug',$iq->GetXML());
+	   aspsmst_log('debug',"XMPP:\n $xml");
 	   
 	   # processing request to aspsms and wait for result
 	   my $xmlsrv_completerequest  = xmlGenerateRequest($xml);
