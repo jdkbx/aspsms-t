@@ -353,7 +353,7 @@ my $barejid	= get_barejid($from);
 
    if ($type eq 'get')
     {
-    aspsmst_log('notice',"jabber_iq_disco_info(): Processing disco query from=$barejid id=$id");
+    aspsmst_log('info',"jabber_iq_disco_info(): Processing disco query from=$barejid id=$id");
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
