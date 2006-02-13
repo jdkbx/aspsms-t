@@ -24,8 +24,9 @@ use Exporter;
 
 
 use Sys::Syslog;
+use ASPSMS::aspsmstlog;
 
-my $spooldir = $config::spooldir;
+my $spooldir = $config::passwords;
 
 sub get_barejid
  {
@@ -37,7 +38,7 @@ sub get_barejid
 sub get_jid_from_userkey
  {
   my $userkey 	= shift;
-   opendir(DIR,"$config::spooldir") or die;
+   opendir(DIR,$spooldir) or die;
    while (defined(my $file = readdir(DIR))) 
     {
      open(FILE,"<$spooldir/$file") or return "no file";

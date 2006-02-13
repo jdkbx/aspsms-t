@@ -19,6 +19,7 @@ use lib "./";
 use config;
 use Iq;
 use Presence;
+use ASPSMS::Jid;
 
 use Net::Jabber qw(Component);
 
