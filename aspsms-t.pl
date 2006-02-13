@@ -33,8 +33,25 @@ use ASPSMS::userhandler;
 use ASPSMS::xmlmodel;
 use ASPSMS::aspsmstlog;
 
+use Sys::Syslog;
+openlog($config::ident,'',"$config::facility");
 				  
 ### BEGIN CONFIGURATION ###
+
+print "\naspsms-t $config::release";
+
+unless ($ARGV[0] eq '-c')
+ {
+  print "\nUsage: ./aspsms-t.pl -c aspsms.xml\n\n";
+  exit(-1);
+ }
+else
+ {
+  aspsmst_log("info","Starting up...");
+  set_config($ARGV[1]);
+ }
+
+
 my $aspsmssocket		= 	$config::aspsmssocket;
 my $banner			= 	$config::banner;
 my $admin_jid			= 	$config::admin_jid;
@@ -50,11 +67,7 @@ $config::Message_Notification_Counter 	= 0;
 
 ### END BASIC CONFIGURATION ###
 
-use Sys::Syslog;
 
-openlog($config::ident,'',"$config::facility");
-
-aspsmst_log("info","Starting up...");
 aspsmst_log('info',"init(): $config::service_name - Version $config::release");
 aspsmst_log('info',"init(): Using XML-Spec: $config::xmlspec");
 aspsmst_log('info',"init(): Using AffilliateId: $config::affiliateid");

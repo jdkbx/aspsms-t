@@ -1,4 +1,4 @@
-# aspsms-t by Marco Balmer <mb@micressor.ch> @2005
+# aspsms-t by Marco Balmer <mb@micressor.ch> @2006
 # http://web.swissjabber.ch/
 # http://www.micressor.ch/content/projects/aspsms-t/
 #
@@ -112,12 +112,12 @@ elsif ($xmlns eq 'jabber:iq:version')
     }
    else 
     {
-     sendError($iq, $from, $to, 501, 'Not Implemented');
+     sendError($iq, $from, $to, 501, 'Not implemented in aspsms-t');
     }
    }
   else 
    {
-    sendError($iq, $from, $to, 501, 'Not implemented (working on it ;-))');
+    sendError($iq, $from, $to, 501, 'Not implemented in aspsms-t');
    }
 
 } ### END of InPresence ###
@@ -146,15 +146,14 @@ $config::Connection->Send($iq);
 sub jabber_register
 
 {
-my $sid = shift;
-my $iq = shift;
-my $from = $iq->GetFrom();
-my $to = $iq->GetTo();
-my $id = $iq->GetID();
-my $type = $iq->GetType();
-my $query = $iq->GetQuery();
+my $sid 	= shift;
+my $iq 		= shift;
+my $from 	= $iq->GetFrom();
+my $to 		= $iq->GetTo();
+my $id 		= $iq->GetID();
+my $type 	= $iq->GetType();
+my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
-
 
   if ($type eq 'get') 
    {

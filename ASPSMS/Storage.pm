@@ -25,18 +25,22 @@ use Exporter;
 
 use Sys::Syslog;
 use ASPSMS::aspsmstlog;
+use ASPSMS::Jid;
 
-my $spooldir = $config::passwords;
 
 sub get_data_from_storage
  {
   my $read_by 		= shift;
   my $jid		= shift;
+  my $barejid		= get_barejid($jid);
   
   my $user = {};
 
-  my $passfile 		= "$config::passwords/$jid";
-  open(F, "<$passfile");
+  my $passfile 		= "$config::passwords/$barejid";
+
+  aspsmst_log("notice","get_data_from_storage($read_by,$barejid): Read file $passfile");
+
+  open(F, "<$passfile") or die "Problem: $!\n";
   seek(F, 0, 0);
   local $/ = "\n";
 

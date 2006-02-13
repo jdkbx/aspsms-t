@@ -2,6 +2,8 @@
 2006-02-13 Marco Balmer  <mb@micressor.ch>
 
     *  trunk/Iq.pm: Fix crash in function InIQ()
+    *  trunk/aspsms-t.pl: get_jid_from_userkey() moved to Jid.pm
+    *  trunk/ASPSMS/Jid.pm: same
 
 2006-02-12 Marco Balmer  <mb@micressor.ch>
 

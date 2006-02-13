@@ -18,12 +18,16 @@ use strict;
 use vars qw(@EXPORT @ISA);
 use Exporter;
 
+use XML::Smart;
+use ASPSMS::aspsmstlog;
+
 our $release = " 1.0.svn";
 
 our $aspsmssocket;
 
 @ISA 			= qw(Exporter);
-@EXPORT 		= qw(	$service_name,
+@EXPORT 		= qw(	set_config
+				$service_name,
 				$server,
 				$port,
 				$secret,
@@ -45,43 +49,39 @@ our $aspsmssocket;
 				$Message_Counter_Error,
 				$Connection);
 
-use XML::Smart;
 
-my $configoption 	= $ARGV[0] || " ";
-my $configfile 		= $ARGV[1] || " " ;
-
-unless ($configoption eq '-c')
+sub set_config
  {
-  print "\naspsms-t usage: ./aspsms-t.pl -c aspsms.xml\n\n";
-  exit(0);
- }
+  my $config_file = shift;
+  aspsmst_log("info","set_config(): Read config from $config_file");
 
-my $Config  =       XML::Smart->new($ARGV[1]);
+  my $Config  =       XML::Smart->new($config_file);
 
-our $aspsms_ip		= $Config->{aspsms}{server}('id','eq','1'){"host"};
-our $aspsms_port	= $Config->{aspsms}{server}('id','eq','1'){"port"};
-our $xmlspec		= $Config->{aspsms}{server}('id','eq','1'){"xmlspec"};
-our $affiliateid	= $Config->{aspsms}{server}('id','eq','1'){"affiliateid"};
+  our $aspsms_ip	= $Config->{aspsms}{server}('id','eq','1'){"host"};
+  our $aspsms_port	= $Config->{aspsms}{server}('id','eq','1'){"port"};
+  our $xmlspec		= $Config->{aspsms}{server}('id','eq','1'){"xmlspec"};
+  our $affiliateid	= $Config->{aspsms}{server}('id','eq','1'){"affiliateid"};
 
-our $service_name	= $Config->{aspsms}{jabber}{serviceid};
-our $server		= $Config->{aspsms}{jabber}{server};
-our $port		= $Config->{aspsms}{jabber}{port};
-our $secret		= $Config->{aspsms}{jabber}{secret};
+  our $service_name	= $Config->{aspsms}{jabber}{serviceid};
+  our $server		= $Config->{aspsms}{jabber}{server};
+  our $port		= $Config->{aspsms}{jabber}{port};
+  our $secret		= $Config->{aspsms}{jabber}{secret};
 
-our $banner		= $Config->{aspsms}{banner};
-our $admin_jid		= $Config->{aspsms}{adminjid};
-our $facility	 	= $Config->{aspsms}{facility};
-our $ident	 	= $Config->{aspsms}{ident};
-our $passwords		= $Config->{aspsms}{spooldir};
-our $notificationurl	= $Config->{aspsms}{notificationurl};
-our $notificationjid	= $Config->{aspsms}{notificationjid};
-our $browseservicename  = $Config->{aspsms}{jabber}{browse}{servicename};
-our $browseservicetype  = $Config->{aspsms}{jabber}{browse}{type};
+  our $banner		= $Config->{aspsms}{banner};
+  our $admin_jid		= $Config->{aspsms}{adminjid};
+  our $facility	 	= $Config->{aspsms}{facility};
+  our $ident	 	= $Config->{aspsms}{ident};
+  our $passwords	= $Config->{aspsms}{spooldir};
+  our $notificationurl	= $Config->{aspsms}{notificationurl};
+  our $notificationjid	= $Config->{aspsms}{notificationjid};
+  our $browseservicename  = $Config->{aspsms}{jabber}{browse}{servicename};
+  our $browseservicetype  = $Config->{aspsms}{jabber}{browse}{type};
 
-our $Message_Counter;
-our $Message_Counter_Error;
-our $Message_Notification_Counter;
-our $Connection;
+  our $Message_Counter;
+  our $Message_Counter_Error;
+  our $Message_Notification_Counter;
+  our $Connection;
+} ### END of set_config ###
 
 1;
 
