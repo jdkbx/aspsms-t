@@ -20,10 +20,12 @@ use vars qw(@EXPORT @ISA);
 use Exporter;
 
 @ISA 			= qw(Exporter);
-@EXPORT 		= qw(get_barejid);
+@EXPORT 		= qw(get_barejid get_jid_from_userkey);
 
 
 use Sys::Syslog;
+
+my $spooldir = $config::spooldir;
 
 sub get_barejid
  {
@@ -32,4 +34,25 @@ sub get_barejid
    return $barejid;
  } # END of get_barejid
 
+sub get_jid_from_userkey
+ {
+  my $userkey 	= shift;
+   opendir(DIR,"$config::spooldir") or die;
+   while (defined(my $file = readdir(DIR))) 
+    {
+     open(FILE,"<$spooldir/$file") or return "no file";
+     my @lines = <FILE>;
+     close(FILE);
+     # process 
+     my $line 	= $lines[0];
+     my @data	= split(/:/,$line);
+     my $get_userkey	= $data[1];
+     if ($userkey eq $get_userkey)
+      {
+        closedir(DIR);
+        aspsmst_log('notice',"get_jid_from_userkey($userkey): Return: $get_userkey");
+	return $file;
+      }
+    } # END of while
+} ### END of get_jid_from_userkey ###
 1;
