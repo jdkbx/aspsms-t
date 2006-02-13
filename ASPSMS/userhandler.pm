@@ -83,8 +83,8 @@ my $aspsmsrequest       = xmlShowCredits($username,$password);
 my $completerequest    	= xmlGenerateRequest($aspsmsrequest);
 
 
-print $aspsmssocket::config $completerequest;
-@answer = <$aspsmssocket::config>;
+print $config::aspsmssocket $completerequest;
+@answer = <$config::aspsmssocket>;
 DisconnectAspsms();
 
 my $ErrorStatus         =       XML::Smart->new($answer[10]);

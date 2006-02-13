@@ -195,7 +195,7 @@ aspsms.com account:');
 			
   my ($barefrom)  = split (/\//, $from);
   $phone          =~ s/\+/00/g;
-  my $passfile = "$passwords/$barefrom";
+  my $passfile = "$config::passwords/$barefrom";
 
   # Remove = 1 ?????
   aspsmst_log('notice',"jabber_register(): remove flag: $remove for $from");

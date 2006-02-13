@@ -52,10 +52,10 @@ else
  }
 
 
-my $aspsmssocket		= 	$config::aspsmssocket;
-my $banner			= 	$config::banner;
-my $admin_jid			= 	$config::admin_jid;
-my $spooldir			=	$config::passwords;
+#my $aspsmssocket		= 	$config::aspsmssocket;
+#my $banner			= 	$config::banner;
+#my $admin_jid			= 	$config::admin_jid;
+#my $spooldir			=	$config::passwords;
 
 # Initialisation timer for message and notification statistic to syslog
 # Every 300 seconds, it will generate a syslog entry with statistic infos
@@ -72,8 +72,8 @@ aspsmst_log('info',"init(): $config::service_name - Version $config::release");
 aspsmst_log('info',"init(): Using XML-Spec: $config::xmlspec");
 aspsmst_log('info',"init(): Using AffilliateId: $config::affiliateid");
 aspsmst_log('info',"init(): Using Notifcation URL: $config::notificationurl");
-aspsmst_log('info',"init(): Using admin jid: $admin_jid");
-aspsmst_log('info',"init(): Using banner $banner");
+aspsmst_log('info',"init(): Using admin jid: $config::admin_jid");
+aspsmst_log('info',"init(): Using banner $config::banner");
 
 
 umask(0177);
