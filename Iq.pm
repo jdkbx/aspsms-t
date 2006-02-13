@@ -59,7 +59,6 @@ sub InIQ {
  my $query 	= $iq->GetQuery();
  my $xml	= $iq->GetXML();
  my $barejid	= get_barejid($from);
- my $xmlns 	= $query->GetXMLNS();
 
 aspsmst_log('notice',"InIQ(): Processing iq query from from=$barejid id=$id");
 aspsmst_log('debug',"XMPP():\n $xml");
@@ -70,6 +69,8 @@ if ($to eq "$config::service_name/xmlsrv.asp")
  } ### END jabber:iq:xmlsrv.asp ###
 
 return unless $query;
+my $xmlns 	= $query->GetXMLNS();
+
 # If error in <iq/> 
 if ($type eq 'error') 
 {

@@ -1,4 +1,8 @@
 
+2006-02-13 Marco Balmer  <mb@micressor.ch>
+
+    *  trunk/Iq.pm: Fix crash in function InIQ()
+
 2006-02-12 Marco Balmer  <mb@micressor.ch>
 
     *  trunk/Iq.pm: Fix crash during iq stanza
