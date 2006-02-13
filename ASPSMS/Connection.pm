@@ -21,6 +21,7 @@ use Exporter;
 @ISA                    = qw(Exporter);
 @EXPORT                 = qw(exec_SendTextSMS ConnectAspsms DisconnectAspsms exec_ConnectionASPSMS);
 
+use config;
 use IO::Socket;
 use ASPSMS::aspsmstlog;
 use ASPSMS::xmlmodel;
@@ -33,11 +34,6 @@ openlog($config::ident,'','user');
 
 
 
-
-my $banner			= 	$config::banner;
-my $aspsmssocket		= 	$config::aspsmssocket;
-my $aspsms_ip                   =       $config::aspsms_ip;
-my $aspsms_port                 =       $config::aspsms_port;
 
 
 sub exec_SendTextSMS 
@@ -108,7 +104,7 @@ sub exec_ConnectionASPSMS
  
   # Send request to socket
   aspsmst_log('debug',"exec_ConnectionASPSMS(): Sending: $completerequest");
-  print $aspsmssocket::config $completerequest;
+  print $config::aspsmssocket $completerequest;
 
   my @answer;
 
@@ -116,7 +112,7 @@ sub exec_ConnectionASPSMS
    {
     # Timeout alarm
     alarm(10);
-    @answer = <$aspsmssocket::config>;
+    @answer = <$config::aspsmssocket>;
     aspsmst_log('debug',"exec_ConnectionASPSMS(): \@answer=@answer");
     alarm(0);
    };
@@ -140,8 +136,9 @@ sub ConnectAspsms {
 my $status = 0;
 
 
-$aspsmssocket::config = IO::Socket::INET->new(     	PeerAddr => $aspsms_ip,
-                                        		PeerPort => $aspsms_port,
+aspsmst_log('debug',"ConnectAspsms(): Connecting to $config::aspsms_ip:$config::aspsms_port");
+$config::aspsmssocket = IO::Socket::INET->new(     	PeerAddr => $config::aspsms_ip,
+                                        		PeerPort => $config::aspsms_port,
                                         		Proto    => 'tcp',
                                         		Timeout  => 5,
                                         		Type     => SOCK_STREAM) or $status = -1;
@@ -152,7 +149,7 @@ return $status;
 
 sub DisconnectAspsms {
 aspsmst_log('notice',"DisconnectAspsms()");
-close($aspsmssocket::config);
+close($config::aspsmssocket);
 
 ########################################################################
 }

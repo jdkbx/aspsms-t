@@ -22,7 +22,6 @@ use Exporter;
 @ISA 			= qw(Exporter);
 @EXPORT 		= qw(get_barejid get_jid_from_userkey);
 
-
 use Sys::Syslog;
 use ASPSMS::aspsmstlog;
 
