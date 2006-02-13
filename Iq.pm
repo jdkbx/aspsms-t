@@ -318,7 +318,7 @@ my $barejid	= get_barejid($from);
 
   if ($type eq 'get') 
    {
-    aspsmst_log('notice',"jabber_iq_browse(): Processing browse query from=$barejid id=$id");
+    aspsmst_log('info',"jabber_iq_browse(): Processing browse query from=$barejid id=$id");
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
@@ -416,7 +416,7 @@ my $id 		= $iq->GetID();
 my $type 	= $iq->GetType();
 my $xml		= $iq->GetXML();
 my $barejid	= get_barejid($from);
-aspsmst_log('notice',"jabber_iq_xmlsrv(): Processing xmlsrv.asp query from=$barejid id=$id");
+aspsmst_log('info',"jabber_iq_xmlsrv(): Processing xmlsrv.asp query from=$barejid id=$id");
 
 	#
 	# Direct access to the aspsms:com xml srv
@@ -424,7 +424,7 @@ aspsmst_log('notice',"jabber_iq_xmlsrv(): Processing xmlsrv.asp query from=$bare
 
 	if ($type eq 'set')
 	 {
- 	   aspsmst_log('info',"InIQ(): Processing type `$type`");
+ 	   aspsmst_log('info',"jabber_iq_xmlsrv(): Processing type `$type`");
 	   aspsmst_log('debug',"XMPP:\n $xml");
 	   
 	   # processing request to aspsms and wait for result
