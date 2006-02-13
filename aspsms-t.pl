@@ -259,23 +259,6 @@ sub sendContactStatus
  sendPresence($workpresence, $from, $to, 'available',$show,$status);
  }
 
-# send presences for given number with resources indicating gateways
-sub sendGWNumPresences {
-my ($number, $to) = @_;	
-my $prefix = substr($number, 1, 5);
-my $presence = new Net::Jabber::Presence();
-
-#$presence->SetType('available');
-$presence->SetShow(undef);
-$presence->SetStatus(undef);
-$presence->SetTo($to);
-
-    $presence->SetFrom($number."@$config::service_name");
-    $presence->SetPriority(5);
-    aspsmst_log('notice',"sendGWNumPresences(): Sending presence from ".$presence->GetFrom()." to $to.");
-    $config::Connection->Send($presence);
-} ### END of sendGWNumPresences ###
-
 
 sub Stop {
 # Terminate the SMS component's current run.
