@@ -194,7 +194,7 @@ http://www.micressor.ch/content/projects/aspsms-t
 	   $msg->SetMessage(	type    =>"",
 	 			subject =>"Global Two-Way Message from $number",
 				to      =>$to_jid,
-				from    =>"$number@$config::service_name",
+				from    =>"$number\@$config::service_name",
 				body    =>"$number wrote @ $now :
 
 $notify_message

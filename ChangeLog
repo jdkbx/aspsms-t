@@ -3,6 +3,7 @@
 
     *  trunk/Iq.pm: Fix crash in function InIQ()
     *  trunk/aspsms-t.pl: get_jid_from_userkey() moved to Jid.pm
+    *  trunk/aspsms-t.pl: Fix two-way sender number
     *  trunk/ASPSMS/Jid.pm: same
     *  trunk/ASPSMS/Storage.pm: New storage driver
 
