@@ -33,8 +33,6 @@ use ASPSMS::userhandler;
 use ASPSMS::xmlmodel;
 use ASPSMS::aspsmstlog;
 
-use Sys::Syslog;
-openlog($config::ident,'',"$config::facility");
 				  
 ### BEGIN CONFIGURATION ###
 
@@ -51,11 +49,8 @@ else
   set_config($ARGV[1]);
  }
 
-
-#my $aspsmssocket		= 	$config::aspsmssocket;
-#my $banner			= 	$config::banner;
-#my $admin_jid			= 	$config::admin_jid;
-#my $spooldir			=	$config::passwords;
+use Sys::Syslog;
+openlog($config::ident,'',"$config::facility");
 
 # Initialisation timer for message and notification statistic to syslog
 # Every 300 seconds, it will generate a syslog entry with statistic infos
@@ -162,6 +157,9 @@ sub InMessage {
 
          if ($streamtype eq 'notify')
 	  {
+
+	   aspsmst_log("notice","InMessage(): \$notify_message=$notify_message");
+
 	   if ($notify_message eq 'Delivered')
 	    {
 	     sendContactStatus($to_jid,"$number"."@".$config::service_name,'online',"Message $transid successfully delivered. Now I am idle...");
@@ -170,7 +168,7 @@ sub InMessage {
 	   # send contact status
 	   if ($notify_message eq 'Buffered')
 	    {
-	     sendContactStatus($to_jid,"$number @$config::service_Name",'xa','Sorry, message buffered, waiting for better results ;-)');
+	     sendContactStatus($to_jid,"$number"."@".$config::service_name,'online',"Sorry, message buffered, waiting for better results ;-)");
 	    } ### END of if ($notify_message eq 'Buffered')  ###
 
 	   aspsmst_log('info',"InMessage($to_jid): Send `$notify_message` notification for message  $transid");
