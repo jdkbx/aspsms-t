@@ -38,6 +38,7 @@ use ASPSMS::Jid;
 use ASPSMS::xmlmodel;
 use ASPSMS::Connection;
 use ASPSMS::userhandler;
+use ASPSMS::Message;
 use Presence;
 
 
