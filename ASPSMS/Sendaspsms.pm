@@ -64,7 +64,7 @@ aspsmst_log('notice',"Sendaspsms(): sending message to number $number");
 my ($result,$resultdesc,$Credits,$CreditsUsed,$random) = exec_SendTextSMS($number, $msg, $user->{name}, $user->{password},$user->{phone},$user->{signature},$from);
 
 
-if ($result == 1) { $config::Message_Counter++; } else { $config::Message_Counter_Error++; }
+if ($result == 1) { $config::stat_message_counter++; } else { $config::stat_error_counter++; }
 
 my ($xmppanswerlog);
 $xmppanswerlog = "SMS from $from to $number (Balance: $Credits Used: $CreditsUsed) has status --> $result ($resultdesc)";

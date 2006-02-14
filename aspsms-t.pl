@@ -56,9 +56,9 @@ openlog($config::ident,'',"$config::facility");
 # Every 300 seconds, it will generate a syslog entry with statistic infos
 my $timer				= 295;
 
-$config::Message_Counter 		= 0;
-$config::Message_Counter_Error 		= 0;
-$config::Message_Notification_Counter 	= 0;
+$config::stat_message_counter 		= 0;
+$config::stat_error_counter 		= 0;
+$config::stat_notification_counter 	= 0;
 
 ### END BASIC CONFIGURATION ###
 
@@ -98,7 +98,7 @@ while ()
   #aspsmst_log('info',"Main: Timer: $timer");
   if($timer == 300)
    {
-    aspsmst_log('info',"main(): [stat] Successfully: $config::Message_Counter Notifications: $config::Message_Notification_Counter Errors: $config::Message_Counter_Error Stanzas: $config::stat_stanzas\n");
+    aspsmst_log('info',"main(): [stat] Successfully: $config::stat_message_counter Notifications: $config::stat_notification_counter Errors: $config::stat_error_counter Stanzas: $config::stat_stanzas\n");
     $timer = 0;
    } 
  }
@@ -211,7 +211,7 @@ http://www.micressor.ch/content/projects/aspsms-t
   	   $config::Connection->Send($msg);
 	  } ### END of if ($streamtype eq 'twoway')
 
-	$config::Message_Notification_Counter++;
+	$config::stat_notification_counter++;
 	return;
         } ### END of if ( $to eq $config::service_name or $to eq "$co.....
 

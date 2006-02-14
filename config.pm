@@ -46,9 +46,9 @@ our $notificationjid;
 our $browseservicename;
 our $browseservicetype;
 
-our $Message_Counter;
-our $Message_Counter_Error;
-our $Message_Notification_Counter;
+our $stat_message_counter;
+our $stat_error_counter;
+our $stat_notification_counter;
 our $stat_stanzas = 0;
 our $Connection;
 
@@ -72,8 +72,9 @@ our $Connection;
 				$notificationjid,
 				$browseservicename,
 				$browseservicetype,
-				$Message_Counter,
-				$Message_Counter_Error,
+				$stat_message_counter,
+				$stat_error_counter,
+				$stat_notification_counter,
 				$Connection);
 
 
