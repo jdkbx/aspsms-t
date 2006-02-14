@@ -128,7 +128,7 @@ sub InMessage {
 
 	aspsmst_log('notice',"InMessage($from): Begin job");
 	
-       if ( $to eq $config::service_name or $to eq "$config::service_nameregistered" ) 
+       if ( $to eq $config::service_name or $to eq "$config::service_name/registered" ) 
         {
 	 my $msg		= new Net::Jabber::Message();
          
@@ -235,7 +235,7 @@ http://www.micressor.ch/content/projects/aspsms-t
 	my $from_barejid	= get_barejid($from);
 	aspsmst_log('info',"InMessage($from_barejid): To  number `$number'.");
 	
-	my ($barejid) = split(/\//, $from);
+	#my ($barejid) = split(/\//, $from);
 
 	sendContactStatus($from,$to,'dnd',"Working on delivery for $number. Please wait...");
 
