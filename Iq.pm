@@ -50,6 +50,8 @@ sub InIQ {
  # Incoming IQ. Handle jabber:iq:registration with add/remove source 
  # dialog, return error 501 for other NS's.
 
+ $config::stat_stanzas++;
+
  my $sid 	= shift;
  my $iq 	= shift;
  my $from 	= $iq->GetFrom();
@@ -318,7 +320,7 @@ my $barejid	= get_barejid($from);
 
   if ($type eq 'get') 
    {
-    aspsmst_log('info',"jabber_iq_browse(): Processing browse query from=$barejid id=$id");
+    aspsmst_log('notice',"jabber_iq_browse(): Processing browse query from=$barejid id=$id");
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
@@ -353,7 +355,7 @@ my $barejid	= get_barejid($from);
 
    if ($type eq 'get')
     {
-    aspsmst_log('info',"jabber_iq_disco_info(): Processing disco query from=$barejid id=$id");
+    aspsmst_log('notice',"jabber_iq_disco_info(): Processing disco query from=$barejid id=$id");
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
@@ -392,7 +394,7 @@ my $barejid	= get_barejid($from);
 
     if($type eq 'DEV_get')
      {
-      	aspsmst_log('info',"jabber_iq_disco_items(): Processing disco query from=$barejid id=$id");
+      	aspsmst_log('notice',"jabber_iq_disco_items(): Processing disco query from=$barejid id=$id");
 
       
     	$iq->NewChild("http://jabber.org/protocol/disco#items");
@@ -424,7 +426,6 @@ aspsmst_log('info',"jabber_iq_xmlsrv(): Processing xmlsrv.asp query from=$bareji
 
 	if ($type eq 'set')
 	 {
- 	   aspsmst_log('info',"jabber_iq_xmlsrv(): Processing type `$type`");
 	   aspsmst_log('debug',"XMPP:\n $xml");
 	   
 	   # processing request to aspsms and wait for result

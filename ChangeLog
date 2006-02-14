@@ -1,3 +1,9 @@
+2006-02-14 Marco Balmer  <mb@micressor.ch>
+
+    *  trunk/aspsms-t.pl: Add stanza statistics support
+    *  trunk/Iq.pm: same
+    *  trunk/Presence.pm: same
+
 
 2006-02-13 Marco Balmer  <mb@micressor.ch>
 

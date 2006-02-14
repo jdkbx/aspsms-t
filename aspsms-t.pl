@@ -98,7 +98,7 @@ while ()
   #aspsmst_log('info',"Main: Timer: $timer");
   if($timer == 300)
    {
-    aspsmst_log('info',"main(): Message deliveries: Success: $config::Message_Counter Notifications: $config::Message_Notification_Counter Error: $config::Message_Counter_Error\n");
+    aspsmst_log('info',"main(): [stat] Successfully: $config::Message_Counter Notifications: $config::Message_Notification_Counter Errors: $config::Message_Counter_Error Stanzas: $config::stat_stanzas\n");
     $timer = 0;
    } 
  }
@@ -110,6 +110,8 @@ exit(0);
 sub InMessage {
   # Incoming message. Let's try to send it via SMS.
   # If error we've got, we log it... ;-)
+  	
+	$config::stat_stanzas++;
 
 	my $sid 		= shift;
 	my $message 		= shift;
@@ -227,7 +229,8 @@ http://www.micressor.ch/content/projects/aspsms-t
 	}
 
 	
-	aspsmst_log('info',"InMessage($from): To  number `$number'.");
+	my $from_barejid	= get_barejid($from);
+	aspsmst_log('info',"InMessage($from_barejid): To  number `$number'.");
 	
 	my ($barejid) = split(/\//, $from);
 
@@ -261,13 +264,14 @@ aspsmst_log('notice',"InMessage($from): End job");
 
 sub sendContactStatus
  {
-  my $from 	= shift;
-  my $to	= shift;
-  my $show	= shift;
-  my $status	= shift;
+  my $from 		= shift;
+  my $to		= shift;
+  my $show		= shift;
+  my $status		= shift;
+  my $from_barejid	= get_barejid($from);
 
  my $workpresence = new Net::Jabber::Presence();
- aspsmst_log('info',"sendContactStatus($from): Sending `$status'");
+ aspsmst_log('notice',"sendContactStatus($from_barejid): Sending `$status'");
  sendPresence($workpresence, $from, $to, 'available',$show,$status);
  }
 

@@ -63,15 +63,17 @@ sub InPresence {
 # actions, reply to probe presence with gateways presence.
 # On registration requests, accept and send a gateways status presence update.
 
-my $sid = shift;
-my $presence = shift;
-my $from = $presence->GetFrom();
-my $to = $presence->GetTo();
-my ($number) = split(/@/, $to);
-my $type = $presence->GetType();
-my $status = $presence->GetStatus();
+$config::stat_stanzas++;
 
-my $barejid = get_barejid($from);
+my $sid 		= shift;
+my $presence 		= shift;
+my $from 		= $presence->GetFrom();
+my $to 			= $presence->GetTo();
+my ($number) 		= split(/@/, $to);
+my $type 		= $presence->GetType();
+my $status 		= $presence->GetStatus();
+my $barejid 		= get_barejid($from);
+
 aspsmst_log('notice',"InPresence(): Got `$type' type presence from $barejid");
 
 if ($type eq 'subscribe') 

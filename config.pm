@@ -49,6 +49,7 @@ our $browseservicetype;
 our $Message_Counter;
 our $Message_Counter_Error;
 our $Message_Notification_Counter;
+our $stat_stanzas = 0;
 our $Connection;
 
 @ISA 			= qw(Exporter);
