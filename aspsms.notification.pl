@@ -29,7 +29,7 @@ use XML::Smart;
 
 
 # Read configuration
-my $Config  		= XML::Smart->new('./aspsmstest.xml');
+my $Config  		= XML::Smart->new('./aspsms.xml');
 my $hostname           = $Config->{aspsms}{notification}{hostname};
 my $username           = $Config->{aspsms}{notification}{username};
 my $password           = $Config->{aspsms}{notification}{password};
@@ -66,11 +66,9 @@ Got notification from aspsms:
 if($xml) 
  {
   connect_client();
-  syslog('notice',"PresenceSend();");
   $Con->PresenceSend();
   syslog('notice',"RosterGet();");
-  $Con->RosterGet();
-  syslog('info',"Got <stream>$xml</stream>");
+  syslog('notice',"Got <stream>$xml</stream>");
   print "<stream>$xml</stream>";
   my $msg = new Net::Jabber::Message();
   $msg->SetMessage(type    =>"message",
