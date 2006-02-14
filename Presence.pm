@@ -26,6 +26,7 @@ use Exporter;
 use Sys::Syslog;
 use ASPSMS::aspsmstlog;
 use ASPSMS::Jid;
+use ASPSMS::Message;
 
 
 sub sendError {
