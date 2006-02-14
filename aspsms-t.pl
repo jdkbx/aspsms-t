@@ -150,11 +150,15 @@ sub InMessage {
 	 my $userkey 		= $stattmp[2];
 	 my $number 		= "+" . $stattmp[3];
 	 my $notify_message 	= $stattmp[4];
+
 	 my $to_jid 		= get_jid_from_userkey($userkey);
 	 if ($to_jid eq 'no file')
 	  {
-	   aspsmst_log("info","Can not find file for userkey $userkey");
+	   	aspsmst_log("info","Can not find file for userkey $userkey");
+		sendAdminMessage("info","Can not find file for userkey $userkey");
+		return;
 	  }
+
 	 my $now 		= localtime;
 
          if ($streamtype eq 'notify')
