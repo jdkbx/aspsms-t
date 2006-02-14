@@ -155,8 +155,6 @@ sub InMessage {
 	 if ($to_jid eq 'no file')
 	  {
 	   	aspsmst_log("info","Can not find file for userkey $userkey");
-		sendAdminMessage("info","Can not find file for userkey $userkey");
-		return;
 	  }
 
 	 my $now 		= localtime;
@@ -219,6 +217,7 @@ http://www.micressor.ch/content/projects/aspsms-t
 
 	if ($type eq 'error') {
 		aspsmst_log('info',"InMessage(): Error received: \n\n" . $message->GetXML());
+		sendAdminMessage("info","InMessage: Error received:\n\n".$message->GetXML()); 
 		return;
 	}
   	if ( $number !~ /^\+[0-9]{3,50}$/ ) {
