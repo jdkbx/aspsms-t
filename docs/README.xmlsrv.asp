@@ -1,6 +1,9 @@
+Usage of ASPSMS xmlsrv.asp directly trough the jabber-network
+-------------------------------------------------------------
+
 Query example:
 
-<iq to='smstest.swissjabber.ch/xmlsrv.asp' type='set' id='23'>
+<iq to='aspsms.swissjabber.ch/xmlsrv.asp' type='set' id='ab12'>
 <aspsms>
  <Userkey>USERKEY</Userkey>
  <Password>PASSWORD</Password>
@@ -8,8 +11,9 @@ Query example:
 </aspsms>
 </iq>
 
-Response:
-<iq xml:lang="en" from="aspsms.swissjabber.ch/xmlsrv.asp" type="result" id="23" to="micressor@swissjabber.ch/mabaws02/psi" >
+Response example:
+
+<iq xml:lang="en" from="aspsms.swissjabber.ch/xmlsrv.asp" type="result" id="ab12" to="xy@swissjabber.ch" >
  <aspsms>
  <ErrorCode>1</ErrorCode>
  <ErrorDescription>Ok</ErrorDescription>
