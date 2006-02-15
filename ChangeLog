@@ -1,6 +1,9 @@
 2006-02-15 Marco Balmer  <mb@micressor.ch>
 
-    *  trunk/Iq.pm: Change jabber_register() instructions
+    *  trunk/Iq.pm:
+    Change jabber_register() instructions. Update exeption logging if no
+    userkey found in notification mode.
+    			
 
 2006-02-14 Marco Balmer  <mb@micressor.ch>
 

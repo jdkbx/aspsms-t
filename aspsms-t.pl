@@ -152,10 +152,11 @@ sub InMessage {
 	 my $notify_message 	= $stattmp[4];
 
 	 my $to_jid 		= get_jid_from_userkey($userkey);
-	 if ($to_jid eq 'no file')
+
+	 if ($to_jid eq "No userkey file")
 	  {
 	   	aspsmst_log("info","InMessage(): Can not find file for userkey $userkey");
-		sendAdminMessage("info","Can not find config for userkey $userkey");
+		sendAdminMessage("info","Can not find file for userkey $userkey");
 		return undef;
 	  }
 

@@ -36,10 +36,10 @@ sub get_barejid
 sub get_jid_from_userkey
  {
   my $userkey 	= shift;
-   opendir(DIR,"$config::passwords") or die;
+   opendir(DIR,"$config::passwords") or die "Can not open spool dir $config::passwords";
    while (defined(my $file = readdir(DIR))) 
     {
-     open(FILE,"<$config::passwords/$file") or return "no file";
+     open(FILE,"<$config::passwords/$file") or return "No userkey file";
      my @lines = <FILE>;
      close(FILE);
      # process 
@@ -53,5 +53,6 @@ sub get_jid_from_userkey
 	return $file;
       }
     } # END of while
+aspsmst_log('notice',"get_jid_from_userkey($userkey): File found but no userkey????? ");
 } ### END of get_jid_from_userkey ###
 1;
