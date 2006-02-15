@@ -368,6 +368,7 @@ my $barejid	= get_barejid($from);
 				name=>$config::browseservicename);
 
     $iqQuery->AddFeature(var=>"http://jabber.org/protocol/disco");
+    $iqQuery->AddFeature(var=>"http://www.aspsms.com/xml/doc/xmlsvr18.pdf");
     $iqQuery->AddFeature(var=>"jabber:iq:register");
     $iqQuery->AddFeature(var=>"jabber:iq:gateway");
     $iqQuery->AddFeature(var=>"jabber:iq:version");
