@@ -182,11 +182,9 @@ sub InMessage {
 	   SendMessage(	"$number\@$config::service_name",
 	   		$to_jid,
 			"$notify_message status for message $transid",
-			"SMS $transid for $number has status: $notify_message @ $now
-
-$config::ident Gateway system v$config::release
-http://www.micressor.ch/content/projects/aspsms-t
-");	
+			"Your SMS $transid sent to number $number 
+			
+has status: $notify_message @ $now");
 
           } # END of if ($streamtype eq 'notify')
 	
@@ -256,11 +254,6 @@ http://www.micressor.ch/content/projects/aspsms-t
 Balance: $Credits Used: $CreditsUsed");
 
 	 }
-
-	 #SendMessage(	$config::service_name,
-	 # 		$barejid,
- 	 #		"test",
-	 #		"msg");
 
 	 #}; ### END OF EVAL
 		

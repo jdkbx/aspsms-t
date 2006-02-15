@@ -39,7 +39,9 @@ sub sendAdminMessage
                                  from    =>$config::service_name,
                                  body    =>"\n$msg\n\n
 ---				 
-$config::ident v $config::release");
+$config::ident v $config::release
+http://www.micressor.ch/content/projects/aspsms-t");
+
 
   $config::Connection->Send($jabber_msg);
 
@@ -59,6 +61,9 @@ It is a sms-transport gateway. If you wish to operate with it, please
 register an https://www.aspsms.com account, afterwards you can use 
 it to send sms like +4178xxxxxxx@$config::service_name
 
+
+Support contact xmpp: $config::admin_jid
+
 $config::ident Gateway system v$config::release
 http://www.micressor.ch/content/projects/aspsms-t
 
@@ -76,13 +81,21 @@ sub SendMessage
 
    my $msg= new Net::Jabber::Message();
 
-   $msg->SetMessage(      	type    =>"",
+   $msg->SetMessage(      	 type    =>"",
    			 	 subject =>$subject,
                                  to      =>$to,
                                  from    =>$from,
-                                 body    =>$text);
+                                 body    =>"$text
 
-  $config::Connection->Send($msg);
+
+Support contact xmpp: $config::admin_jid
+
+---
+$config::ident Gateway system v$config::release
+http://www.micressor.ch/content/projects/aspsms-t
+");
+
+$config::Connection->Send($msg);
 
  }
 
