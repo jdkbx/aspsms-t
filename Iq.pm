@@ -242,12 +242,9 @@ Please enter Username (=UserKey https://www.aspsms.ch/userkey.asp) and password 
   $iq->SetFrom($iq->GetTo());
   $iq->SetTo($from);
   $config::Connection->Send($iq);
-  my $confirm = new Net::Jabber::Message();
-  $confirm->SetTo($admin_jid);
-  $confirm->SetType('message');
-  $confirm->SetFrom($config::service_name);
-  $confirm->SetBody("RegisterManager.Complete: for \n\n$from $name:$phone:$pass:$signature \n\non $config::service_name");
-  $config::Connection->Send($confirm);
+  
+  sendAdminMessage("info","RegisterManager.Complete: for \n\n$from $name:$phone:$pass:$signature");
+
   my $presence = new Net::Jabber::Presence();
   
   aspsmst_log('info',"jabber_register(): RegisterManager.Complete: for $from $name:$phone:$pass:$signature");
