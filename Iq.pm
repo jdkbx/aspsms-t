@@ -164,7 +164,7 @@ my $xml		= $iq->GetXML();
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
-    aspsmst_log('info',"jabber_register(): RegistrationManager.getForm: to $from");
+    aspsmst_log('info',"jabber_register(): Send instructions to $from");
     $query->SetInstructions("jabber to sms transport
 
 Important: This gateway will only operate with an account from http://www.aspsms.com
@@ -293,8 +293,8 @@ my $xml		= $iq->GetXML();
    $iq->SetType('result');
    $iq->SetFrom($iq->GetTo());
    $iq->SetTo($from);
-   $query->SetPrompt("$number@$config::service_name");
-   $query->SetJID("$number@$config::service_name");
+   $query->SetPrompt("$number\@$config::service_name");
+   $query->SetJID("$number\@$config::service_name");
    $config::Connection->Send($iq);
   }
  else 

@@ -1,8 +1,8 @@
 2006-02-15 Marco Balmer  <mb@micressor.ch>
 
-    *  trunk/Iq.pm:
-    Change jabber_register() instructions. Update exeption logging if no
-    userkey found in notification mode.
+    *  trunk/Iq.pm: Change jabber_register() instructions. 
+    *  trunk/Iq.pm: Update exeption logging if no userkey found in notification mode.
+    *  trunk/Iq.pm: jabber_iq_gateway() character @ problem fixed
     			
 
 2006-02-14 Marco Balmer  <mb@micressor.ch>
