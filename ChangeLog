@@ -1,3 +1,7 @@
+2006-02-15 Marco Balmer  <mb@micressor.ch>
+
+    *  trunk/Iq.pm: Change jabber_register() instructions
+
 2006-02-14 Marco Balmer  <mb@micressor.ch>
 
     *  trunk/aspsms-t.pl: Add stanza statistics support and div logging fixes

@@ -165,12 +165,13 @@ my $xml		= $iq->GetXML();
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
     aspsmst_log('info',"jabber_register(): RegistrationManager.getForm: to $from");
-    $query->SetInstructions('SMS gateway via aspsms.com
+    $query->SetInstructions("jabber to sms transport
 
-IMPORTANT: This gateway will only operate with an account from http://www.aspsms.com
+Important: This gateway will only operate with an account from http://www.aspsms.com
 
-Please enter UserKey (https://www.aspsms.ch/userkey.asp) and password of your 
-aspsms.com account:');
+Support contact xmpp: $config::admin_jid
+
+Please enter Username (=UserKey https://www.aspsms.ch/userkey.asp) and password of your aspsms.com account:");
 
     my $user = getUserPass($from,$banner);
     $query->SetUsername($user->{name});
