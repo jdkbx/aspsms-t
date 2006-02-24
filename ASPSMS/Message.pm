@@ -62,9 +62,9 @@ register an https://www.aspsms.com account, afterwards you can use
 it to send sms like +4178xxxxxxx@$config::service_name
 
 
-Support contact xmpp: $config::admin_jid
 
 $config::ident Gateway system v$config::release
+Support contact xmpp: $config::admin_jid
 http://www.micressor.ch/content/projects/aspsms-t
 
 ");
@@ -88,10 +88,9 @@ sub SendMessage
                                  body    =>"$text
 
 
-Support contact xmpp: $config::admin_jid
-
 ---
 $config::ident Gateway system v$config::release
+Support contact xmpp: $config::admin_jid
 http://www.micressor.ch/content/projects/aspsms-t
 ");
 

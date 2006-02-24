@@ -7,6 +7,9 @@
     * trunk/Iq.pm: 
     Fix URL field wich was not displayed on new user registration
 
+    * trunk/ASPSMS/Message.pm:
+    move support contact to footer
+
 
 2006-02-15 Marco Balmer  <mb@micressor.ch>
 
