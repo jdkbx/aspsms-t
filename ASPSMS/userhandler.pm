@@ -56,7 +56,7 @@ while (<F>)
 $user->{name}           = '' if ( ! $user->{name} );
 $user->{password}       = '' if ( ! $user->{password} );
 $user->{phone}          = 'aspsms-t' if ( ! $user->{phone} );
-$user->{signature}      = $user->{signature};
+$user->{signature}      = $banner if (! $user->{signature} );
 
 return $user;
 

@@ -1,3 +1,13 @@
+
+2006-02-24 Marco Balmer  <mb@micressor.ch>
+
+    *  trunk/ASPSMS/userhandler.pm: 
+    Fix URL field wich was not displayed on new user registration
+
+    * trunk/Iq.pm: 
+    Fix URL field wich was not displayed on new user registration
+
+
 2006-02-15 Marco Balmer  <mb@micressor.ch>
 
     *  trunk/Iq.pm: Change jabber_register() instructions. 

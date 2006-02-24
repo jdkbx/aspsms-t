@@ -42,7 +42,6 @@ use ASPSMS::Message;
 use Presence;
 
 
-my $banner	= $config::banner;
 my $admin_jid	= $config::admin_jid;
 my $passwords	= $config::passwords;
 
@@ -158,6 +157,7 @@ my $id 		= $iq->GetID();
 my $type 	= $iq->GetType();
 my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
+my $banner	= $config::banner;
 
   if ($type eq 'get') 
    {
