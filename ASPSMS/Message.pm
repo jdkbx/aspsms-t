@@ -81,7 +81,7 @@ sub SendMessage
 
    my $msg= new Net::Jabber::Message();
 
-   $msg->SetMessage(      	 type    =>"",
+   $msg->SetMessage(      	 
    			 	 subject =>$subject,
                                  to      =>$to,
                                  from    =>$from,
