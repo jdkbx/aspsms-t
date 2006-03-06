@@ -86,7 +86,7 @@ $resultdesc = $xmppanswer;
 }
 
 aspsmst_log('notice',"Sendaspsms(): End $xmppanswerlog");
-return ($result,$resultdesc,$Credits,$CreditsUsed);
+return ($result,$resultdesc,$Credits,$CreditsUsed,$random);
 
 ########################################################################
 }

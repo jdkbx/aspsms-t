@@ -4,6 +4,9 @@
     *  trunk/ASPSMS/Message.pm: 
     Gaim delivery notification fix
     
+    *  trunk/aspsms-t.pl
+    Send status to jabber user (delivered to aspsms.com)
+    
 2006-02-24 Marco Balmer  <mb@micressor.ch>
 
     *  trunk/ASPSMS/userhandler.pm: 

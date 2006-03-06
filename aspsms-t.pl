@@ -183,7 +183,7 @@ sub InMessage {
 	   SendMessage(	"$number\@$config::service_name",
 	   		$to_jid,
 			"$notify_message status for message $transid",
-			"Your SMS $transid sent to number $number 
+			"SMS with transaction number `$transid` sent to number $number 
 			
 has status: $notify_message @ $now");
 
@@ -241,7 +241,7 @@ http://www.micressor.ch/content/projects/aspsms-t
 	sendContactStatus($from,$to,'dnd',"Working on delivery for $number. Please wait...");
 
 	# no send the real sms message by Sendaspsms();
-	my ($result,$ret,$Credits,$CreditsUsed) = Sendaspsms($number, $barejid, $body);
+	my ($result,$ret,$Credits,$CreditsUsed,$transid) = Sendaspsms($number, $barejid, $body);
 
 	# If we have no success from aspsms.com, send an error
 	unless($result == 1)
@@ -251,6 +251,14 @@ http://www.micressor.ch/content/projects/aspsms-t
 	 }
         else
 	 {
+	   SendMessage(	"$number\@$config::service_name",
+	   		$from,
+			"Delivered to aspsms.com",
+			"SMS with transaction number `$transid` sent to number $number 
+			
+Credits used: $CreditsUsed
+Credits total: $Credits
+");
 	  sendContactStatus($from,$to,'away',"Delivered to aspsms.com, waiting for delivery status notification
 Balance: $Credits Used: $CreditsUsed");
 
