@@ -54,8 +54,9 @@ my $user = getUserPass($from,$banner);
 
 if($user->{name} eq '')
                         {
-                            aspsmst_log('info',"Sendaspsms(): \"First, you  need to register for using aspsms gateway\" sent to $from");
-                            return (99,"First, you need to register for using aspsms gateway system on http://www.aspsms.com");
+			    my $msg_register = "Sendaspsms(): \"Your jid $from is not registered on \`$config::service_name\`. First you have to register.";
+                            aspsmst_log('info',$msg_register);
+                            return (99,$msg_register);
                         }
 
 

@@ -1,6 +1,11 @@
 
 2006-03-06 Marco Balmer  <mb@micressor.ch>
 
+    *  ASPSMS/Sendaspsms.pm
+    Change user-message, if user not registered on transport
+
+2006-03-06 Marco Balmer  <mb@micressor.ch>
+
     *  trunk/ASPSMS/Message.pm: 
     Gaim delivery notification fix
     
