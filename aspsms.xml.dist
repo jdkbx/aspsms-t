@@ -4,7 +4,7 @@
  <banner>- SMS by aspsms-t</banner>
 
  <!-- Administrative jabber id for system information 					-->
- <adminjid>micressor@swissjabber.ch</adminjid>
+ <adminjid>admin@localhost</adminjid>
 
  <!-- Data spool folder 								-->
  <spooldir>/home/jabberd/spool/aspsms.jabberserver.ch</spooldir>
