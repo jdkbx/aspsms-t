@@ -130,10 +130,18 @@ sub InMessage {
 	
        if ( $to eq $config::service_name or $to eq "$config::service_name/registered" ) 
         {
-	 my $msg		= new Net::Jabber::Message();
+	 #my $msg		= new Net::Jabber::Message();
          
 	 aspsmst_log('notice',"InMessage(): Sending welcome message for $from");
   	 WelcomeMessage($from);
+
+	 #
+	 # Send all messages addressed to the transport jid also to the 
+	 # transport admin.
+	 #
+
+	 sendAdminMessage("info","Message from $from directly addressed to $config::service_name:\n\n$body");
+
 	 return;
 	} # end of welcome message
 	
