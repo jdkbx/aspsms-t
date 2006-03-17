@@ -1,8 +1,19 @@
 2006-03-17 Marco Balmer  <mb@micressor.ch>
 
+    * Tagging Release 1.0.1
+    
     *  trunk/aspsms-t.pl
     Send message directly addressed to the transport also to the 
     admin of the transport.
+    
+    * trunk/aspsms.notification.pl
+    Code cleanup
+    
+    * trunk/docs/*
+    Documentation updates
+    
+    * trunk/aspsms.xml.dist
+    Update doc
 
 2006-03-06 Marco Balmer  <mb@micressor.ch>
 

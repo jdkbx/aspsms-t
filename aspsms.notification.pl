@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# aspsms-t by Marco Balmer <mb@micressor.ch> @2004
+# aspsms-t by Marco Balmer <mb@micressor.ch> @2006
 # http://web.swissjabber.ch/
 # http://www.micressor.ch/content/projects/aspsms-t/
 #
@@ -28,8 +28,10 @@ use Net::Jabber qw(Client);
 use XML::Smart;
 
 
-# Read configuration
+### CONFIGURATION ###
 my $Config  		= XML::Smart->new('./aspsms.xml');
+### CONFIGURATION ###
+
 my $hostname           = $Config->{aspsms}{notification}{hostname};
 my $username           = $Config->{aspsms}{notification}{username};
 my $password           = $Config->{aspsms}{notification}{password};
@@ -95,11 +97,6 @@ $Con->Connect(
                 port                    => "5222",
                 timeout                 => "5"
               );
-
-#$Con->SetCallBacks(
-#                  "message"       => \&InMessage,
-#                  "iq"            => \&InIQ,
-#                  );
 
 if ($Con->Connected()) {    }
 

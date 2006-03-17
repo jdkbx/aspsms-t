@@ -11,7 +11,7 @@
  
  <!-- Notification url for aspsms.com. The system of aspsms will send the delivery 	-->
  <!-- notifications to this url. It must point aspsms.notification.pl from aspsms-t	-->
- <notificationurl>http://www.webserver.ch/aspsms.notification.pl</notificationurl>
+ <notificationurl>http://yourdomain.tld/aspsms.notification.pl</notificationurl>
 
  <!-- Ident for syslog daemon 								-->
  <ident>aspsms-t</ident>
@@ -21,13 +21,13 @@
 
  <!-- aspsms-t component configuration							-->
  <jabber>
-  <serviceid>aspsms.jabberserver.ch</serviceid>
+  <serviceid>aspsms.yourdomain.tld</serviceid>
   <server>127.0.0.1</server>
   <port>5245</port>
   <secret>secret</secret>
   <browse>
    <type>sms</type>
-   <servicename>swissjabber - SMS Gateway</servicename>
+   <servicename>aspsms-t - SMS Gateway</servicename>
   </browse>
  </jabber>
 
@@ -92,9 +92,9 @@
  <notification>
 
  <!-- aspsms-t needs a existing jabber account to notify aspsms-t about notifications.	-->
- <!-- <jabberid>aspsms\@jabberserver.ch</jabberid> \@ is necessary			-->
-  <jabberid>aspsms\@jabberserver.ch</jabberid>
-  <hostname>jabberserver.ch</hostname>
+ <!-- <jabberid>aspsms\@yourserver.tld</jabberid> \@ is necessary			-->
+  <jabberid>aspsms\@yourserver.tld</jabberid>
+  <hostname>yourserver.tld</hostname>
   <username>aspsms</username>
   <password>secret</password>
   

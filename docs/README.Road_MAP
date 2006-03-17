@@ -1,5 +1,8 @@
 aspsms-t Road MAP
 
+* 1.0.x
+** Bugfix releases
+
 * 1.1
 ** xdb functionality for separate spoolfile/mysql drivers
 ** Operator list in service discovery (operator name, operator fee per each sms)
