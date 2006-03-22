@@ -230,7 +230,7 @@ http://www.micressor.ch/content/projects/aspsms-t
 		return;
 	}
   	if ( $number !~ /^\+[0-9]{3,50}$/ ) {
-		my $msg = "Invalid number $number got, try a number like: +41xxx@$config::service_name";
+		my $msg = "Invalid number $number got, try a number like: +41xxx\@$config::service_name";
 		sendError($message, $from, $to, 404, $msg);
 		return;
 	}
