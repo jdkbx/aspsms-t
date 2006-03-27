@@ -105,10 +105,12 @@ elsif (($type eq 'available') or ($type eq 'probe'))
     sendGWNumPresences($number, $from);
    }
   
-  if ($to eq "$config::service_name/registered") 
-   {
-    sendPresence($presence, $from, $to, 'available', );
-   }
+  
+  # Tempoary disabled
+  #if ($to eq "$config::service_name/registered") 
+  # {
+  #  sendPresence($presence, $from, $to, 'available', );
+  # }
  } 
 elsif ($type eq 'unsubscribe') 
  {

@@ -1,3 +1,8 @@
+2006-03-28 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/Presence.pm
+    Temporary presence fix with ejabberd-Server
+
 2006-03-17 Marco Balmer  <mb@micressor.ch>
 
     * Tagging Release 1.0.1
