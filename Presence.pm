@@ -44,21 +44,6 @@ aspsmst_log('info',"sendError(): Message to \"$to $code,$text\"");
 
 }
 
-sub sendPresence {
-my ($pres, $to, $from, $type, $show, $status) = @_;
-
-$pres->SetType($type);
-$pres->SetShow($show);
-$pres->SetStatus($status);
-$pres->SetTo($to);
-$pres->SetFrom($from);
-
-my $to_barejid = get_barejid($to);
-aspsmst_log('notice',"sendPresence($to_barejid): Sending presence type `$type' and status `$status'");
-
-$config::Connection->Send($pres);
-
-}
 
 sub InPresence {
 # Incoming presence. Reply to subscription requests with proper subscription 
@@ -106,11 +91,11 @@ elsif (($type eq 'available') or ($type eq 'probe'))
    }
   
   
-  # Tempoary disabled
-  #if ($to eq "$config::service_name/registered") 
-  # {
-  #  sendPresence($presence, $from, $to, 'available', );
-  # }
+  if ($to eq "$config::service_name/registered") 
+   {
+     sendPresence(undef,$from,$to,undef,undef,undef,5);
+   # sendPresence($presence, $from, $to, 'available', );
+   }
  } 
 elsif ($type eq 'unsubscribe') 
  {
@@ -123,21 +108,34 @@ elsif ($type eq 'unavailable')
 } ### END of InPresence ###
 
 
-sub sendGWNumPresences {
-my ($number, $to) = @_;	
-my $prefix = substr($number, 1, 5);
-my $presence = new Net::Jabber::Presence();
+sub sendGWNumPresences 
+{
+ my ($number, $to) = @_;	
+ my $prefix = substr($number, 1, 5);
+ my $presence = new Net::Jabber::Presence();
 
-#$presence->SetType('available');
-$presence->SetShow(undef);
-$presence->SetStatus(undef);
-$presence->SetTo($to);
+ sendPresence(undef,$to,"$number\@$config::service_name",undef,undef,undef,5);
+ aspsmst_log('notice',"sendGWNumPresences($to): Sending presence for $number");
+ $config::Connection->Send($presence);
 
-    $presence->SetFrom("$number\@$config::service_name");
-    $presence->SetPriority(5);
-    aspsmst_log('notice',"sendGWNumPresences(): Sending presence from ".$presence->GetFrom()." to $to.");
-    $config::Connection->Send($presence);
 } ### END of sendGWNumPresences ###
 
 
+sub sendPresence {
+my ($pres, $to, $from, $type, $show, $status, $prio) = @_;
+
+$pres = new Net::Jabber::Presence();
+
+$pres->SetType($type);
+$pres->SetShow($show);
+$pres->SetStatus($status);
+$pres->SetTo($to);
+$pres->SetFrom($from);
+
+my $to_barejid = get_barejid($to);
+aspsmst_log('notice',"sendPresence($to_barejid): Sending presence type `$type' and status `$status'");
+
+$config::Connection->Send($pres);
+
+}
 1;

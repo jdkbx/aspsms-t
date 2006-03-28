@@ -3,6 +3,9 @@
     * trunk/Presence.pm
     Temporary presence fix with ejabberd-Server
 
+    * trunk/Presence.pm
+    code clean sendPresence()
+
 2006-03-17 Marco Balmer  <mb@micressor.ch>
 
     * Tagging Release 1.0.1
