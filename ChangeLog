@@ -1,7 +1,12 @@
+2006-04-04 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/aspsms-t.pl
+    Temporary presence type='available' fix with ejabberd-Server
+
 2006-03-28 Marco Balmer  <mb@micressor.ch>
 
     * trunk/Presence.pm
-    Temporary presence fix with ejabberd-Server
+    Temporary presence type='available' fix with ejabberd-Server
 
     * trunk/Presence.pm
     code clean sendPresence()

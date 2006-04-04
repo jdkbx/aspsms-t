@@ -287,7 +287,8 @@ sub sendContactStatus
 
  my $workpresence = new Net::Jabber::Presence();
  aspsmst_log('notice',"sendContactStatus($from_barejid): Sending `$status'");
- sendPresence($workpresence, $from, $to, 'available',$show,$status);
+ sendPresence(undef,$from,$to,undef,$show,$status,5);
+ #sendPresence($workpresence, $from, $to, 'available',$show,$status);
  }
 
 
