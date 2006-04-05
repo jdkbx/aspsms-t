@@ -1,4 +1,6 @@
-2006-04-04 Marco Balmer  <mb@micressor.ch>
+2006-04-05 Marco Balmer  <mb@micressor.ch>
+
+    * Tagging Release 1.0.2
 
     * trunk/aspsms-t.pl
     Temporary presence type='available' fix with ejabberd-Server
