@@ -55,6 +55,7 @@ openlog($config::ident,'',"$config::facility");
 # Initialisation timer for message and notification statistic to syslog
 # Every 300 seconds, it will generate a syslog entry with statistic infos
 my $timer				= 295;
+my $transport_uptime			= 0;
 
 $config::stat_message_counter 		= 0;
 $config::stat_error_counter 		= 0;
@@ -93,12 +94,17 @@ sendAdminMessage("info","Starting up...");
 # Loop until we're finished.
 while () 
  {
-  $timer++;
+
+  $transport_uptime++;$timer++;
+
+  #
+  # Check every second for work (Process(1))
+  #
+
   ReConnect() unless defined($config::Connection->Process(1));
-  #aspsmst_log('info',"Main: Timer: $timer");
   if($timer == 300)
    {
-    aspsmst_log('info',"main(): [stat] Successfully: $config::stat_message_counter Notifications: $config::stat_notification_counter Errors: $config::stat_error_counter Stanzas: $config::stat_stanzas\n");
+    aspsmst_log('info',"main(): [stat] Uptime: $transport_uptime secs Successfully: $config::stat_message_counter Notifications: $config::stat_notification_counter Errors: $config::stat_error_counter Stanzas: $config::stat_stanzas\n");
     $timer = 0;
    } 
  }
