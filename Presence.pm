@@ -39,7 +39,7 @@ $msg->SetErrorCode($code);
 $msg->SetError($text);
 $config::Connection->Send($msg);
 
-aspsmst_log('info',"sendError(): Message to \"$to $code,$text\"");
+aspsmst_log('info',"sendError($to): $code,$text");
 #sendAdminMessage("info","sendError(): Message to \"$to $code,$text\"");	
 
 }

@@ -51,7 +51,7 @@ sub exec_SendTextSMS
 
 	# Generate SMS Request
 	my $aspsmsrequest;
-	my $random = int( rand(1000)) + 1000;
+	my $random = int( rand(10000)) + 10000;
 	$aspsmsrequest = xmlSendTextSMS(	$login,
 						$password,
 						$phone,
@@ -87,6 +87,7 @@ my $CreditStatus        =       XML::Smart->new($ret_CompleteRequest_ShowCredits
 my $Credits             =       $CreditStatus->{aspsms}{Credits};
 
 
+aspsmst_log('info',"exec_SendTextSMS($jid): TransID: $random");
 aspsmst_log('notice',"exec_SendTextSMS(): return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,$random)");
 return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,$random);
 ########################################################################
