@@ -99,4 +99,7 @@
   <password>secret</password>
   
  </notification>
+
+ <!-- aspsms-t needs a secret if you use direct two-way from one two-way number.	-->
+ <transport-secret>mysecret</transport-secret>
 </aspsms>

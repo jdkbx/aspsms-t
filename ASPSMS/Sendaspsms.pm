@@ -54,7 +54,7 @@ my $user = getUserPass($from,$banner);
 
 if($user->{name} eq '')
                         {
-			    my $msg_register = "Sendaspsms(): \"Your jid $from is not registered on \`$config::service_name\`. First you have to register.";
+			    my $msg_register = "Your jid `$from` is not registered on \`$config::service_name\` for using sms services. Please register first to this transport.";
                             aspsmst_log('info',$msg_register);
                             return (99,$msg_register);
                         }

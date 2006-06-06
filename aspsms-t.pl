@@ -31,6 +31,7 @@ use ASPSMS::Sendaspsms;
 use ASPSMS::Connection;
 use ASPSMS::userhandler;
 use ASPSMS::xmlmodel;
+use ASPSMS::UCS2;
 use ASPSMS::aspsmstlog;
 
 				  
@@ -64,12 +65,13 @@ $config::stat_notification_counter 	= 0;
 ### END BASIC CONFIGURATION ###
 
 
-aspsmst_log('info',"init(): $config::service_name - Version $config::release");
-aspsmst_log('info',"init(): Using XML-Spec: $config::xmlspec");
-aspsmst_log('info',"init(): Using AffilliateId: $config::affiliateid");
-aspsmst_log('info',"init(): Using Notifcation URL: $config::notificationurl");
-aspsmst_log('info',"init(): Using admin jid: $config::admin_jid");
-aspsmst_log('info',"init(): Using banner $config::banner");
+aspsmst_log('info',"init(): $config::service_name - Version $config::release`");
+aspsmst_log('info',"init(): Using XML-Spec `$config::xmlspec`");
+aspsmst_log('info',"init(): Using AffilliateId `$config::affiliateid`");
+aspsmst_log('info',"init(): Using Notifcation URL `$config::notificationurl`");
+aspsmst_log('info',"init(): Using admin jid `$config::admin_jid`");
+aspsmst_log('info',"init(): Using banner `$config::banner`");
+aspsmst_log('info',"init(): Using transport_secret `$config::transport_secret`");
 
 
 umask(0177);
@@ -128,9 +130,6 @@ sub InMessage {
 	my $thread		= $message->GetThread();
 	my ($number) 		= split(/@/, $to);
 	my ($barejid) 		= split (/\//, $from);
-	
-
-
 
 	aspsmst_log('notice',"InMessage($from): Begin job");
 	
@@ -176,6 +175,9 @@ sub InMessage {
 
 	 my $now 		= localtime;
 
+	 #
+	 # If $streamtype is notify via aspsms.notification.pl
+	 #
          if ($streamtype eq 'notify')
 	  {
 
@@ -203,26 +205,43 @@ has status: $notify_message @ $now");
 
           } # END of if ($streamtype eq 'notify')
 	
+	 #
+	 # If $streamtype is twoway via aspsms.notification.pl
+	 #
 	 if ($streamtype eq 'twoway')
 	  {
 	   
   	   $number =~ s/\+00/\+/g;
+
 	   aspsmst_log('info',"InMessage(): Incoming two-way message from $number to $to_jid");
-	   $msg->SetMessage(	type    =>"",
-	 			subject =>"Global Two-Way Message from $number",
-				to      =>$to_jid,
-				from    =>"$number\@$config::service_name",
-				body    =>"$number wrote @ $now :
+ 	   SendMessage("$number\@$config::service_name",$to_jid,"Global Two-Way Message from $number",$notify_message);
 
-$notify_message
-
-$config::ident Gateway system v$config::release
-
-Project-Page: 
-http://www.micressor.ch/content/projects/aspsms-t
-");
-  	   $config::Connection->Send($msg);
 	  } ### END of if ($streamtype eq 'twoway')
+
+	 #
+	 # If $streamtype is direct via aspsms.notification.pl
+	 #
+	 if ($streamtype eq 'direct')
+	  {
+	   my @http_stream 	= split(/,,,/, $body);
+	   $body 		= $http_stream[4];
+	   $body 		=~ s/([^\s]+)(.*)/$2/;
+	   my $to_jid 		= $http_stream[4];
+	   $to_jid 		=~ s/([^\s]+)(.*)/$1/;
+  	   $number 		=~ s/\+00/\+/g;
+	   my $userkey_secret	= $http_stream[2];
+
+	   if($userkey_secret eq $config::transport_secret)
+	    {
+	     aspsmst_log('info',"InMessage(): Incoming direct message from $number to $to_jid");
+ 	     SendMessage("$number\@$config::service_name",$to_jid,"Direct message from $number",$body);
+	    }
+	   else
+	    {
+	     aspsmst_log('info',"InMessage(): Incoming direct message not delivered: secret:`$userkey_secret` does not match");
+	    }
+
+	  } ### END of if ($streamtype eq 'direct')
 
 	$config::stat_notification_counter++;
 	return;

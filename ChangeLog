@@ -1,3 +1,14 @@
+2006-06-06 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/config.pm
+    Add <transport-secret/> option
+
+    * trunk/aspsms-t.pl
+    Add direct two-way support with one two-way number
+
+    * trunk/ASPSMS/UCS2.pm
+    Experimental support for unicode characters
+
 2006-04-25 Marco Balmer  <mb@micressor.ch>
 
     * trunk/Iq.pm
@@ -8,8 +19,6 @@
 
     * trunk/ASPSMS/Connection.pm
     Change some syslog messages for transaction id
-    
-    
 
 2006-04-19 Marco Balmer  <mb@micressor.ch>
 

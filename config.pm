@@ -21,7 +21,7 @@ use Exporter;
 use XML::Smart;
 use ASPSMS::aspsmstlog;
 
-our $release = " svn140";
+our $release = " svn141";
 
 our $config_file;
 our $aspsmssocket;
@@ -49,6 +49,8 @@ our $browseservicetype;
 our $stat_message_counter;
 our $stat_error_counter;
 our $stat_notification_counter;
+our $transport_secret;
+
 our $stat_stanzas = 0;
 our $Connection;
 
@@ -75,6 +77,7 @@ our $Connection;
 				$stat_message_counter,
 				$stat_error_counter,
 				$stat_notification_counter,
+				$transport_secret,
 				$Connection);
 
 
@@ -104,6 +107,7 @@ sub set_config
   $notificationjid	= $Config->{aspsms}{notificationjid};
   $browseservicename  	= $Config->{aspsms}{jabber}{browse}{servicename};
   $browseservicetype  	= $Config->{aspsms}{jabber}{browse}{type};
+  $transport_secret  	= $Config->{aspsms}{"transport-secret"};
 
 } ### END of set_config ###
 

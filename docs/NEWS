@@ -1,3 +1,11 @@
+aspsms-t Release 1.x.x
+----------------------
+* Allow sms2jabber via two-way support of aspsms.com
+
+aspsms-t Release 1.0.2
+----------------------
+* Bug fix release
+
 aspsms-t Release 1.0.1
 ----------------------
 * Direct aspsms xml interface by iq query
