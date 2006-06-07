@@ -234,7 +234,10 @@ has status: $notify_message @ $now");
 	   if($userkey_secret eq $config::transport_secret)
 	    {
 	     aspsmst_log('info',"InMessage(): Incoming direct message from $number to $to_jid");
- 	     SendMessage("$number\@$config::service_name",$to_jid,"Direct message from $number",$body);
+	     if ($to_jid =~ /@/)
+	      { SendMessage("$number\@$config::service_name",$to_jid,"Direct message from $number",$body); }
+	     else
+	      { aspsmst_log('info',"InMessage(): Not a valid jid `$to_jid`"); }
 	    }
 	   else
 	    {
