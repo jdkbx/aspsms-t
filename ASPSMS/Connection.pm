@@ -67,7 +67,7 @@ sub exec_SendTextSMS
 
 
 # Parse XML of SMS request
-my $DeliveryStatus      =       XML::Smart->new($ret_CompleteRequest[10]);
+my $DeliveryStatus      =       XML::Smart->new($ret_CompleteRequest[11]);
 my $ErrorCode           =       $DeliveryStatus->{aspsms}{ErrorCode};
 my $ErrorDescription    =       $DeliveryStatus->{aspsms}{ErrorDescription};
 my $CreditsUsed         =       $DeliveryStatus->{aspsms}{CreditsUsed};
@@ -83,7 +83,7 @@ my @ret_CompleteRequest_ShowCredits = exec_ConnectionASPSMS($completerequest);
 
 DisconnectAspsms();
 
-my $CreditStatus        =       XML::Smart->new($ret_CompleteRequest_ShowCredits[10]);
+my $CreditStatus        =       XML::Smart->new($ret_CompleteRequest_ShowCredits[11]);
 my $Credits             =       $CreditStatus->{aspsms}{Credits};
 
 
