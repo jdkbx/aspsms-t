@@ -1,8 +1,7 @@
 2006-06-30 Marco Balmer  <mb@micressor.ch>
 
     * trunk/ASPSMS/Connection.pm
-      Fixing al little interface change on aspsms.com. A better solution
-      will follow.
+      Important parser fix. 
 
 2006-06-07 Marco Balmer  <mb@micressor.ch>
 

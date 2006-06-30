@@ -65,9 +65,10 @@ sub exec_SendTextSMS
 	my $completerequest     = xmlGenerateRequest($aspsmsrequest);
 	my @ret_CompleteRequest = exec_ConnectionASPSMS($completerequest);
 
-
 # Parse XML of SMS request
-my $DeliveryStatus      =       XML::Smart->new($ret_CompleteRequest[11]);
+my $ret_parsed_response = parse_aspsms_response(\@ret_CompleteRequest);
+
+my $DeliveryStatus      =       XML::Smart->new($ret_parsed_response);
 my $ErrorCode           =       $DeliveryStatus->{aspsms}{ErrorCode};
 my $ErrorDescription    =       $DeliveryStatus->{aspsms}{ErrorDescription};
 my $CreditsUsed         =       $DeliveryStatus->{aspsms}{CreditsUsed};
@@ -81,9 +82,12 @@ $completerequest     = xmlGenerateRequest($aspsmsrequest);
 
 my @ret_CompleteRequest_ShowCredits = exec_ConnectionASPSMS($completerequest);
 
+# Parse XML of SMS request
+my $ret_parsed_response_ShowCredits = parse_aspsms_response(\@ret_CompleteRequest_ShowCredits);
+
 DisconnectAspsms();
 
-my $CreditStatus        =       XML::Smart->new($ret_CompleteRequest_ShowCredits[11]);
+my $CreditStatus        =       XML::Smart->new($ret_parsed_response_ShowCredits);
 my $Credits             =       $CreditStatus->{aspsms}{Credits};
 
 
@@ -155,6 +159,23 @@ close($config::aspsmssocket);
 ########################################################################
 }
 ########################################################################
+
+sub parse_aspsms_response
+ {
+   my $pointer_xml 	= shift;
+   my @xml		= @{$pointer_xml};
+   my $tmp;
+
+   foreach $_ (@xml)
+    {
+     aspsmst_log("debug","parse_aspsms_response(): $_");
+     $tmp .= $_;
+    }
+   
+   $tmp =~ s/(.*(<aspsms>.*<\/aspsms>).*|.*)/$2/gis;
+   aspsmst_log("notice","parse_aspsms_response(): Return: $tmp");
+   return $tmp;
+ }
 
 1;
 
