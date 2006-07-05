@@ -53,6 +53,6 @@ sub get_jid_from_userkey
 	return $file;
       }
     } # END of while
-aspsmst_log('notice',"get_jid_from_userkey($userkey): File found but no userkey????? ");
-} ### END of get_jid_from_userkey ###
+  aspsmst_log('notice',"get_jid_from_userkey($userkey): File found but no userkey????? ");
+ } ### END of get_jid_from_userkey ###
 1;

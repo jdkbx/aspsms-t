@@ -76,8 +76,7 @@ my $xmlns 	= $query->GetXMLNS();
 # If error in <iq/> 
 if ($type eq 'error') 
 {
- #aspsmst_log('debug',"InIQ(): Error: " . $iq->GetXML());
- #sendAdminMessage("info","InIQ(): Error: \n\n".$iq->GetXML);
+ aspsmst_log('debug',"InIQ(): GetXML(): " . $iq->GetXML());
  return;
 }
 

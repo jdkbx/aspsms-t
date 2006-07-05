@@ -135,8 +135,6 @@ sub InMessage {
 	
        if ( $to eq $config::service_name or $to eq "$config::service_name/registered" ) 
         {
-	 #my $msg		= new Net::Jabber::Message();
-         
 	 aspsmst_log('notice',"InMessage(): Sending welcome message for $from");
   	 WelcomeMessage($from);
 
@@ -149,9 +147,6 @@ sub InMessage {
 
 	 return;
 	} # end of welcome message
-	
-	#eval {
-
 	
        if ( $to eq $config::service_name."/notification" and $barejid eq $config::notificationjid ) 
         {
@@ -271,9 +266,6 @@ has status: $notify_message @ $now");
 	
 	my $from_barejid	= get_barejid($from);
 	aspsmst_log('info',"InMessage($from_barejid): To  number `$number'.");
-	
-	#my ($barejid) = split(/\//, $from);
-
 	sendContactStatus($from,$to,'dnd',"Working on delivery for $number. Please wait...");
 
 	# no send the real sms message by Sendaspsms();
@@ -316,7 +308,6 @@ sub sendContactStatus
  my $workpresence = new Net::Jabber::Presence();
  aspsmst_log('notice',"sendContactStatus($from_barejid): Sending `$status'");
  sendPresence(undef,$from,$to,undef,$show,$status,5);
- #sendPresence($workpresence, $from, $to, 'available',$show,$status);
  }
 
 
@@ -348,7 +339,6 @@ $config::Connection->SetCallBacks("message" => \&InMessage, "presence" => \&InPr
 
 sub Connect {
 
-#$Connection->Connect();
 my $status = $config::Connection->Connected();
 aspsmst_log('info',"Connect(): Transport connected to jabber-server $config::server:$config::port") if($status == 1);
 aspsmst_log('info',"Connect(): aspsms-t running and ready for queries") if ($status == 1) ;

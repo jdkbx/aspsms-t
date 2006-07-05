@@ -94,7 +94,6 @@ elsif (($type eq 'available') or ($type eq 'probe'))
   if ($to eq "$config::service_name/registered") 
    {
      sendPresence(undef,$from,$to,undef,undef,undef,5);
-   # sendPresence($presence, $from, $to, 'available', );
    }
  } 
 elsif ($type eq 'unsubscribe') 
