@@ -31,23 +31,19 @@ sub aspsmst_log
    my $msg       = shift;
 
    unless ($type eq 'debug')
-    {
-     print "\n$type>   $msg";
-    }
-   else
-    {
-     print "\n--- $msg";
-    }
 
-
-
-   # Debug informations only to STDOUT
-   unless ($type eq 'debug')
     {
+     print "\n$type> $msg";
      syslog($type,$msg);
     }
 
- }
+   else
+
+    {
+     print "\ndebug> $msg";
+    }
+
+ } ### END of aspsmst_log
 
 1;
 

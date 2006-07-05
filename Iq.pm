@@ -63,7 +63,7 @@ sub InIQ {
  my $barejid	= get_barejid($from);
 
 aspsmst_log('notice',"InIQ(): Processing iq query from from=$barejid id=$id");
-aspsmst_log('debug',"XMPP():\n $xml");
+aspsmst_log('debug',"InIQ->GetXML(): $xml");
 
 if ($to eq "$config::service_name/xmlsrv.asp") 
  {
@@ -76,7 +76,7 @@ my $xmlns 	= $query->GetXMLNS();
 # If error in <iq/> 
 if ($type eq 'error') 
 {
- aspsmst_log('debug',"InIQ(): GetXML(): " . $iq->GetXML());
+ aspsmst_log('debug',"InIQ->GetXML(): " . $iq->GetXML());
  return;
 }
 

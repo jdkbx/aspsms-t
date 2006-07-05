@@ -61,7 +61,7 @@ my $type 		= $presence->GetType();
 my $status 		= $presence->GetStatus();
 my $barejid 		= get_barejid($from);
 
-aspsmst_log('notice',"InPresence(): Got `$type' type presence from $barejid");
+aspsmst_log('notice',"InPresence($barejid): Got `$type' type presence from $number");
 
 if ($type eq 'subscribe') 
  {
