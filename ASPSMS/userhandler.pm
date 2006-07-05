@@ -87,7 +87,9 @@ print $config::aspsmssocket $completerequest;
 @answer = <$config::aspsmssocket>;
 DisconnectAspsms();
 
-my $ErrorStatus         =       XML::Smart->new($answer[10]);
+my $ret_parsed_response = parse_aspsms_response(\@answer);
+
+my $ErrorStatus         =       XML::Smart->new($ret_parsed_response);
 my $ErrorCode           =       $ErrorStatus->{aspsms}{ErrorCode};
 my $ErrorDescription    =       $ErrorStatus->{aspsms}{ErrorDescription};
 

@@ -106,6 +106,8 @@ $Con->AuthSend (
                  resource=>      $transid
                );
 
+$Con->RosterGet();
+
 } # end sub connect_client()
 
 sub stop 

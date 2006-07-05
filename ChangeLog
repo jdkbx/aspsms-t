@@ -1,5 +1,18 @@
+2006-07-05 Marco Balmer  <mb@micressor.ch>
+
+    * Tagging Release 1.0.4
+    
+    * trunk/ASPSMS/Connection.pm
+      Export parse_aspsms_resoponse
+
+    * trunk/ASPSMS/userhandler.pm
+      Important parser fix.
+
+
 2006-06-30 Marco Balmer  <mb@micressor.ch>
+
     * Tagging Release 1.0.3
+
     * trunk/ASPSMS/Connection.pm
       Important parser fix. 
 
