@@ -86,8 +86,6 @@ sub SendMessage
                                  to      =>$to,
                                  from    =>$from,
                                  body    =>"$text
-
-
 ---
 $config::ident Gateway system v$config::release
 Support contact xmpp: $config::admin_jid

@@ -1,3 +1,11 @@
+2006-09-27 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/aspsms-t.pl
+      Disable sub sendContactStatus()
+
+    * trunk/ASPSMS/Message.pm
+      Remove some newlines
+
 2006-07-05 Marco Balmer  <mb@micressor.ch>
 
     * Tagging Release 1.0.4

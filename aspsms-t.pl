@@ -180,13 +180,13 @@ sub InMessage {
 
 	   if ($notify_message eq 'Delivered')
 	    {
-	     sendContactStatus($to_jid,"$number"."@".$config::service_name,'online',"Message $transid successfully delivered. Now I am idle...");
+	     #sendContactStatus($to_jid,"$number"."@".$config::service_name,'online',"Message $transid successfully delivered. Now I am idle...");
 	    } ### END of if ($notify_message eq 'Delivered')  ###
 
 	   # send contact status
 	   if ($notify_message eq 'Buffered')
 	    {
-	     sendContactStatus($to_jid,"$number"."@".$config::service_name,'online',"Sorry, message buffered, waiting for better results ;-)");
+	     #sendContactStatus($to_jid,"$number"."@".$config::service_name,'online',"Sorry, message buffered, waiting for better results ;-)");
 	    } ### END of if ($notify_message eq 'Buffered')  ###
 
 	   aspsmst_log('info',"InMessage($to_jid): Send `$notify_message` notification for message  $transid");
@@ -266,7 +266,7 @@ has status: $notify_message @ $now");
 	
 	my $from_barejid	= get_barejid($from);
 	aspsmst_log('info',"InMessage($from_barejid): To  number `$number'.");
-	sendContactStatus($from,$to,'dnd',"Working on delivery for $number. Please wait...");
+	#sendContactStatus($from,$to,'dnd',"Working on delivery for $number. Please wait...");
 
 	# no send the real sms message by Sendaspsms();
 	my ($result,$ret,$Credits,$CreditsUsed,$transid) = Sendaspsms($number, $barejid, $body);
@@ -287,8 +287,8 @@ has status: $notify_message @ $now");
 Credits used: $CreditsUsed
 Credits total: $Credits
 ");
-	  sendContactStatus($from,$to,'away',"Delivered to aspsms.com, waiting for delivery status notification
-Balance: $Credits Used: $CreditsUsed");
+	  #sendContactStatus($from,$to,'away',"Delivered to aspsms.com, waiting for delivery status notification
+#Balance: $Credits Used: $CreditsUsed");
 
 	 }
 
