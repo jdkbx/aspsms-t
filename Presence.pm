@@ -50,7 +50,7 @@ sub InPresence {
 # actions, reply to probe presence with gateways presence.
 # On registration requests, accept and send a gateways status presence update.
 
-$config::stat_stanzas++;
+$config::aspsmst_stat_stanzas++;
 
 my $sid 		= shift;
 my $presence 		= shift;

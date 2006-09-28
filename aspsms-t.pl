@@ -324,6 +324,7 @@ Credits total: $Credits
 ");
 	  #sendContactStatus($from,$to,'away',"Delivered to aspsms.com, waiting for delivery status notification
 #Balance: $Credits Used: $CreditsUsed");
+	   $config::aspsmst_stat_message_counter++;
 
 	 }
 

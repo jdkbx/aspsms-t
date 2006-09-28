@@ -21,7 +21,7 @@ use Exporter;
 use XML::Smart;
 use ASPSMS::aspsmstlog;
 
-our $release = " svn161";
+our $release = " svn162";
 
 our $config_file;
 our $aspsmssocket;
@@ -78,6 +78,7 @@ our $Connection;
 				$aspsmst_stat_message_counter,
 				$aspsmst_stat_error_counter,
 				$aspsmst_stat_notification_counter,
+				$aspsmst_stat_stanzas,
 				$transport_secret,
 				$aspsmst_in_progress,
 				$Connection);

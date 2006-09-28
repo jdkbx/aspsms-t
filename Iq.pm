@@ -50,7 +50,7 @@ sub InIQ {
  # Incoming IQ. Handle jabber:iq:registration with add/remove source 
  # dialog, return error 501 for other NS's.
 
- $config::stat_stanzas++;
+ $config::aspsmst_stat_stanzas++;
 
  my $sid 	= shift;
  my $iq 	= shift;
