@@ -76,7 +76,7 @@ Restart your nameserver.
 aspsms-t configuration
 ----------------------
 
-* Copy aspsms.xml.dist to aspsms.xml and configure it
+* Copy ./etc/aspsms.xml.dist to aspsms.xml and configure it
 
 * Configuring the delivery notification agent (not necessary for running aspsms-t --> optional)
   - aspsms-t working directory /home/foo/aspsms-t

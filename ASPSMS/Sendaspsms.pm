@@ -45,12 +45,12 @@ my $aspsms_port                 =       $config::aspsms_port;
 ########################################################################
 sub Sendaspsms {
 # #######################################################################
-aspsmst_log('notice',"Sendaspsms(): Begin");
-my ($number, $from, $msg) = @_;
+my ($number, $from, $msg,$aspsmst_transaction_id ) = @_;
+aspsmst_log('notice',"id:$aspsmst_transaction_id Sendaspsms(): Begin");
 my $xmppanswer;
 $number = substr($number, 1, 50);
 
-my $user = getUserPass($from,$banner);
+my $user = getUserPass($from,$banner,$aspsmst_transaction_id);
 
 if($user->{name} eq '')
                         {
@@ -60,9 +60,9 @@ if($user->{name} eq '')
                         }
 
 
-aspsmst_log('notice',"Sendaspsms(): sending message to number $number");
+aspsmst_log('notice',"Sendaspsms(): id:$aspsmst_transaction_id sending message to number $number");
 
-my ($result,$resultdesc,$Credits,$CreditsUsed,$random) = exec_SendTextSMS($number, $msg, $user->{name}, $user->{password},$user->{phone},$user->{signature},$from);
+my ($result,$resultdesc,$Credits,$CreditsUsed,$random) = exec_SendTextSMS($number, $msg, $user->{name}, $user->{password},$user->{phone},$user->{signature},$from,$aspsmst_transaction_id);
 
 
 if ($result == 1) { $config::stat_message_counter++; } else { $config::stat_error_counter++; }
@@ -86,7 +86,7 @@ $config::ident Gateway system v$config::release
 $resultdesc = $xmppanswer;
 }
 
-aspsmst_log('notice',"Sendaspsms(): End $xmppanswerlog");
+aspsmst_log('notice',"Sendaspsms(): id:$aspsmst_transaction_id End $xmppanswerlog");
 return ($result,$resultdesc,$Credits,$CreditsUsed,$random);
 
 ########################################################################

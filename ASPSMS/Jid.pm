@@ -35,7 +35,8 @@ sub get_barejid
 
 sub get_jid_from_userkey
  {
-  my $userkey 	= shift;
+  my $userkey 			= shift;
+  my $aspsmst_transaction_id 	= shift;
    opendir(DIR,"$config::passwords") or die "Can not open spool dir $config::passwords";
    while (defined(my $file = readdir(DIR))) 
     {
@@ -49,10 +50,10 @@ sub get_jid_from_userkey
      if ($userkey eq $get_userkey)
       {
         closedir(DIR);
-        aspsmst_log('notice',"get_jid_from_userkey($userkey): Return: $get_userkey");
+        aspsmst_log('notice',"id:$aspsmst_transaction_id get_jid_from_userkey($userkey): Return: $get_userkey");
 	return $file;
       }
     } # END of while
-  aspsmst_log('notice',"get_jid_from_userkey($userkey): File found but no userkey????? ");
+  aspsmst_log('notice',"id:$aspsmst_transaction_id get_jid_from_userkey($userkey): File found but no userkey????? ");
  } ### END of get_jid_from_userkey ###
 1;

@@ -38,35 +38,35 @@ openlog($config::ident,'','user');
 
 sub exec_SendTextSMS 
  {
-   aspsmst_log('notice',"exec_SendTextSMS(): Begin");
-	my $number              = shift;
-	my $numbernotification 	= $number;
-	my $mess                = shift;
-	my $login               = shift;
-	my $password            = shift;
-	my $phone               = shift;
-	my $signature           = shift;
-	my $jid			= shift;
-	($mess,$number,$signature) = regexes($mess,$number,$signature);
+	my $number              	= shift;
+	my $numbernotification 		= $number;
+	my $mess                	= shift;
+	my $login               	= shift;
+	my $password            	= shift;
+	my $phone               	= shift;
+	my $signature           	= shift;
+	my $jid				= shift;
+	my $aspsmst_transaction_id 	= shift; 
+	($mess,$number,$signature) 	= regexes($mess,$number,$signature);
+        aspsmst_log('notice',"id:$aspsmst_transaction_id exec_SendTextSMS(): Begin");
 
 	# Generate SMS Request
 	my $aspsmsrequest;
-	my $random = int( rand(10000)) + 10000;
 	$aspsmsrequest = xmlSendTextSMS(	$login,
 						$password,
 						$phone,
 						$number,
 						$mess,
-						$random,
+						$aspsmst_transaction_id ,
 						$jid,
 						$numbernotification,
 						$config::affiliateid);
 
 	my $completerequest     = xmlGenerateRequest($aspsmsrequest);
-	my @ret_CompleteRequest = exec_ConnectionASPSMS($completerequest);
+	my @ret_CompleteRequest = exec_ConnectionASPSMS($completerequest,$aspsmst_transaction_id);
 
 # Parse XML of SMS request
-my $ret_parsed_response = parse_aspsms_response(\@ret_CompleteRequest);
+my $ret_parsed_response = parse_aspsms_response(\@ret_CompleteRequest,$aspsmst_transaction_id);
 
 my $DeliveryStatus      =       XML::Smart->new($ret_parsed_response);
 my $ErrorCode           =       $DeliveryStatus->{aspsms}{ErrorCode};
@@ -80,35 +80,36 @@ my $CreditsUsed         =       $DeliveryStatus->{aspsms}{CreditsUsed};
 $aspsmsrequest          = xmlShowCredits($login,$password);
 $completerequest     = xmlGenerateRequest($aspsmsrequest);
 
-my @ret_CompleteRequest_ShowCredits = exec_ConnectionASPSMS($completerequest);
+my @ret_CompleteRequest_ShowCredits = exec_ConnectionASPSMS($completerequest,$aspsmst_transaction_id);
 
 # Parse XML of SMS request
-my $ret_parsed_response_ShowCredits = parse_aspsms_response(\@ret_CompleteRequest_ShowCredits);
+my $ret_parsed_response_ShowCredits = parse_aspsms_response(\@ret_CompleteRequest_ShowCredits,$aspsmst_transaction_id);
 
-DisconnectAspsms();
+DisconnectAspsms($aspsmst_transaction_id);
 
 my $CreditStatus        =       XML::Smart->new($ret_parsed_response_ShowCredits);
 my $Credits             =       $CreditStatus->{aspsms}{Credits};
 
 
-aspsmst_log('info',"exec_SendTextSMS($jid): TransID: $random");
-aspsmst_log('notice',"exec_SendTextSMS(): return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,$random)");
-return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,$random);
+aspsmst_log('info',"id:$aspsmst_transaction_id exec_SendTextSMS($jid)");
+aspsmst_log('notice',"id:$aspsmst_transaction_id exec_SendTextSMS(): return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,$aspsmst_transaction_id)");
+return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,$aspsmst_transaction_id);
 ########################################################################
 }
 ########################################################################
 
 sub exec_ConnectionASPSMS
  {
-  aspsmst_log('debug',"exec_ConnectionASPSMS(): Begin");
   my $completerequest = shift;
+  my $aspsmst_transaction_id = shift;
+  aspsmst_log('debug',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): Begin");
 	
   # /Generate SMS Request
-  unless(ConnectAspsms() eq '0') 
+  unless(ConnectAspsms($aspsmst_transaction_id) eq '0') 
    { return ('-1','Sorry, aspsms are temporary not available. Please try again later or contact your administrator of http://www.aspsms.com'); }
  
   # Send request to socket
-  aspsmst_log('debug',"exec_ConnectionASPSMS(): Sending: $completerequest");
+  aspsmst_log('debug',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): Sending: $completerequest");
   print $config::aspsmssocket $completerequest;
 
   my @answer;
@@ -118,19 +119,19 @@ sub exec_ConnectionASPSMS
     # Timeout alarm
     alarm(10);
     @answer = <$config::aspsmssocket>;
-    aspsmst_log('debug',"exec_ConnectionASPSMS(): \@answer=@answer");
+    aspsmst_log('debug',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): \@answer=@answer");
     alarm(0);
    };
 
    # If alarm do action
    if($@) 
     {
-     aspsmst_log('info',"exec_ConnectionASPSMS(): No response of aspsms after sent request");
+     aspsmst_log('info',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): No response of aspsms after sent request");
      return ('-21','exec_ConnectionASPSMS(): No response of aspsms after sent request. Please try again later or contact your transport administrator.');
     } ### END of exec_ConnectionASPSMS ###
 
-    DisconnectAspsms();
-    aspsmst_log('notice',"exec_ConnectionASPSMS(): End");
+    DisconnectAspsms($aspsmst_transaction_id);
+    aspsmst_log('notice',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): End");
     return (@answer);
  } ### END of exec_ConnectionASPSMS ###
 
@@ -139,21 +140,22 @@ sub exec_ConnectionASPSMS
 sub ConnectAspsms {
 ########################################################################
 my $status = 0;
+my $aspsmst_transaction_id = shift;
 
-
-aspsmst_log('debug',"ConnectAspsms(): Connecting to $config::aspsms_ip:$config::aspsms_port");
+aspsmst_log('debug',"id:$aspsmst_transaction_id ConnectAspsms(): Connecting to $config::aspsms_ip:$config::aspsms_port");
 $config::aspsmssocket = IO::Socket::INET->new(     	PeerAddr => $config::aspsms_ip,
                                         		PeerPort => $config::aspsms_port,
                                         		Proto    => 'tcp',
                                         		Timeout  => 5,
                                         		Type     => SOCK_STREAM) or $status = -1;
 
-aspsmst_log('notice',"ConnectAspsms(): status=$status");
+aspsmst_log('notice',"id:$aspsmst_transaction_id ConnectAspsms(): status=$status");
 return $status;
 }
 
 sub DisconnectAspsms {
-aspsmst_log('notice',"DisconnectAspsms()");
+my $aspsmst_transaction_id = shift;
+aspsmst_log('notice',"id:$aspsmst_transaction_id DisconnectAspsms()");
 close($config::aspsmssocket);
 
 ########################################################################
@@ -162,18 +164,19 @@ close($config::aspsmssocket);
 
 sub parse_aspsms_response
  {
-   my $pointer_xml 	= shift;
-   my @xml		= @{$pointer_xml};
+   my $pointer_xml 			= shift;
+   my $aspsmst_transaction_id 		= shift;
+   my @xml				= @{$pointer_xml};
    my $tmp;
 
    foreach $_ (@xml)
     {
-     aspsmst_log("debug","parse_aspsms_response(): $_");
+     aspsmst_log("debug","id:$aspsmst_transaction_id parse_aspsms_response(): $_");
      $tmp .= $_;
     }
    
    $tmp =~ s/(.*(<aspsms>.*<\/aspsms>).*|.*)/$2/gis;
-   aspsmst_log("notice","parse_aspsms_response(): Return: $tmp");
+   aspsmst_log("notice","id:$aspsmst_transaction_id parse_aspsms_response(): Return: $tmp");
    return $tmp;
  }
 

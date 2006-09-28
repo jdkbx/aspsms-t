@@ -114,12 +114,12 @@ elsif ($xmlns eq 'jabber:iq:version')
     }
    else 
     {
-     sendError($iq, $from, $to, 501, 'Not implemented in aspsms-t');
+     sendError($iq, $from, $to, 501, 'Not supported');
     }
    }
   else 
    {
-    sendError($iq, $from, $to, 501, 'Not implemented in aspsms-t');
+    sendError($iq, $from, $to, 501, 'Not supported');
    }
 
 } ### END of InPresence ###
@@ -298,7 +298,7 @@ my $xml		= $iq->GetXML();
   }
  else 
   {
-   sendError($iq, $from, $to, 501, 'Not Implemented');
+   sendError($iq, $from, $to, 501, 'Not supported');
   }
 } ### END of jabber_iq_gateway
 
@@ -333,7 +333,7 @@ my $barejid	= get_barejid($from);
    }
   else 
    {
-    sendError($iq, $from, $to, 501, 'Not Implemented');
+    sendError($iq, $from, $to, 501, 'Not supported');
    }
 
 } ### END of jabber:iq:browse

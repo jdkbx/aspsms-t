@@ -36,7 +36,7 @@ openlog($config::ident,'','$config::facility');
 ########################################################################
 sub getUserPass {
 ########################################################################
-my ($from,$banner) = @_;
+my ($from,$banner,$aspsmst_transaction_id) = @_;
 my ($barejid) = split (/\//, $from);
 my $passfile = "$config::passwords/$barejid";
 my $user = {};
@@ -50,7 +50,7 @@ while (<F>)
   chop;
   ($user->{gateway}, $user->{name}, $user->{password}, $user->{phone},$user->{signature}) = split(':');
   
-  aspsmst_log('notice',"getUserPass($barejid): Got password, yeah ... groovy ;)");
+  aspsmst_log('notice',"getUserPass($barejid): id:$aspsmst_transaction_id Got password, yeah ... groovy ;)");
  }
 
 $user->{name}           = '' if ( ! $user->{name} );

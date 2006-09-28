@@ -1,3 +1,20 @@
+2006-09-28 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/config.pm
+      Add new config options
+
+    * trunk/INSTALL
+      Update doc
+
+    * trunk/aspsms.xml.dist
+      Move aspsms.xml.dist do ./etc
+    
+    * trunk/aspsms-t.pl
+      * Add Message per hour support
+      * Add gracefully shutdown
+      * Code cleanup
+      * Add unique transaction id to the most log messages for debuging
+
 2006-09-27 Marco Balmer  <mb@micressor.ch>
 
     * trunk/aspsms-t.pl

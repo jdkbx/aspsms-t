@@ -21,7 +21,7 @@ use Exporter;
 use XML::Smart;
 use ASPSMS::aspsmstlog;
 
-our $release = " svn";
+our $release = " svn161";
 
 our $config_file;
 our $aspsmssocket;
@@ -46,12 +46,13 @@ our $notificationjid;
 our $browseservicename;
 our $browseservicetype;
 
-our $stat_message_counter;
-our $stat_error_counter;
-our $stat_notification_counter;
+our $aspsmst_stat_message_counter;
+our $aspsmst_stat_error_counter;
+our $aspsmst_stat_notification_counter;
 our $transport_secret;
 
-our $stat_stanzas = 0;
+our $aspsmst_stat_stanzas 	= 0;
+our $aspsmst_in_progress 	= 0;
 our $Connection;
 
 @ISA 			= qw(Exporter);
@@ -74,10 +75,11 @@ our $Connection;
 				$notificationjid,
 				$browseservicename,
 				$browseservicetype,
-				$stat_message_counter,
-				$stat_error_counter,
-				$stat_notification_counter,
+				$aspsmst_stat_message_counter,
+				$aspsmst_stat_error_counter,
+				$aspsmst_stat_notification_counter,
 				$transport_secret,
+				$aspsmst_in_progress,
 				$Connection);
 
 

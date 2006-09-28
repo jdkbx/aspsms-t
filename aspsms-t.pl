@@ -55,12 +55,14 @@ openlog($config::ident,'',"$config::facility");
 
 # Initialisation timer for message and notification statistic to syslog
 # Every 300 seconds, it will generate a syslog entry with statistic infos
-my $timer				= 295;
-my $transport_uptime			= 0;
+my $timer					= 295;
+my $transport_uptime				= 0;
+my $aspsmst_flag_shutdown			= 0;
+my $aspsmst_stat_msg_per_hour			= 0;
 
-$config::stat_message_counter 		= 0;
-$config::stat_error_counter 		= 0;
-$config::stat_notification_counter 	= 0;
+$config::aspsmst_stat_message_counter 		= 0;
+$config::aspsmst_stat_error_counter 		= 0;
+$config::aspsmst_stat_notification_counter 	= 0;
 
 ### END BASIC CONFIGURATION ###
 
@@ -70,30 +72,25 @@ aspsmst_log('info',"init(): Using XML-Spec `$config::xmlspec`");
 aspsmst_log('info',"init(): Using AffilliateId `$config::affiliateid`");
 aspsmst_log('info',"init(): Using Notifcation URL `$config::notificationurl`");
 aspsmst_log('info',"init(): Using admin jid `$config::admin_jid`");
-aspsmst_log('info',"init(): Using banner `$config::banner`");
-aspsmst_log('info',"init(): Using transport_secret `$config::transport_secret`");
 
 
 umask(0177);
 
-$SIG{KILL} 	= \&Stop;
-$SIG{TERM} 	= \&Stop;
-$SIG{INT} 	= \&Stop;
-$SIG{ALRM} 	= sub { die "Unexepted Timeout" };
-
-
-
-# SMS Gateway Associations
-use constant DEFAULT_GATEWAY => 'aspsms';
-#my %sms_callbacks 	= ("aspsms"	=> \&Sendaspsms	);
-
+$SIG{KILL} 	= sub { $aspsmst_flag_shutdown="KILL"; 	};
+$SIG{TERM} 	= sub { $aspsmst_flag_shutdown="TERM"; 	};
+$SIG{INT} 	= sub { $aspsmst_flag_shutdown="INT"; 	};
+$SIG{ABRT} 	= sub { $aspsmst_flag_shutdown="ABRT"; 	};
+$SIG{SEGV} 	= sub { $aspsmst_flag_shutdown="SEGV"; 	};
+$SIG{ALRM} 	= sub { die "Unexepted Timeout" 	};
 
 SetupConnection();
 Connect();
 
-sendAdminMessage("info","Starting up...");
+sendAdminMessage("info","Init(): \$service_name=$config::service_name \$release=$config::release");
 
-# Loop until we're finished.
+#
+# aspsms-t main loop until we're finished.
+#
 while () 
  {
 
@@ -106,21 +103,53 @@ while ()
   ReConnect() unless defined($config::Connection->Process(1));
   if($timer == 300)
    {
-    aspsmst_log('info',"main(): [stat] Uptime: $transport_uptime secs Successfully: $config::stat_message_counter Notifications: $config::stat_notification_counter Errors: $config::stat_error_counter Stanzas: $config::stat_stanzas\n");
+     #
+     # Calculate messages per hour
+     #
+     $aspsmst_stat_msg_per_hour  = $config::aspsmst_stat_message_counter / ($transport_uptime/3600);
+     $aspsmst_stat_msg_per_hour  = sprintf("%.3f",$aspsmst_stat_msg_per_hour);
+     #
+     # Logging status message
+     #
+     aspsmst_log('info',"main(): [stat] Uptime: $transport_uptime secs Notifications: $config::aspsmst_stat_notification_counter Errors: $config::aspsmst_stat_error_counter Stanzas: $config::aspsmst_stat_stanzas\n");
+     aspsmst_log('info',"main(): [stat] SMS Successfully: $config::aspsmst_stat_message_counter\n");
+     aspsmst_log('info',"main(): [stat] SMS Notifications: $config::aspsmst_stat_notification_counter\n");
+     aspsmst_log('info',"main(): [stat] SMS delivery errors: $config::aspsmst_stat_error_counter\n");
+     aspsmst_log('info',"main(): [stat] XMPP/Jabber stanzas counter: $config::aspsmst_stat_stanzas\n");
+     aspsmst_log('info',"main(): [stat] Messages/hour: $aspsmst_stat_msg_per_hour\n");
+     aspsmst_log('info',"main(): [stat] \$aspsmst_flag_shutdown=$aspsmst_flag_shutdown\n");
     $timer = 0;
    } 
- }
 
-aspsmst_log('info',"main(): The connection was killed...\n");
+ #
+ # Entry point for shutdown if flag is set
+ #
+ unless($aspsmst_flag_shutdown eq "0")
+  {
+   Stop($aspsmst_flag_shutdown);
+  }
+   
+ } ### END of Loop
 
-exit(0);
+Stop("The connection was killed...");
+#
+# END Main script
+#
 
 sub InMessage {
   # Incoming message. Let's try to send it via SMS.
   # If error we've got, we log it... ;-)
-  	
-	$config::stat_stanzas++;
 
+
+  
+  	
+	$config::aspsmst_stat_stanzas++;
+	$config::aspsmst_in_progress=1;
+
+	#
+	# Random transaction number for message
+	#
+  	my $aspsmst_transaction_id = int( rand(10000)) + 10000;
 	my $sid 		= shift;
 	my $message 		= shift;
 	my $from 		= $message->GetFrom();
@@ -131,11 +160,11 @@ sub InMessage {
 	my ($number) 		= split(/@/, $to);
 	my ($barejid) 		= split (/\//, $from);
 
-	aspsmst_log('notice',"InMessage($from): Begin job");
+	aspsmst_log('notice',"InMessage($from): id:$aspsmst_transaction_id Begin job");
 	
        if ( $to eq $config::service_name or $to eq "$config::service_name/registered" ) 
         {
-	 aspsmst_log('notice',"InMessage(): Sending welcome message for $from");
+	 aspsmst_log('notice',"InMessage(): id:$aspsmst_transaction_id Sending welcome message for $from");
   	 WelcomeMessage($from);
 
 	 #
@@ -145,6 +174,7 @@ sub InMessage {
 
 	 sendAdminMessage("info","Message from $from directly addressed to $config::service_name:\n\n$body");
 
+	 $config::aspsmst_in_progress=0;
 	 return;
 	} # end of welcome message
 	
@@ -159,12 +189,13 @@ sub InMessage {
 	 my $number 		= "+" . $stattmp[3];
 	 my $notify_message 	= $stattmp[4];
 
-	 my $to_jid 		= get_jid_from_userkey($userkey);
+	 my $to_jid 		= get_jid_from_userkey($userkey,$aspsmst_transaction_id);
 
 	 if ($to_jid eq "No userkey file")
 	  {
-	   	aspsmst_log("info","InMessage(): Can not find file for userkey $userkey");
-		sendAdminMessage("info","Can not find file for userkey $userkey");
+	   	aspsmst_log("info","InMessage(): id:$transid Can not find file for userkey $userkey");
+		sendAdminMessage("info","id:$transid Can not find file for userkey $userkey");
+	        $config::aspsmst_in_progress=0;
 		return undef;
 	  }
 
@@ -176,7 +207,7 @@ sub InMessage {
          if ($streamtype eq 'notify')
 	  {
 
-	   aspsmst_log("notice","InMessage(): \$notify_message=$notify_message");
+	   aspsmst_log("notice","InMessage(): id:$transid \$notify_message=$notify_message");
 
 	   if ($notify_message eq 'Delivered')
 	    {
@@ -189,7 +220,7 @@ sub InMessage {
 	     #sendContactStatus($to_jid,"$number"."@".$config::service_name,'online',"Sorry, message buffered, waiting for better results ;-)");
 	    } ### END of if ($notify_message eq 'Buffered')  ###
 
-	   aspsmst_log('info',"InMessage($to_jid): Send `$notify_message` notification for message  $transid");
+	   aspsmst_log('info',"InMessage($to_jid): id:$transid Send `$notify_message` notification for message  $transid");
 
 	   SendMessage(	"$number\@$config::service_name",
 	   		$to_jid,
@@ -241,7 +272,8 @@ has status: $notify_message @ $now");
 
 	  } ### END of if ($streamtype eq 'direct')
 
-	$config::stat_notification_counter++;
+	$config::aspsmst_stat_notification_counter++;
+	$config::aspsmst_in_progress=0;
 	return;
         } ### END of if ( $to eq $config::service_name or $to eq "$co.....
 
@@ -250,26 +282,29 @@ has status: $notify_message @ $now");
 	if ($type eq 'error') {
 		aspsmst_log('info',"InMessage(): Error received: \n\n" . $message->GetXML());
 		sendAdminMessage("info","InMessage: Error received:\n\n".$message->GetXML()); 
+		$config::aspsmst_in_progress=0;
 		return;
 	}
   	if ( $number !~ /^\+[0-9]{3,50}$/ ) {
 		my $msg = "Invalid number $number got, try a number like: +41xxx\@$config::service_name";
 		sendError($message, $from, $to, 404, $msg);
+		$config::aspsmst_in_progress=0;
 		return;
 	}
 
 	if ( $body eq "" ) {
 		aspsmst_log('info',"InMessage(): Dropping empty message from `$from' to number `$number'");
+		$config::aspsmst_in_progress=0;
 		return;
 	}
 
 	
 	my $from_barejid	= get_barejid($from);
-	aspsmst_log('info',"InMessage($from_barejid): To  number `$number'.");
+	aspsmst_log('info',"InMessage($from_barejid): id:$aspsmst_transaction_id To  number `$number'.");
 	#sendContactStatus($from,$to,'dnd',"Working on delivery for $number. Please wait...");
 
 	# no send the real sms message by Sendaspsms();
-	my ($result,$ret,$Credits,$CreditsUsed,$transid) = Sendaspsms($number, $barejid, $body);
+	my ($result,$ret,$Credits,$CreditsUsed,$transid) = Sendaspsms($number,$barejid, $body,$aspsmst_transaction_id);
 
 	# If we have no success from aspsms.com, send an error
 	unless($result == 1)
@@ -314,11 +349,19 @@ sub sendContactStatus
 sub Stop {
 # Terminate the SMS component's current run.
 my $err = shift;
+aspsmst_log('info',"Stop(): Shutting down aspsms-t \$aspsmst_in_progress=$config::aspsmst_in_progress \$aspsmst_flag_shutdown=$aspsmst_flag_shutdown");
 
-aspsmst_log('info',"Stop(): Shutting down aspsms-t because sig: $err");
+
+unless($config::aspsmst_in_progress==0)
+ {
+  aspsmst_log('info',"Stop(): Waiting for shutdown, aspsms-t is still working");
+  return -1;
+ }
+
+sendAdminMessage("info","Stop(): \$aspsmst_in_progress=$config::aspsmst_in_progress \$aspsmst_flag_shutdown=$aspsmst_flag_shutdown \$err=$err");
+aspsmst_log('info',"Stop(): Shutting down aspsms-t because sig: $err\n");
 $config::Connection->Disconnect();
 exit(0);
-
 }
 
 sub SetupConnection {
