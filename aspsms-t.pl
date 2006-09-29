@@ -111,13 +111,13 @@ while ()
      #
      # Logging status message
      #
-     aspsmst_log('info',"main(): [stat] Uptime: $transport_uptime secs Notifications: $config::aspsmst_stat_notification_counter Errors: $config::aspsmst_stat_error_counter Stanzas: $config::aspsmst_stat_stanzas\n");
+     aspsmst_log('info',"main(): [stat] Uptime: $transport_uptime sec(s)\n");
      aspsmst_log('info',"main(): [stat] SMS Successfully: $config::aspsmst_stat_message_counter\n");
      aspsmst_log('info',"main(): [stat] SMS Notifications: $config::aspsmst_stat_notification_counter\n");
      aspsmst_log('info',"main(): [stat] SMS delivery errors: $config::aspsmst_stat_error_counter\n");
      aspsmst_log('info',"main(): [stat] XMPP/Jabber stanzas counter: $config::aspsmst_stat_stanzas\n");
      aspsmst_log('info',"main(): [stat] Messages/hour: $aspsmst_stat_msg_per_hour\n");
-     aspsmst_log('info',"main(): [stat] \$aspsmst_flag_shutdown=$aspsmst_flag_shutdown\n");
+     aspsmst_log('notice',"main(): [stat] \$aspsmst_flag_shutdown=$aspsmst_flag_shutdown\n");
     $timer = 0;
    } 
 
