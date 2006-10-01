@@ -114,12 +114,12 @@ elsif ($xmlns eq 'jabber:iq:version')
     }
    else 
     {
-     sendError($iq, $from, $to, 501, 'Not supported');
+     sendError($iq, $from, $to, 501, "Not supported $xmlns");
     }
    }
   else 
    {
-    sendError($iq, $from, $to, 501, 'Not supported');
+    sendError($iq, $from, $to, 501, "Not supported $xmlns");
    }
 
 } ### END of InPresence ###
@@ -259,13 +259,13 @@ Please enter Username (=UserKey https://www.aspsms.ch/userkey.asp) and password 
 ### jabber_iq_gateway ####
 sub jabber_iq_gateway 
 {
-my $sid = shift;
-my $iq = shift;
-my $from = $iq->GetFrom();
-my $to = $iq->GetTo();
-my $id = $iq->GetID();
-my $type = $iq->GetType();
-my $query = $iq->GetQuery();
+my $sid 	= shift;
+my $iq 		= shift;
+my $from 	= $iq->GetFrom();
+my $to 		= $iq->GetTo();
+my $id 		= $iq->GetID();
+my $type 	= $iq->GetType();
+my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
 
      if ($type eq 'get') 
