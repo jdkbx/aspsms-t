@@ -150,7 +150,6 @@ sub InMessage {
 	#
 	# Random transaction number for message
 	#
-  	my $aspsmst_transaction_id = int( rand(10000)) + 10000;
 	my $sid 		= shift;
 	my $message 		= shift;
 	my $from 		= $message->GetFrom();
@@ -160,8 +159,10 @@ sub InMessage {
 	my $thread		= $message->GetThread();
 	my ($number) 		= split(/@/, $to);
 	my ($barejid) 		= split (/\//, $from);
+  	my $aspsmst_transaction_id = int( rand(10000)) + 10000;
 
-	aspsmst_log('notice',"InMessage($from): id:$aspsmst_transaction_id Begin job");
+	aspsmst_log('notice',"id:$aspsmst_transaction_id InMessage($barejid): Begin job");
+	aspsmst_log('notice',"id:$aspsmst_transaction_id InMessage($barejid): \$thread=$thread");
 
 	unless($aspsmst_flag_shutdown eq "0")
  	 {
@@ -302,14 +303,14 @@ has status: $notify_message @ $now");
 	}
 
 	if ( $body eq "" ) {
-		aspsmst_log('info',"InMessage(): Dropping empty message from `$from' to number `$number'");
+		aspsmst_log("info","id:$aspsmst_transaction_id InMessage(): Dropping empty message from `$from' to number `$number'");
 		$config::aspsmst_in_progress=0;
 		return;
 	}
 
 	
 	my $from_barejid	= get_barejid($from);
-	aspsmst_log('info',"InMessage($from_barejid): id:$aspsmst_transaction_id To  number `$number'.");
+	aspsmst_log('info',"id:$aspsmst_transaction_id InMessage($from_barejid): To  number `$number'.");
 	#sendContactStatus($from,$to,'dnd',"Working on delivery for $number. Please wait...");
 
 	# no send the real sms message by Sendaspsms();
@@ -357,7 +358,7 @@ Credits total: $Credits
 	 #}; ### END OF EVAL
 		
 $config::aspsmst_in_progress=0;
-aspsmst_log('notice',"InMessage($from): End job");
+aspsmst_log('notice',"id:$aspsmst_transaction_id InMessage($from): End job");
 }
 
 sub sendContactStatus

@@ -60,7 +60,7 @@ if($user->{name} eq '')
                         }
 
 
-aspsmst_log('notice',"Sendaspsms(): id:$aspsmst_transaction_id sending message to number $number");
+aspsmst_log('notice',"id:$aspsmst_transaction_id Sendaspsms(): sending message to number $number");
 
 my ($result,$resultdesc,$Credits,$CreditsUsed,$random) = exec_SendTextSMS($number, $msg, $user->{name}, $user->{password},$user->{phone},$user->{signature},$from,$aspsmst_transaction_id);
 
