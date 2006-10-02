@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# aspsms-t by Marco Balmer <mb@micressor.ch> @2006
+# aspsms-t by Marco Balmer <mb@micressor.ch> @2004
 # http://web.swissjabber.ch/
 # http://www.micressor.ch/content/projects/aspsms-t/
 #
@@ -14,10 +14,10 @@
 # GNU General Public License for more details.
 
 # Notify example
-# aspsms.notification.pl?xml=notify,,,1234random,,,1234msgid,,,0041number,,,chat,,,$USERKEY,,,<Originator>,,,Delivered,,,
+# aspsms.notification.pl?xml=notify,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
 #
 # twoway example
-# aspsms.notification.pl?xml=twoway,,,1234random,,,1234msgid,,,0041number,,,chat,,,$USERKEY,,,<Originator>,,,Delivered,,,
+# aspsms.notification.pl?xml=twoway,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
 
 use lib "./";
 
@@ -28,10 +28,8 @@ use Net::Jabber qw(Client);
 use XML::Smart;
 
 
-### BEGIN CONFIGURATION ###
+# Read configuration
 my $Config  		= XML::Smart->new('./aspsms.xml');
-### END   CONFIGURATION ###
-
 my $hostname           = $Config->{aspsms}{notification}{hostname};
 my $username           = $Config->{aspsms}{notification}{username};
 my $password           = $Config->{aspsms}{notification}{password};
@@ -43,32 +41,28 @@ use constant SERVICE_NAME 	=> $Config->{aspsms}{notification}{jabberid};
 
 openlog('aspsms.notification.pl','',$facility);
 
-print "Content-Type: text/html\n\n";
-print "
-<html>
- <head>
- </head>
-<body>
-<pre>";
+print "Content-Type: text/xml\n\n";
+print "<?xml version='1.0'?>\n";
+print "<aspsms>
+ <ident>$ident</ident>
+ <release>$release</release>
+";
 
 my $xml 	= param("xml");
 my @tmpstat	= split(/,,,/,$xml);
 my $transid	= $tmpstat[1];
 
+
 my $Con 			= new Net::Jabber::Client(debuglevel=>0,debugfile=>"stdout");
-
-print "
-$ident Gateway system v$release
-
-Got notification from aspsms: 
-";
 
 if($xml) 
  {
   connect_client();
   $Con->PresenceSend();
-  syslog('notice',"Got <stream>_not_logged_</stream>");
-  print "<stream>$xml</stream>";
+  $Con->RosterGet();
+  syslog('info',"Got <stream>not recorded</stream>");
+  #syslog('info',"Got <stream>$xml</stream>");
+  print " <stream>$xml</stream>";
   my $msg = new Net::Jabber::Message();
   $msg->SetMessage(type    =>"message",
                    to      =>$servicename."/notification",
@@ -110,7 +104,7 @@ $Con->RosterGet();
 sub stop 
  {
   $Con->Disconnect;
-  print "\ndone";
+  print "</aspsms>";
   syslog('notice',"End");
   sleep(1);
   exit(0);

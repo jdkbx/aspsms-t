@@ -10,6 +10,9 @@
     * trunk/aspsms-t.pl:
       same
 
+    * trunk/aspsms.notification.pl
+      Change http interface to xml interface
+
 2006-09-28 Marco Balmer  <mb@micressor.ch>
 
     * trunk/config.pm
