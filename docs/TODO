@@ -3,10 +3,12 @@ aspsms-t Road MAP
 * 1.0.x
 ** Bugfix releases
 
-* 1.1
+* 1.2
+** Stable release basic features
+
+* 1.4
 ** xdb functionality for separate spoolfile/mysql drivers
 ** Operator list in service discovery (operator name, operator fee per each sms)
 
-* 1.2
+* 1.6
 ** Full Two-Way support for everyone. A separate two-way number is not longer necessary
-
