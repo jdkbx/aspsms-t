@@ -1,3 +1,12 @@
+2006-10-02 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/ASPSMS/Connection.pm:
+      If we can not connect to aspsms-t during a sms job,
+      aspsms-t will no report that to the user (was bug)
+
+    * trunk/aspsms-t.pl:
+      same
+
 2006-09-28 Marco Balmer  <mb@micressor.ch>
 
     * trunk/config.pm

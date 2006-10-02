@@ -65,6 +65,15 @@ sub exec_SendTextSMS
 	my $completerequest     = xmlGenerateRequest($aspsmsrequest);
 	my @ret_CompleteRequest = exec_ConnectionASPSMS($completerequest,$aspsmst_transaction_id);
 
+	if($ret_CompleteRequest[0] eq "-1")
+	 {
+	  #
+	  # We have a problem with connection and will stop
+	  # here processing.
+	  #
+	  return ($ret_CompleteRequest[0],$ret_CompleteRequest[1]);
+	 }
+
 # Parse XML of SMS request
 my $ret_parsed_response = parse_aspsms_response(\@ret_CompleteRequest,$aspsmst_transaction_id);
 

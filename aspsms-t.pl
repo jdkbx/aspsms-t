@@ -118,6 +118,7 @@ while ()
      aspsmst_log('info',"main(): [stat] XMPP/Jabber stanzas counter: $config::aspsmst_stat_stanzas\n");
      aspsmst_log('info',"main(): [stat] Messages/hour: $aspsmst_stat_msg_per_hour\n");
      aspsmst_log('notice',"main(): [stat] \$aspsmst_flag_shutdown=$aspsmst_flag_shutdown\n");
+     aspsmst_log('notice',"main(): [stat] \$aspsmst_in_progress=$config::aspsmst_in_progress\n");
     $timer = 0;
    } 
 
@@ -161,7 +162,15 @@ sub InMessage {
 	my ($barejid) 		= split (/\//, $from);
 
 	aspsmst_log('notice',"InMessage($from): id:$aspsmst_transaction_id Begin job");
-	
+
+	unless($aspsmst_flag_shutdown eq "0")
+ 	 {
+	  sendError($message, $from, $to, 404, "Sorry, $config::ident has a lot of work or is shutting down at the moment, please try again later. Thanks.");
+	  $config::aspsmst_in_progress=0;
+	  return -1;
+	 }
+
+
        if ( $to eq $config::service_name or $to eq "$config::service_name/registered" ) 
         {
 	 aspsmst_log('notice',"InMessage(): id:$aspsmst_transaction_id Sending welcome message for $from");
@@ -309,9 +318,26 @@ has status: $notify_message @ $now");
 	# If we have no success from aspsms.com, send an error
 	unless($result == 1)
 	 {
-	  sendContactStatus($from,$to,'online','Last message failed');
-	  sendError($message, $from, $to, $result, $ret);
-	 }
+	  sendContactStatus($from,$to,'online',$ret);
+	  #
+	  # If we do not have a result error number
+	  # send a standard 404 error message stanza
+	  #
+	  unless($result eq "")
+	   {
+	    aspsmst_log('info',"InMessage($from_barejid): id:$aspsmst_transaction_id \$result=$result from Sendaspsms()");
+	    sendError($message, $from, $to, 404, $ret);
+	   }
+	  else
+	   {
+	    #
+	    # Normal error message stanza with $result
+	    # code.
+	    #
+	    sendError($message, $from, $to, $result, $ret);
+	   }
+	   
+	 } ### END OF unless($result ==1)
         else
 	 {
 	   SendMessage(	"$number\@$config::service_name",
@@ -326,10 +352,11 @@ Credits total: $Credits
 #Balance: $Credits Used: $CreditsUsed");
 	   $config::aspsmst_stat_message_counter++;
 
-	 }
+	 } ### END OF else if($result==1)
 
 	 #}; ### END OF EVAL
 		
+$config::aspsmst_in_progress=0;
 aspsmst_log('notice',"InMessage($from): End job");
 }
 
