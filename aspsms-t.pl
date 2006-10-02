@@ -200,24 +200,22 @@ sub InMessage {
 	 my $userkey 		= $stattmp[4];
 	 my $number 		= "+" . $stattmp[5];
 	 my $notify_message 	= $stattmp[6];
-
-	 my $to_jid 		= get_jid_from_userkey($userkey,$aspsmst_transaction_id);
-
-	 if ($to_jid eq "No userkey file")
-	  {
-	   	aspsmst_log("info","InMessage(): id:$transid Can not find file for userkey $userkey");
-		sendAdminMessage("info","id:$transid Can not find file for userkey $userkey");
-	        $config::aspsmst_in_progress=0;
-		return undef;
-	  }
-
 	 my $now 		= localtime;
+
+  	 my $to_jid = get_jid_from_userkey($userkey,$aspsmst_transaction_id);
 
 	 #
 	 # If $streamtype is notify via aspsms.notification.pl
 	 #
          if ($streamtype eq 'notify')
 	  {
+	   if ($to_jid eq "No userkey file")
+	    {
+	   	aspsmst_log("info","InMessage(): id:$transid Can not find file for userkey $userkey");
+		sendAdminMessage("info","id:$transid Can not find file for userkey $userkey");
+	        $config::aspsmst_in_progress=0;
+		return undef;
+	    } ### END of if ($to_jid eq "No userkey file")
 
 	   aspsmst_log("notice","InMessage(): id:$transid \$notify_message=$notify_message");
 
@@ -264,25 +262,27 @@ has status: $notify_message @ $now");
 	 #
 	 if ($streamtype eq 'direct')
 	  {
-	   my @http_stream 	= split(/,,,/, $body);
-	   $body 		= $http_stream[4];
-	   $body 		=~ s/([^\s]+)(.*)/$2/;
-	   my $to_jid 		= $http_stream[4];
-	   $to_jid 		=~ s/([^\s]+)(.*)/$1/;
-  	   $number 		=~ s/\+00/\+/g;
-	   my $userkey_secret	= $http_stream[2];
+	   # Direct notify example
+	   # http://url/aspsms.notification.pl?xml=direct,,,1234random,,,1234msgid,,,<Originator>,,,mysecret,,,<MessageData>
 
-	   if($userkey_secret eq $config::transport_secret)
+	   # Get the <stream/> from aspsms.notification.pl
+	   my $number		= $stattmp[3];
+	   my $to_jid 		= $stattmp[5];
+	   my $direct_body	= $stattmp[5];
+	   $to_jid 		=~ s/([^\s]+)(.*)/$1/;
+	   $direct_body		=~ s/([^\s]+)(.*)/$2/;
+
+	   if($userkey eq $config::transport_secret)
 	    {
 	     aspsmst_log('info',"InMessage(): Incoming direct message from $number to $to_jid");
 	     if ($to_jid =~ /@/)
-	      { SendMessage("$number\@$config::service_name",$to_jid,$transid,$msg_id,$msg_type,"Direct message from $number",$body); }
+	      { SendMessage("$number\@$config::service_name",$to_jid,$transid,$msg_id,$msg_type,"Direct message from $number",$direct_body); }
 	     else
 	      { aspsmst_log('info',"InMessage(): Not a valid jid `$to_jid`"); }
 	    }
 	   else
 	    {
-	     aspsmst_log('info',"InMessage(): Incoming direct message not delivered: secret:`$userkey_secret` does not match");
+	     aspsmst_log('info',"InMessage(): Incoming direct message not delivered: secret:`$userkey` does not match");
 	    }
 
 	  } ### END of if ($streamtype eq 'direct')
