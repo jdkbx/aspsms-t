@@ -47,6 +47,8 @@ sub exec_SendTextSMS
 	my $signature           	= shift;
 	my $jid				= shift;
 	my $aspsmst_transaction_id 	= shift; 
+	my $msg_id			= shift;
+	my $msg_type			= shift;
 	($mess,$number,$signature) 	= regexes($mess,$number,$signature);
         aspsmst_log('notice',"id:$aspsmst_transaction_id exec_SendTextSMS(): Begin");
 
@@ -60,7 +62,9 @@ sub exec_SendTextSMS
 						$aspsmst_transaction_id ,
 						$jid,
 						$numbernotification,
-						$config::affiliateid);
+						$config::affiliateid,
+						$msg_id,
+						$msg_type);
 
 	my $completerequest     = xmlGenerateRequest($aspsmsrequest);
 	my @ret_CompleteRequest = exec_ConnectionASPSMS($completerequest,$aspsmst_transaction_id);

@@ -24,6 +24,7 @@ use Exporter;
 
 
 use Sys::Syslog;
+use ASPSMS::aspsmstlog;
 
 
 sub sendAdminMessage
@@ -76,16 +77,22 @@ sub SendMessage
  {
    my $from 	= shift;
    my $to	= shift;
+   my $transid	= shift;
+   my $msg_id	= shift;
+   my $msg_type	= shift;
    my $subject	= shift;
    my $text	= shift;
 
+aspsmst_log("notice","SendMessage(): \$transid=$transid \$msg_id=$msg_id");
+
    my $msg= new Net::Jabber::Message();
 
-   $msg->SetMessage(      	 
-   			 	 subject =>$subject,
-                                 to      =>$to,
-                                 from    =>$from,
-                                 body    =>"$text
+   $msg->SetMessage(      	 type		=>$msg_type,
+   				 subject 	=>$subject,
+                                 to      	=>$to,
+				 id	 	=>$msg_id,
+                                 from    	=>$from,
+                                 body    	=>"$text
 ---
 $config::ident Gateway system v$config::release
 Support contact xmpp: $config::admin_jid

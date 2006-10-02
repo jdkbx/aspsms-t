@@ -155,14 +155,14 @@ sub InMessage {
 	my $from 		= $message->GetFrom();
 	my $to 			= $message->GetTo();
 	my $body 		= $message->GetBody();
-	my $type 		= $message->GetType();
-	my $thread		= $message->GetThread();
+	my $msg_type 		= $message->GetType();
+	my $msg_id		= $message->GetID();
 	my ($number) 		= split(/@/, $to);
 	my ($barejid) 		= split (/\//, $from);
   	my $aspsmst_transaction_id = int( rand(10000)) + 10000;
 
 	aspsmst_log('notice',"id:$aspsmst_transaction_id InMessage($barejid): Begin job");
-	aspsmst_log('notice',"id:$aspsmst_transaction_id InMessage($barejid): \$thread=$thread");
+	aspsmst_log('notice',"id:$aspsmst_transaction_id InMessage($barejid): \$msg_id=$msg_id");
 
 	unless($aspsmst_flag_shutdown eq "0")
  	 {
@@ -188,16 +188,18 @@ sub InMessage {
 	 return;
 	} # end of welcome message
 	
-       if ( $to eq $config::service_name."/notification" and $barejid eq $config::notificationjid ) 
+       if ( $to eq $config::service_name."/notification" and $barejid eq $config::notificationjid) 
         {
 	 my $msg		= new Net::Jabber::Message();
 	 # Get the <stream/> from aspsms.notification.pl
 	 my @stattmp 		= split(/,,,/, $body);
 	 my $streamtype		= $stattmp[0];
 	 my $transid 		= $stattmp[1];
-	 my $userkey 		= $stattmp[2];
-	 my $number 		= "+" . $stattmp[3];
-	 my $notify_message 	= $stattmp[4];
+	 my $msg_id 		= $stattmp[2];
+	 my $msg_type 		= $stattmp[3];
+	 my $userkey 		= $stattmp[4];
+	 my $number 		= "+" . $stattmp[5];
+	 my $notify_message 	= $stattmp[6];
 
 	 my $to_jid 		= get_jid_from_userkey($userkey,$aspsmst_transaction_id);
 
@@ -234,6 +236,9 @@ sub InMessage {
 
 	   SendMessage(	"$number\@$config::service_name",
 	   		$to_jid,
+			$transid,
+			$msg_id,
+			$msg_type,
 			"$notify_message status for message $transid",
 			"SMS with transaction number `$transid` sent to number $number 
 			
@@ -250,7 +255,7 @@ has status: $notify_message @ $now");
   	   $number =~ s/\+00/\+/g;
 
 	   aspsmst_log('info',"InMessage(): Incoming two-way message from $number to $to_jid");
- 	   SendMessage("$number\@$config::service_name",$to_jid,"Global Two-Way Message from $number",$notify_message);
+ 	   SendMessage("$number\@$config::service_name",$to_jid,$transid,$msg_id,$msg_type,"Global Two-Way Message from $number",$notify_message);
 
 	  } ### END of if ($streamtype eq 'twoway')
 
@@ -271,7 +276,7 @@ has status: $notify_message @ $now");
 	    {
 	     aspsmst_log('info',"InMessage(): Incoming direct message from $number to $to_jid");
 	     if ($to_jid =~ /@/)
-	      { SendMessage("$number\@$config::service_name",$to_jid,"Direct message from $number",$body); }
+	      { SendMessage("$number\@$config::service_name",$to_jid,$transid,$msg_id,$msg_type,"Direct message from $number",$body); }
 	     else
 	      { aspsmst_log('info',"InMessage(): Not a valid jid `$to_jid`"); }
 	    }
@@ -289,7 +294,7 @@ has status: $notify_message @ $now");
 
 
 
-	if ($type eq 'error') {
+	if ($msg_type eq 'error') {
 		aspsmst_log('info',"InMessage(): Error received: \n\n" . $message->GetXML());
 		sendAdminMessage("info","InMessage: Error received:\n\n".$message->GetXML()); 
 		$config::aspsmst_in_progress=0;
@@ -314,7 +319,12 @@ has status: $notify_message @ $now");
 	#sendContactStatus($from,$to,'dnd',"Working on delivery for $number. Please wait...");
 
 	# no send the real sms message by Sendaspsms();
-	my ($result,$ret,$Credits,$CreditsUsed,$transid) = Sendaspsms($number,$barejid, $body,$aspsmst_transaction_id);
+	my ($result,$ret,$Credits,$CreditsUsed,$transid) = Sendaspsms(	$number,
+									$barejid, 
+									$body,
+									$aspsmst_transaction_id,
+									$msg_id,
+									$msg_type);
 
 	# If we have no success from aspsms.com, send an error
 	unless($result == 1)
@@ -343,6 +353,9 @@ has status: $notify_message @ $now");
 	 {
 	   SendMessage(	"$number\@$config::service_name",
 	   		$from,
+			$transid,
+			$msg_id,
+			$msg_type,
 			"Delivered to aspsms.com",
 			"SMS with transaction number `$transid` sent to number $number 
 			

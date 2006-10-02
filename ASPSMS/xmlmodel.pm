@@ -57,6 +57,8 @@ my $random		= shift;
 my $jid			= shift;
 my $numbernotification	= shift;
 my $affiliateid		= shift;
+my $msg_id		= shift;
+my $msg_type		= shift;
 
 # fix right url encoding for aspsms xmlsrv
 $config::notificationurl =~ s/\:/\&\#58\;/g;
@@ -72,9 +74,9 @@ my $aspsmsrequest =
                 <PhoneNumber>" . $target . "</PhoneNumber>
 		<TransRefNumber>" . $random ."</TransRefNumber>
         </Recipient>
-	<URLDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$login.",,,".$numbernotification.",,,Delivered,,,</URLDeliveryNotification>
-	<URLNonDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$login.",,,".$numbernotification.",,,NonDelivered,,,</URLNonDeliveryNotification>
-	<URLBufferedMessageNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$login.",,,".$numbernotification.",,,Buffered,,,</URLBufferedMessageNotification>
+	<URLDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Delivered,,,</URLDeliveryNotification>
+	<URLNonDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,NonDelivered,,,</URLNonDeliveryNotification>
+	<URLBufferedMessageNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Buffered,,,</URLBufferedMessageNotification>
         <MessageData>" .$mess . "</MessageData>
         <Action>SendTextSMS</Action>
 	<UsedCredits>1</UsedCredits>

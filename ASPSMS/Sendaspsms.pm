@@ -45,7 +45,7 @@ my $aspsms_port                 =       $config::aspsms_port;
 ########################################################################
 sub Sendaspsms {
 # #######################################################################
-my ($number, $from, $msg,$aspsmst_transaction_id ) = @_;
+my ($number, $from, $msg,$aspsmst_transaction_id,$msg_id,$msg_type) = @_;
 aspsmst_log('notice',"id:$aspsmst_transaction_id Sendaspsms(): Begin");
 my $xmppanswer;
 $number = substr($number, 1, 50);
@@ -62,7 +62,7 @@ if($user->{name} eq '')
 
 aspsmst_log('notice',"id:$aspsmst_transaction_id Sendaspsms(): sending message to number $number");
 
-my ($result,$resultdesc,$Credits,$CreditsUsed,$random) = exec_SendTextSMS($number, $msg, $user->{name}, $user->{password},$user->{phone},$user->{signature},$from,$aspsmst_transaction_id);
+my ($result,$resultdesc,$Credits,$CreditsUsed,$random) = exec_SendTextSMS($number, $msg, $user->{name}, $user->{password},$user->{phone},$user->{signature},$from,$aspsmst_transaction_id,$msg_id,$msg_type);
 
 
 if ($result == 1) { $config::stat_message_counter++; } else { $config::stat_error_counter++; }
