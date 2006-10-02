@@ -28,9 +28,9 @@ use Net::Jabber qw(Client);
 use XML::Smart;
 
 
-### CONFIGURATION ###
+### BEGIN CONFIGURATION ###
 my $Config  		= XML::Smart->new('./aspsms.xml');
-### CONFIGURATION ###
+### END   CONFIGURATION ###
 
 my $hostname           = $Config->{aspsms}{notification}{hostname};
 my $username           = $Config->{aspsms}{notification}{username};
@@ -55,8 +55,6 @@ my $xml 	= param("xml");
 my @tmpstat	= split(/,,,/,$xml);
 my $transid	= $tmpstat[1];
 
-print "\nprint transid:$transid\n\n";
-
 my $Con 			= new Net::Jabber::Client(debuglevel=>0,debugfile=>"stdout");
 
 print "
@@ -69,8 +67,7 @@ if($xml)
  {
   connect_client();
   $Con->PresenceSend();
-  syslog('notice',"RosterGet();");
-  syslog('notice',"Got <stream>$xml</stream>");
+  syslog('notice',"Got <stream>_not_logged_</stream>");
   print "<stream>$xml</stream>";
   my $msg = new Net::Jabber::Message();
   $msg->SetMessage(type    =>"message",
@@ -100,7 +97,7 @@ $Con->Connect(
 
 if ($Con->Connected()) {    }
 
-$Con->AuthSend (
+$Con->AuthIQAuth (
                  username=>      $username,
                  password=>      $password,
                  resource=>      $transid
