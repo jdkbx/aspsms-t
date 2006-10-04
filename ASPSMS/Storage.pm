@@ -20,7 +20,7 @@ use vars qw(@EXPORT @ISA);
 use Exporter;
 
 @ISA 			= qw(Exporter);
-@EXPORT 		= qw(get_data_from_storage set_data_to_storage);
+@EXPORT 		= qw(get_record set_record delete_record);
 
 
 use Sys::Syslog;
@@ -28,7 +28,7 @@ use ASPSMS::aspsmstlog;
 use ASPSMS::Jid;
 
 
-sub get_data_from_storage
+sub get_record
  {
   my $read_by 		= shift;
   my $jid		= shift;
@@ -38,7 +38,9 @@ sub get_data_from_storage
 
   my $passfile 		= "$config::passwords/$barejid";
 
-  aspsmst_log("notice","get_data_from_storage($read_by,$barejid): Read file $passfile");
+  aspsmst_log("notice","get_record($read_by): Read passfile for $barejid");
+
+eval {
 
   open(F, "<$passfile") or die "Problem: $!\n";
   seek(F, 0, 0);
@@ -56,21 +58,72 @@ sub get_data_from_storage
 	) = split(':');
 
    } ### END of while (<F>)
-  
-return (	
-	$user->{gateway}, 
-    	$user->{name}, 
-	$user->{password}, 
-	$user->{phone},
-	$user->{signature}
+
+close(F);
+ 
+ };
+
+if($@)
+ {
+  aspsmst_log("info","get_record($read_by): Problem to read passfile for $barejid");
+  aspsmst_log("notice","get_record($read_by): Problem to read passfile $passfile");
+  return -1;
+ }
+
+return (0,$user);
+
+ } ### END of get_data_from_storage ###
+
+sub set_record
+ {
+   my $set_by	= shift;
+   my $passfile	= shift;
+   my $userdata	= shift;
+
+   aspsmst_log("notice","set_record($set_by,$passfile): Store passfile $passfile");
+   
+   my $data = join(':',	
+	$userdata->{gateway}, 
+    	$userdata->{name}, 
+	$userdata->{pass}, 
+	$userdata->{phone},
+	$userdata->{signature}
 	);
 
- } ### END of get_data_from_storage ###
+eval {
+      open(F, ">$passfile");
+      print(F "$data\n");
+      close(F);
+     };
 
-sub set_data_to_storage
+if($@)
  {
+  aspsmst_log("info","set_record($set_by,$passfile): Problem to read passfile $passfile");
+  return -1;
+ }
+ 
 
+return 0;
  } ### END of get_data_from_storage ###
 
+sub delete_record
+ {
+   my $set_by	= shift;
+   my $passfile	= shift;
 
+   aspsmst_log("notice","delete_record($set_by,$passfile): Delete passfile $passfile");
+   
+  eval {
+        unlink($passfile);
+       };
+
+if($@)
+ {
+  aspsmst_log("info","delete_record($set_by,$passfile): Problem to delete passfile $passfile");
+  return -1;
+ }
+
+return 0;
+
+}
 1;

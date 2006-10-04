@@ -19,6 +19,8 @@ use config;
 use ASPSMS::aspsmstlog;
 use ASPSMS::Connection;
 use ASPSMS::xmlmodel;
+use ASPSMS::Storage;
+use ASPSMS::Jid;
 use vars qw(@EXPORT @ISA);
 use Exporter;
 
@@ -37,28 +39,17 @@ openlog($config::ident,'','$config::facility');
 sub getUserPass {
 ########################################################################
 my ($from,$banner,$aspsmst_transaction_id) = @_;
-my ($barejid) = split (/\//, $from);
-my $passfile = "$config::passwords/$barejid";
-my $user = {};
+my $barejid	= get_barejid($from);
+my $passfile 	= "$config::passwords/$barejid";
 
-open(F, "<$passfile");
-seek(F, 0, 0);
-local $/ = "\n";
-
-while (<F>) 
- {
-  chop;
-  ($user->{gateway}, $user->{name}, $user->{password}, $user->{phone},$user->{signature}) = split(':');
-  
-  aspsmst_log('notice',"getUserPass($barejid): id:$aspsmst_transaction_id Got password, yeah ... groovy ;)");
- }
+my ($ret,$user) = get_record("getUserPass",$barejid);
 
 $user->{name}           = '' if ( ! $user->{name} );
 $user->{password}       = '' if ( ! $user->{password} );
 $user->{phone}          = 'aspsms-t' if ( ! $user->{phone} );
 $user->{signature}      = $banner if (! $user->{signature} );
 
-return $user;
+return ($ret,$user);
 
 }
 ########################################################################
@@ -74,7 +65,7 @@ my $username =	shift;
 my $password = 	shift;
 my @answer;
 
-aspsmst_log('info',"handler::CheckNewUser(): Check new user on aspsms xml-server $username/$password");
+aspsmst_log('info',"CheckNewUser(): Check new user on aspsms xml-server $username/$password");
 unless(ConnectAspsms() eq '0') {
 my $value1 = $_[0]; my $value2 = $_[1];
 return ($value1,$value2); }
@@ -93,7 +84,7 @@ my $ErrorStatus         =       XML::Smart->new($ret_parsed_response);
 my $ErrorCode           =       $ErrorStatus->{aspsms}{ErrorCode};
 my $ErrorDescription    =       $ErrorStatus->{aspsms}{ErrorDescription};
 
-aspsmst_log('info',"handler::CheckNewUser(): Result for $username is: $ErrorDescription");
+aspsmst_log('info',"CheckNewUser(): Result for $username is: $ErrorDescription");
 $ErrorDescription = "This user does\'n exist at aspsms.com. Please register first an user on http://www.aspsms.com then try again.";
 
 return ($ErrorCode,$ErrorDescription);

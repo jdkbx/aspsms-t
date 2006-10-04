@@ -137,4 +137,5 @@ aspsmst_log('notice',"sendPresence($to_barejid): Sending presence type `$type' a
 $config::Connection->Send($pres);
 
 }
+
 1;

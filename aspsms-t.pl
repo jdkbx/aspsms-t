@@ -33,6 +33,7 @@ use ASPSMS::userhandler;
 use ASPSMS::xmlmodel;
 use ASPSMS::UCS2;
 use ASPSMS::aspsmstlog;
+use ASPSMS::Storage;
 
 				  
 ### BEGIN CONFIGURATION ###

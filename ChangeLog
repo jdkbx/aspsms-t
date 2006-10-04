@@ -1,7 +1,13 @@
 2006-10-04 Marco Balmer  <mb@micressor.ch>
 
-    * trunk/ASPSMS/aspsmstlog.pm
+    * trunk/ASPSMS/aspsmstlog.pm:
       Crash bugfix in sub aspsmst_log()
+
+    * trunk/ASPSMS/Storage.pm:
+      New storage driver functions get_record(), set_record()
+
+    * trunk/Iq.pm
+      Add jabber_iq_remove() function and fix remove subscription method
 
 2006-10-02 Marco Balmer  <mb@micressor.ch>
 
