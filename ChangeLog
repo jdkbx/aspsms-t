@@ -1,3 +1,8 @@
+2006-10-04 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/ASPSMS/aspsmstlog.pm
+      Crash bugfix in sub aspsmst_log()
+
 2006-10-02 Marco Balmer  <mb@micressor.ch>
 
     * trunk/ASPSMS/Message.pm:

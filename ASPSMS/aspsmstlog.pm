@@ -34,7 +34,20 @@ sub aspsmst_log
 
     {
      print "\n$type> $msg";
-     syslog($type,$msg);
+
+     eval
+      {
+       syslog($type,$msg);
+      };
+     
+     #
+     # If we have a problem logging a message, we logging a 
+     # warning.
+     #
+     if($@)
+      {
+       syslog($type,"aspsmst_log(): Exeption: We have problem to log a message -- Ignore");
+      }
     }
 
    else
