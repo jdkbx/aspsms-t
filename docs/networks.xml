@@ -83,8 +83,8 @@
 <network name="Entel Movil Bolivia" credits="1"/>
 </country>
 <country name="BOSNIA AND HERZEGOVINA">
-<network name="Mobilna Srpske" credits="1"/>
 <network name="ERONET Mobile Communications" credits="1"/>
+<network name="Mobilna Srpske" credits="1"/>
 <network name="BH Telecom" credits="1"/>
 </country>
 <country name="BOTSWANA">
@@ -121,8 +121,8 @@
 <network name="MTN Cameroon" credits="1"/>
 </country>
 <country name="CANADA">
-<network name="Microcell Solutions Inc." credits="1"/>
 <network name="Rogers Wireless" credits="1"/>
+<network name="Microcell Solutions Inc." credits="1"/>
 </country>
 <country name="CAPE VERDE">
 <network name="Cabo Verde Telecom - Movel" credits="1"/>
@@ -137,10 +137,6 @@
 <network name="China Mobile" credits="2.75"/>
 <network name="China Unicom" credits="1"/>
 </country>
-<country name="COLOMBIA">
-<network name="Comcel S.A." credits="1"/>
-<network name="Colombia Movil" credits="1"/>
-</country>
 <country name="COMOROS">
 <network name="SNPT" credits="1"/>
 </country>
@@ -149,11 +145,11 @@
 <network name="Libertis Telecom" credits="1"/>
 </country>
 <country name="CONGO DEMOCRATIC REPUBLIC">
-<network name="Celtel Congo DRC" credits="1"/>
 <network name="Vodacom Congo RDC" credits="1"/>
+<network name="Celtel Congo DRC" credits="1"/>
 </country>
 <country name="CROATIA">
-<network name="Vipnet GSM d.o.o." credits="1"/>
+<network name="Vipnet GSM d.o.o." credits="2.75"/>
 <network name="T-Mobile Croatia LLC" credits="1"/>
 </country>
 <country name="CUBA">
@@ -251,10 +247,11 @@
 </country>
 <country name="GLOBALSTAR">
 <network name="Globalstar Americas Corp. Nicaragua" credits="1"/>
+<network name="TESAM Colombia (Globalstar)" credits="1"/>
 <network name="Globalstar USA Puerto Rico" credits="1"/>
 <network name="TESAM Turkey (Globalstar)" credits="1"/>
+<network name="TESAM Egypt (Globalstar)" credits="1"/>
 <network name="Saudi Globalstar (Saudi Arabia)" credits="1"/>
-<network name="Globalstar Mexico" credits="1"/>
 <network name="TESAM Peru (Globalstar)" credits="1"/>
 <network name="China Spacecom (Globalstar)" credits="1"/>
 <network name="DACOM South Korea (Globalstar)" credits="1"/>
@@ -269,14 +266,12 @@
 <network name="TESAM Venezuela (Globalstar)" credits="1"/>
 <network name="Vodafone Airtouch Canada (Globalstar)" credits="1"/>
 <network name="Vodafone Airtouch USA (Globalstar)" credits="1"/>
-<network name="TESAM Colombia (Globalstar)" credits="1"/>
-<network name="TESAM Egypt (Globalstar)" credits="1"/>
 </country>
 <country name="GREECE">
-<network name="Infoquest" credits="1"/>
 <network name="Stet Hellas (TIM)" credits="1"/>
 <network name="Vodafone Greece" credits="1"/>
 <network name="Cosmote" credits="2.75"/>
+<network name="Infoquest" credits="1"/>
 </country>
 <country name="GREENLAND">
 <network name="TELE Greenland" credits="1"/>
@@ -295,12 +290,12 @@
 <country name="HUNGARY">
 <network name="Pannon GSM" credits="2.75"/>
 <network name="Vodafone Hungary" credits="1"/>
-<network name="T-Mobile Hungary" credits="1"/>
+<network name="T-Mobile Hungary" credits="1.75"/>
 </country>
 <country name="ICELAND">
 <network name="Siminn" credits="1"/>
-<network name="IMC Island ehf. - Viking Wireless" credits="1"/>
 <network name="Og Vodafone" credits="2.75"/>
+<network name="IMC Island ehf. - Viking Wireless" credits="1"/>
 </country>
 <country name="INDIA">
 <network name="MTNL-Dolphine-Delhi" credits="1"/>
@@ -331,7 +326,7 @@
 <network name="Aircel Ltd Coimbatore" credits="1"/>
 </country>
 <country name="INDONESIA">
-<network name="PT Excelcomindo Pratama" credits="1"/>
+<network name="PT Excelcomindo Pratama" credits="2.75"/>
 <network name="PT Telkomsel" credits="1"/>
 <network name="Lippo Telecom" credits="1"/>
 <network name="Indosat-M3" credits="1"/>
@@ -390,8 +385,8 @@
 <network name="LibanCell - MTC-Lebanon" credits="1"/>
 </country>
 <country name="LIECHTENSTEIN">
-<network name="Mobilkom AG FL" credits="1"/>
 <network name="Telecom FL" credits="1"/>
+<network name="Mobilkom AG FL" credits="1"/>
 <network name="Tele2 - Tango Liechtenstein" credits="1"/>
 </country>
 <country name="LITHUANIA">
@@ -445,13 +440,9 @@
 <network name="Cellplus" credits="1"/>
 <network name="Emtel" credits="1"/>
 </country>
-<country name="MEXICO">
-<network name="Nextel Mexico" credits="1"/>
-<network name="Radiomovil DIPSA S.A. de C.V." credits="1"/>
-</country>
 <country name="MOLDOVA">
-<network name="Moldcell" credits="2.75"/>
 <network name="VOXTEL" credits="1"/>
+<network name="Moldcell" credits="2.75"/>
 </country>
 <country name="MONACO">
 <network name="Monaco Telecom Mobile" credits="1"/>
@@ -494,9 +485,9 @@
 <network name="Celtel Niger S.A." credits="1"/>
 </country>
 <country name="NIGERIA">
+<network name="Glo Mobile" credits="1"/>
 <network name="Vmobile Nigeria" credits="1"/>
 <network name="MTN Nigeria Communications" credits="1"/>
-<network name="Glo Mobile" credits="1"/>
 </country>
 <country name="NORWAY">
 <network name="NetCom GSM AS" credits="1"/>
@@ -564,14 +555,15 @@
 <network name="Dontelecom" credits="1"/>
 <network name="KB Impuls Moscow" credits="1"/>
 <network name="Kuban-GSM" credits="1"/>
-<network name="Sibchallenge" credits="1"/>
 <network name="PrimTelefone" credits="1"/>
+<network name="Sibchallenge" credits="1"/>
 </country>
 <country name="RWANDA">
 <network name="MTN RwandaCell" credits="1"/>
 </country>
 <country name="SAUDI ARABIA">
-<network name="Saudi Telecom" credits="1"/>
+<network name="Etihad Etisalat Company" credits="1"/>
+<network name="Saudi Telecom" credits="2.75"/>
 </country>
 <country name="SENEGAL">
 <network name="Sonatel" credits="1"/>
@@ -580,9 +572,9 @@
 <country name="SERBIA AND MONTENEGRO">
 <network name="Vala 900" credits="1"/>
 <network name="MONET" credits="1"/>
-<network name="Promonte" credits="1"/>
 <network name="Mobtel - Mobile Telecommunications Srbija" credits="1"/>
 <network name="Telekom Srbija GSM" credits="1"/>
+<network name="Promonte" credits="1"/>
 </country>
 <country name="SEYCHELLES">
 <network name="Telecom Seychelles" credits="1"/>
@@ -633,7 +625,7 @@
 <network name="Tele2 Sweden Comviq" credits="1"/>
 </country>
 <country name="SWITZERLAND">
-<network name="Orange Communications" credits="1"/>
+<network name="Orange Communications" credits="1.75"/>
 <network name="Swisscom Mobile" credits="1"/>
 <network name="Sunrise Mobile" credits="1"/>
 <network name="CoopMobile" credits="1"/>
@@ -646,8 +638,8 @@
 <network name="Spacetel Syria" credits="1"/>
 </country>
 <country name="TAIWAN">
-<network name="Chunghwa Telecom CHT-LDM" credits="1"/>
 <network name="Taiwan Cellular Corporation" credits="1"/>
+<network name="Chunghwa Telecom CHT-LDM" credits="1"/>
 <network name="FarEasTone Telecom" credits="1"/>
 <network name="KG Telecommunications" credits="1"/>
 <network name="Mobitai" credits="1"/>
@@ -704,25 +696,17 @@
 <network name="Manx Telecom - Isle of Man" credits="2.75"/>
 <network name="T-Mobile UK Ltd" credits="1.75"/>
 <network name="Orange UK" credits="1"/>
-<network name="Vodafone UK" credits="1"/>
-</country>
-<country name="UNITED STATES">
-<network name="Nextel Communications US" credits="1"/>
-<network name="Cingular Wireless East  West" credits="1"/>
-<network name="T-Mobile USA" credits="1"/>
-<network name="ATT Wireless" credits="1"/>
-<network name="Cingular Wireless Genesis" credits="1"/>
-<network name="Cincinnati Bell Wireless" credits="1"/>
+<network name="Vodafone UK" credits="1.75"/>
 </country>
 <country name="UZBEKISTAN">
+<network name="Coscom" credits="1"/>
 <network name="Uzdunrobita" credits="1"/>
 <network name="Daewoo Unitel Company" credits="1"/>
-<network name="Coscom" credits="1"/>
 </country>
 <country name="VENEZUELA">
+<network name="Digital Celular" credits="1"/>
 <network name="Digitel Corporacion" credits="1"/>
 <network name="Infonet" credits="1"/>
-<network name="Digital Celular" credits="1"/>
 </country>
 <country name="VIET NAM">
 <network name="VinaPhone" credits="1"/>
@@ -733,8 +717,8 @@
 <network name="SabaFon" credits="1"/>
 </country>
 <country name="ZAMBIA">
-<network name="Celtel Zambia Ltd" credits="1"/>
 <network name="Telecel Zambia" credits="1"/>
+<network name="Celtel Zambia Ltd" credits="1"/>
 </country>
 <country name="ZIMBABWE">
 <network name="Telecel Zimbabwe" credits="1"/>

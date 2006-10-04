@@ -1,9 +1,10 @@
-Upgrade from 1.0.0 to 1.x
+Upgrade from 1.0.4 to 1.x
 --------------------------
- * Works without changes
 
-Upgrade from 0.9.76 to 1.0
---------------------------
+ * Check documetation in aspsms.notification.pl about the new notify syntax
+
+Upgrade from 0.9.76 to 1.0.4
+----------------------------
 
  * Upgrade from Net::Jabber v1.30 to Net::Jabber v.2.0
  * Check documetation in aspsms.notification.pl about the new notify syntax
