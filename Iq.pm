@@ -173,7 +173,24 @@ Support contact xmpp: $config::admin_jid
 
 Please enter Username (=UserKey https://www.aspsms.ch/userkey.asp) and password of your aspsms.com account:");
 
-    my ($ret_getUserPass,$user) = getUserPass($from,$banner);
+    my $ret_user 	= getUserPass($from,$banner);
+    my $user 		=  {};
+
+    if($ret_user == -2)
+     {
+      #
+      # If no user found, reset $user var
+      #
+      $user->{name}           = '' if ( ! $user->{name} );
+      $user->{password}       = '' if ( ! $user->{password} );
+      $user->{phone}          = 'aspsms-t' if ( ! $user->{phone} );
+      $user->{signature}      = $banner if (! $user->{signature} );
+     }
+    else
+     {
+      $user = $ret_user;
+     }
+    
     $query->SetUsername($user->{name});
     $query->SetURL($user->{signature});
     $query->SetPhone($user->{phone});

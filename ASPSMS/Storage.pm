@@ -30,25 +30,22 @@ use ASPSMS::Jid;
 
 sub get_record
  {
-  my $read_by 		= shift;
-  my $jid		= shift;
-  my $barejid		= get_barejid($jid);
+  my $get_type 		= shift;
+  my $jid_userkey	= shift;
   
   my $user = {};
 
-  my $passfile 		= "$config::passwords/$barejid";
-
-  aspsmst_log("notice","get_record($read_by): Read passfile for $barejid");
-
-eval {
-
-  open(F, "<$passfile") or die "Problem: $!\n";
-  seek(F, 0, 0);
-  local $/ = "\n";
-
-  while (<F>) 
+  opendir(DIR,"$config::passwords") or die "Can not open spool dir $config::passwords";
+  while (defined(my $file = readdir(DIR))) 
    {
-    chop;
+    aspsmst_log("debug","get_record($get_type): Processing file $config::passwords/$file");
+    open(F, "<$config::passwords/$file") or die "Problem: $!\n";
+    seek(F, 0, 0);
+    local $/ = "\n";
+
+    while (<F>) 
+     {
+      chop;
     	(	
 	$user->{gateway}, 
     	$user->{name}, 
@@ -56,21 +53,43 @@ eval {
 	$user->{phone},
 	$user->{signature}
 	) = split(':');
+	$user->{jid} = $file;
 
-   } ### END of while (<F>)
+     } ### END of while (<F>)
+    close(F);
 
-close(F);
+     if ($get_type eq "userkey")
+      {
+
+       if ($jid_userkey eq $user->{name})
+        {
+
+         closedir(DIR);
+         aspsmst_log('notice',"get_record($get_type): Return: Got $file for ".$user->{name}."/".$user->{phone}."\n");
+	 return $user;
+
+        } ### END of if ($jid_userkey eq $user->{name})
+      } ### END of if ($get_type eq "userkey")
+
+     if ($get_type eq "jid")
+      {
+
+       if ($jid_userkey eq $file)
+        {
+
+         closedir(DIR);
+         aspsmst_log('notice',"get_record($get_type): Return: Got $file for ".$user->{name}."/".$user->{phone}."\n");
+	 return $user;
+
+        } ### END of if ($jid_userkey eq $file)
+
+      } ### END of if ($get_type eq "jid")
+
+
+
+    } ### END of while (defined(my $file = readdir(DIR)))
  
- };
-
-if($@)
- {
-  aspsmst_log("info","get_record($read_by): Problem to read passfile for $barejid");
-  aspsmst_log("notice","get_record($read_by): Problem to read passfile $passfile");
-  return -1;
- }
-
-return (0,$user);
+return -2;
 
  } ### END of get_data_from_storage ###
 
@@ -126,4 +145,6 @@ if($@)
 return 0;
 
 }
+
+
 1;

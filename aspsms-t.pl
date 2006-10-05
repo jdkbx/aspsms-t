@@ -203,7 +203,8 @@ sub InMessage {
 	 my $notify_message 	= $stattmp[6];
 	 my $now 		= localtime;
 
-  	 my $to_jid = get_jid_from_userkey($userkey,$aspsmst_transaction_id);
+	 my $userdata		= get_record("userkey",$userkey);
+	 my $to_jid 		= $userdata->{jid};
 
 	 #
 	 # If $streamtype is notify via aspsms.notification.pl

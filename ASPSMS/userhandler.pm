@@ -41,15 +41,18 @@ sub getUserPass {
 my ($from,$banner,$aspsmst_transaction_id) = @_;
 my $barejid	= get_barejid($from);
 my $passfile 	= "$config::passwords/$barejid";
+my $user = {}; my $ret;
 
-my ($ret,$user) = get_record("getUserPass",$barejid);
+$user = get_record("jid",$barejid);
 
-$user->{name}           = '' if ( ! $user->{name} );
-$user->{password}       = '' if ( ! $user->{password} );
-$user->{phone}          = 'aspsms-t' if ( ! $user->{phone} );
-$user->{signature}      = $banner if (! $user->{signature} );
+if($user == -2)
+ {
+  aspsmst_log("info","getuserPass(): No registered user found for $barejid");
+  return -2;
+ }
 
-return ($ret,$user);
+aspsmst_log('info',"getUserPass($barejid): Got ".$user->{name}."/".$user->{phone});
+return $user;
 
 }
 ########################################################################
