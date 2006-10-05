@@ -21,7 +21,7 @@ use Exporter;
 use XML::Smart;
 use ASPSMS::aspsmstlog;
 
-our $release = " svn176";
+our $release = " svn178";
 
 our $config_file;
 our $aspsmssocket;
