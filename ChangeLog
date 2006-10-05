@@ -6,6 +6,9 @@
     * trunk/aspsms-t.pl:
       same
 
+    * trunk/Iq.pm:
+      Disco support for supported sms networks
+
 
 2006-10-04 Marco Balmer  <mb@micressor.ch>
 

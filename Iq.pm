@@ -357,8 +357,8 @@ my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
 my $barejid	= get_barejid($from);
 
-#eval {
-
+if($to eq $config::service_name)
+ {
    if ($type eq 'get')
     {
     aspsmst_log('notice',"jabber_iq_disco_info(): Processing disco query from=$barejid id=$id");
@@ -381,8 +381,9 @@ my $barejid	= get_barejid($from);
 
     $config::Connection->Send($iq);
 
-    } # END of if ($type eq 'get'
 
+    } # END of if ($type eq 'get'
+} ### END of if($to eq $config::service_name)
 
 } ### END of jabber_iq_disco_info ###
 
@@ -399,19 +400,63 @@ my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
 my $barejid	= get_barejid($from);
 
-    if($type eq 'DEV_get')
+    my $iqQuery = $iq->NewQuery("http://jabber.org/protocol/disco#items");
+
+    if($type eq 'get')
      {
       	aspsmst_log('notice',"jabber_iq_disco_items(): Processing disco query from=$barejid id=$id");
 
-      
-    	$iq->NewChild("http://jabber.org/protocol/disco#items");
+    if($to eq $config::service_name)
+     {
+      aspsmst_log('notice',"jabber_iq_disco_items($barejid): Display transport items");
+      $iqQuery->AddItem(jid=>"networks\@$config::service_name",
+    			name=>"Supported sms networks");
+     } ### END of if($to eq $config::service_name)
+
+    if($to eq "networks\@$config::service_name")
+     {
+      aspsmst_log('notice',"jabber_iq_disco_items($barejid): Display network countries");
+      my $xml_networks  = XML::Smart->new("./etc/networks.xml") or die;
+      my @countries	= $xml_networks->{networks}{country}('[@]','name');
+
+      #$iqQuery->AddItem(jid=>"networks\@$config::service_name",
+      #			name=>"Supported sms networks");
+
+      foreach my $i (@countries)
+      {
+       aspsmst_log('debug',"jabber_iq_disco_items($barejid): Country: $i");
+       $iqQuery->AddItem(	jid=>"$i\@".$config::service_name,
+       				name=>$i);
+      } ### END of foreach my $i (@countries)
+     } ### END of if($to eq "networks\@$config::service_name")
+
+    my @select_country = split(/@/,$to);
+    if($to eq $select_country[0]."@".$config::service_name)
+     {
+      aspsmst_log('notice',"jabber_iq_disco_items($barejid): Display network of country ".$select_country[0]);
+      my $xml_networks  = XML::Smart->new("./etc/networks.xml") or die;
+      #
+      # Change country to uppercase
+      #
+      $select_country[0] =~ tr/a-z/A-Z/;
+      my @networks	= $xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','name');
+      my @credits	= $xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','credits');
+
+      my $tmp =0;
+      foreach my $i (@networks)
+      {
+       aspsmst_log('debug',"jabber_iq_disco_items($barejid): Network: $i");
+       $iqQuery->AddItem(	name=>"$i (Credits:$credits[$tmp])");
+      } ### END of foreach my $i (@countries)
+
+     } ### END of if($to eq "networks\@$config::service_name")
+
       	$iq->SetType('result');
       	$iq->SetFrom($iq->GetTo());
       	$iq->SetTo($from);
       	$iq->SetID($id);
-    	$iq->SetDiscoItems("TEST");
-	
       	$config::Connection->Send($iq);
+        aspsmst_log('debug',"jabber_iq_disco_items($barejid): Processing finished");
     }
 } ### END of jabber_iq_disco_items ###
 
