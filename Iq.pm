@@ -442,11 +442,13 @@ my $barejid	= get_barejid($from);
       my @networks	= $xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','name');
       my @credits	= $xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','credits');
 
+
       my $tmp =0;
       foreach my $i (@networks)
       {
        aspsmst_log('debug',"jabber_iq_disco_items($barejid): Network: $i");
-       $iqQuery->AddItem(	name=>"$i (Credits:$credits[$tmp])");
+       $iqQuery->AddItem(	name=>"$i [Credits:$credits[$tmp]]");
+       $tmp++;
       } ### END of foreach my $i (@countries)
 
      } ### END of if($to eq "networks\@$config::service_name")
