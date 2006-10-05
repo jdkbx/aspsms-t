@@ -408,14 +408,14 @@ my $barejid	= get_barejid($from);
 
     if($to eq $config::service_name)
      {
-      aspsmst_log('notice',"jabber_iq_disco_items($barejid): Display transport items");
+      aspsmst_log('info',"jabber_iq_disco_items($barejid): Display transport items");
       $iqQuery->AddItem(jid=>"networks\@$config::service_name",
     			name=>"Supported sms networks");
      } ### END of if($to eq $config::service_name)
 
     if($to eq "networks\@$config::service_name")
      {
-      aspsmst_log('notice',"jabber_iq_disco_items($barejid): Display network countries");
+      aspsmst_log('info',"jabber_iq_disco_items($barejid): Display network countries");
       my $xml_networks  = XML::Smart->new("./etc/networks.xml") or die;
       my @countries	= $xml_networks->{networks}{country}('[@]','name');
 
@@ -433,7 +433,7 @@ my $barejid	= get_barejid($from);
     my @select_country = split(/@/,$to);
     if($to eq $select_country[0]."@".$config::service_name)
      {
-      aspsmst_log('notice',"jabber_iq_disco_items($barejid): Display network of country ".$select_country[0]);
+      aspsmst_log('info',"jabber_iq_disco_items($barejid): Display network of country ".$select_country[0]);
       my $xml_networks  = XML::Smart->new("./etc/networks.xml") or die;
       #
       # Change country to uppercase
