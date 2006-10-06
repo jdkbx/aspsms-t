@@ -425,6 +425,7 @@ my $barejid	= get_barejid($from);
       foreach my $i (@countries)
       {
        aspsmst_log('debug',"jabber_iq_disco_items($barejid): Country: $i");
+       $i =~ tr/A-Z/a-z/;
        $iqQuery->AddItem(	jid=>"$i\@".$config::service_name,
        				name=>$i);
       } ### END of foreach my $i (@countries)
