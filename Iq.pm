@@ -406,6 +406,11 @@ my $barejid	= get_barejid($from);
      {
       	aspsmst_log('notice',"jabber_iq_disco_items(): Processing disco query from=$barejid id=$id");
 
+
+    #
+    # Offer supported networks
+    #
+
     if($to eq $config::service_name)
      {
       aspsmst_log('info',"jabber_iq_disco_items($barejid): Display transport items");
@@ -413,43 +418,90 @@ my $barejid	= get_barejid($from);
     			name=>"Supported sms networks");
      } ### END of if($to eq $config::service_name)
 
+
+    #
+    # Display all availavle countries for sending
+    # sms messages
+    #
+
     if($to eq "networks\@$config::service_name")
      {
       aspsmst_log('info',"jabber_iq_disco_items($barejid): Display network countries");
-      my $xml_networks  = XML::Smart->new("./etc/networks.xml") or die;
-      my @countries	= $xml_networks->{networks}{country}('[@]','name');
+      my @countries	= $config::xml_networks->{networks}{country}('[@]','name');
 
-      #$iqQuery->AddItem(jid=>"networks\@$config::service_name",
-      #			name=>"Supported sms networks");
+      #
+      # Generate disco item for each country
+      #
 
       foreach my $i (@countries)
       {
        aspsmst_log('debug',"jabber_iq_disco_items($barejid): Country: $i");
        $i =~ tr/A-Z/a-z/;
+       
+       #
+       # Jid fix for spaces in country names
+       #
+       $i =~ s/\s/\_/g;
+       
        $iqQuery->AddItem(	jid=>"$i\@".$config::service_name,
        				name=>$i);
       } ### END of foreach my $i (@countries)
+
      } ### END of if($to eq "networks\@$config::service_name")
 
     my @select_country = split(/@/,$to);
     if($to eq $select_country[0]."@".$config::service_name)
      {
+      
+      #
+      # Jid fix for spaces in country names
+      #
+      $select_country[0] =~ s/\_/\ /g;
+
       aspsmst_log('info',"jabber_iq_disco_items($barejid): Display network of country ".$select_country[0]);
-      my $xml_networks  = XML::Smart->new("./etc/networks.xml") or die;
+
       #
       # Change country to uppercase
       #
       $select_country[0] =~ tr/a-z/A-Z/;
-      my @networks	= $xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','name');
-      my @credits	= $xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','credits');
+      my @networks	= $config::xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','name');
+      my @credits	= $config::xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','credits');
+
+      #<fees>
+      #<country name="AUSTRIA">
+      #<network name="Mobilkom Austria" credits="2.75">
+      #<prefix number="0043664"/>
+      #</network>
+      #</fees>
+
+      my @prefixes;
 
 
-      my $tmp =0;
+      my $counter_networks 	=0;
+      my $counter_prefixes	=0;
       foreach my $i (@networks)
       {
-       aspsmst_log('debug',"jabber_iq_disco_items($barejid): Network: $i");
-       $iqQuery->AddItem(	name=>"$i [Credits:$credits[$tmp]]");
-       $tmp++;
+       #
+       # Generate disco item for each country
+       #
+       aspsmst_log('debug',"jabber_iq_disco_items($barejid): Network $counter_networks: $i");
+       #$iqQuery->AddItem(	name=>"$i [Credits:$credits[$counter_networks]]");
+       $iqQuery->AddItem(	name=>"Network: $i");
+       @prefixes = $config::xml_fees->{"fees"}{"country"}('name','eq',"$select_country[0]"){"network"}('name','eq',"$i"){"prefix"}('[@]','number');
+       $counter_prefixes	=0;
+       foreach my $i (@prefixes)
+        {
+         #
+         # Generate disco item for prefixes
+         #
+	 unless($i eq "")
+	  {
+           aspsmst_log('debug',"jabber_iq_disco_items($barejid): Prefix $counter_prefixes: $i");
+           $iqQuery->AddItem(name=>"Prefix: $i [Credits:$credits[0]]");
+	  }
+	 $counter_prefixes++;
+	} ### END of foreach my $i (@prefixes)
+       $counter_networks++;
       } ### END of foreach my $i (@countries)
 
      } ### END of if($to eq "networks\@$config::service_name")

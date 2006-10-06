@@ -21,7 +21,7 @@ use Exporter;
 use XML::Smart;
 use ASPSMS::aspsmstlog;
 
-our $release = " svn178";
+our $release = " svn182";
 
 our $config_file;
 our $aspsmssocket;
@@ -50,10 +50,13 @@ our $aspsmst_stat_message_counter;
 our $aspsmst_stat_error_counter;
 our $aspsmst_stat_notification_counter;
 our $transport_secret;
+our $xml_networks;
+our $xml_fees;
 
 our $aspsmst_stat_stanzas 	= 0;
 our $aspsmst_in_progress 	= 0;
 our $Connection;
+
 
 @ISA 			= qw(Exporter);
 @EXPORT 		= qw(	set_config
@@ -81,6 +84,8 @@ our $Connection;
 				$aspsmst_stat_stanzas,
 				$transport_secret,
 				$aspsmst_in_progress,
+				$xml_networks,
+				$xml_fees,
 				$Connection);
 
 
@@ -111,6 +116,14 @@ sub set_config
   $browseservicename  	= $Config->{aspsms}{jabber}{browse}{servicename};
   $browseservicetype  	= $Config->{aspsms}{jabber}{browse}{type};
   $transport_secret  	= $Config->{aspsms}{"transport-secret"};
+
+#
+# Load Network and fees information
+#
+
+ aspsmst_log("info","set_config(): Load ./etc/networks.xml and ./etc/fees.xml network and billing information");
+$xml_networks  	= XML::Smart->new("./etc/networks.xml") or die;
+$xml_fees	= XML::Smart->new("./etc/fees.xml") or die;
 
 } ### END of set_config ###
 

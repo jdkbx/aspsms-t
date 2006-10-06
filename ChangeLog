@@ -1,3 +1,8 @@
+2006-10-06 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/Iq.pm:
+      Added number prefixes and credits to the networs
+
 2006-10-05 Marco Balmer  <mb@micressor.ch>
 
     * trunk/ASPSMS/Storage.pm:
