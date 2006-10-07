@@ -1,3 +1,8 @@
+2006-10-07 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/Iq.pm:
+      A little fix in disco for network operators display
+
 2006-10-06 Marco Balmer  <mb@micressor.ch>
 
     * trunk/Iq.pm:

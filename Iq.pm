@@ -442,9 +442,11 @@ my $barejid	= get_barejid($from);
        # Jid fix for spaces in country names
        #
        $i =~ s/\s/\_/g;
-       
+       unless($i eq "")
+        {
        $iqQuery->AddItem(	jid=>"$i\@".$config::service_name,
        				name=>$i);
+        } ### END of unless($li eq "")
       } ### END of foreach my $i (@countries)
 
      } ### END of if($to eq "networks\@$config::service_name")
@@ -485,9 +487,14 @@ my $barejid	= get_barejid($from);
        # Generate disco item for each country
        #
        aspsmst_log('debug',"jabber_iq_disco_items($barejid): Network $counter_networks: $i");
-       #$iqQuery->AddItem(	name=>"$i [Credits:$credits[$counter_networks]]");
-       $iqQuery->AddItem(	name=>"Network: $i");
+
+       unless($i eq "")
+	{
+         $iqQuery->AddItem(	name=>"Network: $i");
+        } ### END of unless($i eq "")
+
        @prefixes = $config::xml_fees->{"fees"}{"country"}('name','eq',"$select_country[0]"){"network"}('name','eq',"$i"){"prefix"}('[@]','number');
+
        $counter_prefixes	=0;
        foreach my $i (@prefixes)
         {
