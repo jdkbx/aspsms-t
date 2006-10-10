@@ -109,10 +109,19 @@ while ()
      #
      $aspsmst_stat_msg_per_hour  = $config::aspsmst_stat_message_counter / ($transport_uptime/3600);
      $aspsmst_stat_msg_per_hour  = sprintf("%.3f",$aspsmst_stat_msg_per_hour);
+
+     #
+     # Calculate uptime in hours
+     #
+     my $transport_uptime_hours	 = $transport_uptime / 3600;
+        $transport_uptime_hours	 = sprintf("%.3f",$transport_uptime_hours);
+
+
+     
      #
      # Logging status message
      #
-     aspsmst_log('info',"main(): [stat] Uptime: $transport_uptime sec(s)\n");
+     aspsmst_log('info',"main(): [stat] Transport uptime: $transport_uptime_hours hour(s)\n");
      aspsmst_log('info',"main(): [stat] SMS Successfully: $config::aspsmst_stat_message_counter\n");
      aspsmst_log('info',"main(): [stat] SMS Notifications: $config::aspsmst_stat_notification_counter\n");
      aspsmst_log('info',"main(): [stat] SMS delivery errors: $config::aspsmst_stat_error_counter\n");
