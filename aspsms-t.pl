@@ -339,6 +339,7 @@ has status: $notify_message @ $now");
 	  unless($result eq "")
 	   {
 	    aspsmst_log('info',"InMessage($from_barejid): id:$aspsmst_transaction_id \$result=$result from Sendaspsms()");
+	    $config::aspsmst_stat_error_counter++;
 	    sendError($message, $from, $to, 404, $ret);
 	   }
 	  else
@@ -347,6 +348,7 @@ has status: $notify_message @ $now");
 	    # Normal error message stanza with $result
 	    # code.
 	    #
+	    $config::aspsmst_stat_error_counter++;
 	    sendError($message, $from, $to, $result, $ret);
 	   }
 	   
