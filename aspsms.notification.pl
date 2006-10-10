@@ -14,10 +14,10 @@
 # GNU General Public License for more details.
 
 # Notify example
-# aspsms.notification.pl?xml=notify,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
-#
+#aspsms.notification.pl?xml=notify,,,1,,,1,,,chat,,,$USERKEY,,,<Originator>,,,<MessageData>
+
 # twoway example
-# aspsms.notification.pl?xml=twoway,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
+# aspsms.notification.pl?xml=twoway,,,1,,,1,,,4179xxxxxxxx,,,$USERKEY,,,<Originator>,,,<MessageData>
 
 use lib "./";
 
