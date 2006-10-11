@@ -496,15 +496,15 @@ my $barejid	= get_barejid($from);
        @prefixes = $config::xml_fees->{"fees"}{"country"}('name','eq',"$select_country[0]"){"network"}('name','eq',"$i"){"prefix"}('[@]','number');
 
        $counter_prefixes	=0;
-       foreach my $i (@prefixes)
+       foreach my $i_prefix (@prefixes)
         {
          #
          # Generate disco item for prefixes
          #
-	 unless($i eq "")
+	 unless($i_prefix eq "")
 	  {
-           aspsmst_log('debug',"jabber_iq_disco_items($barejid): Prefix $counter_prefixes: $i");
-           $iqQuery->AddItem(name=>"Prefix: $i [Credits:$credits[0]]");
+           aspsmst_log('debug',"jabber_iq_disco_items($barejid): Prefix $counter_prefixes: $i_prefix");
+           $iqQuery->AddItem(name=>"Network: $i Prefix: $i_prefix [Credits:$credits[0]]");
 	  }
 	 $counter_prefixes++;
 	} ### END of foreach my $i (@prefixes)
