@@ -155,7 +155,7 @@ sub ConnectAspsms {
 my $status = 0;
 my $aspsmst_transaction_id = shift;
 
-my $connection_num = int(rand(4));
+my $connection_num = int(rand(3) + 1);
 
 
 aspsmst_log('notice',"id:$aspsmst_transaction_id ConnectAspsms(): Connecting to ($connection_num)".$config::aspsms_connection{"host_$connection_num"}.":".$config::aspsms_connection{"port_$connection_num"});
