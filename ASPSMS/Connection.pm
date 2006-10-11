@@ -119,7 +119,7 @@ sub exec_ConnectionASPSMS
 	
   # /Generate SMS Request
   unless(ConnectAspsms($aspsmst_transaction_id) eq '0') 
-   { return ('-1','Sorry, aspsms are temporary not available. Please try again later or contact your administrator of http://www.aspsms.com'); }
+   { return ('-1',"Sorry, $config::ident transport is up and running but it is not able to reach one of the aspsms servers for delivering your sms message. Please try again later. Thank you!"); }
  
   # Send request to socket
   aspsmst_log('debug',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): Sending: $completerequest");
@@ -152,20 +152,70 @@ sub exec_ConnectionASPSMS
 ########################################################################
 sub ConnectAspsms {
 ########################################################################
-my $status = 0;
 my $aspsmst_transaction_id = shift;
 
-my $connection_num = int(rand(3) + 1);
+my $status		= undef;
+my $connect_retry 	= 0;
+my $max_connect_retry	= 4;
+my $connection_num	= 0;
+
+#
+# If connection failed we are trying to reconnect on another
+# aspsms xml server
+#
+
+while ()
+ {
+  #
+  # Select on of the 4 servers
+  #
+  $connection_num++;
 
 
-aspsmst_log('notice',"id:$aspsmst_transaction_id ConnectAspsms(): Connecting to ($connection_num)".$config::aspsms_connection{"host_$connection_num"}.":".$config::aspsms_connection{"port_$connection_num"});
-$config::aspsmssocket = IO::Socket::INET->new(     	PeerAddr => $config::aspsms_connection{"host_$connection_num"},
+  aspsmst_log('info',"id:$aspsmst_transaction_id ConnectAspsms(): Connecting to server $connection_num (".$config::aspsms_connection{"host_$connection_num"}.":".$config::aspsms_connection{"port_$connection_num"}.") \$connect_retry=$connect_retry");
+
+  #
+  # Setup a socket connection to the selected
+  # server
+  # 
+  $config::aspsmssocket = IO::Socket::INET->new(     	PeerAddr => $config::aspsms_connection{"host_$connection_num"},
                                         		PeerPort => $config::aspsms_connection{"port_$connection_num"},
                                         		Proto    => 'tcp',
-                                        		Timeout  => 5,
+                                        		Timeout  => 3,
                                         		Type     => SOCK_STREAM) or $status = -1;
 
-aspsmst_log('notice',"id:$aspsmst_transaction_id ConnectAspsms(): status=$status");
+  aspsmst_log('debug',"id:$aspsmst_transaction_id ConnectAspsms(): status=$status");
+  
+  #
+  # Increment connection retry
+  #
+  $connect_retry++;
+
+  aspsmst_log('debug',"id:$aspsmst_transaction_id ConnectAspsms(): \$status=$status \$connection_retry=$connect_retry");
+
+  if($connect_retry > $max_connect_retry)
+   {
+    aspsmst_log('info',"id:$aspsmst_transaction_id ConnectAspsms(): status=$status Max connect retry reached");
+    last; 
+   }
+
+  if($status == -1)
+   { 
+    aspsmst_log('info',"id:$aspsmst_transaction_id ConnectAspsms(): Connecting to server $connection_num (".$config::aspsms_connection{"host_$connection_num"}.":".$config::aspsms_connection{"port_$connection_num"}.") failed \$status=$status \$connect_retry=$connect_retry");
+    $status = undef;
+   }
+  else
+   {
+    #
+    # Return connection sucessfully
+    #
+    return 0;
+   }
+
+   $status = undef; 
+  } ### END of 
+
+
 return $status;
 }
 
