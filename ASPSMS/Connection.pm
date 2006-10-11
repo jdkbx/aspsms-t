@@ -155,9 +155,12 @@ sub ConnectAspsms {
 my $status = 0;
 my $aspsmst_transaction_id = shift;
 
-aspsmst_log('debug',"id:$aspsmst_transaction_id ConnectAspsms(): Connecting to $config::aspsms_ip:$config::aspsms_port");
-$config::aspsmssocket = IO::Socket::INET->new(     	PeerAddr => $config::aspsms_ip,
-                                        		PeerPort => $config::aspsms_port,
+my $connection_num = int(rand(4));
+
+
+aspsmst_log('notice',"id:$aspsmst_transaction_id ConnectAspsms(): Connecting to ($connection_num)".$config::aspsms_connection{"host_$connection_num"}.":".$config::aspsms_connection{"port_$connection_num"});
+$config::aspsmssocket = IO::Socket::INET->new(     	PeerAddr => $config::aspsms_connection{"host_$connection_num"},
+                                        		PeerPort => $config::aspsms_connection{"port_$connection_num"},
                                         		Proto    => 'tcp',
                                         		Timeout  => 5,
                                         		Type     => SOCK_STREAM) or $status = -1;

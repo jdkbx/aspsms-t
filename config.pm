@@ -26,10 +26,7 @@ our $release = " svn184";
 our $config_file;
 our $aspsmssocket;
 
-our $aspsms_ip;
-our $aspsms_port;
-our $xmlspec;
-our $affiliateid;
+our %aspsms_connection = {};
 
 our $service_name;
 our $server;
@@ -60,19 +57,16 @@ our $Connection;
 
 @ISA 			= qw(Exporter);
 @EXPORT 		= qw(	set_config
+				$aspsms_connection,
 				$service_name,
 				$server,
 				$port,
 				$secret,
 				$passwords,
 				$release,
-				$xmlspec,
-				$aspsms_ip,
-				$aspsms_port,
 				$banner,
 				$admin_jid,
 				$ident,
-				$affiliateid,
 				$notificationurl,
 				$notificationjid,
 				$notificationjid,
@@ -86,7 +80,8 @@ our $Connection;
 				$aspsmst_in_progress,
 				$xml_networks,
 				$xml_fees,
-				$Connection);
+				$Connection
+				);
 
 
 sub set_config
@@ -96,10 +91,14 @@ sub set_config
 
   my $Config  =       XML::Smart->new($config_file);
 
-  $aspsms_ip		= $Config->{aspsms}{server}('id','eq','1'){"host"};
-  $aspsms_port		= $Config->{aspsms}{server}('id','eq','1'){"port"};
-  $xmlspec		= $Config->{aspsms}{server}('id','eq','1'){"xmlspec"};
-  $affiliateid		= $Config->{aspsms}{server}('id','eq','1'){"affiliateid"};
+  for (my $i=1;$i<=4;$i++)
+   {
+    aspsmst_log("debug","set_config(): Read ip configuration for host $i");
+    $aspsms_connection{"host_$i"} 		= $Config->{aspsms}{server}('id','eq',"$i"){"host"};
+    $aspsms_connection{"port_$i"} 		= $Config->{aspsms}{server}('id','eq',"$i"){"port"};
+    $aspsms_connection{"xmlspec_$i"} 		= $Config->{aspsms}{server}('id','eq',"$i"){"xmlspec"};
+    $aspsms_connection{"affiliateid_$i"}	= $Config->{aspsms}{server}('id','eq',"$i"){"affiliateid"};
+   }
 
   $service_name		= $Config->{aspsms}{jabber}{serviceid};
   $server		= $Config->{aspsms}{jabber}{server};
@@ -122,8 +121,8 @@ sub set_config
 #
 
  aspsmst_log("info","set_config(): Load ./etc/networks.xml and ./etc/fees.xml network and billing information");
-$xml_networks  	= XML::Smart->new("./etc/networks.xml") or die;
-$xml_fees	= XML::Smart->new("./etc/fees.xml") or die;
+$xml_networks  	= XML::Smart->new("./etc/networks.xml") or return -1;
+$xml_fees	= XML::Smart->new("./etc/fees.xml") or return -1;
 
 } ### END of set_config ###
 

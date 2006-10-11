@@ -38,18 +38,15 @@ use ASPSMS::Storage;
 				  
 ### BEGIN CONFIGURATION ###
 
-print "\naspsms-t $config::release";
-
-unless ($ARGV[0] eq '-c')
- {
-  print "\nUsage: ./aspsms-t.pl -c aspsms.xml\n\n";
-  exit(-1);
- }
-else
- {
   aspsmst_log("info","Starting up...");
-  set_config($ARGV[1]);
- }
+  my $ret_config = set_config($ARGV[1]);
+  unless($ret_config == 0 and $ARGV[0] eq "-c")
+   { 
+    aspsmst_log("info","Error: read config file $ARGV[1]");
+    aspsmst_log("info","Exit: $ret_config");
+    aspsmst_log("info","Usage: ./aspsms-t.pl -c aspsms.xml");
+    exit($ret_config);
+   } ### END of unless($ret_config == 0)
 
 use Sys::Syslog;
 openlog($config::ident,'',"$config::facility");
@@ -67,13 +64,9 @@ $config::aspsmst_stat_notification_counter 	= 0;
 
 ### END BASIC CONFIGURATION ###
 
+print "\nDEBUG1:".$config::aspsms_connection{"host_1"};
 
 aspsmst_log('info',"init(): $config::service_name - Version $config::release`");
-aspsmst_log('info',"init(): Using XML-Spec `$config::xmlspec`");
-aspsmst_log('info',"init(): Using AffilliateId `$config::affiliateid`");
-aspsmst_log('info',"init(): Using Notifcation URL `$config::notificationurl`");
-aspsmst_log('info',"init(): Using admin jid `$config::admin_jid`");
-
 
 umask(0177);
 
