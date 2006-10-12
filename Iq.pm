@@ -413,7 +413,7 @@ my $barejid	= get_barejid($from);
 
     if($to eq $config::service_name)
      {
-      aspsmst_log('info',"jabber_iq_disco_items($barejid): Display transport items");
+      aspsmst_log('notice',"jabber_iq_disco_items($barejid): Display transport items");
       $iqQuery->AddItem(jid=>"networks\@$config::service_name",
     			name=>"Supported sms networks");
      } ### END of if($to eq $config::service_name)
@@ -426,7 +426,7 @@ my $barejid	= get_barejid($from);
 
     if($to eq "networks\@$config::service_name")
      {
-      aspsmst_log('info',"jabber_iq_disco_items($barejid): Display network countries");
+      aspsmst_log('notice',"jabber_iq_disco_items($barejid): Display network countries");
       my @countries	= $config::xml_networks->{networks}{country}('[@]','name');
 
       #
@@ -460,7 +460,7 @@ my $barejid	= get_barejid($from);
       #
       $select_country[0] =~ s/\_/\ /g;
 
-      aspsmst_log('info',"jabber_iq_disco_items($barejid): Display network of country ".$select_country[0]);
+      aspsmst_log('notice',"jabber_iq_disco_items($barejid): Display network of country ".$select_country[0]);
 
       #
       # Change country to uppercase
@@ -469,15 +469,7 @@ my $barejid	= get_barejid($from);
       my @networks	= $config::xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','name');
       my @credits	= $config::xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','credits');
 
-      #<fees>
-      #<country name="AUSTRIA">
-      #<network name="Mobilkom Austria" credits="2.75">
-      #<prefix number="0043664"/>
-      #</network>
-      #</fees>
-
       my @prefixes;
-
 
       my $counter_networks 	=0;
       my $counter_prefixes	=0;
