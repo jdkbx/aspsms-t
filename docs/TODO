@@ -1,7 +1,10 @@
 aspsms-t Road MAP
 
-* 1.2
-** Stable release basic features
+Version 1.2
+* Stable release basic features
 
-* 1.4
-** Full Two-Way support for everyone. A separate two-way number is not longer necessary
+Version 1.3
+* WAPPush support
+
+Not scheduled
+* Full Two-Way support for everyone. A separate two-way number is not longer necessary
