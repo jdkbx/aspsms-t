@@ -19,7 +19,7 @@ use vars qw(@EXPORT @ISA);
 use Exporter;
 
 @ISA 			= qw(Exporter);
-@EXPORT 		= qw(xmlShowCredits xmlSendTextSMS xmlGenerateRequest);
+@EXPORT 		= qw(xmlShowCredits xmlSendTextSMS xmlSendWAPPushSMS xmlGenerateRequest);
 
 ########################################################################
 sub xmlShowCredits {
@@ -60,8 +60,15 @@ my $affiliateid		= shift;
 my $msg_id		= shift;
 my $msg_type		= shift;
 
+#
 # fix right url encoding for aspsms xmlsrv
+#
 $config::notificationurl =~ s/\:/\&\#58\;/g;
+
+#
+# Prepare charset
+#
+$mess 	= PrepareCharSet($mess);
 
 my $aspsmsrequest =
 
@@ -92,6 +99,55 @@ return $aspsmsrequest;
 ########################################################################
 
 ########################################################################
+sub xmlSendWAPPushSMS {
+########################################################################
+
+my $login               = shift;
+my $password            = shift;
+my $originator		= shift;
+my $target		= shift;
+my $mess		= shift;
+my $url			= shift;
+my $random		= shift;
+my $jid			= shift;
+my $numbernotification	= shift;
+my $affiliateid		= shift;
+my $msg_id		= shift;
+my $msg_type		= shift;
+
+$mess 	= PrepareCharSet($mess);
+$url 	= PrepareCharSet($url);
+
+
+# fix right url encoding for aspsms xmlsrv
+$config::notificationurl =~ s/\:/\&\#58\;/g;
+
+my $aspsmsrequest =
+
+"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
+<aspsms>
+        <Userkey>" . $login ."</Userkey>
+        <Password>" . $password . "</Password>
+        <Originator>" . $originator  . "</Originator>
+        <Recipient>
+                <PhoneNumber>" . $target . "</PhoneNumber>
+		<TransRefNumber>" . $random ."</TransRefNumber>
+        </Recipient>
+        <WAPPushDescription>" .$mess . "</WAPPushDescription>
+	<WAPPushURL>".$url."</WAPPushURL>
+        <Action>SendWAPPushSMS</Action>
+	<AffiliateId>$affiliateid</AffiliateId>
+</aspsms>
+\r\n\r\r\n";
+
+
+return $aspsmsrequest;
+
+########################################################################
+}
+########################################################################
+
+########################################################################
 sub xmlGenerateRequest {
 ########################################################################
 
@@ -107,6 +163,19 @@ my $completerequest = $aspsmsheader . $aspsmsrequest;
 
 
 return $completerequest;
+
+########################################################################
+}
+########################################################################
+
+########################################################################
+sub PrepareCharSet {
+########################################################################
+my $data = shift;
+
+$data =~ s/:/&#58;/g;
+
+return $data;
 
 ########################################################################
 }

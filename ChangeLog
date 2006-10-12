@@ -1,3 +1,15 @@
+2006-10-12 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/aspsms.SendTextSMS.pl:
+      New script for sending sms without transport
+
+    * trunk/aspsms.SendWAPPushSMS.pl:
+      New script for sending WAPPush sms messages
+
+    * trunk/ASPSMS/xmlmodel.pm:
+      * Add xmlSendWAPPushSMS() function
+      * Fix : problem.
+
 2006-10-11 Marco Balmer  <mb@micressor.ch>
 
     * trunk/ASPSMS/Connection.pm:

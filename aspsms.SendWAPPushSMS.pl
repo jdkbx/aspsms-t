@@ -12,17 +12,17 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# Example: echo "test | ./aspsms-t.exec.pl
 
 ### CONFIGURATION BEGIN ###
 my $login		= '';
 my $password		= '';
-my $originator		= '';
-my $target		= '';
+my $originator		= "";
+my $target		= $ARGV[0];
 my $affiliateid		= '82723';
-my $destination		= @ARGV[0];
-my $mess		= <STDIN>;
+my $mess		= $ARGV[1];
+my $url 		= $ARGV[2];
 ### CONFIGURATION END ###
+
 
 use IO::Socket;
 use strict;
@@ -32,11 +32,17 @@ my $aspsms_ip    = 'xml1.aspsms.com';
 my $aspsms_port  = '5061';
 my $aspsmssocket;
 
+unless($ARGV[0] and $ARGV[1] and $login and $password and $originator)
+ {
+  print "Please configure the script ./aspsms.SendWAPPushSMS.pl
+Usage: ./aspsms.SendWAPPushSMS.pl destination \"text\"\n";
+  exit(-1);
+ }
 
-my $aspsmsrequest 	= xmlSendTextSMS($login,$password,$originator,$target,$mess,'1','1',$target,$affiliateid);
+
+my $aspsmsrequest 	= xmlSendWAPPushSMS($login,$password,$originator,$target,$mess,$url,'1','1',$target,$affiliateid);
 my $aspsmsrequestlength = length($aspsmsrequest);
 my $httprequest 	= xmlGenerateRequest($aspsmsrequest,$aspsmsrequestlength);
-
 
 $aspsmssocket = IO::Socket::INET->new(  PeerAddr => $aspsms_ip,
                                         PeerPort => $aspsms_port,
