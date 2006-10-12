@@ -42,7 +42,6 @@ my $signature   = shift;
 
 	# stupid aspsms xmlsrv failure fixes. These are characters,
 	# the aspsms xml server has problems. 
-	$mess =~ s/:/&#58;/g;
 	$mess =~ s/\&//g;
 	$mess =~ s/\|//g;
 	$mess =~ s/\>//g;
