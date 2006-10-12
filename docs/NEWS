@@ -1,9 +1,18 @@
-
-aspsms-t Release 1.x.x
+aspsms-t Release trunk
 ----------------------
 * Allow sms2jabber via two-way support of aspsms.com
 * Support for `Normal` and `Chat` message stanzas
-* A lot of minor bugfixes
+* Transport use fallback aspsms xml servers if necessary
+* Display all network operators and credits for number prefixes in service discovery
+* A lot of crash bugfixes
+
+aspsms-t Release 1.0.4
+----------------------
+* Bug fix release
+
+aspsms-t Release 1.0.3
+----------------------
+* Bug fix release
 
 aspsms-t Release 1.0.2
 ----------------------
