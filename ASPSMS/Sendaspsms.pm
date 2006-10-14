@@ -52,7 +52,7 @@ $number = substr($number, 1, 50);
 
 my $user = getUserPass($from,$banner,$aspsmst_transaction_id);
 
-if($user->{name} eq '')
+if($user == -2)
                         {
 			    my $msg_register = "Your jid `$from` is not registered on \`$config::service_name\` for using sms services. Please register first to this transport.";
                             aspsmst_log('info',$msg_register);
