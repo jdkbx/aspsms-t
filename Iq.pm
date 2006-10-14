@@ -40,6 +40,7 @@ use ASPSMS::Connection;
 use ASPSMS::userhandler;
 use ASPSMS::Message;
 use ASPSMS::Storage;
+use ASPSMS::DiscoNetworks;
 use Presence;
 
 
@@ -414,96 +415,17 @@ my $barejid	= get_barejid($from);
     if($to eq $config::service_name)
      {
       aspsmst_log('notice',"jabber_iq_disco_items($barejid): Display transport items");
-      $iqQuery->AddItem(jid=>"networks\@$config::service_name",
+      $iqQuery->AddItem(jid=>"countries\@$config::service_name",
     			name=>"Supported sms networks");
      } ### END of if($to eq $config::service_name)
 
 
     #
-    # Display all availavle countries for sending
+    # Display all availavle countries and network operators for sending
     # sms messages
     #
 
-    if($to eq "networks\@$config::service_name")
-     {
-      aspsmst_log('notice',"jabber_iq_disco_items($barejid): Display network countries");
-      my @countries	= $config::xml_networks->{networks}{country}('[@]','name');
-
-      #
-      # Generate disco item for each country
-      #
-
-      foreach my $i (@countries)
-      {
-       aspsmst_log('debug',"jabber_iq_disco_items($barejid): Country: $i");
-       $i =~ tr/A-Z/a-z/;
-       
-       #
-       # Jid fix for spaces in country names
-       #
-       $i =~ s/\s/\_/g;
-       unless($i eq "")
-        {
-       $iqQuery->AddItem(	jid=>"$i\@".$config::service_name,
-       				name=>$i);
-        } ### END of unless($li eq "")
-      } ### END of foreach my $i (@countries)
-
-     } ### END of if($to eq "networks\@$config::service_name")
-
-    my @select_country = split(/@/,$to);
-    if($to eq $select_country[0]."@".$config::service_name)
-     {
-      
-      #
-      # Jid fix for spaces in country names
-      #
-      $select_country[0] =~ s/\_/\ /g;
-
-      aspsmst_log('notice',"jabber_iq_disco_items($barejid): Display network of country ".$select_country[0]);
-
-      #
-      # Change country to uppercase
-      #
-      $select_country[0] =~ tr/a-z/A-Z/;
-      my @networks	= $config::xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','name');
-      my @credits	= $config::xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','credits');
-
-      my @prefixes;
-
-      my $counter_networks 	=0;
-      my $counter_prefixes	=0;
-      foreach my $i (@networks)
-      {
-       #
-       # Generate disco item for each country
-       #
-       aspsmst_log('debug',"jabber_iq_disco_items($barejid): Network $counter_networks: $i");
-
-       unless($i eq "")
-	{
-         $iqQuery->AddItem(	name=>"Network: $i");
-        } ### END of unless($i eq "")
-
-       @prefixes = $config::xml_fees->{"fees"}{"country"}('name','eq',"$select_country[0]"){"network"}('name','eq',"$i"){"prefix"}('[@]','number');
-
-       $counter_prefixes	=0;
-       foreach my $i_prefix (@prefixes)
-        {
-         #
-         # Generate disco item for prefixes
-         #
-	 unless($i_prefix eq "")
-	  {
-           aspsmst_log('debug',"jabber_iq_disco_items($barejid): Prefix $counter_prefixes: $i_prefix");
-           $iqQuery->AddItem(name=>"Network: $i Prefix: $i_prefix [Credits:$credits[0]]");
-	  }
-	 $counter_prefixes++;
-	} ### END of foreach my $i (@prefixes)
-       $counter_networks++;
-      } ### END of foreach my $i (@countries)
-
-     } ### END of if($to eq "networks\@$config::service_name")
+    $iqQuery = disco_get_aspsms_networks($iqQuery,$barejid,$to);
 
       	$iq->SetType('result');
       	$iq->SetFrom($iq->GetTo());
