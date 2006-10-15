@@ -64,7 +64,6 @@ sub InIQ {
  my $xml	= $iq->GetXML();
  my $barejid	= get_barejid($from);
 
-aspsmst_log('notice',"InIQ(): Processing iq query from from=$barejid id=$id");
 aspsmst_log('debug',"InIQ->GetXML(): $xml");
 
 if ($to eq "$config::service_name/xmlsrv.asp") 
@@ -74,6 +73,8 @@ if ($to eq "$config::service_name/xmlsrv.asp")
 
 return unless $query;
 my $xmlns 	= $query->GetXMLNS();
+
+aspsmst_log('notice',"id=$id InIQ($barejid): Processing iq query type=$type xmlns=\"$xmlns\"");
 
 # If error in <iq/> 
 if ($type eq 'error') 
@@ -168,11 +169,13 @@ my $banner	= $config::banner;
     aspsmst_log('info',"jabber_register(): Send instructions to $from");
     $query->SetInstructions("jabber2sms transport
 
-Important: This gateway will only operate with an account from http://www.aspsms.com
-
+Important: This gateway will only operate 
+with an account from http://www.aspsms.com
 Support contact xmpp: $config::admin_jid
 
-Please enter Username (=UserKey https://www.aspsms.ch/userkey.asp) and password of your aspsms.com account:");
+Please enter Username 
+(=UserKey https://www.aspsms.ch/userkey.asp) and 
+password of your aspsms.com account:");
 
     my $ret_user 	= getUserPass($from,$banner);
     my $user 		=  {};
@@ -327,7 +330,7 @@ my $barejid	= get_barejid($from);
 
   if ($type eq 'get') 
    {
-    aspsmst_log('notice',"jabber_iq_browse(): Processing browse query from=$barejid id=$id");
+    aspsmst_log('debug',"id=$id jabber_iq_browse($barejid): Processing iq browse query type=$type");
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
@@ -362,7 +365,7 @@ if($to eq $config::service_name)
  {
    if ($type eq 'get')
     {
-    aspsmst_log('notice',"jabber_iq_disco_info(): Processing disco query from=$barejid id=$id");
+    aspsmst_log('debug',"id=$id jabber_iq_disco_info($barejid): Processing query type=$type");
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
@@ -405,8 +408,7 @@ my $barejid	= get_barejid($from);
 
     if($type eq 'get')
      {
-      	aspsmst_log('notice',"jabber_iq_disco_items(): Processing disco query from=$barejid id=$id");
-
+        aspsmst_log('debug',"id=$id jabber_iq_disco_items($barejid): Processing query type=$type");
 
     #
     # Offer supported networks
@@ -432,7 +434,7 @@ my $barejid	= get_barejid($from);
       	$iq->SetTo($from);
       	$iq->SetID($id);
       	$config::Connection->Send($iq);
-        aspsmst_log('debug',"jabber_iq_disco_items($barejid): Processing finished");
+        aspsmst_log('notice',"jabber_iq_disco_items($barejid): Processing finished");
     }
 } ### END of jabber_iq_disco_items ###
 
@@ -446,7 +448,7 @@ my $id 		= $iq->GetID();
 my $type 	= $iq->GetType();
 my $xml		= $iq->GetXML();
 my $barejid	= get_barejid($from);
-aspsmst_log('info',"jabber_iq_xmlsrv(): Processing xmlsrv.asp query from=$barejid id=$id");
+aspsmst_log('info',"id=$id jabber_iq_xmlsrv($barejid): Processing xmlsrv.asp query");
 
 	#
 	# Direct access to the aspsms:com xml srv
@@ -482,15 +484,16 @@ sub jabber_iq_remove
  my $from	= shift;
  my $id		= shift;
  my $passfile	= shift;
+ my $barejid	= get_barejid($from);
 
-    aspsmst_log('info',"jabber_register(): Execute remove registration of  $passfile");
+    aspsmst_log('info',"jabber_register($barejid): Execute remove registration of $passfile");
 
     #
     # remove file	
     #
 
     my $ret_unlink = delete_record("jabber_register",$passfile);
-    aspsmst_log('info',"jabber_register(): Execute remove completed delete_record($passfile): Return $ret_unlink");
+    aspsmst_log('info',"jabber_register($barejid): Execute remove completed delete_record($passfile): Return $ret_unlink");
 
     #
     # If delete of passfile was successfully then send presence 

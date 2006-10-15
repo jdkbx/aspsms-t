@@ -71,7 +71,7 @@ sub disco_get_aspsms_networks
       #
       $select_country[0] =~ s/\_/\ /g;
 
-      aspsmst_log('notice',"disco_get_aspsms_networks($from): Display network of country ".$select_country[0]);
+      aspsmst_log('debug',"disco_get_aspsms_networks($from): Display network of country ".$select_country[0]);
 
       #
       # Change country to uppercase
