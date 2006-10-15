@@ -115,7 +115,7 @@ while ()
      aspsmst_log('info',"main(): [stat] SMS $config::aspsmst_stat_notification_counter Notifications");
      aspsmst_log('info',"main(): [stat] SMS $config::aspsmst_stat_error_counter delivery errors");
      aspsmst_log('info',"main(): [stat] XMPP/Jabber $config::aspsmst_stat_stanzas stanza counter");
-     aspsmst_log('info',"main(): [stat] Messages/h: $config::aspsmst_stat_msg_per_hour");
+     aspsmst_log('info',"main(): [stat] Messages/h: $aspsmst_stat_msg_per_hour");
      aspsmst_log('notice',"main(): [stat] \$aspsmst_flag_shutdown=$config::aspsmst_flag_shutdown");
      aspsmst_log('notice',"main(): [stat] \$aspsmst_in_progress=$config::aspsmst_in_progress");
      aspsmst_log('info',"main(): [stat] ---");
