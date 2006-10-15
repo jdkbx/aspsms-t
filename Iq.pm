@@ -257,7 +257,7 @@ Please enter Username (=UserKey https://www.aspsms.ch/userkey.asp) and password 
   
   aspsmst_log('info',"jabber_register(): RegisterManager.Complete: for $from $name:$phone:$pass:$signature");
   
-  sendPresence($presence, $from,"$config::service_name/registered", 'subscribe');
+  sendPresence($from,"$config::service_name/registered", 'subscribe');
  } else 
     {
      sendError($iq, $from, $to, 501, 'jabber:iq:register request not implemented');

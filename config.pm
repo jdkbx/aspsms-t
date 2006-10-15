@@ -21,7 +21,7 @@ use Exporter;
 use XML::Smart;
 use ASPSMS::aspsmstlog;
 
-our $release = " svn202";
+our $release = " svn206";
 
 our $config_file;
 our $aspsmssocket;
@@ -52,6 +52,16 @@ our $xml_fees;
 
 our $aspsmst_stat_stanzas 	= 0;
 our $aspsmst_in_progress 	= 0;
+
+#
+# 1=Enable xmpp debug messages 0=Disabled
+#
+our $xmpp_debuglevel		= 0;
+
+our $aspsmst_flag_shutdown	= 0;
+our $transport_uptime           = 0;
+our $aspsmst_stat_msg_per_hour  = 0;
+
 our $Connection;
 
 
@@ -80,6 +90,9 @@ our $Connection;
 				$aspsmst_in_progress,
 				$xml_networks,
 				$xml_fees,
+				$aspsmst_flag_shutdown,
+				$transport_uptime,
+				$aspsmst_stat_msg_per_hour,
 				$Connection
 				);
 

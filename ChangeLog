@@ -3,6 +3,24 @@
     * trunk/ASPSMS/DiscoNetworks.pm:
       Disco network display support exportet to a new file
 
+    * trunk/aspsms-t.pl:
+      Removed some functions to external files
+
+    * trunk/InMessage.pm:
+      see aspsms-t.pl
+
+    * trunk/ASPSMS/SendContactStatus.pm:
+      same
+
+    * trunk/Presence.pm:
+      Improve presence handling. Send unsubscribed stazas to users which are
+      not registered to the transport if it send us a presence stanza.
+      
+2006-10-15 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/ASPSMS/DiscoNetworks.pm:
+      Disco network display support exportet to a new file
+
 2006-10-12 Marco Balmer  <mb@micressor.ch>
 
     * trunk/aspsms.SendTextSMS.pl:

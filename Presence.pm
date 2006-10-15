@@ -72,7 +72,8 @@ my $user = get_record("jid",$barejid);
   #
   if ($user == -2)
    {
-    aspsmst_log("info","InPresence($barejid): Has no $config::ident account registered -- ingored");
+    aspsmst_log("info","InPresence($barejid): Has no $config::ident account registered -- Send type `unsubscribed'");
+    sendPresence($from, $to, 'unsubscribed');
     return 0;
    }
 
@@ -82,14 +83,14 @@ if ($type eq 'subscribe')
    {
     aspsmst_log('info',"InPresence(): Error: Invalid number `$number' got.");
 
-    sendPresence($presence, $from, $to, 'unsubscribed');
+    sendPresence($from, $to, 'unsubscribed');
     return;
    }
   
-  sendPresence($presence, $from, $to, 'subscribed', );
+  sendPresence($from, $to, 'subscribed');
   if ($to eq "$config::service_name/registered") 
    {
-    sendPresence($presence, $from, $to, 'available', );
+    sendPresence($from, $to, 'available');
    } 
   else 
    {
@@ -104,20 +105,21 @@ elsif (($type eq 'available') or ($type eq 'probe'))
     sendGWNumPresences($number, $from);
    }
   
-  
   if ($to eq "$config::service_name/registered") 
    {
-     sendPresence(undef,$from,$to,undef,undef,undef,5);
+     sendPresence($from,$to,undef);
    }
  } 
 elsif ($type eq 'unsubscribe') 
  {
-  sendPresence($presence, $from, $to, 'unsubscribed');
+  sendPresence($from, $to, 'unsubscribed');
  }
 elsif ($type eq 'unavailable')
  {
-  sendPresence($presence, $from, $to, 'unavailable');
+  sendPresence($from, $to, 'unavailable');
  }
+
+
 } ### END of InPresence ###
 
 
@@ -127,26 +129,35 @@ sub sendGWNumPresences
  my $prefix = substr($number, 1, 5);
  my $presence = new Net::Jabber::Presence();
 
- sendPresence(undef,$to,"$number\@$config::service_name",undef,undef,undef,5);
+    #my ($to, $from, $type, $show, $status) = @_;
+ sendPresence($to,"$number\@$config::service_name",undef,undef,undef,5);
  aspsmst_log('notice',"sendGWNumPresences($to): Sending presence for $number");
- $config::Connection->Send($presence);
 
 } ### END of sendGWNumPresences ###
 
 
 sub sendPresence {
-my ($pres, $to, $from, $type, $show, $status, $prio) = @_;
+#my ($pres, $to, $from, $type, $show, $status, $prio) = @_;
+my ($to, $from, $type, $show, $status) = @_;
 
-$pres = new Net::Jabber::Presence();
+my $pres = new Net::Jabber::Presence();
 
 $pres->SetType($type);
-$pres->SetShow($show);
-$pres->SetStatus($status);
+unless($show eq "")
+ {
+  $pres->SetShow($show);
+ }
+
+unless($status eq "")
+ {
+  $pres->SetStatus($status);
+ }
+
 $pres->SetTo($to);
 $pres->SetFrom($from);
 
 my $to_barejid = get_barejid($to);
-aspsmst_log('notice',"sendPresence($to_barejid): Sending presence type `$type' and status `$status'");
+aspsmst_log('notice',"sendPresence($to_barejid): Sending presence type `$type', show `$show' and status `$status'");
 
 $config::Connection->Send($pres);
 
