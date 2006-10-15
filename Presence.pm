@@ -64,6 +64,18 @@ my $barejid 		= get_barejid($from);
 
 aspsmst_log('notice',"InPresence($barejid): Got `$type' type presence from $number");
 
+my $user = get_record("jid",$barejid);
+
+  #
+  # If we get no record we will send
+  # a unsubscribed
+  #
+  if ($user == -2)
+   {
+    aspsmst_log("info","InPresence($barejid): Has no $config::ident account registered -- ingored");
+    return 0;
+   }
+
 if ($type eq 'subscribe') 
  {
   if ( ($number !~ /^\+[0-9]{3,50}$/) && ($to ne "$config::service_name/registered") ) 
@@ -86,17 +98,6 @@ if ($type eq 'subscribe')
  } 
 elsif (($type eq 'available') or ($type eq 'probe')) 
  {
-  my $user = get_record("jid",$barejid);
-  #
-  # If we get no record we will send
-  # a unsubscribed
-  #
-  if ($user == -2)
-   {
-    aspsmst_log("info","InPresence($barejid): Has no $config::ident account registered");
-    sendPresence($presence, $from, $to, 'unsubscribed',"unavailable","No account registered at $config::ident");
-    return 0;
-   }
 
   if ( $number =~ /^\+[0-9]{3,50}$/ ) 
    {

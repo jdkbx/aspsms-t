@@ -66,7 +66,7 @@ $config::aspsmst_stat_notification_counter 	= 0;
 
 print "\nDEBUG1:".$config::aspsms_connection{"host_1"};
 
-aspsmst_log('info',"init(): $config::service_name - Version $config::release`");
+aspsmst_log('info',"Init(): $config::service_name - Version $config::release`");
 
 umask(0177);
 
