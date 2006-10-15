@@ -17,23 +17,18 @@ use strict;
 use lib "./";
 
 use config;
-use Iq;
-use Presence;
-use ASPSMS::Jid;
 
 use Net::Jabber qw(Component);
 
 use XML::Parser;
 use XML::Smart;
 
+use Iq;
+use Presence;
+use ASPSMS::Jid;
 use ASPSMS::Message;
-#use ASPSMS::Sendaspsms;
 use ASPSMS::Connection;
-#use ASPSMS::userhandler;
-#use ASPSMS::xmlmodel;
-#use ASPSMS::UCS2;
 use ASPSMS::aspsmstlog;
-#use ASPSMS::Storage;
 use InMessage;
 
 				  

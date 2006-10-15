@@ -22,6 +22,7 @@ use ASPSMS::Sendaspsms;
 use ASPSMS::Jid;
 use ASPSMS::SendContactStatus;
 use ASPSMS::Message;
+use ASPSMS::Storage;
 use Presence;
 
 use Exporter;
