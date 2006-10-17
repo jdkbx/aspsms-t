@@ -104,7 +104,6 @@ my $CreditStatus        =       XML::Smart->new($ret_parsed_response_ShowCredits
 my $Credits             =       $CreditStatus->{aspsms}{Credits};
 
 
-aspsmst_log('info',"id:$aspsmst_transaction_id exec_SendTextSMS($jid)");
 aspsmst_log('notice',"id:$aspsmst_transaction_id exec_SendTextSMS(): return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,$aspsmst_transaction_id)");
 return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,$aspsmst_transaction_id);
 ########################################################################

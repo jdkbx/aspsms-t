@@ -47,11 +47,11 @@ $user = get_record("jid",$barejid);
 
 if($user == -2)
  {
-  aspsmst_log("info","getuserPass(): No registered user found for $barejid");
+  aspsmst_log("info","getUserPass(): No registered user found for $barejid");
   return -2;
  }
 
-aspsmst_log('info',"getUserPass($barejid): Got ".$user->{name}."/".$user->{phone});
+aspsmst_log('notice',"getUserPass($barejid): Got ".$user->{name}."/".$user->{phone});
 return $user;
 
 }
