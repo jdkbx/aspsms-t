@@ -130,7 +130,7 @@ sub InMessage {
 	     #sendContactStatus($to_jid,"$number"."@".$config::service_name,'online',"Sorry, message buffered, waiting for better results ;-)");
 	    } ### END of if ($notify_message eq 'Buffered')  ###
 
-	   aspsmst_log('info',"InMessage($to_jid): id:$transid Send `$notify_message` notification for message  $transid");
+	   aspsmst_log('info',"id:$transid InMessage($to_jid): Send `$notify_message` notification");
 
 	   SendMessage(	"$number\@$config::service_name",
 	   		$to_jid,
