@@ -60,8 +60,7 @@ if($xml)
   connect_client();
   $Con->PresenceSend();
   $Con->RosterGet();
-  syslog('info',"Got <stream>not recorded</stream>");
-  #syslog('info',"Got <stream>$xml</stream>");
+  syslog('notice',"Got <stream>not recorded</stream>");
   print " <stream>$xml</stream>";
   my $msg = new Net::Jabber::Message();
   $msg->SetMessage(type    =>"message",
