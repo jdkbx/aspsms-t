@@ -469,7 +469,8 @@ aspsmst_log('info',"id=$id jabber_iq_xmlsrv($barejid): Processing xmlsrv.asp que
            $iq_xmlsrv_result->SetFrom($iq->GetTo());
            $iq_xmlsrv_result->SetID($id);
            $iq_xmlsrv_result->SetTo($from);
-	   $iq_xmlsrv_result->InsertRawXML($ret_CompleteRequest[10]);
+	   my $ret_parsed_response = parse_aspsms_response(\@ret_CompleteRequest,undef);
+	   $iq_xmlsrv_result->InsertRawXML($ret_parsed_response);
            $config::Connection->Send($iq_xmlsrv_result);
 	   return undef;
 	 } ### END of if ( $to eq $config::service_name."/xmlsrv.asp")
