@@ -8,6 +8,8 @@ Version 1.2
 
 * If a sms number in users roster costs more than 1 credit, send another
   presence status to the number.
+ 
+* Interface to query balance for user
 
 Version 1.3
 * WAPPush support
