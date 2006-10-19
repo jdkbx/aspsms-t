@@ -73,7 +73,7 @@ sub InMessage {
 
        if ( $to eq $config::service_name or $to eq "$config::service_name/registered" ) 
         {
-	 aspsmst_log('notice',"InMessage(): id:$aspsmst_transaction_id Sending welcome message for $from");
+	 aspsmst_log('notice',"id:$aspsmst_transaction_id InMessage(): Sending welcome message for $from");
   	 WelcomeMessage($from);
 
 	 #
@@ -81,7 +81,7 @@ sub InMessage {
 	 # transport admin.
 	 #
 
-	 sendAdminMessage("info","Message from $from directly addressed to $config::service_name:\n\n$body");
+	 sendAdminMessage("info","InMessage(): Message from $from directly addressed to $config::service_name:\n\n$body");
 
 	 $config::aspsmst_in_progress=0;
 	 return;
@@ -102,6 +102,16 @@ sub InMessage {
 	 my $now 		= localtime;
 
 	 my $userdata		= get_record("userkey",$userkey);
+
+	 #
+	 # Check if user is existing
+	 #
+	 if($userdata == -2)
+	  {
+	   aspsmst_log("alert","id: $transid InMessage(): No user found for userkey=$userkey");
+	   return -2;
+	  }
+
 	 my $to_jid 		= $userdata->{jid};
 
 	 #
@@ -111,13 +121,13 @@ sub InMessage {
 	  {
 	   if ($to_jid eq "No userkey file")
 	    {
-	   	aspsmst_log("info","InMessage(): id:$transid Can not find file for userkey $userkey");
-		sendAdminMessage("info","id:$transid Can not find file for userkey $userkey");
+	   	aspsmst_log("info","id: $transid InMessage(): Can not find file for userkey $userkey");
+		sendAdminMessage("info","id:$transid InMessage(): Can not find file for userkey $userkey");
 	        $config::aspsmst_in_progress=0;
 		return undef;
 	    } ### END of if ($to_jid eq "No userkey file")
 
-	   aspsmst_log("notice","InMessage(): id:$transid \$notify_message=$notify_message");
+	   aspsmst_log("notice","id: $transid InMessage(): \$notify_message=$notify_message");
 
 	   if ($notify_message eq 'Delivered')
 	    {
@@ -137,10 +147,9 @@ sub InMessage {
 			$transid,
 			$msg_id,
 			$msg_type,
-			"$notify_message status for message $transid",
-			"SMS with transaction number `$transid` sent to number $number 
-			
-has status: $notify_message @ $now");
+			"Status: $notify_message at $now",
+			"
+SMS with transaction number `$transid` sent to number $number has status: $notify_message at $now");
 
           } # END of if ($streamtype eq 'notify')
 	
@@ -195,8 +204,8 @@ has status: $notify_message @ $now");
 
 
 	if ($msg_type eq 'error') {
-		aspsmst_log('info',"InMessage(): Error received: \n\n" . $message->GetXML());
-		sendAdminMessage("info","InMessage: Error received:\n\n".$message->GetXML()); 
+		aspsmst_log('debug',"InMessage(): Error received: \n\n" . $message->GetXML());
+		sendAdminMessage("debug","InMessage: Error received:\n\n".$message->GetXML()); 
 		$config::aspsmst_in_progress=0;
 		return;
 	}
@@ -236,7 +245,7 @@ has status: $notify_message @ $now");
 	  #
 	  unless($result eq "")
 	   {
-	    aspsmst_log('info',"InMessage($from_barejid): id:$aspsmst_transaction_id \$result=$result from Sendaspsms()");
+	    aspsmst_log('info',"id:$aspsmst_transaction_id InMessage($from_barejid): \$result=$result from Sendaspsms()");
 	    $config::aspsmst_stat_error_counter++;
 	    sendError($message, $from, $to, 404, $ret);
 	   }
@@ -258,12 +267,10 @@ has status: $notify_message @ $now");
 			$transid,
 			$msg_id,
 			$msg_type,
-			"Delivered to aspsms.com",
-			"SMS with transaction number `$transid` sent to number $number 
-			
-Credits used: $CreditsUsed
-Credits total: $Credits
-");
+			"Status: Commited to aspsms.com",
+			"
+SMS with transaction number `$transid` sent to number $number  (Balance:$Credits / Used: $CreditsUsed)");
+
 	  #sendContactStatus($from,$to,'away',"Delivered to aspsms.com, waiting for delivery status notification
 #Balance: $Credits Used: $CreditsUsed");
 	   $config::aspsmst_stat_message_counter++;

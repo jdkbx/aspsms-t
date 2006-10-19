@@ -37,7 +37,7 @@ sub aspsmst_log
 
      eval
       {
-       syslog($type,$msg);
+       syslog($type,"[$type] $msg");
       };
      
      #

@@ -1,3 +1,16 @@
+2006-10-19 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/InMessage.pm
+      Fix: Check returncode of get_record() if a notification is incomming.
+
+    * A lot of syslog updates
+
+    * trunk/INSTALL:
+      Update doc about sysklogd.
+
+    * trunk/InMessage.pm:
+      New layout of jabber notification messages.
+
 2006-10-18 Marco Balmer  <mb@micressor.ch>
 
     * trunk/Iq.pm

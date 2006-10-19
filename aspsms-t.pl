@@ -30,7 +30,6 @@ use ASPSMS::Message;
 use ASPSMS::Connection;
 use ASPSMS::aspsmstlog;
 use InMessage;
-
 				  
 ### BEGIN CONFIGURATION ###
 
@@ -38,9 +37,10 @@ use InMessage;
   my $ret_config = set_config($ARGV[1]);
   unless($ret_config == 0 and $ARGV[0] eq "-c")
    { 
-    aspsmst_log("info","Error: read config file $ARGV[1]");
-    aspsmst_log("info","Exit: $ret_config");
-    aspsmst_log("info","Usage: ./aspsms-t.pl -c aspsms.xml");
+    aspsmst_log("debug","Error: read config file $ARGV[1]");
+    aspsmst_log("debug","Exit: $ret_config");
+    aspsmst_log("debug","Usage: ./aspsms-t.pl -c aspsms.xml");
+    print "\n";
     exit($ret_config);
    } ### END of unless($ret_config == 0)
 

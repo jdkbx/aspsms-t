@@ -117,10 +117,9 @@ and then check /var/log/messages ;)
 Syslog configuration
 --------------------
 
-/etc/syslog.conf
+/etc/syslog.conf:
 
-Normal log entries:
-local4.=info                            -/var/log/jabberd/aspsms-t.log
-
-Full Debug log:
-local4.info;local4.=warn;local4.=notice        -/var/log/jabberd/aspsms-t.log
+local4.=info;\
+        local4.=warn;\
+        local4.=error;\
+        local4.=alert;                  -/var/log/jabberd/aspsms-t.log

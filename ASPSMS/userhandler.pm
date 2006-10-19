@@ -47,7 +47,7 @@ $user = get_record("jid",$barejid);
 
 if($user == -2)
  {
-  aspsmst_log("info","getUserPass(): No registered user found for $barejid");
+  aspsmst_log("warning","getUserPass(): No registered user found for $barejid");
   return -2;
  }
 

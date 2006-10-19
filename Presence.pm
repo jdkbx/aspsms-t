@@ -40,7 +40,7 @@ $msg->SetErrorCode($code);
 $msg->SetError($text);
 $config::Connection->Send($msg);
 
-aspsmst_log('info',"sendError($to): $code,$text");
+aspsmst_log('warning',"sendError($to): $code,$text");
 #sendAdminMessage("info","sendError(): Message to \"$to $code,$text\"");	
 
 }
@@ -72,7 +72,7 @@ my $user = get_record("jid",$barejid);
   #
   if ($user == -2)
    {
-    aspsmst_log("info","InPresence($barejid): Has no $config::ident account registered -- Send type `unsubscribed'");
+    aspsmst_log("warning","InPresence($barejid): Has no $config::ident account registered -- Send type `unsubscribed'");
     sendPresence($from, $to, 'unsubscribed');
     return 0;
    }
@@ -81,7 +81,7 @@ if ($type eq 'subscribe')
  {
   if ( ($number !~ /^\+[0-9]{3,50}$/) && ($to ne "$config::service_name/registered") ) 
    {
-    aspsmst_log('info',"InPresence(): Error: Invalid number `$number' got.");
+    aspsmst_log('err',"InPresence(): Error: Invalid number `$number' got.");
 
     sendPresence($from, $to, 'unsubscribed');
     return;

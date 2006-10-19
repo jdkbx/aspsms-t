@@ -117,7 +117,7 @@ eval {
 
 if($@)
  {
-  aspsmst_log("info","set_record($set_by,$passfile): Problem to read passfile $passfile");
+  aspsmst_log("alert","set_record($set_by,$passfile): Problem to read passfile $passfile");
   return -1;
  }
  
@@ -130,7 +130,7 @@ sub delete_record
    my $set_by	= shift;
    my $passfile	= shift;
 
-   aspsmst_log("notice","delete_record($set_by,$passfile): Delete passfile $passfile");
+   aspsmst_log("info","delete_record($set_by,$passfile): Delete passfile $passfile");
    
   eval {
         unlink($passfile);
@@ -138,7 +138,7 @@ sub delete_record
 
 if($@)
  {
-  aspsmst_log("info","delete_record($set_by,$passfile): Problem to delete passfile $passfile");
+  aspsmst_log("alert","delete_record($set_by,$passfile): Problem to delete passfile $passfile");
   return -1;
  }
 

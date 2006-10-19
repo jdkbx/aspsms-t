@@ -138,7 +138,7 @@ sub exec_ConnectionASPSMS
    # If alarm do action
    if($@) 
     {
-     aspsmst_log('info',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): No response of aspsms after sent request");
+     aspsmst_log('warning',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): No response of aspsms after sent request");
      return ('-21','exec_ConnectionASPSMS(): No response of aspsms after sent request. Please try again later or contact your transport administrator.');
     } ### END of exec_ConnectionASPSMS ###
 
@@ -194,7 +194,7 @@ while ()
 
   if($connect_retry > $max_connect_retry)
    {
-    aspsmst_log('info',"id:$aspsmst_transaction_id ConnectAspsms(): status=$status Max connect retry reached");
+    aspsmst_log('warning',"id:$aspsmst_transaction_id ConnectAspsms(): status=$status Max connect retry reached");
     last; 
    }
 

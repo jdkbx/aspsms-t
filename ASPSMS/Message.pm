@@ -83,7 +83,7 @@ sub SendMessage
    my $subject	= shift;
    my $text	= shift;
 
-aspsmst_log("notice","SendMessage(): \$transid=$transid \$msg_id=$msg_id");
+aspsmst_log("notice","id: $transid SendMessage(): \$msg_id=$msg_id");
 
    my $msg= new Net::Jabber::Message();
 
@@ -94,10 +94,7 @@ aspsmst_log("notice","SendMessage(): \$transid=$transid \$msg_id=$msg_id");
                                  from    	=>$from,
                                  body    	=>"$text
 ---
-$config::ident Gateway system v$config::release
-Support contact xmpp: $config::admin_jid
-http://www.micressor.ch/content/projects/aspsms-t
-");
+$config::ident Gateway system v$config::release  Support contact xmpp: $config::admin_jid");
 
 $config::Connection->Send($msg);
 
