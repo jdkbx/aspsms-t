@@ -87,6 +87,7 @@ if ($type eq 'subscribe')
     return;
    }
   
+  aspsmst_log('info',"InPresence($barejid): Got type `$type' for number $number -- Send subscribed");
   sendPresence($from, $to, 'subscribed');
 
   if ($to eq "$config::service_name/registered") 
@@ -108,16 +109,18 @@ elsif (($type eq '') or ($type eq 'probe'))
   
   if ($to eq "$config::service_name/registered") 
    {
-     aspsmst_log('notice',"InPresence($barejid): Transport presence and statistics");
+     aspsmst_log('info',"InPresence($barejid): Send presence status: \"Transport uptime: $config::transport_uptime_hours SMS/h: $config::aspsmst_stat_msg_per_hour\"");
      sendPresence($from,$to,undef,undef,"Transport uptime: $config::transport_uptime_hours SMS/h: $config::aspsmst_stat_msg_per_hour");
    }
  } 
 elsif ($type eq 'unsubscribe') 
  {
+  aspsmst_log('info',"InPresence($barejid): Got type `$type' for jid $number -- Send unsubscribed");
   sendPresence($from, $to, 'unsubscribed');
  }
 elsif ($type eq 'unavailable')
  {
+  aspsmst_log('notice',"InPresence($barejid): Got type `$type' for jid $number -- Send unavailable");
   sendPresence($from, $to, 'unavailable');
  }
 
