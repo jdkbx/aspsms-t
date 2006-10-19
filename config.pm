@@ -21,7 +21,7 @@ use Exporter;
 use XML::Smart;
 use ASPSMS::aspsmstlog;
 
-our $release = " svn221";
+our $release = " svn222";
 
 our $config_file;
 our $aspsmssocket;
@@ -49,6 +49,8 @@ our $aspsmst_stat_notification_counter;
 our $transport_secret;
 our $xml_networks;
 our $xml_fees;
+our $aspsmst_stat_stanzas_per_hour;
+our $transport_uptime_hours;
 
 our $aspsmst_stat_stanzas 	= 0;
 our $aspsmst_in_progress 	= 0;
@@ -93,6 +95,10 @@ our $Connection;
 				$aspsmst_flag_shutdown,
 				$transport_uptime,
 				$aspsmst_stat_msg_per_hour,
+				$aspsmst_stat_stanzas_per_hour,
+				$aspsmst_stat_msg_per_hour,
+				$transport_uptime,
+				$transport_uptime_hours,
 				$Connection
 				);
 

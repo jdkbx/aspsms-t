@@ -50,9 +50,7 @@ openlog($config::ident,'',"$config::facility");
 # Initialisation timer for message and notification statistic to syslog
 # Every 300 seconds, it will generate a syslog entry with statistic infos
 my $timer					= 295;
-my $transport_uptime				= 0;
-my $aspsmst_stat_msg_per_hour			= 0;
-my $aspsmst_stat_stanzas_per_hour		= 0;
+$config::transport_uptime			= 0;
 
 $config::aspsmst_stat_message_counter 		= 0;
 $config::aspsmst_stat_error_counter 		= 0;
@@ -84,7 +82,7 @@ sendAdminMessage("info","Init(): \$service_name=$config::service_name \$release=
 while () 
  {
 
-  $transport_uptime++;$timer++;
+  $config::transport_uptime++;$timer++;
 
   #
   # Check every second for work (Process(1))
@@ -96,18 +94,18 @@ while ()
      #
      # Calculate messages per hour
      #
-     $aspsmst_stat_msg_per_hour  = $config::aspsmst_stat_message_counter / ($transport_uptime/3600);
-     $aspsmst_stat_msg_per_hour  = sprintf("%.3f",$aspsmst_stat_msg_per_hour);
+     $config::aspsmst_stat_msg_per_hour  = $config::aspsmst_stat_message_counter / ($config::transport_uptime/3600);
+     $config::aspsmst_stat_msg_per_hour  = sprintf("%.3f",$config::aspsmst_stat_msg_per_hour);
      #
      # Calculate messages per hour
      #
-     $aspsmst_stat_stanzas_per_hour  = $config::aspsmst_stat_stanzas / ($transport_uptime/3600);
-     $aspsmst_stat_stanzas_per_hour  = sprintf("%.3f",$aspsmst_stat_stanzas_per_hour);
+     $config::aspsmst_stat_stanzas_per_hour  = $config::aspsmst_stat_stanzas / ($config::transport_uptime/3600);
+     $config::aspsmst_stat_stanzas_per_hour  = sprintf("%.3f",$config::aspsmst_stat_stanzas_per_hour);
      #
      # Calculate uptime in hours
      #
-     my $transport_uptime_hours	 = $transport_uptime / 3600;
-        $transport_uptime_hours	 = sprintf("%.3f",$transport_uptime_hours);
+        $config::transport_uptime_hours	 = $config::transport_uptime / 3600;
+        $config::transport_uptime_hours	 = sprintf("%.3f",$config::transport_uptime_hours);
 
 
      
@@ -115,13 +113,13 @@ while ()
      # Logging status message
      #
      aspsmst_log('info',"main(): [stat] ---");
-     aspsmst_log('info',"main(): [stat] $transport_uptime_hours hour(s) transport uptime");
+     aspsmst_log('info',"main(): [stat] $config::transport_uptime_hours hour(s) transport uptime");
      aspsmst_log('info',"main(): [stat] $config::aspsmst_stat_message_counter SMS Successfully");
      aspsmst_log('info',"main(): [stat] $config::aspsmst_stat_notification_counter SMS Notifications");
      aspsmst_log('info',"main(): [stat] $config::aspsmst_stat_error_counter SMS delivery errors");
-     aspsmst_log('info',"main(): [stat] $aspsmst_stat_msg_per_hour SMS Messages/h");
+     aspsmst_log('info',"main(): [stat] $config::aspsmst_stat_msg_per_hour SMS Messages/h");
      aspsmst_log('info',"main(): [stat] $config::aspsmst_stat_stanzas XMPP/Jabber stanza counter");
-     aspsmst_log('info',"main(): [stat] $aspsmst_stat_stanzas_per_hour XMPP/Jabber stanzas/h");
+     aspsmst_log('info',"main(): [stat] $config::aspsmst_stat_stanzas_per_hour XMPP/Jabber stanzas/h");
      aspsmst_log('notice',"main(): [stat] \$aspsmst_flag_shutdown=$config::aspsmst_flag_shutdown");
      aspsmst_log('notice',"main(): [stat] \$aspsmst_in_progress=$config::aspsmst_in_progress");
      aspsmst_log('info',"main(): [stat] ---");

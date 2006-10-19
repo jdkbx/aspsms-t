@@ -88,6 +88,7 @@ if ($type eq 'subscribe')
    }
   
   sendPresence($from, $to, 'subscribed');
+
   if ($to eq "$config::service_name/registered") 
    {
     sendPresence($from, $to, 'available');
@@ -97,7 +98,7 @@ if ($type eq 'subscribe')
     sendGWNumPresences($number, $from);
    }
  } 
-elsif (($type eq 'available') or ($type eq 'probe')) 
+elsif (($type eq '') or ($type eq 'probe')) 
  {
 
   if ( $number =~ /^\+[0-9]{3,50}$/ ) 
@@ -107,7 +108,8 @@ elsif (($type eq 'available') or ($type eq 'probe'))
   
   if ($to eq "$config::service_name/registered") 
    {
-     sendPresence($from,$to,undef);
+     aspsmst_log('notice',"InPresence($barejid): Transport presence and statistics");
+     sendPresence($from,$to,undef,undef,"Transport uptime: $config::transport_uptime_hours SMS/h: $config::aspsmst_stat_msg_per_hour");
    }
  } 
 elsif ($type eq 'unsubscribe') 
