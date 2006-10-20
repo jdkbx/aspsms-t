@@ -20,13 +20,15 @@ use Exporter;
 
 use XML::Smart;
 use ASPSMS::aspsmstlog;
+use ASPSMS::ContactCredits;
 
-our $release = " svn224";
+our $release = " svn225";
 
 our $config_file;
 our $aspsmssocket;
 
-our %aspsms_connection = {};
+our %aspsms_connection 	= {};
+our %prefix_data	= {};
 
 our $service_name;
 our $server;
@@ -99,6 +101,7 @@ our $Connection;
 				$aspsmst_stat_msg_per_hour,
 				$transport_uptime,
 				$transport_uptime_hours,
+				$prefix_data,
 				$Connection
 				);
 
@@ -139,9 +142,15 @@ sub set_config
 # Load Network and fees information
 #
 
- aspsmst_log("info","set_config(): Load ./etc/networks.xml and ./etc/fees.xml network and billing information");
+aspsmst_log("info","set_config(): Load ./etc/networks.xml and ./etc/fees.xml network and billing information");
 $xml_networks  	= XML::Smart->new("./etc/networks.xml") or return -1;
 $xml_fees	= XML::Smart->new("./etc/fees.xml") or return -1;
+
+#
+# Loading prefix data
+#
+aspsmst_log("info","set_config(): Load prefix data from etc/fees.xml");
+load_prefix_data();
 
 } ### END of set_config ###
 

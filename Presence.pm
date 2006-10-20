@@ -131,11 +131,41 @@ elsif ($type eq 'unavailable')
 sub sendGWNumPresences 
 {
  my ($number, $to) = @_;	
- my $prefix = substr($number, 1, 5);
+ my $prefix = substr($number, 0, 5);
  my $presence = new Net::Jabber::Presence();
 
-    #my ($to, $from, $type, $show, $status) = @_;
- sendPresence($to,"$number\@$config::service_name",undef,undef,undef,5);
+ #
+ # prework for checking credit costs.
+ #
+ $prefix =~ s/\+/00/g;
+
+ aspsmst_log('debug',"sendGWNumPresences($to): Prefix=$prefix");
+
+ #
+ # How much costs this number prefix.
+ #
+ my $credits = $config::prefix_data->{"$prefix"};
+
+ if($credits eq "")
+  { 
+   #
+   # If no information is stored in ./etc/fees.xml, 
+   # the sms costs one credit.
+   #
+   $credits = "Credits: 1"; 
+   #
+   # Send presence with credit information.
+   #
+   sendPresence($to,"$number\@$config::service_name",undef,undef,"Credits: $credits",5);
+  }
+ else
+  {
+   #
+   # Send presence with credit information.
+   #
+   sendPresence($to,"$number\@$config::service_name",undef,"dnd","Credits: $credits",5);
+  }
+
  aspsmst_log('notice',"sendGWNumPresences($to): Sending presence for $number");
 
 } ### END of sendGWNumPresences ###

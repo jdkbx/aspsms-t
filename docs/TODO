@@ -6,9 +6,6 @@ Version 1.2
 * Check if aspsms.notification.pl and webserver is prober configured an 
   write a syslog message.
 
-* If a sms number in users roster costs more than 1 credit, send another
-  presence status to the number.
- 
 * Interface to query balance for user
 
 Version 1.3

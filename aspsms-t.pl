@@ -29,6 +29,7 @@ use ASPSMS::Jid;
 use ASPSMS::Message;
 use ASPSMS::Connection;
 use ASPSMS::aspsmstlog;
+use ASPSMS::ContactCredits;
 use InMessage;
 				  
 ### BEGIN CONFIGURATION ###
@@ -46,6 +47,7 @@ use InMessage;
 
 use Sys::Syslog;
 openlog($config::ident,'',"$config::facility");
+
 
 # Initialisation timer for message and notification statistic to syslog
 # Every 300 seconds, it will generate a syslog entry with statistic infos
