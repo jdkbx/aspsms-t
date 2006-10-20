@@ -109,7 +109,7 @@ elsif (($type eq '') or ($type eq 'probe'))
   
   if ($to eq "$config::service_name/registered") 
    {
-     aspsmst_log('info',"InPresence($barejid): Send presence status: \"Transport uptime: $config::transport_uptime_hours SMS/h: $config::aspsmst_stat_msg_per_hour\"");
+     aspsmst_log('info',"InPresence($barejid): Send presence status: \"Transport uptime: $config::transport_uptime_hours in hour(s) SMS/Hour: $config::aspsmst_stat_msg_per_hour\"");
      sendPresence($from,$to,undef,undef,"Transport uptime: $config::transport_uptime_hours SMS/h: $config::aspsmst_stat_msg_per_hour");
    }
  } 
@@ -152,7 +152,7 @@ sub sendGWNumPresences
    # If no information is stored in ./etc/fees.xml, 
    # the sms costs one credit.
    #
-   $credits = "Credits: 1"; 
+   $credits = "1"; 
    #
    # Send presence with credit information.
    #

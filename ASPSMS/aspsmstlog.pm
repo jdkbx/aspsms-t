@@ -33,7 +33,7 @@ sub aspsmst_log
    unless ($type eq 'debug')
 
     {
-     print "\n$type> $msg";
+     print "\n[$type]  $msg";
 
      eval
       {
@@ -53,7 +53,7 @@ sub aspsmst_log
    else
 
     {
-     print "\ndebug> $msg";
+     print "\n[debug] $msg";
     }
 
  } ### END of aspsmst_log
