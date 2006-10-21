@@ -59,6 +59,7 @@ my $from 		= $presence->GetFrom();
 my $to 			= $presence->GetTo();
 my ($number) 		= split(/@/, $to);
 my $type 		= $presence->GetType();
+my $iq_show 		= $presence->GetShow();
 my $status 		= $presence->GetStatus();
 my $barejid 		= get_barejid($from);
 
@@ -110,7 +111,7 @@ elsif (($type eq '') or ($type eq 'probe'))
   if ($to eq "$config::service_name/registered") 
    {
      aspsmst_log('info',"InPresence($barejid): Send presence status: \"Transport uptime: $config::transport_uptime_hours in hour(s) SMS/Hour: $config::aspsmst_stat_msg_per_hour\"");
-     sendPresence($from,$to,undef,undef,"Transport uptime: $config::transport_uptime_hours SMS/h: $config::aspsmst_stat_msg_per_hour");
+     sendPresence($from,$to,undef,$iq_show,"Transport uptime: $config::transport_uptime_hours SMS/h: $config::aspsmst_stat_msg_per_hour");
    }
  } 
 elsif ($type eq 'unsubscribe') 
