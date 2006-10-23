@@ -14,10 +14,10 @@
 # GNU General Public License for more details.
 
 # Notify example
-#aspsms.notification.pl?xml=notify,,,1,,,1,,,chat,,,$USERKEY,,,<Originator>,,,<MessageData>
-
+# aspsms.notification.pl?xml=notify,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
+#
 # twoway example
-# aspsms.notification.pl?xml=twoway,,,1,,,1,,,4179xxxxxxxx,,,$USERKEY,,,<Originator>,,,<MessageData>
+# aspsms.notification.pl?xml=twoway,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
 
 use lib "./";
 
@@ -27,6 +27,9 @@ use strict;
 use Net::Jabber qw(Client);
 use XML::Smart;
 
+my $xml 	= param("xml");
+my @tmpstat	= split(/,,,/,$xml);
+my $transid	= $tmpstat[1];
 
 # Read configuration
 my $Config  		= XML::Smart->new('./aspsms.xml');
@@ -37,50 +40,55 @@ my $servicename        = $Config->{aspsms}{jabber}{serviceid};
 my $facility	       = $Config->{aspsms}{facility};
 my $release	       = $Config->{aspsms}{release};
 my $ident	       = $Config->{aspsms}{ident};
-use constant SERVICE_NAME 	=> $Config->{aspsms}{notification}{jabberid};
 
 openlog('aspsms.notification.pl','',$facility);
 
+my $Con			= new Net::Jabber::Client(debuglevel=>0,debugfile=>"stdout");
+
+
+http_header();
+
+unless($xml)
+ {
+  Stop("No xml-stream found");
+ }
+else
+ {
+  syslog("notice","Got <stream>__but not recorded__</stream>");
+ }
+
+my $ret_connect_status 	= 	connect_client();
+
+unless($ret_connect_status == 0)
+ { Stop("Internal aspsms-t problem"); }
+
+my $ret_send_message    = 	send_xml_to_aspsmst();
+
+Stop($ret_send_message);
+
+#
+#
+#
+# 
+
+
+sub http_header
+ {
 print "Content-Type: text/xml\n\n";
 print "<?xml version='1.0'?>\n";
 print "<aspsms>
  <ident>$ident</ident>
- <release>$release</release>
-";
+ <release>$release</release>";
+print "\n <stream>$xml</stream>";
+print "\n <reply>
+ <status>";
 
-my $xml 	= param("xml");
-my @tmpstat	= split(/,,,/,$xml);
-my $transid	= $tmpstat[1];
-
-
-my $Con 			= new Net::Jabber::Client(debuglevel=>0,debugfile=>"stdout");
-
-if($xml) 
- {
-  connect_client();
-  $Con->PresenceSend();
-  $Con->RosterGet();
-  syslog('notice',"Got <stream>not recorded</stream>");
-  print " <stream>$xml</stream>";
-  my $msg = new Net::Jabber::Message();
-  $msg->SetMessage(type    =>"message",
-                   to      =>$servicename."/notification",
-                   body    =>"$xml");
-  $Con->Send($msg);
- }
-else
- {
-  syslog('info',"Got <stream/>");
-  print "<stream/>";
- } 
-
-
-stop();
-
-
+} ### END of http_header
 
 
 sub connect_client {
+
+eval {
 
 $Con->Connect(
                 hostname                => $hostname,
@@ -88,24 +96,56 @@ $Con->Connect(
                 timeout                 => "5"
               );
 
-if ($Con->Connected()) {    }
+};
 
-$Con->AuthIQAuth (
+if($@)
+ {
+  Stop("Problem to connect jabber-server");
+ }
+
+my @ret_auth = $Con->AuthIQAuth (
                  username=>      $username,
                  password=>      $password,
                  resource=>      $transid
                );
 
+unless($ret_auth[0] eq "ok")
+ { return $ret_auth[0]; }
+
+$Con->PresenceSend();
 $Con->RosterGet();
 
+return 0;
 } # end sub connect_client()
 
-sub stop 
+sub send_xml_to_aspsmst
  {
+  my $msg = new Net::Jabber::Message();
+  eval 
+   {
+  $msg->SetMessage(type    =>"message",
+                   to      =>$servicename."/notification",
+                   body    =>"$xml");
+  $Con->Send($msg);
+   };
+
+  if($@)
+   {
+    Stop("Problem to send the notification jabber message");
+   }
+Stop("Successfuly accepted");
+} ### END of send_xml_to_aspsmst
+
+sub Stop 
+ {
+  my $ret = shift;
   $Con->Disconnect;
-  print "</aspsms>";
+  print "$ret</status>
+ </reply>
+</aspsms>";
   syslog('notice',"End");
   sleep(1);
+  print "\n";
   exit(0);
  }
 
