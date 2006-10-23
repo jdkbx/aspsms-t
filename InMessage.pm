@@ -149,7 +149,8 @@ sub InMessage {
 			$msg_type,
 			"Status: $notify_message at $now",
 			"
-SMS with transaction number `$transid` sent to number $number has status: $notify_message at $now");
+SMS with transaction number `$transid` sent to number $number 
+has status: === $notify_message === at $now");
 
           } # END of if ($streamtype eq 'notify')
 	
@@ -269,7 +270,8 @@ SMS with transaction number `$transid` sent to number $number has status: $notif
 			$msg_type,
 			"Status: Commited to aspsms.com",
 			"
-SMS with transaction number `$transid` sent to number $number  (Balance:$Credits / Used: $CreditsUsed)");
+SMS with transaction number `$transid` sent to number $number
+(Balance:$Credits / Used: $CreditsUsed)");
 
 	  #sendContactStatus($from,$to,'away',"Delivered to aspsms.com, waiting for delivery status notification
 #Balance: $Credits Used: $CreditsUsed");

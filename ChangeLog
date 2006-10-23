@@ -1,3 +1,11 @@
+2006-10-21 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/InMessage.pm
+      Change text of notification message. 
+
+    * trunk/docs/TODO:
+      Update todos
+
 2006-10-20 Marco Balmer  <mb@micressor.ch>
 
     * trunk/ASPSMS/ContactCredits.pm:
