@@ -36,23 +36,31 @@ sub load_prefix_data
 
   foreach my $country_i (@countries)
    {
+    #
+    # Load all networks
+    #
     @networks 		= $config::xml_fees->{"fees"}{"country"}('name','eq',"$country_i"){"network"}('[@]','name');
+    #
+    # Get credits for this network
+    #
     my $credits 	= $config::xml_fees->{"fees"}{"country"}('name','eq',"$country_i"){"network"}('[@]','credits');
     foreach my $network_i (@networks)
      {
+      #
+      # Load all prefixes for $network_i
+      #
       my @prefixes 		= $config::xml_fees->{"fees"}{"country"}('name','eq',"$country_i"){"network"}('name','eq',"$network_i"){"prefix"}('[@]','number');
       foreach my $prefix_i (@prefixes)
        {
         aspsmst_log("debug","load_prefix_data(): Loading prefix=$prefix_i credits=$credits");
+	#
+	# Relate credits to this $prefix_i
+	#
 	$config::prefix_data->{"$prefix_i"} = $credits;
-       }
-      
-     }
-    
-
-   }
-  
- }
+       } ### END of foreach my $prefix_i (@prefixes)
+     } ### END of foreach my $network_i (@networks)
+   } ### END of foreach my $country_i (@countries)
+ } ### END of load_prefix_data()
 
 1;
 

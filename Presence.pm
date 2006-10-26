@@ -136,38 +136,39 @@ sub sendGWNumPresences
  my $presence = new Net::Jabber::Presence();
 
  #
- # prework for checking credit costs.
- #
- $prefix =~ s/\+/00/g;
-
- aspsmst_log('debug',"sendGWNumPresences($to): Prefix=$prefix");
-
- #
  # How much costs this number prefix.
  #
- my $credits = $config::prefix_data->{"$prefix"};
-
- if($credits eq "")
-  { 
-   #
-   # If no information is stored in ./etc/fees.xml, 
-   # the sms costs one credit.
-   #
-   $credits = "1"; 
-   #
-   # Send presence with credit information.
-   #
-   sendPresence($to,"$number\@$config::service_name",undef,undef,"Credits: $credits",5);
-  }
- else
+ 
+ my ($credits);
+ 
+ for (my $i=3;$i<=14;$i++)
   {
    #
-   # Send presence with credit information.
+   # Check prefix between 3 and 14 numbers 
    #
-   sendPresence($to,"$number\@$config::service_name",undef,"dnd","Credits: $credits",5);
+   $prefix 	= substr($number, 0, $i);
+   $prefix =~ s/\+/00/g;
+   $credits 	= $config::prefix_data->{"$prefix"};
+   aspsmst_log('debug',"sendGWNumPresences($to): Try $prefix credits=$credits");
+   unless($credits eq "")
+    { 
+     #
+     # Prefix found, exit for
+     #
+     aspsmst_log('debug',"sendGWNumPresences($to): Prefix $prefix found credits=$credits exit for");
+     last; 
+    } ### END of unles($credits
+  } ### END of for (my$
+  
+ if($credits eq "")
+  { 
+   $credits = "1"; 
+   aspsmst_log('debug',"sendGWNumPresences($to): No matching prefix found, set credits=$credits");
   }
+  
+ sendPresence($to,"$number\@$config::service_name",undef,undef,"Credits: $credits",5);
 
- aspsmst_log('notice',"sendGWNumPresences($to): Sending presence for $number");
+ aspsmst_log('notice',"sendGWNumPresences($to): Sending presence for $number prefix=$prefix credits=$credits");
 
 } ### END of sendGWNumPresences ###
 

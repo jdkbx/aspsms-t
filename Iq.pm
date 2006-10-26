@@ -288,7 +288,7 @@ my $xml		= $iq->GetXML();
       $query->SetPrompt('Number');
       $config::Connection->Send($iq);
 
-      aspsmst_log('info',"jabber_iq_gateway(): Request: Gateway from $from");
+      aspsmst_log('info',"jabber_iq_gateway($from): Send gateway information");
      } 
     elsif ($type eq 'set') 
      {

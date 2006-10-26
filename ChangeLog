@@ -1,3 +1,8 @@
+2006-10-26 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/Presence.pm:
+      Improved number/credits presence handling
+
 2006-10-23 Marco Balmer  <mb@micressor.ch>
 
     * trunk/aspsms.notification.pl:
