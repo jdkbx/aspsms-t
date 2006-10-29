@@ -133,7 +133,7 @@ sub send_xml_to_aspsmst
    {
     Stop("Problem to send the notification jabber message");
    }
-Stop("Successfuly accepted");
+Stop("Successfully accepted");
 } ### END of send_xml_to_aspsmst
 
 sub Stop 

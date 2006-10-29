@@ -1,3 +1,10 @@
+2006-10-29 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/ASPSMS/CheckNotification.pm:
+      New function check_notification() check if the
+      configuration for aspsms.notification.pl is successfully. If it is,
+      aspsms-t will write a successfully syslog entry about that.
+
 2006-10-26 Marco Balmer  <mb@micressor.ch>
 
     * trunk/Presence.pm:

@@ -93,6 +93,16 @@ sub InMessage {
 	 # Get the <stream/> from aspsms.notification.pl
 	 my @stattmp 		= split(/,,,/, $body);
 	 my $streamtype		= $stattmp[0];
+	  #
+	  # If test of aspsms.notification.pl, make log entry and
+	  # return 0
+	  #
+	  if($streamtype eq "test")
+	   {
+	    aspsmst_log('info',"aspsms.notification.pl is configured successfully");
+	    $config::aspsmst_in_progress=0;
+	    return 0;
+	   }
 	 my $transid 		= $stattmp[1];
 	 my $msg_id 		= $stattmp[2];
 	 my $msg_type 		= $stattmp[3];

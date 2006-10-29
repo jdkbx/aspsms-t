@@ -27,6 +27,8 @@ Requirements Debian
 * apt-get install libauthen-sasl-perl
 * apt-get install libdigest-sha1-perl
 * apt-get install libxml-parser-perl
+* apt-get install libwww-perl
+* apt-get install liburi-perl
 
 Requirements Fedora
 -------------------

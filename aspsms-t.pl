@@ -30,6 +30,7 @@ use ASPSMS::Message;
 use ASPSMS::Connection;
 use ASPSMS::aspsmstlog;
 use ASPSMS::ContactCredits;
+use ASPSMS::CheckNotification;
 use InMessage;
 				  
 ### BEGIN CONFIGURATION ###
@@ -60,8 +61,6 @@ $config::aspsmst_stat_notification_counter 	= 0;
 
 ### END BASIC CONFIGURATION ###
 
-print "\nDEBUG1:".$config::aspsms_connection{"host_1"};
-
 aspsmst_log('info',"Init(): $config::service_name - Version $config::release`");
 
 umask(0177);
@@ -72,6 +71,13 @@ $SIG{INT} 	= sub { $config::aspsmst_flag_shutdown="INT"; 	};
 $SIG{ABRT} 	= sub { $config::aspsmst_flag_shutdown="ABRT"; 	};
 $SIG{SEGV} 	= sub { $config::aspsmst_flag_shutdown="SEGV"; 	};
 $SIG{ALRM} 	= sub { die "Unexepted Timeout" 		};
+
+#
+# Check configuration of aspsms.notification.pl 
+# and make a syslog entry if it is successfully.
+#
+my $ret_check_notification = check_notification();
+aspsmst_log('info',"Init(): check_notification(): Return: $ret_check_notification");
 
 SetupConnection();
 Connect();

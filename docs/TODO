@@ -5,12 +5,12 @@ Version 1.2
 
 * Stable release basic features
 
-* Check if aspsms.notification.pl and webserver is prober configured an 
-  write a syslog message.
-
 * Better exeptionhandling for sms notifications
 
 * Interface to query balance for user
+
+* Download fees.xml and network.xml directly from aspsms.com for network and
+  costs information
 
 Version 1.3
 -----------
