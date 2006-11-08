@@ -22,7 +22,7 @@ use XML::Smart;
 use ASPSMS::aspsmstlog;
 use ASPSMS::ContactCredits;
 
-our $release = " svn234";
+our $release = " 1.2.0";
 
 our $config_file;
 our $aspsmssocket;

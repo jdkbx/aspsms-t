@@ -37,7 +37,7 @@
  <server id='1'>
   <host>xml1.aspsms.com</host>
   <port>5061</port>
-  <xmlspec>1.6</xmlspec>
+  <xmlspec>1.8</xmlspec>
   
  <!-- This (82723) is the personal affiliate-id of the aspsms-t author. If you         -->
  <!-- appreciate our enthusiasm and would like to support our work, we are grateful    -->
@@ -51,7 +51,7 @@
  <server id='2'>
   <host>xml1.aspsms.com</host>
   <port>5098</port>
-  <xmlspec>1.6</xmlspec>
+  <xmlspec>1.8</xmlspec>
 
  <!-- This (82723) is the personal affiliate-id of the aspsms-t author. If you         -->
  <!-- appreciate our enthusiasm and would like to support our work, we are grateful    -->
@@ -64,7 +64,7 @@
  <server id='3'>
   <host>xml2.aspsms.com</host>
   <port>5061</port>
-  <xmlspec>1.6</xmlspec>
+  <xmlspec>1.8</xmlspec>
 
  <!-- This (82723) is the personal affiliate-id of the aspsms-t author. If you         -->
  <!-- appreciate our enthusiasm and would like to support our work, we are grateful    -->
@@ -77,7 +77,7 @@
  <server id='4'>
   <host>xml2.aspsms.com</host>
   <port>5098</port>
-  <xmlspec>1.6</xmlspec>
+  <xmlspec>1.8</xmlspec>
 
  <!-- This (82723) is the personal affiliate-id of the aspsms-t author. If you         -->
  <!-- appreciate our enthusiasm and would like to support our work, we are grateful    -->

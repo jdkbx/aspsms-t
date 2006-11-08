@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# aspsms-t by Marco Balmer <mb@micressor.ch> @2004
+# aspsms-t by Marco Balmer <mb@micressor.ch> @2006
 # http://web.swissjabber.ch/
 # http://www.micressor.ch/content/projects/aspsms-t/
 #

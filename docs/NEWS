@@ -1,10 +1,11 @@
-aspsms-t Release trunk
+aspsms-t Release 1.2.0
 ----------------------
+
 * Allow sms2jabber via two-way support of aspsms.com
 * Support for `Normal` and `Chat` message stanzas
 * Transport use fallback aspsms xml servers if necessary
 * Display all network operators and credits for number prefixes in service discovery
-* Credit information support in the status message of each roster contact.
+* Credit information in the status message of each roster contact.
 * A lot of crash bugfixes
 
 aspsms-t Release 1.0.4

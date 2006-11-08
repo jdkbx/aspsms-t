@@ -111,25 +111,38 @@
 <network name="T-Mobile Germany" credits="1.75">
 <prefix number="0049151"/>
 <prefix number="0049160"/>
+<prefix number="004916090737862"/>
+<prefix number="004916097250782"/>
 <prefix number="0049170"/>
+<prefix number="00491703310812"/>
+<prefix number="00491703310821"/>
+<prefix number="00491703310855"/>
+<prefix number="00491709216020"/>
+<prefix number="00491709323997"/>
 <prefix number="0049171"/>
+<prefix number="00491717676333"/>
+<prefix number="00491719725461"/>
+<prefix number="00491722028817"/>
+<prefix number="00491749265840"/>
 <prefix number="0049175"/>
+<prefix number="00491751866312"/>
+<prefix number="00491752993961"/>
+<prefix number="00491795049487"/>
 </network>
 <network name="E-Plus" credits="1.75">
 <prefix number="0049163"/>
 <prefix number="0049177"/>
 <prefix number="0049178"/>
 </network>
-<network name="Vodafone" credits="1.75">
+<network name="D2 Vodafone" credits="1.75">
 <prefix number="00491520"/>
 <prefix number="0049162"/>
 <prefix number="0049172"/>
+<prefix number="00491726177471"/>
 <prefix number="0049173"/>
 <prefix number="0049174"/>
 </network>
 <network name="O2 Germany" credits="1.75">
-<prefix number="00491608435630"/>
-<prefix number="00491743352685"/>
 <prefix number="0049176"/>
 <prefix number="0049179"/>
 </network>
@@ -141,7 +154,7 @@
 </network>
 </country>
 <country name="HUNGARY">
-<network name="Pannon GSM" credits="2.75">
+<network name="Pannon" credits="2.75">
 <prefix number="003620"/>
 </network>
 <network name="T-Mobile Hungary" credits="1.75">
@@ -174,10 +187,10 @@
 <prefix number="009198121"/>
 <prefix number="009198122"/>
 </network>
-<network name="IDEA Circle Kerala - Escotel" credits="2.75">
+<network name="IDEA Circle Kerala" credits="2.75">
 <prefix number="00919847"/>
 </network>
-<network name="IDEA Circle UP West - Escotel" credits="2.75">
+<network name="IDEA Circle UP West" credits="2.75">
 <prefix number="00919837"/>
 </network>
 </country>
@@ -190,7 +203,7 @@
 </network>
 </country>
 <country name="ITALY">
-<network name="Telecom Italia Mobile - TIM" credits="1.75">
+<network name="Telecom Italia Mobile" credits="1.75">
 <prefix number="0039330"/>
 <prefix number="0039333"/>
 <prefix number="0039334"/>
@@ -221,7 +234,7 @@
 </network>
 </country>
 <country name="LEBANON">
-<network name="alfa - MIC 1 S.A.L." credits="2.75">
+<network name="MIC 1 S.A.L." credits="2.75">
 <prefix number="0096131"/>
 <prefix number="0096132"/>
 <prefix number="0096133"/>
@@ -264,7 +277,7 @@
 <prefix number="0031651"/>
 <prefix number="0031653"/>
 </network>
-<network name="Vodafone Libertel" credits="2.75">
+<network name="Vodafone Netherlands" credits="2.75">
 <prefix number="0031611"/>
 <prefix number="0031615"/>
 <prefix number="0031621"/>
@@ -338,7 +351,7 @@
 <prefix number="003516693"/>
 <prefix number="0035193"/>
 </network>
-<network name="TMN - Telecomunicacoes Moveis Nac." credits="2.75">
+<network name="TMN" credits="2.75">
 <prefix number="0035196"/>
 </network>
 <network name="Vodafone Telecel" credits="2.75">
@@ -377,7 +390,7 @@
 <prefix number="0034687"/>
 <prefix number="0034697"/>
 </network>
-<network name="AMENA - Retevision Movil" credits="2.75">
+<network name="AMENA" credits="2.75">
 <prefix number="0034605"/>
 <prefix number="0034615"/>
 <prefix number="0034625"/>
@@ -484,7 +497,7 @@
 </network>
 </country>
 <country name="TUNISIA">
-<network name="Tunisiana - Orascom Telecom Tunisia" credits="2.75">
+<network name="Orascom Telecom Tunisia" credits="2.75">
 <prefix number="0021621"/>
 <prefix number="0021622"/>
 </network>
@@ -552,7 +565,7 @@
 <prefix number="00447885"/>
 <prefix number="00447889"/>
 </network>
-<network name="Manx Telecom - Isle of Man" credits="2.75">
+<network name="Manx Telecom" credits="2.75">
 <prefix number="00447624"/>
 </network>
 <network name="T-Mobile UK Ltd" credits="1.75">

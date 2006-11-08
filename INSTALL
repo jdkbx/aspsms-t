@@ -1,18 +1,12 @@
-aspsms-t by Marco Balmer <mb@micressor.ch> @2004
+aspsms-t by Marco Balmer <mb@micressor.ch> @2006
 ================================================
 
 Check this site for the latest version of this software.
 
 http://www.micressor.ch/content/projects/aspsms-t
 
-Contact
--------
-Marco Balmer jid: <micressor@swissjabber.ch> e-mail: <mb@micressor.ch> web: http://www.micressor.ch
-
-
 Features
 --------
-* aspsms xmlsrv v1.6 by https://www.aspsms.com
 * It supports simple text SMS with a maximum of 160 characters. If your message 
   is >160 characters, aspsms-t will split it automatically in more than one part.
 * Very fast delivery
@@ -36,15 +30,7 @@ yum install perl-Net-Server
 yum install perl-Authen-SASL
 yum install perl-Digest-SHA1
 yum install perl-XML-Parser
-
-Connectivity
--------------
-The transport must have access to the aspsms xml srv systems:
-
-xml1.aspsms.com:5061
-xml1.aspsms.com:5098
-xml2.aspsms.com:5061
-xml2.aspsms.com:5098
+yum install (liburi and libwww for perl???)
 
 Overview
 --------
@@ -88,33 +74,23 @@ aspsms-t configuration
 * Copy ./etc/aspsms.xml.dist to aspsms.xml and configure it
 
 * Configuring the delivery notification agent (not necessary for running aspsms-t --> optional)
-  - aspsms-t working directory /home/foo/aspsms-t
-  - Webservice directory /home/www/website/
 
-  cd /home/www/website
-  ln -s /home/foo/aspsms-t/aspsms.notification.pl aspsms.notification.pl
-  chmod 755 aspsms.notification.pl
+  - aspsms-t working directory 	/home/foo/aspsms-t
+  - Webservice directory 	/home/www/website/
 
-  vi aspsms.notification.pl
-  
-  Update the following line:
-  my $Config              = XML::Smart->new('/home/jabberd/etc/aspsms.xml');
-
-  to your configuration path and make sure, that your apache user can access
-  to the configuration file.
+  shell> cd /home/www/website
+  shell> ln /home/foo/aspsms-t/aspsms.notification.pl aspsms.notification.pl
+  shell> ln /home/foo/aspsms-t/etc/aspsms.xml aspsms.xml
+  shell> chmod 755 aspsms.notification.pl
 
   - Configure section <notification/> in aspsms.xml
-
 
 Running
 -------
 ./aspsms-t.pl -c aspsms.xml
-aspsms-t running... (CTRL-C to break)
 
 Better you're running aspsms-t under daemontools from djb http://cr.yp.to/daemontools.html
-
 and then check /var/log/messages ;)
-
 
 Syslog configuration
 --------------------

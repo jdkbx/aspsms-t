@@ -40,7 +40,7 @@ sub sendAdminMessage
                                  from    =>$config::service_name,
                                  body    =>"\n$msg\n\n
 ---				 
-$config::ident v $config::release
+$config::ident Gateway system v$config::release
 http://www.micressor.ch/content/projects/aspsms-t");
 
 
@@ -61,14 +61,9 @@ sub WelcomeMessage
 It is a sms-transport gateway. If you wish to operate with it, please 
 register an https://www.aspsms.com account, afterwards you can use 
 it to send sms like +4178xxxxxxx@$config::service_name
-
-
-
+---				 
 $config::ident Gateway system v$config::release
-Support contact xmpp: $config::admin_jid
-http://www.micressor.ch/content/projects/aspsms-t
-
-");
+http://www.micressor.ch/content/projects/aspsms-t");
 				
 $config::Connection->Send($msg);
 }
