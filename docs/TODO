@@ -5,12 +5,6 @@ Version 1.2
 
 * Stable release basic features
 
-* Better exeptionhandling for sms notifications
-
-* Interface to query balance for user
-
-* Download fees.xml and network.xml directly from aspsms.com for network and
-  costs information
 
 Version 1.3
 -----------
@@ -21,10 +15,19 @@ Version 1.3
 
 * UNICODE support
 
+* Interface to query balance for user
+
+* Download fees.xml and network.xml directly from aspsms.com for network and
+  costs information
+
+
 Not scheduled
 -------------
 
 * Full Two-Way support for everyone. A separate two-way number is not longer necessary
 
-* Bug: If a USERKEY is two times registred to the transport, sms notifications will be
-       sent to the first found entry.
+BUGS
+----
+
+* If a USERKEY is two times registred to the transport, sms notifications will be
+  sent to the first found entry.
