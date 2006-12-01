@@ -116,19 +116,23 @@ sub InMessage {
 	 #
 	 # Check if user is existing
 	 #
-	 if($userdata == -2)
+	 unless($userkey eq $config::transport_secret)
 	  {
-	   aspsmst_log("alert","id: $transid InMessage(): No user found for userkey=$userkey");
-	   return -2;
-	  }
+	   if($userdata == -2)
+	    {
+	     aspsmst_log("alert","id: $transid InMessage(): No user found for userkey=$userkey");
+	     $config::aspsmst_in_progress=0;
+	     return -2;
+	    } ### END OF if($userdata == -2)
 
-	 my $to_jid 		= $userdata->{jid};
+	  } ### END OF unless($streamtype eq $config::transport_secret)
 
 	 #
 	 # If $streamtype is notify via aspsms.notification.pl
 	 #
          if ($streamtype eq 'notify')
 	  {
+	   my $to_jid = $userdata->{jid};
 	   if ($to_jid eq "No userkey file")
 	    {
 	   	aspsmst_log("info","id: $transid InMessage(): Can not find file for userkey $userkey");
@@ -169,6 +173,7 @@ has status: === $notify_message === at $now");
 	 #
 	 if ($streamtype eq 'twoway')
 	  {
+	   my $to_jid = $userdata->{jid};
 	   
   	   $number =~ s/\+00/\+/g;
 
@@ -202,7 +207,7 @@ has status: === $notify_message === at $now");
 	    }
 	   else
 	    {
-	     aspsmst_log('info',"InMessage(): Incoming direct message not delivered: secret:`$userkey` does not match");
+	     aspsmst_log('info',"InMessage(): Incoming direct message not delivered: secret:`$userkey` $config::transport_secret does not match");
 	    }
 
 	  } ### END of if ($streamtype eq 'direct')
