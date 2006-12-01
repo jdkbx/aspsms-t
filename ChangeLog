@@ -1,3 +1,10 @@
+2006-11-22 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/ASPSMS/Storage.pm:
+      Crash bugfix, if get_record() can not read a passfile from
+      spool directory.
+
+
 2006-11-08 Marco Balmer  <mb@micressor.ch>
 
     * Tagging Release 1.2.0

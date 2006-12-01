@@ -39,7 +39,22 @@ sub get_record
   while (defined(my $file = readdir(DIR))) 
    {
     aspsmst_log("debug","get_record($get_type): Processing file $config::passwords/$file");
-    open(F, "<$config::passwords/$file") or die "Problem: $!\n";
+    
+    eval
+    {
+     open(F, "<$config::passwords/$file") or die "Problem: $!\n";
+    };
+
+    #
+    # If we can not open the passfile, return -2 (user not registered)
+    #
+
+    if($@)
+     {
+      aspsmst_log("alert","get_record($get_type,$jid_userkey): Problem to open passfile $file");
+      return -2;
+     }
+     
     seek(F, 0, 0);
     local $/ = "\n";
 
