@@ -26,3 +26,5 @@ BUGS
 
 * If a USERKEY is two times registred to the transport, sms notifications will be
   sent to the first found entry.
+
+* Some memory leaks
