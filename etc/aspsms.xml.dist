@@ -34,57 +34,36 @@
 
  <!-- aspsms.com servers								-->
  
+ <!-- This (82723) is the personal affiliate-id of the aspsms-t author. If you      -->
+ <!-- appreciate our enthusiasm and would like to support our work, we are grateful -->
+ <!-- for your donation (put 82723 into <affiliateid/>). Thank you!!! This has no   -->
+ <!-- impact to the functionality of the service or billing			    -->
+ <!-- Otherwise change it to <affiliateid/>					    -->
+
+ <affiliateid>82723</affiliateid>
+
  <server id='1'>
   <host>xml1.aspsms.com</host>
   <port>5061</port>
   <xmlspec>1.8</xmlspec>
-  
- <!-- This (82723) is the personal affiliate-id of the aspsms-t author. If you         -->
- <!-- appreciate our enthusiasm and would like to support our work, we are grateful    -->
- <!-- for your donation (put 82723 into <affiliateid/>). Thank you!!! This has no i    -->
- <!-- impact to the functionality of the service or billing			       -->
- <!-- Otherwise change it to <affiliateid/>					       -->
-  <affiliateid>82723</affiliateid>
-
  </server>
 
  <server id='2'>
   <host>xml1.aspsms.com</host>
   <port>5098</port>
   <xmlspec>1.8</xmlspec>
-
- <!-- This (82723) is the personal affiliate-id of the aspsms-t author. If you         -->
- <!-- appreciate our enthusiasm and would like to support our work, we are grateful    -->
- <!-- for your donation (put 82723 into <affiliateid/>). Thank you!!! This has no i    -->
- <!-- impact to the functionality of the service or billing			       -->
- <!-- Otherwise change it to <affiliateid></affiliateid>			       -->
-  <affiliateid>82723</affiliateid>
  </server>
  
  <server id='3'>
   <host>xml2.aspsms.com</host>
   <port>5061</port>
   <xmlspec>1.8</xmlspec>
-
- <!-- This (82723) is the personal affiliate-id of the aspsms-t author. If you         -->
- <!-- appreciate our enthusiasm and would like to support our work, we are grateful    -->
- <!-- for your donation (put 82723 into <affiliateid/>). Thank you!!! This has no i    -->
- <!-- impact to the functionality of the service or billing			       -->
- <!-- Otherwise change it to <affiliateid></affiliateid>			       -->
-  <affiliateid>82723</affiliateid>
  </server>
  
  <server id='4'>
   <host>xml2.aspsms.com</host>
   <port>5098</port>
   <xmlspec>1.8</xmlspec>
-
- <!-- This (82723) is the personal affiliate-id of the aspsms-t author. If you         -->
- <!-- appreciate our enthusiasm and would like to support our work, we are grateful    -->
- <!-- for your donation (put 82723 into <affiliateid/>). Thank you!!! This has no i    -->
- <!-- impact to the functionality of the service or billing			       -->
- <!-- Otherwise change it to <affiliateid></affiliateid>			       -->
-  <affiliateid>82723</affiliateid>
  </server>
 
  

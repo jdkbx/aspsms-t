@@ -22,7 +22,7 @@ use XML::Smart;
 use ASPSMS::aspsmstlog;
 use ASPSMS::ContactCredits;
 
-our $release = " svn243";
+our $release = " svn245";
 
 our $config_file;
 our $aspsmssocket;
@@ -44,6 +44,7 @@ our $notificationurl;
 our $notificationjid;
 our $browseservicename;
 our $browseservicetype;
+our $affiliateid;
 
 our $aspsmst_stat_message_counter;
 our $aspsmst_stat_error_counter;
@@ -102,6 +103,7 @@ our $Connection;
 				$transport_uptime,
 				$transport_uptime_hours,
 				$prefix_data,
+				$affiliateid,
 				$Connection
 				);
 
@@ -119,9 +121,9 @@ sub set_config
     $aspsms_connection{"host_$i"} 		= $Config->{aspsms}{server}('id','eq',"$i"){"host"};
     $aspsms_connection{"port_$i"} 		= $Config->{aspsms}{server}('id','eq',"$i"){"port"};
     $aspsms_connection{"xmlspec_$i"} 		= $Config->{aspsms}{server}('id','eq',"$i"){"xmlspec"};
-    $aspsms_connection{"affiliateid_$i"}	= $Config->{aspsms}{server}('id','eq',"$i"){"affiliateid"};
    }
 
+  $affiliateid		= $Config->{aspsms}{affiliateid};
   $service_name		= $Config->{aspsms}{jabber}{serviceid};
   $server		= $Config->{aspsms}{jabber}{server};
   $port			= $Config->{aspsms}{jabber}{port};
