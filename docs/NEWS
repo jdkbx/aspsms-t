@@ -1,7 +1,7 @@
 aspsms-t Release 1.2.1
 ----------------------
-* Affiliateid bugfix. It was not working.
-* Bugfix sms2jabber functionalty.
+* Bugfix affiliate id (Was not working)
+* Bugfix sms2jabber functionality
 * Bugfix of some transport crashes
 
 aspsms-t Release 1.2.0
