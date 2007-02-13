@@ -32,7 +32,8 @@ my @tmpstat	= split(/,,,/,$xml);
 my $transid	= $tmpstat[1];
 
 # Read configuration
-my $Config  		= XML::Smart->new('./aspsms.xml');
+my $Config  		= XML::Smart->new('./aspsms.xml') or \
+die "Cannot open configuration file; Exit: $?";
 my $hostname           = $Config->{aspsms}{notification}{hostname};
 my $username           = $Config->{aspsms}{notification}{username};
 my $password           = $Config->{aspsms}{notification}{password};
