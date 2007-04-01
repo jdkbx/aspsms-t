@@ -110,7 +110,7 @@ elsif (($type eq '') or ($type eq 'probe'))
   
   if ($to eq "$config::service_name/registered") 
    {
-     aspsmst_log('info',"InPresence($barejid): Send presence status: \"Transport uptime: $config::transport_uptime_hours in hour(s) SMS/Hour: $config::aspsmst_stat_msg_per_hour\"");
+     aspsmst_log('notice',"InPresence($barejid): Send presence status: \"Transport uptime: $config::transport_uptime_hours in hour(s) SMS/Hour: $config::aspsmst_stat_msg_per_hour\"");
      sendPresence($from,$to,undef,$iq_show,"Transport uptime: $config::transport_uptime_hours SMS/h: $config::aspsmst_stat_msg_per_hour");
    }
  } 
