@@ -51,12 +51,12 @@ sub disco_get_aspsms_networks
         
         #
         # Jid fix for spaces in country names
-         #
+        #
         $i =~ s/\s/\_/g;
         unless($i eq "")
          {
           $iqQuery->AddItem(	jid=>"$i\@".$config::service_name,
-        				name=>$i);
+        			name=>$i);
          } ### END of unless($li eq "")
        } ### END of foreach my $i (@countries)
       } ### END of if($to eq "countries\@⅛.$config::service_name")
@@ -85,6 +85,8 @@ sub disco_get_aspsms_networks
       my $counter_prefixes	=0;
       foreach my $i (@networks)
       {
+       @prefixes = $config::xml_fees->{"fees"}{"country"}('name','eq',"$select_country[0]"){"network"}('name','eq',"$i"){"prefix"}('[@]','number');
+
        #
        # Generate disco item for each country
        #
@@ -92,10 +94,12 @@ sub disco_get_aspsms_networks
 
        unless($i eq "")
 	{
-         $iqQuery->AddItem(	name=>"Network: $i");
+	 $i =~ s/\s/\_/g;
+         $iqQuery->AddItem(	name=>"Network: $i",
+	 			jid=>"$i\@$config::service_name");
+	 $i =~ s/\_/\s/g;
         } ### END of unless($i eq "")
 
-       @prefixes = $config::xml_fees->{"fees"}{"country"}('name','eq',"$select_country[0]"){"network"}('name','eq',"$i"){"prefix"}('[@]','number');
 
        $counter_prefixes	=0;
        foreach my $i_prefix (@prefixes)
@@ -106,7 +110,10 @@ sub disco_get_aspsms_networks
 	 unless($i_prefix eq "")
 	  {
            aspsmst_log('debug',"disco_get_aspsms_networks($from): Prefix $counter_prefixes: $i_prefix");
-           $iqQuery->AddItem(name=>"Network: $i Prefix: $i_prefix [Credits:$credits[0]]");
+	   
+           $iqQuery->AddItem(
+	name=>"Network prefix: $i_prefix [Credits:$credits[0]]",
+	jid=>"$i_prefix\@$config::service_name");
 	  }
 	 $counter_prefixes++;
 	} ### END of foreach my $i (@prefixes)

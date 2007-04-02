@@ -22,7 +22,7 @@ use XML::Smart;
 use ASPSMS::aspsmstlog;
 use ASPSMS::ContactCredits;
 
-our $release = " 1.2.1";
+our $release = " build 253";
 
 our $config_file;
 our $aspsmssocket;
@@ -72,40 +72,39 @@ our $Connection;
 
 @ISA 			= qw(Exporter);
 @EXPORT 		= qw(	set_config
-				$aspsms_connection,
-				$service_name,
-				$server,
-				$port,
-				$secret,
-				$passwords,
-				$release,
-				$banner,
-				$admin_jid,
-				$ident,
-				$notificationurl,
-				$notificationjid,
-				$notificationjid,
-				$browseservicename,
-				$browseservicetype,
-				$aspsmst_stat_message_counter,
-				$aspsmst_stat_error_counter,
-				$aspsmst_stat_notification_counter,
-				$aspsmst_stat_stanzas,
-				$transport_secret,
-				$aspsmst_in_progress,
-				$xml_networks,
-				$xml_fees,
-				$aspsmst_flag_shutdown,
-				$transport_uptime,
-				$aspsmst_stat_msg_per_hour,
-				$aspsmst_stat_stanzas_per_hour,
-				$aspsmst_stat_msg_per_hour,
-				$transport_uptime,
-				$transport_uptime_hours,
-				$prefix_data,
-				$affiliateid,
-				$Connection
-				);
+				$aspsms_connection
+				$service_name
+				$server
+				$port
+				$secret
+				$passwords
+				$release
+				$banner
+				$admin_jid
+				$ident
+				$notificationurl
+				$notificationjid
+				$notificationjid
+				$browseservicename
+				$browseservicetype
+				$aspsmst_stat_message_counter
+				$aspsmst_stat_error_counter
+				$aspsmst_stat_notification_counter
+				$aspsmst_stat_stanzas
+				$transport_secret
+				$aspsmst_in_progress
+				$xml_networks
+				$xml_fees
+				$aspsmst_flag_shutdown
+				$transport_uptime
+				$aspsmst_stat_msg_per_hour
+				$aspsmst_stat_stanzas_per_hour
+				$aspsmst_stat_msg_per_hour
+				$transport_uptime
+				$transport_uptime_hours
+				$prefix_data
+				$affiliateid
+				$Connection);
 
 
 sub set_config
