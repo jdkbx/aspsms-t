@@ -44,7 +44,7 @@
 </country>
 <country name="AUSTRIA">
 <network name="Mobilkom Austria" credits="2.75"/>
-<network name="Tele.ring" credits="1"/>
+<network name="Tele.ring" credits="2.75"/>
 <network name="T-Mobile Austria GmbH" credits="2.75"/>
 <network name="One GmbH" credits="1"/>
 </country>
@@ -145,12 +145,12 @@
 <network name="Libertis Telecom" credits="1"/>
 </country>
 <country name="CONGO DEMOCRATIC REPUBLIC">
-<network name="Vodacom Congo RDC" credits="1"/>
 <network name="Celtel Congo DRC" credits="1"/>
+<network name="Vodacom Congo RDC" credits="1"/>
 </country>
 <country name="CROATIA">
 <network name="Vipnet GSM d.o.o." credits="2.75"/>
-<network name="T-Mobile Croatia LLC" credits="1"/>
+<network name="T-Mobile Croatia LLC" credits="2.75"/>
 </country>
 <country name="CUBA">
 <network name="Telecomunicaciones Celulares del Caribe (C_Com)" credits="1"/>
@@ -298,8 +298,8 @@
 <network name="IMC Island ehf." credits="1"/>
 </country>
 <country name="INDIA">
-<network name="MTNL-Dolphine-Delhi" credits="1"/>
 <network name="MTNL-Dolphine-Mumbai" credits="1"/>
+<network name="MTNL-Dolphine-Delhi" credits="1"/>
 <network name="Reliance Telecom Ltd MP Circle" credits="1"/>
 <network name="Hexacom India Ltd" credits="1"/>
 <network name="Fascel" credits="1"/>
@@ -341,6 +341,7 @@
 <network name="Cellcom" credits="1"/>
 </country>
 <country name="ITALY">
+<network name="H3G" credits="1"/>
 <network name="Telecom Italia Mobile" credits="1.75"/>
 <network name="WIND Telecomunicazioni" credits="1.75"/>
 <network name="Vodafone Omnitel" credits="1.75"/>
@@ -455,7 +456,7 @@
 <network name="Maroc Telecom" credits="1"/>
 </country>
 <country name="MOZAMBIQUE">
-<network name="Mocambique Celular" credits="1"/>
+<network name="Mocambique Celular" credits="2.5"/>
 </country>
 <country name="NAMIBIA">
 <network name="MTC Namibia" credits="1"/>
@@ -532,9 +533,6 @@
 <country name="QATAR">
 <network name="Qatar Telecom" credits="1"/>
 </country>
-<country name="REUNION">
-<network name="SRR" credits="1"/>
-</country>
 <country name="ROMANIA">
 <network name="CosmoRom" credits="1"/>
 <network name="MobiFon" credits="1"/>
@@ -555,8 +553,8 @@
 <network name="Dontelecom" credits="1"/>
 <network name="KB Impuls Moscow" credits="1"/>
 <network name="Kuban-GSM" credits="1"/>
-<network name="PrimTelefone" credits="1"/>
 <network name="Sibchallenge" credits="1"/>
+<network name="PrimTelefone" credits="1"/>
 </country>
 <country name="RWANDA">
 <network name="MTN RwandaCell" credits="1"/>
@@ -600,7 +598,7 @@
 </country>
 <country name="SOUTH AFRICA">
 <network name="Cell C" credits="1"/>
-<network name="Vodacom South Africa" credits="1"/>
+<network name="Vodacom South Africa" credits="2.75"/>
 <network name="MTN South Africa" credits="1"/>
 </country>
 <country name="SPAIN">

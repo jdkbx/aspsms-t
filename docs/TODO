@@ -1,14 +1,14 @@
 aspsms-t Road MAP
-----------------
+-----------------
 
-Version 1.3
+Version 1.4
 -----------
 
 * WAP-Push/MMS support
 
 * Automatic change to cheaper method (sms/mms)
 
-* UNICODE support
+* UNICODE / utf-8 support
 
 * Interface to query balance for user
 
@@ -25,6 +25,11 @@ BUGS
 ----
 
 * If a USERKEY is two times registred to the transport, sms notifications will be
-  sent to the first found entry.
+  sent to the first found entry. 30.04.2007 /maba
 
-* Some memory leaks
+* sms2jabber does not work, if a sender is not a cell number. 30.04.2007 /maba
+
+* If ip restriction is activated on aspsms.com website, aspsms-t does not give 
+  a correct error response. 30.04.2007 /maba
+
+* Some memory leaks 30.04.2007 /maba
