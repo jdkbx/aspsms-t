@@ -1,6 +1,11 @@
+2007-05-23 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/aspsms.notification.pl:
+      Better exeption handling.
+
 2007-04-30 Marco Balmer  <mb@micressor.ch>
 
-    * trunk/docs/TODO
+    * trunk/docs/TODO:
       Update TODO list.
 
 2007-04-02 Marco Balmer  <mb@micressor.ch>

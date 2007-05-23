@@ -32,8 +32,8 @@ my @tmpstat	= split(/,,,/,$xml);
 my $transid	= $tmpstat[1];
 
 # Read configuration
-my $Config  		= XML::Smart->new('./aspsms.xml') or \
-die "Cannot open configuration file; Exit: $?";
+my $Config  		= XML::Smart->new('/home/www/swissjabber.ch/html/aspsms/aspsms.xml') or 
+Stop("Cannot open configuration file; Exit: $?");
 my $hostname           = $Config->{aspsms}{notification}{hostname};
 my $username           = $Config->{aspsms}{notification}{username};
 my $password           = $Config->{aspsms}{notification}{password};
@@ -144,8 +144,7 @@ sub Stop
   print "$ret</status>
  </reply>
 </aspsms>";
-  syslog('notice',"End");
-  sleep(1);
+  syslog('notice',"$ret");
   print "\n";
   exit(0);
  }
