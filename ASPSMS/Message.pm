@@ -87,9 +87,9 @@ aspsmst_log("notice","id: $transid SendMessage(): \$msg_id=$msg_id");
                                  to      	=>$to,
 				 id	 	=>$msg_id,
                                  from    	=>$from,
-                                 body    	=>"$text
----
-$config::ident Gateway system v$config::release  Support contact xmpp: $config::admin_jid");
+                                 body    	=>"$text");
+#---
+#$config::ident $config::release  Support contact xmpp: $config::admin_jid");
 
 $config::Connection->Send($msg);
 

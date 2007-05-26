@@ -32,6 +32,11 @@ use ASPSMS::Storage;
 
 sub sendError {
 my ($msg, $to, $from, $code, $text) = @_;
+
+$text .= "
+
+Do you need support with $config::ident ?
+Support contact is xmpp: $config::admin_jid";
 	
 $msg->SetType('error');
 $msg->SetFrom($from);

@@ -1,3 +1,14 @@
+2007-05-26 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/ASPSMS/Message.pm:
+      Clarify transport messages (shorter).
+
+    * trunk/InMessage.pm:
+      same
+
+    * trunk/Presence.pm:
+      Send support contact jid only if a error occures.
+
 2007-05-23 Marco Balmer  <mb@micressor.ch>
 
     * trunk/aspsms.notification.pl:
