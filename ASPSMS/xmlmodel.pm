@@ -19,7 +19,7 @@ use vars qw(@EXPORT @ISA);
 use Exporter;
 
 @ISA 			= qw(Exporter);
-@EXPORT 		= qw(xmlShowCredits xmlSendTextSMS xmlSendWAPPushSMS xmlGenerateRequest);
+@EXPORT 		= qw(xmlShowCredits xmlSendTextSMS xmlSendBinarySMS xmlSendWAPPushSMS xmlGenerateRequest);
 
 ########################################################################
 sub xmlShowCredits {
@@ -32,9 +32,9 @@ my $aspsmsrequest =
 
 "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
 <aspsms>
-        <Userkey>" . $login ."</Userkey>
-        <Password>" . $password . "</Password>
-        <Action>ShowCredits</Action>
+ <Userkey>" . $login ."</Userkey>
+ <Password>" . $password . "</Password>
+ <Action>ShowCredits</Action>
 </aspsms>
 \r\n\r\r\n";
 
@@ -63,7 +63,7 @@ my $msg_type		= shift;
 #
 # fix right url encoding for aspsms xmlsrv
 #
-$config::notificationurl =~ s/\:/\&\#58\;/g;
+$config::notificationurl = PrepareCharSet($config::notificationurl);
 
 #
 # Prepare charset
@@ -74,20 +74,20 @@ my $aspsmsrequest =
 
 "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
 <aspsms>
-        <Userkey>" . $login ."</Userkey>
-        <Password>" . $password . "</Password>
-        <Originator>" . $originator  . "</Originator>
-        <Recipient>
-                <PhoneNumber>" . $target . "</PhoneNumber>
-		<TransRefNumber>" . $random ."</TransRefNumber>
-        </Recipient>
-	<URLDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Delivered,,,</URLDeliveryNotification>
-	<URLNonDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,NonDelivered,,,</URLNonDeliveryNotification>
-	<URLBufferedMessageNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Buffered,,,</URLBufferedMessageNotification>
-        <MessageData>" .$mess . "</MessageData>
-        <Action>SendTextSMS</Action>
-	<UsedCredits>1</UsedCredits>
-	<AffiliateId>$affiliateid</AffiliateId>
+ <Userkey>" . $login ."</Userkey>
+ <Password>" . $password . "</Password>
+ <Originator>" . $originator  . "</Originator>
+ <Recipient>
+  <PhoneNumber>" . $target . "</PhoneNumber>
+  <TransRefNumber>" . $random ."</TransRefNumber>
+ </Recipient>
+ <URLDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Delivered,,,</URLDeliveryNotification>
+ <URLNonDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,NonDelivered,,,</URLNonDeliveryNotification>
+ <URLBufferedMessageNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Buffered,,,</URLBufferedMessageNotification>
+ <MessageData>" .$mess . "</MessageData>
+ <Action>SendTextSMS</Action>
+ <UsedCredits>1</UsedCredits>
+ <AffiliateId>$affiliateid</AffiliateId>
 </aspsms>
 \r\n\r\r\n";
 
@@ -96,6 +96,61 @@ return $aspsmsrequest;
 
 ########################################################################
 }
+########################################################################
+
+########################################################################
+sub xmlSendBinarySMS {
+########################################################################
+
+my $login               = shift;
+my $password            = shift;
+my $originator		= shift;
+my $target		= shift;
+my $mess		= shift;
+my $random		= shift;
+my $jid			= shift;
+my $numbernotification	= shift;
+my $affiliateid		= shift;
+my $msg_id		= shift;
+my $msg_type		= shift;
+
+#
+# fix right url encoding for aspsms xmlsrv
+#
+$config::notificationurl = PrepareCharSet($config::notificationurl);
+
+#
+# Prepare charset
+#
+$mess 	= PrepareCharSet($mess);
+
+my $aspsmsrequest =
+
+"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
+<aspsms>
+ <Userkey>" . $login ."</Userkey>
+ <Password>" . $password . "</Password>
+ <Originator>" . $originator  . "</Originator>
+ <Recipient>
+  <PhoneNumber>" . $target . "</PhoneNumber>
+  <TransRefNumber>" . $random ."</TransRefNumber>
+ </Recipient>
+ <URLDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Delivered,,,</URLDeliveryNotification>
+ <URLNonDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,NonDelivered,,,</URLNonDeliveryNotification>
+ <URLBufferedMessageNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Buffered,,,</URLBufferedMessageNotification>
+ <MessageData>" .$mess . "</MessageData>
+ <XSer>020108</XSer>
+ <Action>SendBinaryData</Action>
+ <UsedCredits>1</UsedCredits>
+ <AffiliateId>$affiliateid</AffiliateId>
+</aspsms>
+\r\n\r\r\n";
+
+
+return $aspsmsrequest;
+
+########################################################################
+} ### xmlSendBinarySMS
 ########################################################################
 
 ########################################################################
@@ -120,23 +175,23 @@ $url 	= PrepareCharSet($url);
 
 
 # fix right url encoding for aspsms xmlsrv
-$config::notificationurl =~ s/\:/\&\#58\;/g;
+$config::notificationurl = PrepareCharSet($config::notificationurl);
 
 my $aspsmsrequest =
 
 "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>
 <aspsms>
-        <Userkey>" . $login ."</Userkey>
-        <Password>" . $password . "</Password>
-        <Originator>" . $originator  . "</Originator>
-        <Recipient>
-                <PhoneNumber>" . $target . "</PhoneNumber>
-		<TransRefNumber>" . $random ."</TransRefNumber>
-        </Recipient>
-        <WAPPushDescription>" .$mess . "</WAPPushDescription>
-	<WAPPushURL>".$url."</WAPPushURL>
-        <Action>SendWAPPushSMS</Action>
-	<AffiliateId>$affiliateid</AffiliateId>
+ <Userkey>" . $login ."</Userkey>
+ <Password>" . $password . "</Password>
+ <Originator>" . $originator  . "</Originator>
+ <Recipient>
+  <PhoneNumber>" . $target . "</PhoneNumber>
+  <TransRefNumber>" . $random ."</TransRefNumber>
+ </Recipient>
+ <WAPPushDescription>" .$mess . "</WAPPushDescription>
+ <WAPPushURL>".$url."</WAPPushURL>
+ <Action>SendWAPPushSMS</Action>
+ <AffiliateId>$affiliateid</AffiliateId>
 </aspsms>
 \r\n\r\r\n";
 
@@ -174,6 +229,7 @@ sub PrepareCharSet {
 my $data = shift;
 
 $data =~ s/:/&#58;/g;
+$data =~ s/\:/\&\#58\;/g;
 
 return $data;
 

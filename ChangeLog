@@ -1,3 +1,14 @@
+2007-05-28 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/ASPSMS/UCS2.pm:
+      First modifications for Arabic & other oriental characters
+
+    * trunk/ASPSMS/xmlmodel.pm:
+      same
+
+    * trunk/aspsms.SendBinarySMS.pl:
+      Add example to repository
+
 2007-05-26 Marco Balmer  <mb@micressor.ch>
 
     * trunk/ASPSMS/Message.pm:

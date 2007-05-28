@@ -20,7 +20,7 @@ use vars qw(@EXPORT @ISA);
 use Exporter;
 
 @ISA 			= qw(Exporter);
-@EXPORT 		= qw(encode_ucs2);
+@EXPORT 		= qw(utf8_to_ucs2);
 
 
 use Sys::Syslog;
@@ -30,24 +30,27 @@ use ASPSMS::Jid;
 
 use Unicode::String qw(utf8 latin1 utf16);
 
-sub encode_ucs2
+sub utf8_to_ucs2
+#
+# Description: Encoding utf8 --> UCS2
+# Example: "Hello" in UCS2 is: "00480065006c006c006f"
+#
  {
   my $msg = shift;
-  my  $u = utf8($msg);
+  my $utf8 = utf8($msg);
+  my $ucs2 = $utf8->hex;
+  
+  #
+  # Remove not necessary characters from
+  # U+0048 U+0065 U+006c U+006c U+006f
+  # to
+  # 00480065006c006c006f
+  #
+  $ucs2 =~ s/\+//g;
+  $ucs2 =~ s/U//g;
+  $ucs2 =~ s/\s//g;
 
-  # convert to various external formats
-  #print $u->ucs4."\n";      # 4 byte characters
-  #print $u->utf16;     # 2 byte characters + surrogates
-  #print $u->utf8;      # 1-4 byte characters
-  #print $u->utf7;      # 7-bit clean format
-  #print $u->latin1;    # lossy
-
-
-  my $u2 = $u->hex;       # a hexadecimal string
-  $u2 =~ s/U\+//g;
-  $u2 =~ s/\s//g;
-
-  return $u2;
+  return $ucs2;
 
  } ### END of encode_ucs2
 
