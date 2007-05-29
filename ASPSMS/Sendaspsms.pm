@@ -54,7 +54,10 @@ my $user = getUserPass($from,$banner,$aspsmst_transaction_id);
 
 if($user == -2)
                         {
-			    my $msg_register = "Your jid `$from` is not registered on \`$config::service_name\` for using sms services. Please register first to this transport.";
+			    my $msg_register = "Your jid `$from` is not " .
+			    "registered on \`$config::service_name\` for" .
+			    "using sms services. Please register first to".
+			    "this transport.";
                             aspsmst_log('warning',"Sendaspsms(): $msg_register");
                             return (99,$msg_register);
                         }
@@ -62,13 +65,30 @@ if($user == -2)
 
 aspsmst_log('notice',"id:$aspsmst_transaction_id Sendaspsms(): sending message to number $number");
 
-my ($result,$resultdesc,$Credits,$CreditsUsed,$random) = exec_SendTextSMS($number, $msg, $user->{name}, $user->{password},$user->{phone},$user->{signature},$from,$aspsmst_transaction_id,$msg_id,$msg_type);
+my (	$result,
+	$resultdesc,
+	$Credits,
+	$CreditsUsed,
+	$random) = exec_SendTextSMS(	$number, 
+					$msg, 
+					$user->{name}, 
+					$user->{password},
+					$user->{phone},
+					$user->{signature},
+					$from,
+					$aspsmst_transaction_id,
+					$msg_id,
+					$msg_type);
 
 
-if ($result == 1) { $config::stat_message_counter++; } else { $config::stat_error_counter++; }
+if ($result == 1) 
+ { $config::stat_message_counter++; } 
+else 
+ { $config::stat_error_counter++; }
 
 my ($xmppanswerlog);
-$xmppanswerlog = "SMS from $from to $number (Balance: $Credits Used: $CreditsUsed) has status --> $result ($resultdesc)";
+$xmppanswerlog = "SMS from $from to $number (Balance: $Credits Used: " .
+"$CreditsUsed) has status --> $result ($resultdesc)";
 
 if ($result == 1) {
 

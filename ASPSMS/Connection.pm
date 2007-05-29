@@ -19,13 +19,18 @@ use vars qw(@EXPORT @ISA);
 use Exporter;
 
 @ISA                    = qw(Exporter);
-@EXPORT                 = qw(exec_SendTextSMS ConnectAspsms DisconnectAspsms exec_ConnectionASPSMS parse_aspsms_response);
+@EXPORT                 = qw(	exec_SendTextSMS 
+				ConnectAspsms 
+				DisconnectAspsms 
+				exec_ConnectionASPSMS 
+				parse_aspsms_response);
 
 use config;
 use IO::Socket;
 use ASPSMS::aspsmstlog;
 use ASPSMS::xmlmodel;
 use ASPSMS::Regex;
+use ASPSMS::UCS2;
 
 
 use Sys::Syslog;
@@ -54,7 +59,13 @@ sub exec_SendTextSMS
 
 	# Generate SMS Request
 	my $aspsmsrequest;
-	$aspsmsrequest = xmlSendTextSMS(	$login,
+	my $flag_ucs2_mess = check_for_ucs2($mess);
+        aspsmst_log('notice',"id:$aspsmst_transaction_id exec_SendTextSMS(): " .
+	"check_for_ucs2(): $flag_ucs2_mess");
+        if($flag_ucs2_mess == 1)
+	 {
+	  $mess 	 = convert_to_ucs2($mess);
+	  $aspsmsrequest = xmlSendBinarySMS(	$login,
 						$password,
 						$phone,
 						$number,
@@ -66,8 +77,25 @@ sub exec_SendTextSMS
 						$msg_id,
 						$msg_type);
 
+ 	 } ### if($flag_ucs2_mess == 1)
+	else
+	 {
+	  $aspsmsrequest = xmlSendTextSMS(	$login,
+						$password,
+						$phone,
+						$number,
+						$mess,
+						$aspsmst_transaction_id ,
+						$jid,
+						$numbernotification,
+						$config::affiliateid,
+						$msg_id,
+						$msg_type);
+
+	 } ### if($flag_ucs2_mess == 1)
 	my $completerequest     = xmlGenerateRequest($aspsmsrequest);
-	my @ret_CompleteRequest = exec_ConnectionASPSMS($completerequest,$aspsmst_transaction_id);
+	my @ret_CompleteRequest = exec_ConnectionASPSMS($completerequest,
+							$aspsmst_transaction_id);
 
 	if($ret_CompleteRequest[0] eq "-1")
 	 {
@@ -79,7 +107,8 @@ sub exec_SendTextSMS
 	 }
 
 # Parse XML of SMS request
-my $ret_parsed_response = parse_aspsms_response(\@ret_CompleteRequest,$aspsmst_transaction_id);
+my $ret_parsed_response = parse_aspsms_response(\@ret_CompleteRequest,
+						$aspsmst_transaction_id);
 
 my $DeliveryStatus      =       XML::Smart->new($ret_parsed_response);
 my $ErrorCode           =       $DeliveryStatus->{aspsms}{ErrorCode};
@@ -93,10 +122,14 @@ my $CreditsUsed         =       $DeliveryStatus->{aspsms}{CreditsUsed};
 $aspsmsrequest          = xmlShowCredits($login,$password);
 $completerequest     = xmlGenerateRequest($aspsmsrequest);
 
-my @ret_CompleteRequest_ShowCredits = exec_ConnectionASPSMS($completerequest,$aspsmst_transaction_id);
+my @ret_CompleteRequest_ShowCredits = 
+			exec_ConnectionASPSMS(	$completerequest,
+						$aspsmst_transaction_id);
 
 # Parse XML of SMS request
-my $ret_parsed_response_ShowCredits = parse_aspsms_response(\@ret_CompleteRequest_ShowCredits,$aspsmst_transaction_id);
+my $ret_parsed_response_ShowCredits = 
+			parse_aspsms_response(	\@ret_CompleteRequest_ShowCredits,
+						$aspsmst_transaction_id);
 
 DisconnectAspsms($aspsmst_transaction_id);
 
@@ -104,8 +137,11 @@ my $CreditStatus        =       XML::Smart->new($ret_parsed_response_ShowCredits
 my $Credits             =       $CreditStatus->{aspsms}{Credits};
 
 
-aspsmst_log('notice',"id:$aspsmst_transaction_id exec_SendTextSMS(): return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,$aspsmst_transaction_id)");
-return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,$aspsmst_transaction_id);
+aspsmst_log('notice',"id:$aspsmst_transaction_id exec_SendTextSMS(): ".
+"return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,".
+"$aspsmst_transaction_id)");
+return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,
+		$aspsmst_transaction_id);
 ########################################################################
 }
 ########################################################################
@@ -118,7 +154,10 @@ sub exec_ConnectionASPSMS
 	
   # /Generate SMS Request
   unless(ConnectAspsms($aspsmst_transaction_id) eq '0') 
-   { return ('-1',"Sorry, $config::ident transport is up and running but it is not able to reach one of the aspsms servers for delivering your sms message. Please try again later. Thank you!"); }
+   { return ('-1',"Sorry, $config::ident transport is up and running but it ".
+   		"is not able to reach one of the aspsms servers for ".
+		"delivering your sms message. Please try again later. ".
+		"Thank you!"); }
  
   # Send request to socket
   aspsmst_log('debug',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): Sending: $completerequest");

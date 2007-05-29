@@ -1,3 +1,13 @@
+2007-05-29 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/ASPSMS/UCS2.pm:
+      First working support for Arabic & other oriental characters.
+      Only up to maximum 87 characters. No support for sms concat 
+      at the moment.
+
+    * trunk/ASPSMS/Connection.pm:
+      same
+
 2007-05-28 Marco Balmer  <mb@micressor.ch>
 
     * trunk/ASPSMS/UCS2.pm:
