@@ -161,10 +161,11 @@ sub InMessage {
 			$transid,
 			$msg_id,
 			$msg_type,
-			"Status: $notify_message",
+			"Notification",
 			"
-SMS to number $number has status: === $notify_message === 
-at $now");
+SMS recipient: $number 
+Delivery status: === $notify_message ===
+Date & Time: $now");
 
           } # END of if ($streamtype eq 'notify')
 	
@@ -283,10 +284,10 @@ at $now");
 			$transid,
 			$msg_id,
 			$msg_type,
-			"Status: SMS sent",
+			"Notification",
 			"
-SMS sent to number $number
-(Balance:$Credits / Used: $CreditsUsed / SMS number: $transid)");
+SMS recipient: $number
+Credits Used: $CreditsUsed / Balance:$Credits / Id: $transid");
 
 	  #sendContactStatus($from,$to,'away',"Delivered to aspsms.com, waiting for delivery status notification
 #Balance: $Credits Used: $CreditsUsed");

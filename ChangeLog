@@ -1,3 +1,11 @@
+2007-05-30 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/ASPSMS/xmlmodel.pm:
+      Small encoding fix.
+
+    * trunk/InMessage.pm:
+      Notification messages improoved.
+
 2007-05-29 Marco Balmer  <mb@micressor.ch>
 
     * trunk/ASPSMS/UCS2.pm:
