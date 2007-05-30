@@ -6,6 +6,9 @@
     * trunk/InMessage.pm:
       Notification messages improoved.
 
+    * trunk/Presence.pm:
+      Display build number in transport status line.
+
 2007-05-29 Marco Balmer  <mb@micressor.ch>
 
     * trunk/ASPSMS/UCS2.pm:
