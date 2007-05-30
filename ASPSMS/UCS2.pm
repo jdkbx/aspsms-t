@@ -69,9 +69,7 @@ sub check_for_ucs2
   #
   for (my $c=0; $c < $data_length; $c++) 
    {
-    $check_chr = ord($data[$c]);
-    print "\n$check_chr = ".utf8($data[$c]);
-    if($check_chr > 255)
+    if(ord($data[$c]) > 255)
      {
       #
       # Yes, UCS2 encoding is necessary.
