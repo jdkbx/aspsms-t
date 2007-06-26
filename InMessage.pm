@@ -65,7 +65,7 @@ sub InMessage {
 
 	unless($config::aspsmst_flag_shutdown eq "0")
  	 {
-	  sendError($message, $from, $to, 404, "Sorry, $config::ident has a lot of work or is shutting down at the moment, please try again later. Thanks.");
+	  sendError($message, $from, $to, 503, "Sorry, $config::ident has a lot of work or is shutting down at the moment, please try again later. Thanks.");
 	  $config::aspsmst_in_progress=0;
 	  return -1;
 	 }
@@ -228,7 +228,7 @@ Date & Time: $now");
 	}
   	if ( $number !~ /^\+[0-9]{3,50}$/ ) {
 		my $msg = "Invalid number $number got, try a number like: +41xxx\@$config::service_name";
-		sendError($message, $from, $to, 404, $msg);
+		sendError($message, $from, $to, 400, $msg);
 		$config::aspsmst_in_progress=0;
 		return;
 	}
@@ -264,7 +264,7 @@ Date & Time: $now");
 	   {
 	    aspsmst_log('info',"id:$aspsmst_transaction_id InMessage($from_barejid): \$result=$result from Sendaspsms()");
 	    $config::aspsmst_stat_error_counter++;
-	    sendError($message, $from, $to, 404, $ret);
+	    sendError($message, $from, $to, 400, $ret);
 	   }
 	  else
 	   {

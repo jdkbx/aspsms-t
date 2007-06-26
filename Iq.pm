@@ -117,12 +117,12 @@ elsif ($xmlns eq 'jabber:iq:version')
     }
    else 
     {
-     sendError($iq, $from, $to, 501, "Not supported $xmlns");
+     sendError($iq, $from, $to, 501, "feature-not-implemented: $xmlns");
     }
    }
   else 
    {
-    sendError($iq, $from, $to, 501, "Not supported $xmlns");
+    sendError($iq, $from, $to, 501, "feature-not-implemented: $xmlns");
    }
 
 } ### END of InPresence ###
@@ -263,7 +263,7 @@ password of your aspsms.com account:");
   sendPresence($from,"$config::service_name/registered", 'subscribe');
  } else 
     {
-     sendError($iq, $from, $to, 501, 'jabber:iq:register request not implemented');
+     sendError($iq, $from, $to, 501, 'feature-not-implemented: jabber:iq:register');
     }
 } # END of jabber_register
 
@@ -309,7 +309,7 @@ my $xml		= $iq->GetXML();
   }
  else 
   {
-   sendError($iq, $from, $to, 501, 'Not supported');
+   sendError($iq, $from, $to, 501, 'feature-not-implemented');
   }
 } ### END of jabber_iq_gateway
 
@@ -344,7 +344,7 @@ my $barejid	= get_barejid($from);
    }
   else 
    {
-    sendError($iq, $from, $to, 501, 'Not supported');
+    sendError($iq, $from, $to, 501, 'feature-not-implemented');
    }
 
 } ### END of jabber:iq:browse

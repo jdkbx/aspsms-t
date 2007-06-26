@@ -1,3 +1,14 @@
+2007-06-26 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/Presence.pm:
+      Error code hanlling (XEP-0086)
+
+    * trunk/Ip.pm:
+      same
+
+    * trunk/InMessage.pm:
+      same
+
 2007-05-30 Marco Balmer  <mb@micressor.ch>
 
     * trunk/ASPSMS/xmlmodel.pm:
