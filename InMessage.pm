@@ -60,8 +60,8 @@ sub InMessage {
 	my ($barejid) 		= split (/\//, $from);
   	my $aspsmst_transaction_id = int( rand(10000)) + 10000;
 
-	aspsmst_log('notice',"id:$aspsmst_transaction_id InMessage($barejid): Begin job");
-	aspsmst_log('notice',"id:$aspsmst_transaction_id InMessage($barejid): \$msg_id=$msg_id");
+	aspsmst_log('debug',"id:$aspsmst_transaction_id InMessage($barejid): Begin job");
+	aspsmst_log('debug',"id:$aspsmst_transaction_id InMessage($barejid): \$msg_id=$msg_id");
 
 	unless($config::aspsmst_flag_shutdown eq "0")
  	 {
@@ -298,7 +298,7 @@ Credits Used: $CreditsUsed / Balance:$Credits / Id: $transid");
 	 #}; ### END OF EVAL
 		
 $config::aspsmst_in_progress=0;
-aspsmst_log('notice',"id:$aspsmst_transaction_id InMessage($from): End job");
+aspsmst_log('debug',"id:$aspsmst_transaction_id InMessage($from): End job");
 } ### END of InMessage
 
 1;

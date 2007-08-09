@@ -74,7 +74,7 @@ if ($to eq "$config::service_name/xmlsrv.asp")
 return unless $query;
 my $xmlns 	= $query->GetXMLNS();
 
-aspsmst_log('notice',"id=$id InIQ($barejid): Processing iq query type=$type xmlns=\"$xmlns\"");
+aspsmst_log('debug',"id=$id InIQ($barejid): Processing iq query type=$type xmlns=\"$xmlns\"");
 
 # If error in <iq/> 
 if ($type eq 'error') 
@@ -416,7 +416,7 @@ my $barejid	= get_barejid($from);
 
     if($to eq $config::service_name)
      {
-      aspsmst_log('notice',"jabber_iq_disco_items($barejid): Display transport items");
+      aspsmst_log('debug',"jabber_iq_disco_items($barejid): Display transport items");
       $iqQuery->AddItem(jid=>"countries\@$config::service_name",
     			name=>"Supported sms networks");
      } ### END of if($to eq $config::service_name)
@@ -434,7 +434,7 @@ my $barejid	= get_barejid($from);
       	$iq->SetTo($from);
       	$iq->SetID($id);
       	$config::Connection->Send($iq);
-        aspsmst_log('notice',"jabber_iq_disco_items($barejid): Processing finished");
+        aspsmst_log('debug',"jabber_iq_disco_items($barejid): Processing finished");
     }
 } ### END of jabber_iq_disco_items ###
 

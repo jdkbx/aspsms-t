@@ -46,7 +46,7 @@ sub disco_get_aspsms_networks
       {
        foreach my $i (@countries)
        {
-        aspsmst_log('notice',"disco_get_aspsms_networks($from): Country: $i");
+        aspsmst_log('debug',"disco_get_aspsms_networks($from): Country: $i");
         $i =~ tr/A-Z/a-z/;
         
         #
@@ -70,7 +70,7 @@ sub disco_get_aspsms_networks
       #
       $select_country[0] =~ s/\_/\ /g;
 
-      aspsmst_log('notice',"disco_get_aspsms_networks($from): Display network of country ".$select_country[0]);
+      aspsmst_log('debug',"disco_get_aspsms_networks($from): Display network of country ".$select_country[0]);
 
       #
       # Change country to uppercase

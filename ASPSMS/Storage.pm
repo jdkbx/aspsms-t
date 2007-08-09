@@ -80,7 +80,7 @@ sub get_record
         {
 
          closedir(DIR);
-         aspsmst_log('notice',"get_record($get_type): Return: Got $file for ".$user->{name}."/".$user->{phone}."\n");
+         aspsmst_log('debug',"get_record($get_type): Return: Got $file for ".$user->{name}."/".$user->{phone}."\n");
 	 return $user;
 
         } ### END of if ($jid_userkey eq $user->{name})
@@ -93,7 +93,7 @@ sub get_record
         {
 
          closedir(DIR);
-         aspsmst_log('notice',"get_record($get_type): Return: Got $file for ".$user->{name}."/".$user->{phone}."\n");
+         aspsmst_log('debug',"get_record($get_type): Return: Got $file for ".$user->{name}."/".$user->{phone}."\n");
 	 return $user;
 
         } ### END of if ($jid_userkey eq $file)
@@ -114,7 +114,7 @@ sub set_record
    my $passfile	= shift;
    my $userdata	= shift;
 
-   aspsmst_log("notice","set_record($set_by,$passfile): Store passfile $passfile");
+   aspsmst_log("debug","set_record($set_by,$passfile): Store passfile $passfile");
    
    my $data = join(':',	
 	$userdata->{gateway}, 

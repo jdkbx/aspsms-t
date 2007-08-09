@@ -68,7 +68,7 @@ my $iq_show 		= $presence->GetShow();
 my $status 		= $presence->GetStatus();
 my $barejid 		= get_barejid($from);
 
-aspsmst_log('notice',"InPresence($barejid): Got `$type' type presence from $number");
+aspsmst_log('debug',"InPresence($barejid): Got `$type' type presence from $number");
 
 my $user = get_record("jid",$barejid);
 
@@ -87,7 +87,7 @@ if ($type eq 'subscribe')
  {
   if ( ($number !~ /^\+[0-9]{3,50}$/) && ($to ne "$config::service_name/registered") ) 
    {
-    aspsmst_log('err',"InPresence(): Error: Invalid number `$number' got.");
+    aspsmst_log('error',"InPresence(): Error: Invalid number `$number' got.");
 
     sendPresence($from, $to, 'unsubscribed');
     return;
@@ -126,7 +126,7 @@ elsif ($type eq 'unsubscribe')
  }
 elsif ($type eq 'unavailable')
  {
-  aspsmst_log('notice',"InPresence($barejid): Got type `$type' for jid $number -- Send unavailable");
+  aspsmst_log('debug',"InPresence($barejid): Got type `$type' for jid $number -- Send unavailable");
   sendPresence($from, $to, 'unavailable');
  }
 
@@ -173,7 +173,7 @@ sub sendGWNumPresences
   
  sendPresence($to,"$number\@$config::service_name",undef,undef,"Credits: $credits",5);
 
- aspsmst_log('notice',"sendGWNumPresences($to): Sending presence for $number prefix=$prefix credits=$credits");
+ aspsmst_log('debug',"sendGWNumPresences($to): Sending presence for $number prefix=$prefix credits=$credits");
 
 } ### END of sendGWNumPresences ###
 
@@ -199,7 +199,7 @@ $pres->SetTo($to);
 $pres->SetFrom($from);
 
 my $to_barejid = get_barejid($to);
-aspsmst_log('notice',"sendPresence($to_barejid): Sending presence type `$type', show `$show' and status `$status'");
+aspsmst_log('debug',"sendPresence($to_barejid): Sending presence type `$type', show `$show' and status `$status'");
 
 $config::Connection->Send($pres);
 

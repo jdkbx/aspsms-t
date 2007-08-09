@@ -51,7 +51,7 @@ if($user == -2)
   return -2;
  }
 
-aspsmst_log('notice',"getUserPass($barejid): Got ".$user->{name}."/".$user->{phone});
+aspsmst_log('debug',"getUserPass($barejid): Got ".$user->{name}."/".$user->{phone});
 return $user;
 
 }

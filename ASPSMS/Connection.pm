@@ -55,12 +55,12 @@ sub exec_SendTextSMS
 	my $msg_id			= shift;
 	my $msg_type			= shift;
 	($mess,$number,$signature) 	= regexes($mess,$number,$signature);
-        aspsmst_log('notice',"id:$aspsmst_transaction_id exec_SendTextSMS(): Begin");
+        aspsmst_log('debug',"id:$aspsmst_transaction_id exec_SendTextSMS(): Begin");
 
 	# Generate SMS Request
 	my $aspsmsrequest;
 	my $flag_ucs2_mess = check_for_ucs2($mess);
-        aspsmst_log('notice',"id:$aspsmst_transaction_id exec_SendTextSMS(): " .
+        aspsmst_log('debug',"id:$aspsmst_transaction_id exec_SendTextSMS(): " .
 	"check_for_ucs2(): $flag_ucs2_mess");
         if($flag_ucs2_mess == 1)
 	 {
@@ -137,7 +137,7 @@ my $CreditStatus        =       XML::Smart->new($ret_parsed_response_ShowCredits
 my $Credits             =       $CreditStatus->{aspsms}{Credits};
 
 
-aspsmst_log('notice',"id:$aspsmst_transaction_id exec_SendTextSMS(): ".
+aspsmst_log('debug',"id:$aspsmst_transaction_id exec_SendTextSMS(): ".
 "return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,".
 "$aspsmst_transaction_id)");
 return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,
@@ -182,7 +182,7 @@ sub exec_ConnectionASPSMS
     } ### END of exec_ConnectionASPSMS ###
 
     DisconnectAspsms($aspsmst_transaction_id);
-    aspsmst_log('notice',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): End");
+    aspsmst_log('debug',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): End");
     return (@answer);
  } ### END of exec_ConnectionASPSMS ###
 
@@ -210,7 +210,7 @@ while ()
   $connection_num++;
 
 
-  aspsmst_log('info',"id:$aspsmst_transaction_id ConnectAspsms(): Connecting to server $connection_num (".$config::aspsms_connection{"host_$connection_num"}.":".$config::aspsms_connection{"port_$connection_num"}.") \$connect_retry=$connect_retry");
+  aspsmst_log('debug',"id:$aspsmst_transaction_id ConnectAspsms(): Connecting to server $connection_num (".$config::aspsms_connection{"host_$connection_num"}.":".$config::aspsms_connection{"port_$connection_num"}.") \$connect_retry=$connect_retry");
 
   #
   # Setup a socket connection to the selected
@@ -259,7 +259,7 @@ return $status;
 
 sub DisconnectAspsms {
 my $aspsmst_transaction_id = shift;
-aspsmst_log('notice',"id:$aspsmst_transaction_id DisconnectAspsms()");
+aspsmst_log('debug',"id:$aspsmst_transaction_id DisconnectAspsms()");
 close($config::aspsmssocket);
 
 ########################################################################
@@ -280,7 +280,7 @@ sub parse_aspsms_response
     }
    
    $tmp =~ s/(.*(<aspsms>.*<\/aspsms>).*|.*)/$2/gis;
-   aspsmst_log("notice","id:$aspsmst_transaction_id parse_aspsms_response(): Return: $tmp");
+   aspsmst_log("debug","id:$aspsmst_transaction_id parse_aspsms_response(): Return: $tmp");
    return $tmp;
  }
 

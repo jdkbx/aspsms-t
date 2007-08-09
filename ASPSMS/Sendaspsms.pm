@@ -46,7 +46,7 @@ my $aspsms_port                 =       $config::aspsms_port;
 sub Sendaspsms {
 # #######################################################################
 my ($number, $from, $msg,$aspsmst_transaction_id,$msg_id,$msg_type) = @_;
-aspsmst_log('notice',"id:$aspsmst_transaction_id Sendaspsms(): Begin");
+aspsmst_log('debug',"id:$aspsmst_transaction_id Sendaspsms(): Begin");
 my $xmppanswer;
 $number = substr($number, 1, 50);
 
@@ -63,7 +63,7 @@ if($user == -2)
                         }
 
 
-aspsmst_log('notice',"id:$aspsmst_transaction_id Sendaspsms(): sending message to number $number");
+aspsmst_log('debug',"id:$aspsmst_transaction_id Sendaspsms(): sending message to number $number");
 
 my (	$result,
 	$resultdesc,
@@ -106,7 +106,7 @@ $config::ident Gateway system v$config::release
 $resultdesc = $xmppanswer;
 }
 
-aspsmst_log('notice',"Sendaspsms(): id:$aspsmst_transaction_id End $xmppanswerlog");
+aspsmst_log('debug',"Sendaspsms(): id:$aspsmst_transaction_id End $xmppanswerlog");
 return ($result,$resultdesc,$Credits,$CreditsUsed,$random);
 
 ########################################################################

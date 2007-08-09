@@ -78,7 +78,7 @@ sub SendMessage
    my $subject	= shift;
    my $text	= shift;
 
-aspsmst_log("notice","id: $transid SendMessage(): \$msg_id=$msg_id");
+aspsmst_log("debug","id: $transid SendMessage(): \$msg_id=$msg_id");
 
    my $msg= new Net::Jabber::Message();
 
