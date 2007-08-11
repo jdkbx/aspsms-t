@@ -159,9 +159,9 @@
 <network name="CYTA" credits="1"/>
 </country>
 <country name="CZECH REPUBLIC">
-<network name="EuroTel Praha" credits="1"/>
+<network name="EuroTel Praha" credits="2.75"/>
 <network name="T-Mobile Czech Republic" credits="2.75"/>
-<network name="Cesky Mobil" credits="1"/>
+<network name="Cesky Mobil" credits="2.75"/>
 </country>
 <country name="DENMARK">
 <network name="Orange DK" credits="1"/>
@@ -202,7 +202,7 @@
 <network name="Vodafone Fiji" credits="1"/>
 </country>
 <country name="FINLAND">
-<network name="Elisa International" credits="1"/>
+<network name="Elisa International" credits="1.75"/>
 <network name="Sonera Mobile Networks Ltd." credits="1"/>
 <network name="Finnet Networks" credits="1"/>
 <network name="Alands Mobiltelefon AB" credits="1"/>
@@ -368,7 +368,6 @@
 <network name="Safaricom" credits="1"/>
 </country>
 <country name="KUWAIT">
-<network name="MTCNet Kuwait" credits="1"/>
 <network name="Wataniya Telecom Kuwait" credits="1"/>
 </country>
 <country name="KYRGYZSTAN">
@@ -397,7 +396,7 @@
 </country>
 <country name="LUXEMBOURG">
 <network name="VOX.Mobile" credits="1"/>
-<network name="Tango Luxembourg" credits="1"/>
+<network name="Tango Luxembourg" credits="2.75"/>
 <network name="PT Luxembourg" credits="1"/>
 </country>
 <country name="MACAO">
@@ -456,7 +455,7 @@
 <network name="Maroc Telecom" credits="1"/>
 </country>
 <country name="MOZAMBIQUE">
-<network name="Mocambique Celular" credits="2.5"/>
+<network name="Mocambique Celular" credits="2.75"/>
 </country>
 <country name="NAMIBIA">
 <network name="MTC Namibia" credits="1"/>
@@ -626,7 +625,7 @@
 <network name="Orange Communications" credits="1.75"/>
 <network name="Swisscom Mobile" credits="1"/>
 <network name="Sunrise Mobile" credits="1"/>
-<network name="CoopMobile" credits="1"/>
+<network name="CoopMobile" credits="1.75"/>
 <network name="M-Budget" credits="1"/>
 <network name="Tele2" credits="1"/>
 <network name="Yallo" credits="1"/>
@@ -687,13 +686,13 @@
 <network name="Golden Telecom" credits="1"/>
 </country>
 <country name="UNITED ARAB EMIRATES">
-<network name="Etisalat" credits="1"/>
+<network name="Etisalat" credits="2.75"/>
 </country>
 <country name="UNITED KINGDOM">
 <network name="O2 United Kingdom" credits="1.75"/>
 <network name="Manx Telecom" credits="2.75"/>
 <network name="T-Mobile UK Ltd" credits="1.75"/>
-<network name="Orange UK" credits="1"/>
+<network name="Orange UK" credits="2.75"/>
 <network name="Vodafone UK" credits="1.75"/>
 </country>
 <country name="UZBEKISTAN">

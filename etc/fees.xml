@@ -55,6 +55,15 @@
 </network>
 </country>
 <country name="CZECH REPUBLIC">
+<network name="EuroTel Praha" credits="2.75">
+<prefix number="00420601"/>
+<prefix number="00420602"/>
+<prefix number="00420606"/>
+<prefix number="00420607"/>
+<prefix number="0042072"/>
+<prefix number="00420962"/>
+<prefix number="00420966"/>
+</network>
 <network name="T-Mobile Czech Republic" credits="2.75">
 <prefix number="00420603"/>
 <prefix number="00420604"/>
@@ -64,6 +73,19 @@
 <prefix number="00420963"/>
 <prefix number="00420964"/>
 <prefix number="00420965"/>
+</network>
+<network name="Cesky Mobil" credits="2.75">
+<prefix number="00420608"/>
+<prefix number="0042077"/>
+</network>
+</country>
+<country name="FINLAND">
+<network name="Elisa International" credits="1.75">
+<prefix number="0035810"/>
+<prefix number="00358451"/>
+<prefix number="00358456"/>
+<prefix number="0035846"/>
+<prefix number="0035850"/>
 </network>
 </country>
 <country name="FRANCE">
@@ -285,6 +307,13 @@
 <prefix number="00961715"/>
 </network>
 </country>
+<country name="LUXEMBOURG">
+<network name="Tango Luxembourg" credits="2.75">
+<prefix number="00352091"/>
+<prefix number="00352691"/>
+<prefix number="00352698"/>
+</network>
+</country>
 <country name="MOLDOVA">
 <network name="Moldcell" credits="2.75">
 <prefix number="0037379"/>
@@ -292,7 +321,7 @@
 </network>
 </country>
 <country name="MOZAMBIQUE">
-<network name="Mocambique Celular" credits="2.5">
+<network name="Mocambique Celular" credits="2.75">
 <prefix number="0025882"/>
 </network>
 </country>
@@ -569,6 +598,8 @@
 <network name="Orange Communications" credits="1.75">
 <prefix number="004178"/>
 </network>
+<network name="CoopMobile" credits="1.75">
+</network>
 </country>
 <country name="TUNISIA">
 <network name="Orascom Telecom Tunisia" credits="2.75">
@@ -588,6 +619,20 @@
 <prefix number="0090537"/>
 <prefix number="0090538"/>
 <prefix number="0090539"/>
+</network>
+</country>
+<country name="UNITED ARAB EMIRATES">
+<network name="Etisalat" credits="2.75">
+<prefix number="00971500"/>
+<prefix number="00971501"/>
+<prefix number="00971502"/>
+<prefix number="00971503"/>
+<prefix number="00971504"/>
+<prefix number="00971505"/>
+<prefix number="00971506"/>
+<prefix number="00971507"/>
+<prefix number="00971508"/>
+<prefix number="00971509"/>
 </network>
 </country>
 <country name="UNITED KINGDOM">
@@ -744,6 +789,57 @@
 <prefix number="00447985"/>
 <prefix number="00447986"/>
 <prefix number="00447987"/>
+</network>
+<network name="Orange UK" credits="2.75">
+<prefix number="0044121276"/>
+<prefix number="0044151571"/>
+<prefix number="0044161380"/>
+<prefix number="0044207362"/>
+<prefix number="0044208264"/>
+<prefix number="00447772"/>
+<prefix number="00447773"/>
+<prefix number="00447779"/>
+<prefix number="00447790"/>
+<prefix number="00447791"/>
+<prefix number="00447792"/>
+<prefix number="00447794"/>
+<prefix number="00447800"/>
+<prefix number="00447805"/>
+<prefix number="00447807"/>
+<prefix number="00447811"/>
+<prefix number="00447812"/>
+<prefix number="00447813"/>
+<prefix number="00447814"/>
+<prefix number="00447815"/>
+<prefix number="00447816"/>
+<prefix number="00447817"/>
+<prefix number="00447837"/>
+<prefix number="00447854"/>
+<prefix number="00447855"/>
+<prefix number="00447866"/>
+<prefix number="00447870"/>
+<prefix number="00447875"/>
+<prefix number="00447890"/>
+<prefix number="00447891"/>
+<prefix number="00447896"/>
+<prefix number="00447929"/>
+<prefix number="00447964"/>
+<prefix number="00447965"/>
+<prefix number="00447966"/>
+<prefix number="00447967"/>
+<prefix number="00447968"/>
+<prefix number="00447969"/>
+<prefix number="00447970"/>
+<prefix number="00447971"/>
+<prefix number="00447972"/>
+<prefix number="00447973"/>
+<prefix number="00447974"/>
+<prefix number="00447975"/>
+<prefix number="00447976"/>
+<prefix number="00447977"/>
+<prefix number="00447980"/>
+<prefix number="00447989"/>
+<prefix number="0044973"/>
 </network>
 <network name="Vodafone UK" credits="1.75">
 <prefix number="0044385"/>
