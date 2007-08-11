@@ -87,7 +87,7 @@ if ($type eq 'subscribe')
  {
   if ( ($number !~ /^\+[0-9]{3,50}$/) && ($to ne "$config::service_name/registered") ) 
    {
-    aspsmst_log('error',"InPresence(): Error: Invalid number `$number' got.");
+    aspsmst_log('err',"InPresence(): Error: Invalid number `$number' got.");
 
     sendPresence($from, $to, 'unsubscribed');
     return;
