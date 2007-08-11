@@ -14,10 +14,10 @@
 # GNU General Public License for more details.
 
 # Notify example
-# aspsms.notification.pl?xml=notify,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
+# web-notify.pl?xml=notify,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
 #
 # twoway example
-# aspsms.notification.pl?xml=twoway,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
+# web-notify.pl?xml=twoway,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
 
 use lib "./";
 
@@ -27,27 +27,39 @@ use strict;
 use Net::Jabber qw(Client);
 use XML::Smart;
 
+# Variables --------------------------------------------------------------------
+
+my (	$hostname,
+	$port,
+	$username,
+	$password,
+	$servicename,
+	$facility,
+	$ident);
+
+#
+# Important: Absolute path to the config file 
+# for example /home/www/jabber/aspsms-t/etc/aspsms-web-notify.xml
+# 
+my $config_file 
+	= "/home/www/jabber/aspsms-t/etc/aspsms-web-notify.xml";
+
+# Main ------------------------------------------------------------------------
+
 my $xml 	= param("xml");
 my @tmpstat	= split(/,,,/,$xml);
 my $transid	= $tmpstat[1];
 
 # Read configuration
-my $Config  		= XML::Smart->new('/home/www/swissjabber.ch/html/aspsms/aspsms.xml') or 
-Stop("Cannot open configuration file; Exit: $?");
-my $hostname           = $Config->{aspsms}{notification}{hostname};
-my $username           = $Config->{aspsms}{notification}{username};
-my $password           = $Config->{aspsms}{notification}{password};
-my $servicename        = $Config->{aspsms}{jabber}{serviceid};
-my $facility	       = $Config->{aspsms}{facility};
-my $release	       = $Config->{aspsms}{release};
-my $ident	       = $Config->{aspsms}{ident};
+my $Config = XML::Smart->new($config_file) or 
+	Stop("Cannot open configuration file; Exit: $?");
 
-openlog('aspsms.notification.pl','',$facility);
+openlog($ident,'',$facility);
 
-my $Con			= new Net::Jabber::Client(debuglevel=>0,debugfile=>"stdout");
+my $Con			
+= new Net::Jabber::Client(debuglevel=>0,debugfile=>"stdout");
 
-
-http_header();
+read_configuration();
 
 unless($xml)
  {
@@ -55,7 +67,7 @@ unless($xml)
  }
 else
  {
-  syslog("notice","Got <stream>__but not recorded__</stream>");
+  syslog("notice","Got a response <stream> (but not recorded)");
  }
 
 my $ret_connect_status 	= 	connect_client();
@@ -63,29 +75,41 @@ my $ret_connect_status 	= 	connect_client();
 unless($ret_connect_status == 0)
  { Stop("Internal aspsms-t problem"); }
 
-my $ret_send_message    = 	send_xml_to_aspsmst();
+my $ret_send_message = send_xml_to_aspsmst();
 
 Stop($ret_send_message);
 
-#
-#
-#
-# 
+# Functions --------------------------------------------------------------------
 
-
-sub http_header
+sub read_configuration
  {
-print "Content-Type: text/xml\n\n";
-print "<?xml version='1.0'?>\n";
-print "<aspsms>
+  $hostname	= $Config->{aspsms}{notification}{hostname};
+  $port		= $Config->{aspsms}{notification}{port};
+  $username	= $Config->{aspsms}{notification}{username};
+  $password	= $Config->{aspsms}{notification}{password};
+  $servicename	= $Config->{aspsms}{jabber}{serviceid};
+  $facility	= $Config->{aspsms}{facility};
+  $ident	= $Config->{aspsms}{ident};
+ } ### END of read_configuration();
+
+sub http_response
+ {
+  my $ident 	= shift;
+  my $xml	= shift;
+  my $status	= shift;
+
+  print "Content-Type: text/xml
+
+<?xml version=\'1.0\'?>
+<aspsms>
  <ident>$ident</ident>
- <release>$release</release>";
-print "\n <stream>$xml</stream>";
-print "\n <reply>
- <status>";
+ <stream>$xml</stream>
+ <reply>
+  <status>$status</status>
+ </reply>
+</aspsms>";
 
-} ### END of http_header
-
+} ### END of http_response();
 
 sub connect_client {
 
@@ -93,16 +117,17 @@ eval {
 
 $Con->Connect(
                 hostname                => $hostname,
-                port                    => "5222",
+                port                    => $port,
                 timeout                 => "5"
               );
 
 };
 
 if($@)
- {
-  Stop("Problem to connect jabber-server");
- }
+ { Stop("Problem to connect jabber-server"); }
+
+unless($transid)
+ { Stop("Problem with given stream (Values missing?)"); }
 
 my @ret_auth = $Con->AuthIQAuth (
                  username=>      $username,
@@ -134,18 +159,28 @@ sub send_xml_to_aspsmst
    {
     Stop("Problem to send the notification jabber message");
    }
+
 Stop("Successfully accepted");
 } ### END of send_xml_to_aspsmst
 
 sub Stop 
  {
   my $ret = shift;
-  $Con->Disconnect;
-  print "$ret</status>
- </reply>
-</aspsms>";
-  syslog('notice',"$ret");
-  print "\n";
-  exit(0);
- }
+  eval
+  {
+   $Con->Disconnect;
+  };
 
+  if($@)
+   { }
+
+  http_response($ident,
+		$xml,
+		$ret);
+
+  syslog('notice',"$ret");
+
+  print "\n";
+
+  exit(0);
+ } ### Stop()

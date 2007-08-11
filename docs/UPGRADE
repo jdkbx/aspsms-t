@@ -1,4 +1,11 @@
-Upgrade from 1.0.4 to 1.2.0
+Upgrade from 1.2.1 to trunk
+---------------------------
+
+ * aspsms.notification.pl renamed to web-notify.pl. 
+ * web-notify.pl has a new separate configuration file ./etc/aspsms-web-notify.xml.dist
+
+
+Upgrade from 1.0.4 to 1.2.1
 ---------------------------
 
  * Check documetation in aspsms.notification.pl about the new notify syntax

@@ -1,0 +1,17 @@
+<aspsms>
+ 
+ <ident>aspsms-t</ident>
+ <facility>local4</facility>
+
+ <jabber>
+  <serviceid>aspsms.domain.tld</serviceid>
+ </jabber>
+
+ <notification>
+  <hostname>swissjabber.ch</hostname>
+  <port>5224</port>
+  <username></username>
+  <password></password>
+ </notification>
+
+</aspsms>
