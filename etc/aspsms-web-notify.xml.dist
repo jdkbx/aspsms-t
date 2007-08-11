@@ -4,12 +4,14 @@
  <facility>local4</facility>
 
  <jabber>
+  <!-- Service id of your aspsms-t transport 				-->
   <serviceid>aspsms.domain.tld</serviceid>
  </jabber>
 
  <notification>
-  <hostname>swissjabber.ch</hostname>
+  <hostname>domain.tld</hostname>
   <port>5224</port>
+  <!-- username without domainname 					-->
   <username></username>
   <password></password>
  </notification>
