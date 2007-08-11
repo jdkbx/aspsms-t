@@ -141,19 +141,6 @@ sub InMessage {
 		return undef;
 	    } ### END of if ($to_jid eq "No userkey file")
 
-	   aspsmst_log("notice","id: $transid InMessage(): \$notify_message=$notify_message");
-
-	   if ($notify_message eq 'Delivered')
-	    {
-	     #sendContactStatus($to_jid,"$number"."@".$config::service_name,'online',"Message $transid successfully delivered. Now I am idle...");
-	    } ### END of if ($notify_message eq 'Delivered')  ###
-
-	   # send contact status
-	   if ($notify_message eq 'Buffered')
-	    {
-	     #sendContactStatus($to_jid,"$number"."@".$config::service_name,'online',"Sorry, message buffered, waiting for better results ;-)");
-	    } ### END of if ($notify_message eq 'Buffered')  ###
-
 	   aspsmst_log('info',"id:$transid InMessage($to_jid): Send `$notify_message` notification");
 
 	   SendMessage(	"$number\@$config::service_name",
@@ -184,25 +171,37 @@ Date & Time: $now");
 	  } ### END of if ($streamtype eq 'twoway')
 
 	 #
-	 # If $streamtype is direct via aspsms.notification.pl
+	 # If $streamtype is direct via web-notify.pl
 	 #
 	 if ($streamtype eq 'direct')
 	  {
 	   # Direct notify example
-	   # http://url/aspsms.notification.pl?xml=direct,,,1234random,,,1234msgid,,,<Originator>,,,mysecret,,,<MessageData>
+	   # http://url/web-notify.pl?xml=direct,,,1234random,,,1234msgid,,,<Originator>,,,mysecret,,,<MessageData>
 
-	   # Get the <stream/> from aspsms.notification.pl
+	   # Get the <stream/> from web-notify.pl
 	   my $number		= $stattmp[3];
 	   my $to_jid 		= $stattmp[5];
 	   my $direct_body	= $stattmp[5];
 	   $to_jid 		=~ s/([^\s]+)(.*)/$1/;
 	   $direct_body		=~ s/([^\s]+)(.*)/$2/;
+	   #
+	   # Remove whitespaces from $number
+	   #
+	   $number		=~ s/\s/\_/g;
 
 	   if($userkey eq $config::transport_secret)
 	    {
 	     aspsmst_log('info',"InMessage(): Incoming direct message from $number to $to_jid");
 	     if ($to_jid =~ /@/)
-	      { SendMessage("$number\@$config::service_name",$to_jid,$transid,$msg_id,$msg_type,"Direct message from $number",$direct_body); }
+	      { 
+	       SendMessage(	"$number\@$config::service_name",
+	       			$to_jid,
+				$transid,
+				$msg_id,
+				$msg_type,
+				"Direct message from $number",
+				$direct_body); 
+	      }
 	     else
 	      { aspsmst_log('info',"InMessage(): Not a valid jid `$to_jid`"); }
 	    }

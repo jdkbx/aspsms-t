@@ -88,7 +88,6 @@ my $ErrorCode           =       $ErrorStatus->{aspsms}{ErrorCode};
 my $ErrorDescription    =       $ErrorStatus->{aspsms}{ErrorDescription};
 
 aspsmst_log('info',"CheckNewUser(): Result for $username is: $ErrorDescription");
-$ErrorDescription = "This user does\'n exist at aspsms.com. Please register first an user on http://www.aspsms.com then try again.";
 
 return ($ErrorCode,$ErrorDescription);
 

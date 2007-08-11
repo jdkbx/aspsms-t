@@ -228,11 +228,33 @@ password of your aspsms.com account:");
     my ($ErrorCode,$ErrorDescription) = CheckNewUser($name,$pass);
     unless($ErrorCode == 1)
      {
+      #
+      # Convert aspsms.com error codes in jabber compilant (XEP-0086) codes
+      #
+      $ErrorCode =~ s/26/406/g;
+      $ErrorCode =~ s/3/401/g;
       SendIQError($id,$from,$ErrorCode,$ErrorDescription);
       return;
      };
 			
+  #
+  # Check: Is already another jid with the same USERKEY 
+  # 	   registered? If yes, reject registration of
+  # 	   this jid.
+  #
+  #
 
+  my $check_two_userdata 	= get_record("userkey",$name);
+
+  unless($check_two_userdata == -2)
+   {
+    my $check_two_jid	= $check_two_userdata->{jid};
+    unless($barefrom eq $check_two_jid)
+     {
+      SendIQError($id,$from,406,"You have already another jid registered with the same userkey. Please unregister first your registration from $check_two_jid");
+      return 1;
+     } ### unless($barefrom eq $check_two_jid)
+   } ### unless($check_two_userdate == -2)
 
   #
   # store configuration to the spool directory

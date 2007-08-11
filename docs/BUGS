@@ -1,12 +1,4 @@
 aspsms-t known bugs
 -------------------
 
-* If a USERKEY is two times registred to the transport, sms notifications will be
-  sent to the first found entry. 30.04.2007 /maba
-
-* sms2jabber does not work, if a sender is not a cell number. 30.04.2007 /maba
-
-* If ip restriction is activated on aspsms.com website, aspsms-t does not give 
-  a correct error response. 30.04.2007 /maba
-
-* Some memory leaks 30.04.2007 /maba
+No bugs known at the moment 11.08.2007 /maba

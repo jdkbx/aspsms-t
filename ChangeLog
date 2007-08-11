@@ -9,6 +9,13 @@
     * trunk/*:
       Documentation updates.
 
+    * trunk/Iq.pm:
+      Check if already another jid is registered with the same userkey.
+      If yes, reject registration.
+
+    * trunk/InMessage.pm:
+      Bugfix: sms2jabber bug with alphanueric sender id's
+
 2007-08-09 Marco Balmer  <mb@micressor.ch>
 
     * trunk/*
