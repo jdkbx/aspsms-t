@@ -1,3 +1,11 @@
+aspsms-t Release 1.2.2
+----------------------
+* Feature: First support for Arabic & other oriental characters
+	   (up to 87 characters)
+* Bugfix:  sms2jabber whitespace bug
+* Bugfix:  Registration response messages
+* Bugfix:  Better exeptionhandling for delivery notifications
+
 aspsms-t Release 1.2.1
 ----------------------
 * Bugfix affiliate id (Was not working)

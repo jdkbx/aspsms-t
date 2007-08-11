@@ -1,5 +1,7 @@
 2007-08-11 Marco Balmer  <mb@micressor.ch>
 
+    Tagging aspsms-t release 1.2.2
+
     * trunk/web-notify.pl:
       Better exeptionhandling. Old name was aspsms.notification.pl Some
       bugfixes.
