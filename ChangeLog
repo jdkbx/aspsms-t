@@ -1,7 +1,8 @@
 2007-08-11 Marco Balmer  <mb@micressor.ch>
 
     * trunk/web-notify.pl:
-      Better exeptionhandling. Old name was aspsms.notification.pl
+      Better exeptionhandling. Old name was aspsms.notification.pl Some
+      bugfixes.
 
     * trunk/etc/aspsms-web-notify.xml.dist:
       New separate configuration file for web-notify.pl

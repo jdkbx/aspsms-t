@@ -14,10 +14,10 @@
 # GNU General Public License for more details.
 
 # Notify example
-# web-notify.pl?xml=notify,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
+# aspsms.notification.pl?xml=notify,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
 #
 # twoway example
-# web-notify.pl?xml=twoway,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
+# aspsms.notification.pl?xml=twoway,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
 
 use lib "./";
 
@@ -29,6 +29,13 @@ use XML::Smart;
 
 # Variables --------------------------------------------------------------------
 
+#
+# Please set the path to the configuration file.
+# Important: Absolut path!
+# Example: /home/jabber/aspsms-t/etc/aspsms-web-notify.xml
+#
+my $config_file = "/home/jabber/aspsms-t/etc/aspsms-web-notify.xml";
+
 my (	$hostname,
 	$port,
 	$username,
@@ -36,13 +43,6 @@ my (	$hostname,
 	$servicename,
 	$facility,
 	$ident);
-
-#
-# Important: Absolute path to the config file 
-# for example /home/www/jabber/aspsms-t/etc/aspsms-web-notify.xml
-# 
-my $config_file 
-	= "/home/www/jabber/aspsms-t/etc/aspsms-web-notify.xml";
 
 # Main ------------------------------------------------------------------------
 
@@ -75,7 +75,7 @@ my $ret_connect_status 	= 	connect_client();
 unless($ret_connect_status == 0)
  { Stop("Internal aspsms-t problem"); }
 
-my $ret_send_message = send_xml_to_aspsmst();
+my $ret_send_message = send_xml_to_aspsmst($xml);
 
 Stop($ret_send_message);
 
@@ -146,12 +146,13 @@ return 0;
 
 sub send_xml_to_aspsmst
  {
+  my $xml_send = shift;
   my $msg = new Net::Jabber::Message();
   eval 
    {
   $msg->SetMessage(type    =>"message",
                    to      =>$servicename."/notification",
-                   body    =>"$xml");
+                   body    =>"$xml_send");
   $Con->Send($msg);
    };
 
