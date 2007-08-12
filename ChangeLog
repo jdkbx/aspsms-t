@@ -1,3 +1,14 @@
+2007-08-12 Marco Balmer  <mb@micressor.ch>
+
+    * trunk/ASPSMS/ShowBalance.pm:
+      Add first support for ShowBalance.
+
+    * trunk/ASPSMS/Message.pm:
+      Separate help and credit messages in separate functions.
+
+    * trunk/*:
+      Overall code cleanup.
+
 2007-08-11 Marco Balmer  <mb@micressor.ch>
 
     Tagging aspsms-t release 1.2.2

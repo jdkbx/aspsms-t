@@ -20,7 +20,11 @@ use vars qw(@EXPORT @ISA);
 use Exporter;
 
 @ISA 			= qw(Exporter);
-@EXPORT 		= qw(sendAdminMessage WelcomeMessage SendMessage);
+@EXPORT 		= qw(	sendAdminMessage 
+				HelpMessage
+				ShowBalanceMessage
+				SendMessage
+				get_transaction_id);
 
 
 use Sys::Syslog;
@@ -29,44 +33,104 @@ use ASPSMS::aspsmstlog;
 
 sub sendAdminMessage
  {
-   my $type      = shift;
-   my $msg       = shift;
+   my $type	= shift;
+   my $msg	= shift;
+   my $msg_id	= shift;
 
-   my $jabber_msg= new Net::Jabber::Message();
+   #
+   # If we have no transaction id, 
+   # generate one.
+   # 
+   unless($msg_id)
+    {
+     $msg_id = get_transaction_id();
+    }
 
-   $jabber_msg->SetMessage(      type    =>"message",
-   			 	 subject =>"aspsms-t Core Message",
-                                 to      =>$config::admin_jid,
-                                 from    =>$config::service_name,
-                                 body    =>"\n$msg\n\n
+   aspsmst_log("debug","id: $msg_id SendAdminMessage(): to ".
+   "$config::admin_jid \$msg_id=$msg_id");
+
+   SendMessage( $config::service_name,
+             	$config::admin_jid,
+             	$msg_id,
+             	$msg_id,
+             	"message",
+             	"$config::ident Core Message",
+	     	"\n$type: $msg\n\n
 ---				 
 $config::ident Gateway system v$config::release
 http://www.micressor.ch/content/projects/aspsms-t");
 
 
-  $config::Connection->Send($jabber_msg);
+ } ### END of sendAdminMessage()
 
- }
-
-sub WelcomeMessage
+sub ShowBalanceMessage
  {
-   my $from = shift;
-   my $msg= new Net::Jabber::Message();
+   my $from 	= shift;
+   my $to 	= shift;
+   my $Credits	= shift;
+   my $msg_id	= shift;
+   my $send_msg;
+
+   unless($Credits == -2)
+   {
+    $send_msg .= "
+You are a registered $config::ident user and your credit balance is: $Credits";
+   } ### unless($Credits == -2)
+  else
+   {
+    $send_msg .= "
+You are not a registered user of $config::service_name !
+
+If you wish to use $config::service_name, 
+1. please register an https://www.aspsms.com account
+2. Afterwards register to $config::service_name with the account information 
+   of aspsms.com.
+3. Send sms to jid's like +4178xxxxxxx@$config::service_name.";
+   } ### unless($Credits == -2)
+
+SendMessage( $to,
+             $from,
+             $msg_id,
+             $msg_id,
+             "chat",
+             "$config::ident information",
+             $send_msg);
   	 
-	 $msg->SetMessage(	type    =>"",
-	 			subject =>"Wecome to $config::ident",
-				to      =>$from,
-				from    =>$config::service_name,
-				body    => "Hello, this is $config::ident at $config::service_name. 
-It is a sms-transport gateway. If you wish to operate with it, please 
-register an https://www.aspsms.com account, afterwards you can use 
-it to send sms like +4178xxxxxxx@$config::service_name
----				 
-$config::ident Gateway system v$config::release
-http://www.micressor.ch/content/projects/aspsms-t");
-				
-$config::Connection->Send($msg);
-}
+   aspsmst_log("info","id: $msg_id ShowBalanceMessage(): to $from ".
+   "balance=$Credits");
+
+} ### END of WelcomeMessage()
+
+sub HelpMessage
+ {
+   my $from 	= shift;
+   my $to 	= shift;
+   my $msg_id	= shift;
+
+   my $send_msg = "
+Hello, this is $config::ident at $config::service_name. It is a sms-transport 
+gateway.
+
+The following commands are available:
+
+!credits   Shows your credit balance
+!help      This help message
+
+---
+$config::ident build $config::release
+http://www.micressor.ch/content/projects/aspsms-t";
+
+SendMessage( $to,
+             $from,
+             $msg_id,
+             $msg_id,
+             "chat",
+             "$config::ident information",
+             $send_msg);
+
+   aspsmst_log("info","id: $msg_id HelpMessage(): to $from");
+  	 
+} ### END of HelpMessage()
 
 sub SendMessage
  {
@@ -78,7 +142,7 @@ sub SendMessage
    my $subject	= shift;
    my $text	= shift;
 
-aspsmst_log("debug","id: $transid SendMessage(): \$msg_id=$msg_id");
+aspsmst_log("debug","id: $transid SendMessage(): to $to \$msg_id=$msg_id");
 
    my $msg= new Net::Jabber::Message();
 
@@ -87,12 +151,18 @@ aspsmst_log("debug","id: $transid SendMessage(): \$msg_id=$msg_id");
                                  to      	=>$to,
 				 id	 	=>$msg_id,
                                  from    	=>$from,
-                                 body    	=>"$text");
-#---
-#$config::ident $config::release  Support contact xmpp: $config::admin_jid");
+                                 body    	=>
+				 "$text\n\n$config::jabber_banner");
 
 $config::Connection->Send($msg);
 
  }
+
+sub get_transaction_id
+ {
+  my $trans_id = int( rand(10000)) + 10000;
+  return $trans_id;
+ } ### END of get_transaction_id
+
 
 1;

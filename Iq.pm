@@ -117,12 +117,14 @@ elsif ($xmlns eq 'jabber:iq:version')
     }
    else 
     {
-     sendError($iq, $from, $to, 501, "feature-not-implemented: $xmlns");
+     sendError($iq, $from, $to, 501, 
+     		"Sorry, $config::ident does not support $xmlns");
     }
    }
   else 
    {
-    sendError($iq, $from, $to, 501, "feature-not-implemented: $xmlns");
+    sendError($iq, $from, $to, 501, 
+    		"Sorry, $config::ident does not support $xmlns");
    }
 
 } ### END of InPresence ###
@@ -167,15 +169,12 @@ my $banner	= $config::banner;
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
     aspsmst_log('info',"jabber_register(): Send instructions to $from");
-    $query->SetInstructions("jabber2sms transport
-
-Important: This gateway will only operate 
-with an account from http://www.aspsms.com
-Support contact xmpp: $config::admin_jid
+    $query->SetInstructions("$config::ident $config::release transport
 
 Please enter Username 
-(=UserKey https://www.aspsms.ch/userkey.asp) and 
-password of your aspsms.com account:");
+(https://www.aspsms.ch/userkey.asp) and 
+password of your aspsms.com account.
+Support contact xmpp: $config::admin_jid");
 
     my $ret_user 	= getUserPass($from,$banner);
     my $user 		=  {};

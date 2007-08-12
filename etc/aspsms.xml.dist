@@ -29,6 +29,7 @@
    <type>sms</type>
    <servicename>aspsms-t - SMS Gateway</servicename>
   </browse>
+  <banner>-- This is the footer of each jabber message from aspsms-t</banner>
  </jabber>
 
 

@@ -23,6 +23,7 @@ use ASPSMS::Jid;
 use ASPSMS::SendContactStatus;
 use ASPSMS::Message;
 use ASPSMS::Storage;
+use ASPSMS::ShowBalance;
 use Presence;
 
 use Exporter;
@@ -58,7 +59,7 @@ sub InMessage {
 	my $msg_id		= $message->GetID();
 	my ($number) 		= split(/@/, $to);
 	my ($barejid) 		= split (/\//, $from);
-  	my $aspsmst_transaction_id = int( rand(10000)) + 10000;
+  	my $aspsmst_transaction_id = get_transaction_id();
 
 	aspsmst_log('debug',"id:$aspsmst_transaction_id InMessage($barejid): Begin job");
 	aspsmst_log('debug',"id:$aspsmst_transaction_id InMessage($barejid): \$msg_id=$msg_id");
@@ -71,38 +72,56 @@ sub InMessage {
 	 }
 
 
-       if ( $to eq $config::service_name or $to eq "$config::service_name/registered" ) 
-        {
-	 aspsmst_log('notice',"id:$aspsmst_transaction_id InMessage(): Sending welcome message for $from");
-  	 WelcomeMessage($from);
-
-	 #
-	 # Send all messages addressed to the transport jid also to the 
-	 # transport admin.
-	 #
-
-	 sendAdminMessage("info","InMessage(): Message from $from directly addressed to $config::service_name:\n\n$body");
-
+       #
+       # If a user type !help or send a message direct to the transport address
+       #
+       if (    $to eq $config::service_name 
+            or $to eq "$config::service_name/registered"
+	    or $body eq "!help")
+	{
+  	 HelpMessage(		$from,
+	 			$to,
+				$aspsmst_transaction_id);
 	 $config::aspsmst_in_progress=0;
-	 return;
-	} # end of welcome message
+	 return 0;
+	} ### if (    $to eq $config::service_name...
+	   
+
+       #
+       # If a user type !credits
+       #
+       if ($body eq "!credits") 
+        {
+	 my $Credits_of_barejid = ShowBalance($barejid);
+  	 ShowBalanceMessage(	$from,
+	 			$to,
+	 			$Credits_of_barejid,
+				$aspsmst_transaction_id);
+	 $config::aspsmst_in_progress=0;
+	 return 0;
+	} ### END of  if ($body eq "!credits")
 	
        if ( $to eq $config::service_name."/notification" and $barejid eq $config::notificationjid) 
         {
 	 my $msg		= new Net::Jabber::Message();
-	 # Get the <stream/> from aspsms.notification.pl
+	 # Get the <stream/> from web-notify.pl
 	 my @stattmp 		= split(/,,,/, $body);
 	 my $streamtype		= $stattmp[0];
 	  #
-	  # If test of aspsms.notification.pl, make log entry and
+	  # If test of web-notify.pl, make log entry and
 	  # return 0
 	  #
 	  if($streamtype eq "test")
 	   {
-	    aspsmst_log('info',"aspsms.notification.pl is configured successfully");
+	    aspsmst_log('info',"web-notify.pl is configured successfully");
 	    $config::aspsmst_in_progress=0;
 	    return 0;
 	   }
+
+ 	 #
+	 # Ok, let's read the stream parameters which comes via web-notify.pl
+	 #
+
 	 my $transid 		= $stattmp[1];
 	 my $msg_id 		= $stattmp[2];
 	 my $msg_type 		= $stattmp[3];
@@ -241,7 +260,6 @@ Date & Time: $now");
 	
 	my $from_barejid	= get_barejid($from);
 	aspsmst_log('info',"id:$aspsmst_transaction_id InMessage($from_barejid): To  number `$number'.");
-	#sendContactStatus($from,$to,'dnd',"Working on delivery for $number. Please wait...");
 
 	# no send the real sms message by Sendaspsms();
 	my ($result,$ret,$Credits,$CreditsUsed,$transid) = Sendaspsms(	$number,
@@ -288,10 +306,7 @@ Date & Time: $now");
 SMS recipient: $number
 Credits Used: $CreditsUsed / Balance:$Credits / Id: $transid");
 
-	  #sendContactStatus($from,$to,'away',"Delivered to aspsms.com, waiting for delivery status notification
-#Balance: $Credits Used: $CreditsUsed");
 	   $config::aspsmst_stat_message_counter++;
-
 	 } ### END OF else if($result==1)
 
 	 #}; ### END OF EVAL

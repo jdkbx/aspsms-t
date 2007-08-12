@@ -22,7 +22,7 @@ use XML::Smart;
 use ASPSMS::aspsmstlog;
 use ASPSMS::ContactCredits;
 
-our $release = " build 273";
+our $release = " build 277";
 
 our $config_file;
 our $aspsmssocket;
@@ -36,6 +36,7 @@ our $port;
 our $secret;
 
 our $banner;
+our $jabber_banner;
 our $admin_jid;
 our $facility;
 our $ident;
@@ -80,6 +81,7 @@ our $Connection;
 				$passwords
 				$release
 				$banner
+				$jabber_banner
 				$admin_jid
 				$ident
 				$notificationurl
@@ -127,6 +129,7 @@ sub set_config
   $server		= $Config->{aspsms}{jabber}{server};
   $port			= $Config->{aspsms}{jabber}{port};
   $secret		= $Config->{aspsms}{jabber}{secret};
+  $jabber_banner	= $Config->{aspsms}{jabber}{banner};
 
   $banner		= $Config->{aspsms}{banner};
   $admin_jid		= $Config->{aspsms}{adminjid};

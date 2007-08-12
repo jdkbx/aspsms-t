@@ -45,16 +45,24 @@ my $aspsms_port                 =       $config::aspsms_port;
 ########################################################################
 sub Sendaspsms {
 # #######################################################################
-my ($number, $from, $msg,$aspsmst_transaction_id,$msg_id,$msg_type) = @_;
-aspsmst_log('debug',"id:$aspsmst_transaction_id Sendaspsms(): Begin");
+my (	$number, 
+	$from, 
+	$msg,
+	$aspsmst_transaction_id,
+	$msg_id,
+	$msg_type) = @_;
 my $xmppanswer;
+
+aspsmst_log('debug',"id:$aspsmst_transaction_id Sendaspsms(): Begin");
+
 $number = substr($number, 1, 50);
 
 my $user = getUserPass($from,$banner,$aspsmst_transaction_id);
 
 if($user == -2)
                         {
-			    my $msg_register = "Your jid `$from` is not " .
+			    my $msg_register 
+			    = "Your jid `$from` is not " .
 			    "registered on \`$config::service_name\` for" .
 			    "using sms services. Please register first to".
 			    "this transport.";
@@ -86,8 +94,7 @@ if ($result == 1)
 else 
  { $config::stat_error_counter++; }
 
-my ($xmppanswerlog);
-$xmppanswerlog = "SMS from $from to $number (Balance: $Credits Used: " .
+my $xmppanswerlog = "SMS from $from to $number (Balance: $Credits Used: " .
 "$CreditsUsed) has status --> $result ($resultdesc)";
 
 if ($result == 1) {
