@@ -73,6 +73,20 @@ sub InMessage {
 
 
        #
+       # If a user type !credits
+       #
+       if ($body eq "!credits") 
+        {
+	 my $Credits_of_barejid = ShowBalance($barejid);
+  	 ShowBalanceMessage(	$from,
+	 			$to,
+	 			$Credits_of_barejid,
+				$aspsmst_transaction_id);
+	 $config::aspsmst_in_progress=0;
+	 return 0;
+	} ### END of  if ($body eq "!credits")
+
+       #
        # If a user type !help or send a message direct to the transport address
        #
        if (    $to eq $config::service_name 
@@ -86,21 +100,6 @@ sub InMessage {
 	 return 0;
 	} ### if (    $to eq $config::service_name...
 	   
-
-       #
-       # If a user type !credits
-       #
-       if ($body eq "!credits") 
-        {
-	 my $Credits_of_barejid = ShowBalance($barejid);
-  	 ShowBalanceMessage(	$from,
-	 			$to,
-	 			$Credits_of_barejid,
-				$aspsmst_transaction_id);
-	 $config::aspsmst_in_progress=0;
-	 return 0;
-	} ### END of  if ($body eq "!credits")
-	
        if ( $to eq $config::service_name."/notification" and $barejid eq $config::notificationjid) 
         {
 	 my $msg		= new Net::Jabber::Message();
