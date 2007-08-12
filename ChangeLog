@@ -1,5 +1,9 @@
 2007-08-12 Marco Balmer  <mb@micressor.ch>
 
+    * ASPSMS/GetNetworksFees.pm:
+      Get automatically networks.xml and fees.xml from aspsms.com
+      for credits information in roster entries.
+
     * trunk/ASPSMS/ShowBalance.pm:
       Add first support for ShowBalance.
 

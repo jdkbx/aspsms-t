@@ -1,4 +1,12 @@
-aspsms-t Release 1.2.2
+aspsms-t release svn-trunk
+--------------------------
+* Feature: Download of network support and credit information
+	   automatically from aspsms.com
+
+* Feature: User is able to query credit balance without sending
+	   a sms message.
+
+aspsms-t release 1.2.2
 ----------------------
 * Feature: First support for Arabic & other oriental characters
 	   (up to 87 characters)
@@ -6,37 +14,39 @@ aspsms-t Release 1.2.2
 * Bugfix:  Registration response messages
 * Bugfix:  Better exeptionhandling for delivery notifications
 
-aspsms-t Release 1.2.1
+aspsms-t release 1.2.1
 ----------------------
-* Bugfix affiliate id (Was not working)
-* Bugfix sms2jabber functionality
-* Bugfix of some transport crashes
+* Bugfix:  affiliate id (Was not working)
+* Bugfix:  sms2jabber functionality
+* Bugfix:  of some transport crashes
 
-aspsms-t Release 1.2.0
+aspsms-t release 1.2.0
 ----------------------
 
-* Allow sms2jabber via two-way support of aspsms.com
-* Support for `Normal` and `Chat` message stanzas
-* Transport use fallback aspsms xml servers if necessary
-* Display all network operators and credits for number prefixes in service discovery
-* Credit information in the status message of each roster contact.
-* A lot of crash bugfixes
+* Feature: Allow sms2jabber via two-way support of aspsms.com
+* Feature: Support for `Normal` and `Chat` message stanzas
+* Feature: Transport use fallback aspsms xml servers if necessary
+* Feature: Display all network operators and credits for number prefixes 
+	   in service discovery
+* Feature: Credit information in the status message of each roster contact.
+* Bugfix:  A lot of crash bugfixes
 
-aspsms-t Release 1.0.2 - 1.0.4
+aspsms-t release 1.0.2 - 1.0.4
 ------------------------------
 
-* Bug fix releases
+* Bugfix:  Bug fix releases
 
-aspsms-t Release 1.0.1
+aspsms-t release 1.0.1
 ----------------------
 
-* Direct aspsms xml interface by iq query
+* Feature: Direct aspsms xml interface by iq query
 
-aspsms-t Release 1.0
+aspsms-t release 1.0
 --------------------
 
-* Global Two-Way SMS (Receiving of sms messages directly to the jabber client)
-* Delivery notification for each sms via jabber
-* Alphanumeric originator (max 11 characters) of every SMS.
-* Over 400 mobile networks in 200 countries
-* Recharge SMS credits via Internet
+* Feature: Global Two-Way SMS (Receiving of sms messages directly to 
+	   the jabber client)
+* Feature: Delivery notification for each sms via jabber
+* Feature: Alphanumeric originator (max 11 characters) of every SMS.
+* Feature: Over 400 mobile networks in 200 countries
+* Feature: Recharge SMS credits via Internet

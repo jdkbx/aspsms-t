@@ -31,11 +31,13 @@ use ASPSMS::Connection;
 use ASPSMS::aspsmstlog;
 use ASPSMS::ContactCredits;
 use ASPSMS::CheckNotification;
+use ASPSMS::GetNetworksFees;
 use InMessage;
 				  
 ### BEGIN CONFIGURATION ###
 
-  aspsmst_log("info","Starting up...");
+  aspsmst_log("info","Starting up..."); 
+  update_networks_fees();
   my $ret_config = set_config($ARGV[1]);
   unless($ret_config == 0 and $ARGV[0] eq "-c")
    { 
@@ -45,6 +47,7 @@ use InMessage;
     print "\n";
     exit($ret_config);
    } ### END of unless($ret_config == 0)
+
 
 use Sys::Syslog;
 openlog($config::ident,'',"$config::facility");

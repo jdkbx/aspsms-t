@@ -23,6 +23,7 @@ Requirements for Debian
 * apt-get install libxml-parser-perl
 * apt-get install libwww-perl
 * apt-get install liburi-perl
+* apt-get install wget
 
 Requirements for Fedora
 -----------------------
