@@ -18,6 +18,7 @@ use strict;
 use config;
 use ASPSMS::aspsmstlog;
 use ASPSMS::Connection;
+use ASPSMS::ConnectionASPSMS;
 use ASPSMS::xmlmodel;
 use ASPSMS::Storage;
 use ASPSMS::Jid;
