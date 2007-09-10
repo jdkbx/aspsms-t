@@ -229,6 +229,8 @@ sub PrepareCharSet {
 my $data = shift;
 
 $data =~ s/\:/\&\#58\;/g;
+$data =~ s/\</\&\#60\;/g;
+$data =~ s/\>/\&\#62\;/g;
 
 return $data;
 
