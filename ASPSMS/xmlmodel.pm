@@ -228,7 +228,12 @@ sub PrepareCharSet {
 ########################################################################
 my $data = shift;
 
-$data =~ s/\&/\&\#38\;/g;
+#
+# With this line enabled, delivery notification does not work.
+# /maba 24.09.2007
+#
+#$data =~ s/\&/\&\#38\;/g;
+
 $data =~ s/\:/\&\#58\;/g;
 $data =~ s/\</\&\#60\;/g;
 $data =~ s/\>/\&\#62\;/g;
