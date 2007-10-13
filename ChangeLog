@@ -1,5 +1,7 @@
 2007-10-13 Marco Balmer  <mb@micressor.ch>
 
+    Tagging aspsms-t release 1.2.3
+
     * ASPSMS/Connection.pm:
       Exeptionhandling for "Arabic & other oriental characters", because
       only 83 characteres supported
