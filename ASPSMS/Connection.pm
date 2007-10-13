@@ -46,7 +46,6 @@ sub exec_SendTextSMS
 	my $aspsmst_transaction_id 	= shift; 
 	my $msg_id			= shift;
 	my $msg_type			= shift;
-	($mess,$number,$signature) 	= regexes($mess,$number,$signature);
         aspsmst_log('debug',"id:$aspsmst_transaction_id ".
 	"exec_SendTextSMS(): Begin");
 
@@ -64,6 +63,19 @@ sub exec_SendTextSMS
         if($flag_ucs2_mess == 1)
 	 {
 	  $mess 	 = convert_to_ucs2($mess);
+	  #
+	  # Check length of message.
+	  #
+	  my $mess_length = length($mess);
+	  if($mess_length > 160)
+	   {
+		
+		return (	501,
+				"Arabic & other oriental characters are only up to 83 characteres supported",
+				undef,
+				undef,
+				$aspsmst_transaction_id);
+	   } ### END of if($mess_length > 160)
 	  $aspsmsrequest = xmlSendBinarySMS(	$login,
 						$password,
 						$phone,
@@ -84,6 +96,7 @@ sub exec_SendTextSMS
 	# If flag_ucs2_mess is 0, send the message normal text message.
 	#
 
+	  ($mess,$number,$signature) 	= regexes($mess,$number,$signature);
 	  $aspsmsrequest = xmlSendTextSMS(	$login,
 						$password,
 						$phone,

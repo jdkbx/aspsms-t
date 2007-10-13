@@ -1,10 +1,12 @@
-aspsms-t release svn-trunk
---------------------------
+aspsms-t release 1.2.3
+----------------------
 * Feature: Download of network support and credit information
 	   automatically from aspsms.com
-
 * Feature: User is able to query credit balance without sending
 	   a sms message.
+* Bugfix:  Exeptionhandling for "Arabic & other oriental characters", because
+	   only 83 characteres supported
+* Bugfix:  Unexpected crash bugfix.
 
 aspsms-t release 1.2.2
 ----------------------
@@ -33,17 +35,14 @@ aspsms-t release 1.2.0
 
 aspsms-t release 1.0.2 - 1.0.4
 ------------------------------
-
 * Bugfix:  Bug fix releases
 
 aspsms-t release 1.0.1
 ----------------------
-
 * Feature: Direct aspsms xml interface by iq query
 
 aspsms-t release 1.0
 --------------------
-
 * Feature: Global Two-Way SMS (Receiving of sms messages directly to 
 	   the jabber client)
 * Feature: Delivery notification for each sms via jabber
