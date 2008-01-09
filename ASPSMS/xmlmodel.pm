@@ -214,7 +214,7 @@ POST /xmlsvr.asp HTTP/1.0
 Content-Type: text/xml
 Content-Length: $requestlength \r\n";
 
-my $completerequest = $aspsmsheader . $aspsmsrequest;
+my $completerequest = $aspsmsheader . "\n". $aspsmsrequest;
 
 
 return $completerequest;
