@@ -1,4 +1,4 @@
 aspsms-t known bugs
 -------------------
-
-No bugs known at the moment 11.08.2007 /maba
+* Bug: Delivery notification should be sent to the right online ressource
+       if more than one is online. 10.01.2008 /maba

@@ -1,3 +1,13 @@
+2008-01-10 Marco Balmer  <mb@micressor.ch>
+
+    * ASPSMS/xmlmodel.pm:
+      ASPSMS changed their xml1.aspsms.com behaviour. This is a little
+      fix this bug.
+    * ASPSMS/SendContactStatus.pm:
+      Removed from the repository, no longer necessary
+    * InMessage.pm:
+      Remove an old sendContactStatus entry.
+
 2007-10-13 Marco Balmer  <mb@micressor.ch>
 
     Tagging aspsms-t release 1.2.3

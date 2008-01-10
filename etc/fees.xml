@@ -320,6 +320,20 @@
 <prefix number="0037394"/>
 </network>
 </country>
+<country name="MOROCCO">
+<network name="Medi Telecom S.A." credits="2.75">
+<prefix number="0021212"/>
+<prefix number="0021214"/>
+<prefix number="0021260"/>
+<prefix number="0021263"/>
+<prefix number="0021264"/>
+<prefix number="0021265"/>
+<prefix number="0021269"/>
+<prefix number="0021274"/>
+<prefix number="0021275"/>
+<prefix number="0021279"/>
+</network>
+</country>
 <country name="MOZAMBIQUE">
 <network name="Mocambique Celular" credits="2.75">
 <prefix number="0025882"/>

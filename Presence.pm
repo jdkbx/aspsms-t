@@ -179,7 +179,6 @@ sub sendGWNumPresences
 
 
 sub sendPresence {
-#my ($pres, $to, $from, $type, $show, $status, $prio) = @_;
 my ($to, $from, $type, $show, $status) = @_;
 
 my $pres = new Net::Jabber::Presence();

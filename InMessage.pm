@@ -20,7 +20,6 @@ use vars qw(@EXPORT @ISA);
 use ASPSMS::aspsmstlog;
 use ASPSMS::Sendaspsms;
 use ASPSMS::Jid;
-use ASPSMS::SendContactStatus;
 use ASPSMS::Message;
 use ASPSMS::Storage;
 use ASPSMS::ShowBalance;
@@ -271,7 +270,6 @@ Date & Time: $now");
 	# If we have no success from aspsms.com, send an error
 	unless($result == 1)
 	 {
-	  sendContactStatus($from,$to,'online',$ret);
 	  #
 	  # If we do not have a result error number
 	  # send a standard 404 error message stanza
