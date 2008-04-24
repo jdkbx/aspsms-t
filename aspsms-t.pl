@@ -72,7 +72,7 @@ $SIG{KILL} 	= sub { $config::aspsmst_flag_shutdown="KILL"; 	};
 $SIG{TERM} 	= sub { $config::aspsmst_flag_shutdown="TERM"; 	};
 $SIG{INT} 	= sub { $config::aspsmst_flag_shutdown="INT"; 	};
 $SIG{ABRT} 	= sub { $config::aspsmst_flag_shutdown="ABRT"; 	};
-$SIG{SEGV} 	= sub { $config::aspsmst_flag_shutdown="SEGV"; 	};
+#$SIG{SEGV} 	= sub { $config::aspsmst_flag_shutdown="SEGV"; 	};
 $SIG{ALRM} 	= sub { die "Unexepted Timeout" 		};
 
 #
