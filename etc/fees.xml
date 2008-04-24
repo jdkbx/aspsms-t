@@ -306,6 +306,15 @@
 <prefix number="00961714"/>
 <prefix number="00961715"/>
 </network>
+<network name="MTC-Lebanon" credits="2.75">
+<prefix number="0096130"/>
+<prefix number="0096136"/>
+<prefix number="0096137"/>
+<prefix number="0096138"/>
+<prefix number="0096139"/>
+<prefix number="00961708"/>
+<prefix number="00961709"/>
+</network>
 </country>
 <country name="LUXEMBOURG">
 <network name="Tango Luxembourg" credits="2.75">

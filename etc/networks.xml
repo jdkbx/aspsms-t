@@ -382,7 +382,7 @@
 </country>
 <country name="LEBANON">
 <network name="MIC 1 S.A.L." credits="2.75"/>
-<network name="MTC-Lebanon" credits="1"/>
+<network name="MTC-Lebanon" credits="2.75"/>
 </country>
 <country name="LIECHTENSTEIN">
 <network name="Telecom FL" credits="1"/>
