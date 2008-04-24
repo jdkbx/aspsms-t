@@ -2,6 +2,7 @@ aspsms-t release trunk
 ----------------------
 * Bugfix: ASPSMS changed their xml1.aspsms.com behaviour. This is a little
           fix for this bug.
+* Bugfix: aspsms-t was hanging sometimes (SEGV).
 
 aspsms-t release 1.2.3
 ----------------------

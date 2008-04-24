@@ -3,11 +3,10 @@ aspsms-t roadmap
 
 Version 1.4.0
 -------------
-
-* Support for arabic and other oriental characters (UTF-8).
+* Full support for arabic and other oriental characters (UTF-8).
 
 
 Not scheduled
 -------------
-
-* Full Two-Way support for everyone. A separate two-way number is not longer necessary
+* Full Two-Way support for everyone. A separate two-way number is not 
+  longer necessary
