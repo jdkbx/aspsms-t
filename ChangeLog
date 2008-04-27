@@ -1,3 +1,8 @@
+2008-04-27 Marco Balmer  <mb@micressor.ch>
+
+    * aspsms-t.pl:
+      Bugfix: aspsms-t was hanging sometimes (SEGV)
+
 2008-01-10 Marco Balmer  <mb@micressor.ch>
 
     * ASPSMS/xmlmodel.pm:
