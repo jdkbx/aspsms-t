@@ -1,4 +1,4 @@
-aspsms-t release trunk
+aspsms-t release 1.2.4
 ----------------------
 * Bugfix: ASPSMS changed their xml1.aspsms.com behaviour. This is a little
           fix for this bug.

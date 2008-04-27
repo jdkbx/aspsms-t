@@ -1,9 +1,9 @@
-aspsms-t by Marco Balmer <mb@micressor.ch> @2006
+aspsms-t by Marco Balmer <mb@micressor.ch> @2008
 ================================================
 
 Check this site for the latest version of this software.
 
-http://www.micressor.ch/content/projects/aspsms-t
+http://web.swissjabber.ch/index.php/Aspsms-t
 
 Features
 --------
@@ -96,4 +96,4 @@ and then check /var/log/messages ;)
 Support
 -------
 
-For support check ./docs/AUTHORS
+For support check ./docs/AUTHORS or visit us in muc room support@conference.swissjabber.ch.

@@ -1,5 +1,7 @@
 2008-04-27 Marco Balmer  <mb@micressor.ch>
 
+    Tagging aspsms-t release 1.2.4
+
     * aspsms-t.pl:
       Bugfix: aspsms-t was hanging sometimes (SEGV)
 
