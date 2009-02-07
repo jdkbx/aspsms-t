@@ -92,12 +92,17 @@ aspsms-t configuration
 * Configuring the delivery notification agent 
   (not necessary for running aspsms-t --> optional)
 
-  shell> cd /home/www/website
-  shell> mkdir aspsms
-  shell> cd aspsms
-  shell> cp $ASPSMS_PATH/web-notify.pl .
-  shell> cp $ASPSMS_PATH/etc/aspsms-web-notify.xml.dist aspsms-web-notify.xml
-  shell> chmod 755 web-notify.pl aspsms-web-notify.xml
+  $ cd /home/www/website
+  $ mkdir aspsms
+  $ mkdir aspsms/etc
+  $ cd aspsms
+  $ cp $ASPSMS_PATH/web-notify.pl .
+  $ cp $ASPSMS_PATH/etc/aspsms-web-notify.xml.dist etc/aspsms-web-notify.xml
+  $ chmod 755 web-notify.pl aspsms-web-notify.xml
+  $ vi ./etc/.htaccess
+	order deny,allow
+	deny from all
+  $ chmod 750 ./etc/.htaccess
 
 * Configuring the aspsms-web-notify.xml configuration file.
 

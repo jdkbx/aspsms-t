@@ -71,15 +71,18 @@
  <!-- delivery notification 								-->
  <notification>
 
- <!-- aspsms-t needs a existing jabber account to notify aspsms-t about notifications.	-->
- <!-- <jabberid>aspsms\@yourserver.tld</jabberid> \@ is necessary			-->
-  <jabberid>aspsms\@yourserver.tld</jabberid>
+ <!-- aspsms-t needs a existing jabber account to notify aspsms-t about 
+      notifications. -->
+  <jabberid>aspsms@yourserver.tld</jabberid>
   <hostname>yourserver.tld</hostname>
   <username>aspsms</username>
   <password>secret</password>
   
  </notification>
 
- <!-- aspsms-t needs a secret if you use direct two-way from one two-way number.	-->
+ <!-- aspsms-t needs a secret if you use direct two-way from one two-way number
+      It helps to secure that only this transport can receive delivery 
+      notification updates from aspsms servers. You can change this secret
+      to any characters you want. It should be secret. -->
  <transport-secret>mysecret</transport-secret>
 </aspsms>

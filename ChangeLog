@@ -1,3 +1,10 @@
+2009-02-07 Marco Balmer  <mb@micressor.ch>
+
+    Tagging aspsms-t release 1.2.5
+
+    * A lot of documentation updates. Thanks to Martin Sebald.
+    * Configuration example for ejabberd
+
 2008-04-27 Marco Balmer  <mb@micressor.ch>
 
     Tagging aspsms-t release 1.2.4

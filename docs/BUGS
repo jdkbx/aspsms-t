@@ -1,4 +1,6 @@
-aspsms-t known bugs
--------------------
+Known bugs in aspsms-t
+----------------------
+
 * Bug: Delivery notification should be sent to the right online ressource
-       if more than one is online. 10.01.2008 /maba
+       if more than one is online.
+* Bug: Special characters in utf-8 for example € does not work yet.
