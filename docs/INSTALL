@@ -1,4 +1,4 @@
-aspsms-t by Marco Balmer <mb@micressor.ch> @2008
+aspsms-t by Marco Balmer <mb@micressor.ch> @2009
 ================================================
 
 Check this site for the latest version of this software.
@@ -8,11 +8,12 @@ http://web.swissjabber.ch/index.php/Aspsms-t
 Features
 --------
 * It supports simple text SMS with a maximum of 160 characters. If your message 
-  is >160 characters, aspsms-t will split it automatically in more than one part.
+  is >160 characters, aspsms-t will split it automatically in more than one 
+  part.
 * Support for Arabic and other oriental characters up to 87 characters each sms.
 * Delivery notification for each sms with a unique transaction number
-* It can set alphanumeric originator of every sms. This can be a mobile phone or a 
-  short text with a maximum of 11 characters.
+* It can set alphanumeric originator of every sms. This can be a mobile phone 
+  or a short text with a maximum of 11 characters.
 
 Requirements for Debian
 -----------------------
@@ -36,13 +37,15 @@ yum install (liburi and libwww for perl???)
 
 Overview
 --------
-aspsms-t is an open source /*GPL*/ (http://www.fsf.org/licensing/licenses/gpl.txt) jabber2sms 
-transport, which allows you to send sms messages over the jabber network through the gateway-system 
-of aspsms.com (https://www.aspsms.com). A lot of networks are supported.
+aspsms-t is an open source /*GPL*/ 
+(http://www.fsf.org/licensing/licenses/gpl.txt) jabber2sms transport, which 
+allows you to send sms messages over the jabber network through the 
+gateway-system of aspsms.com (https://www.aspsms.com). A lot of networks are 
+supported.
 
-Normal TextSMS messages usually costs 1 aspsms Credit. aspsms-t deliver very fast and will send 
-you a jabber status message. A second message will receive,If your sms was successfully delivered 
-to the mobile device.
+Normal TextSMS messages usually costs 1 aspsms Credit. aspsms-t deliver very 
+fast and will send you a jabber status message. A second message will receive,
+if your sms was successfully delivered to the mobile device.
 
 Configuration with jabbed14
 ---------------------------
@@ -60,6 +63,18 @@ Configuration with jabbed14
 </service>
 
 Restart your jabberd.
+
+Configuration with ejabberd
+===========================
+
+ejabberd.cfg:
+
+%% ASPSMS Transport
+{5245, ejabberd_service, [
+			{ip, {127, 0, 0, 1}},
+			{access, all},
+			{host, "aspsms.domain.tld", [{password, "secret"}]}
+			]},
 
 DNS configuration
 -----------------
@@ -90,10 +105,11 @@ Running
 -------
 ./aspsms-t.pl -c aspsms.xml
 
-Better you're running aspsms-t under daemontools from djb http://cr.yp.to/daemontools.html
-and then check /var/log/messages ;)
+Better you're running aspsms-t under daemontools from djb 
+http://cr.yp.to/daemontools.html and then check /var/log/messages ;)
 
 Support
 -------
 
-For support check ./docs/AUTHORS or visit us in muc room support@conference.swissjabber.ch.
+For support check ./docs/AUTHORS or visit us in muc room 
+support@conference.swissjabber.ch.
