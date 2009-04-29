@@ -79,7 +79,12 @@ my $user = get_record("jid",$barejid);
   if ($user == -2)
    {
     aspsmst_log("warning","InPresence($barejid): Has no $config::ident account registered -- Send type `unsubscribed'");
-    sendPresence($from, $to, 'unsubscribed');
+
+    #
+    # send only if a @ is in the 
+    unless ($barejid =~ /\@/)
+     { #sendPresence($from, $to, 'unsubscribed'); 
+     }
     return 0;
    }
 

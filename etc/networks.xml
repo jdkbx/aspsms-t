@@ -46,7 +46,7 @@
 <network name="Mobilkom Austria" credits="2.75"/>
 <network name="Tele.ring" credits="2.75"/>
 <network name="T-Mobile Austria GmbH" credits="2.75"/>
-<network name="Orange Austria" credits="1"/>
+<network name="Orange Austria" credits="2.75"/>
 <network name="Hutchison 3G Austria" credits="1"/>
 </country>
 <country name="AZERBAIJAN">
@@ -203,7 +203,7 @@
 <network name="Vodafone Fiji" credits="1"/>
 </country>
 <country name="FINLAND">
-<network name="Elisa International" credits="1.75"/>
+<network name="Elisa International" credits="2.75"/>
 <network name="Sonera Mobile Networks Ltd." credits="1"/>
 <network name="DNA Networks Ltd" credits="1"/>
 <network name="Alands Mobiltelefon AB" credits="1"/>
@@ -301,7 +301,7 @@
 <country name="INDIA">
 <network name="MTNL-Dolphine-Mumbai" credits="1"/>
 <network name="MTNL-Dolphine-Delhi" credits="1"/>
-<network name="Reliance Telecom Ltd MP Circle" credits="1"/>
+<network name="Reliance Telecom Ltd MP Circle" credits="1.25"/>
 <network name="Bharti Airtel Ltd Rajasthan" credits="1"/>
 <network name="Vodafone Essar Gujarat Ltd." credits="1"/>
 <network name="Bharti Airtel Ltd Kolkata" credits="1"/>
@@ -585,7 +585,7 @@
 <country name="SINGAPORE">
 <network name="MobileOne" credits="1"/>
 <network name="SingTel Mobile" credits="2.75"/>
-<network name="StarHub" credits="1"/>
+<network name="StarHub" credits="1.25"/>
 </country>
 <country name="SLOVAKIA">
 <network name="T-Mobile Slovensko" credits="1"/>
@@ -619,7 +619,7 @@
 </country>
 <country name="SWEDEN">
 <network name="TeliaSonera Mobile Networks AB" credits="2.75"/>
-<network name="Telenor Sweden" credits="1"/>
+<network name="Telenor Sweden" credits="2.75"/>
 <network name="Tele2 Sweden Comviq" credits="1"/>
 </country>
 <country name="SWITZERLAND">
