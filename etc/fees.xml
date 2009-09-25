@@ -6589,6 +6589,11 @@
 <prefix number="0035846"/>
 <prefix number="0035850"/>
 </network>
+<network name="Sonera Mobile Networks Ltd." credits="2.75">
+<prefix number="0035840"/>
+<prefix number="0035842"/>
+<prefix number="00358450"/>
+</network>
 </country>
 <country name="FRANCE">
 <network name="SFR" credits="2.75">

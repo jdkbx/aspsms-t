@@ -173,6 +173,9 @@
 <country name="DOMINICAN REPUBLIC">
 <network name="Orange Dominicana" credits="2.75"/>
 </country>
+<country name="ECUADOR">
+<network name="Conecel S.A." credits="1"/>
+</country>
 <country name="EGYPT">
 <network name="Vodafone Egypt" credits="1"/>
 <network name="MobiNil" credits="1"/>
@@ -180,9 +183,6 @@
 <country name="EL SALVADOR">
 <network name="CTE Telecom PERSONAL" credits="1"/>
 <network name="Digicel S.A. de C.V." credits="1"/>
-</country>
-<country name="EQUADOR">
-<network name="Conecel S.A." credits="1"/>
 </country>
 <country name="EQUATORIAL GUINEA">
 <network name="Orange GQ" credits="1"/>
@@ -204,7 +204,7 @@
 </country>
 <country name="FINLAND">
 <network name="Elisa International" credits="2.75"/>
-<network name="Sonera Mobile Networks Ltd." credits="1"/>
+<network name="Sonera Mobile Networks Ltd." credits="2.75"/>
 <network name="DNA Networks Ltd" credits="1"/>
 <network name="Alands Mobiltelefon AB" credits="1"/>
 </country>
