@@ -58,7 +58,7 @@ sub sendAdminMessage
 	     	"\n$type: $msg\n\n
 ---				 
 $config::ident Gateway system v$config::release
-http://www.micressor.ch/content/projects/aspsms-t");
+http://github.com/micressor/aspsms-t");
 
 
  } ### END of sendAdminMessage()
