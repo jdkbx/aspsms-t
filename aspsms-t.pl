@@ -37,6 +37,15 @@ use InMessage;
 ### BEGIN CONFIGURATION ###
 
   aspsmst_log("info","Starting up..."); 
+  if(-e "/var/lock/aspsms-t")
+  {
+    aspsmst_log("Info","Lock file /var/lock/aspsms-t already exists, $config::ident seems to be running...");
+    exit(1);
+  }
+  #
+  # set lock file;
+  open (LOCKFILE, ">>/var/lock/aspsms-t");
+  flock LOCKFILE,2;
   update_networks_fees();
   my $ret_config = set_config($ARGV[1]);
   unless($ret_config == 0 and $ARGV[0] eq "-c")
@@ -164,6 +173,9 @@ unless($config::aspsmst_in_progress==0)
 sendAdminMessage("info","Stop(): \$aspsmst_in_progress=$config::aspsmst_in_progress \$aspsmst_flag_shutdown=$config::aspsmst_flag_shutdown \$err=$err");
 aspsmst_log('info',"Stop(): Shutting down aspsms-t because sig: $err\n");
 $config::Connection->Disconnect();
+flock LOCKFILE,8;
+close(LOCKFILE);
+system("rm /var/lock/aspsms-t");
 exit(0);
 }
 
