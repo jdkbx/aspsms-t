@@ -1,9 +1,9 @@
-aspsms-t by Marco Balmer <mb@micressor.ch> @2009
-================================================
-
+aspsms-t by Marco Balmer <ml-git@micressor.ch> @2009
+----------------------------------------------------
 Check this site for the latest version of this software.
-
 http://web.swissjabber.ch/index.php/Aspsms-t
+http://github.com/micressor/aspsms-t
+
 
 Features
 --------
@@ -15,9 +15,9 @@ Features
 * It can set alphanumeric originator of every sms. This can be a mobile phone 
   or a short text with a maximum of 11 characters.
 
+
 Requirements for Debian
 -----------------------
-
 * apt-get install libobject-multitype-perl
 * apt-get install libauthen-sasl-perl
 * apt-get install libdigest-sha1-perl
@@ -27,6 +27,7 @@ Requirements for Debian
 * apt-get install libunicode-string-perl
 * apt-get install wget
 
+
 Requirements for Fedora
 -----------------------
 yum install perl-Net-Server
@@ -34,6 +35,7 @@ yum install perl-Authen-SASL
 yum install perl-Digest-SHA1
 yum install perl-XML-Parser
 yum install (liburi and libwww for perl???)
+
 
 Overview
 --------
@@ -47,9 +49,9 @@ Normal TextSMS messages usually costs 1 aspsms Credit. aspsms-t deliver very
 fast and will send you a jabber status message. A second message will receive,
 if your sms was successfully delivered to the mobile device.
 
+
 Configuration with jabbed14
 ---------------------------
-
 1) Add the following lines to jabber.xml for jabberd14:
 
 <service id='sms-linker'>
@@ -65,10 +67,8 @@ Configuration with jabbed14
 Restart your jabberd.
 
 Configuration with ejabberd
-===========================
-
-ejabberd.cfg:
-
+---------------------------
+vi ejabberd.cfg:
 %% ASPSMS Transport
 {5245, ejabberd_service, [
 			{ip, {127, 0, 0, 1}},
@@ -76,22 +76,32 @@ ejabberd.cfg:
 			{host, "aspsms.domain.tld", [{password, "secret"}]}
 			]},
 
+
 DNS configuration
 -----------------
-
 Add the SRV Record to the dns zone:
 _xmpp-server._tcp.sms.domain.ch. 900 IN SRV 1 1 5269 domain.ch.
 
 Restart your nameserver.
 
+
 aspsms-t configuration
 ----------------------
-
 * Copy ./etc/aspsms.xml.dist to aspsms.xml and configure it
 
 * Configuring the delivery notification agent 
   (not necessary for running aspsms-t --> optional)
 
+Running
+-------
+./aspsms-t.pl -c ./aspsms.xml
+
+Better you're running aspsms-t under daemontools from djb 
+http://cr.yp.to/daemontools.html and then check /var/log/messages ;)
+
+
+aspsms-t web notification (optional)
+------------------------------------
   $ cd /home/www/website
   $ mkdir aspsms
   $ mkdir aspsms/etc
@@ -106,15 +116,8 @@ aspsms-t configuration
 
 * Configuring the aspsms-web-notify.xml configuration file.
 
-Running
--------
-./aspsms-t.pl -c aspsms.xml
-
-Better you're running aspsms-t under daemontools from djb 
-http://cr.yp.to/daemontools.html and then check /var/log/messages ;)
 
 Support
 -------
-
 For support check ./docs/AUTHORS or visit us in muc room 
 support@conference.swissjabber.ch.

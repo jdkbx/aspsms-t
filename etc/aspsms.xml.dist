@@ -1,88 +1,86 @@
 <aspsms>
+	<!-- Banner/signatur after sms		-->
+ 	<banner>- SMS by aspsms-t</banner>
+
+	<!-- Administrative jabber id for system information	-->
+ 	<adminjid>admin@localhost</adminjid>
+
+	<!-- IMPORTANT: Data spool folder -->
+	<spooldir>/home/jabberd/spool/aspsms.jabberserver.ch</spooldir>
  
- <!-- Banner/signatur after sms  							-->
- <banner>- SMS by aspsms-t</banner>
+	<!-- Notification url for aspsms.com. The system of aspsms will send 
+	     the delivery notifications to this url. It must point 
+	     aspsms.notification.pl from aspsms-t	-->
+	<notificationurl>http://url/aspsms.notification.pl</notificationurl>
 
- <!-- Administrative jabber id for system information 					-->
- <adminjid>admin@localhost</adminjid>
+	<!-- Ident for syslog daemon 	-->
+	<ident>aspsms-t</ident>
+	<facility>local4</facility>
 
- <!-- Data spool folder 								-->
- <spooldir>/home/jabberd/spool/aspsms.jabberserver.ch</spooldir>
+	<!-- Will only accept delivery notifications from this jid	-->
+	<notificationjid>aspsms@jabberserver.ch</notificationjid>
+
+	<!-- IMPORTANT: aspsms-t component configuration -->
+	<jabber>
+	  <serviceid>aspsms.yourdomain.tld</serviceid>
+	  <server>127.0.0.1</server>
+	  <port>5245</port>
+	  <secret>secret</secret>
+	  <browse>
+	    <type>sms</type>
+	    <servicename>aspsms-t - SMS Gateway</servicename>
+	  </browse>
+	  <banner>-- This is aspsms-t :-)</banner>
+	</jabber>
+
+
+	<!-- aspsms.com servers
+	     This (82723) is the personal affiliate-id of the aspsms-t author. 
+	     If you appreciate our enthusiasm and would like to support our 
+	     work, we are grateful for your donation (put 82723 
+	     into <affiliateid/>). Thank you!!! This has no impact to the 
+	     functionality of the service or billing. To disable, change
+	     it to <affiliateid/> -->
+	<affiliateid>82723</affiliateid>
+
+	<server id='1'>
+	  <host>xml1.aspsms.com</host>
+	  <port>5061</port>
+	  <xmlspec>1.8</xmlspec>
+	</server>
+
+	<server id='2'>
+	  <host>xml1.aspsms.com</host>
+	  <port>5098</port>
+	  <xmlspec>1.8</xmlspec>
+	</server>
  
- <!-- Notification url for aspsms.com. The system of aspsms will send the delivery 	-->
- <!-- notifications to this url. It must point aspsms.notification.pl from aspsms-t	-->
- <notificationurl>http://yourdomain.tld/aspsms.notification.pl</notificationurl>
-
- <!-- Ident for syslog daemon 								-->
- <ident>aspsms-t</ident>
- <facility>local4</facility>
- <!-- Will only accept delivery notifications from this jid				-->
- <notificationjid>aspsms@jabberserver.ch</notificationjid>
-
- <!-- aspsms-t component configuration							-->
- <jabber>
-  <serviceid>aspsms.yourdomain.tld</serviceid>
-  <server>127.0.0.1</server>
-  <port>5245</port>
-  <secret>secret</secret>
-  <browse>
-   <type>sms</type>
-   <servicename>aspsms-t - SMS Gateway</servicename>
-  </browse>
-  <banner>-- This is the footer of each jabber message from aspsms-t</banner>
- </jabber>
-
-
- <!-- aspsms.com servers								-->
+	<server id='3'>
+	  <host>xml2.aspsms.com</host>
+	  <port>5061</port>
+	  <xmlspec>1.8</xmlspec>
+	</server>
  
- <!-- This (82723) is the personal affiliate-id of the aspsms-t author. If you      -->
- <!-- appreciate our enthusiasm and would like to support our work, we are grateful -->
- <!-- for your donation (put 82723 into <affiliateid/>). Thank you!!! This has no   -->
- <!-- impact to the functionality of the service or billing			    -->
- <!-- Otherwise change it to <affiliateid/>					    -->
-
- <affiliateid>82723</affiliateid>
-
- <server id='1'>
-  <host>xml1.aspsms.com</host>
-  <port>5061</port>
-  <xmlspec>1.8</xmlspec>
- </server>
-
- <server id='2'>
-  <host>xml1.aspsms.com</host>
-  <port>5098</port>
-  <xmlspec>1.8</xmlspec>
- </server>
- 
- <server id='3'>
-  <host>xml2.aspsms.com</host>
-  <port>5061</port>
-  <xmlspec>1.8</xmlspec>
- </server>
- 
- <server id='4'>
-  <host>xml2.aspsms.com</host>
-  <port>5098</port>
-  <xmlspec>1.8</xmlspec>
- </server>
+	<server id='4'>
+	  <host>xml2.aspsms.com</host>
+	  <port>5098</port>
+	  <xmlspec>1.8</xmlspec>
+	</server>
 
  
- <!-- delivery notification 								-->
- <notification>
+	<!-- delivery notification
+	     aspsms-t needs a existing jabber account to notify aspsms-t 
+	     about notifications. -->
+	<notification>
+	  <jabberid>aspsms@yourserver.tld</jabberid>
+	  <hostname>yourserver.tld</hostname>
+	  <username>aspsms</username>
+	  <password>secret</password>
+	</notification>
 
- <!-- aspsms-t needs a existing jabber account to notify aspsms-t about 
-      notifications. -->
-  <jabberid>aspsms@yourserver.tld</jabberid>
-  <hostname>yourserver.tld</hostname>
-  <username>aspsms</username>
-  <password>secret</password>
-  
- </notification>
-
- <!-- aspsms-t needs a secret if you use direct two-way from one two-way number
-      It helps to secure that only this transport can receive delivery 
-      notification updates from aspsms servers. You can change this secret
-      to any characters you want. It should be secret. -->
- <transport-secret>mysecret</transport-secret>
+	<!-- aspsms-t needs a secret if you use direct two-way from one two-way
+	     number It helps to secure that only this transport can receive 
+	     delivery notification updates from aspsms servers. You can change 
+	     this secret to any characters you want. It should be secret. -->
+	<transport-secret>mysecret</transport-secret>
 </aspsms>
