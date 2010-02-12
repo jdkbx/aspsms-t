@@ -26,6 +26,7 @@ Requirements for Debian
 * apt-get install liburi-perl
 * apt-get install libunicode-string-perl
 * apt-get install wget
+* apt-get install libfile-pid-perl
 
 
 Requirements for Fedora
