@@ -1,7 +1,7 @@
 #!/usr/bin/perl 
-# aspsms-t by Marco Balmer <mb@micressor.ch> @2006
-# http://web.swissjabber.ch/
-# http://www.micressor.ch/content/projects/aspsms-t/
+# aspsms-t by Marco Balmer <marco.balmer@gmx.ch> @2006
+# http://www.swissjabber.ch/
+# https://github.com/micressor/aspsms-t
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
