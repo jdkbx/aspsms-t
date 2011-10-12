@@ -25,7 +25,7 @@ openlog($config::ident,'','user');
 @ISA 				= qw(Exporter);
 @EXPORT 			= qw(update_networks_fees);
 
-use config;
+use ASPSMS::config;
 use ASPSMS::aspsmstlog;
 use LWP::UserAgent;
 use URI::URL;

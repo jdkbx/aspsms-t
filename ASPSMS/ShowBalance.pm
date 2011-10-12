@@ -21,15 +21,13 @@ use Exporter;
 @ISA                    = qw(Exporter);
 @EXPORT                 = qw(	ShowBalance );
 
-use config;
+use ASPSMS::config;
 use IO::Socket;
 use ASPSMS::aspsmstlog;
 use ASPSMS::userhandler;
 use ASPSMS::xmlmodel;
 use ASPSMS::Connection;
 use ASPSMS::ConnectionASPSMS;
-#use ASPSMS::Regex;
-#use ASPSMS::UCS2;
 use Sys::Syslog;
 
 openlog($config::ident,'','user');

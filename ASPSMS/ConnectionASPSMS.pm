@@ -26,7 +26,7 @@ use Exporter;
 				parse_aspsms_response
 				);
 
-use config;
+use ASPSMS::config;
 use IO::Socket;
 use ASPSMS::aspsmstlog;
 

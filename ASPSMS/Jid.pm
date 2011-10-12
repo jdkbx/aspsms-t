@@ -15,7 +15,7 @@
 package ASPSMS::Jid;
 
 use strict;
-use config;
+use ASPSMS::config;
 use vars qw(@EXPORT @ISA);
 use Exporter;
 

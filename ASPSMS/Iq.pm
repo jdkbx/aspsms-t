@@ -15,7 +15,7 @@
 package Iq;
 
 use strict;
-use config;
+use ASPSMS::config;
 use vars qw(@EXPORT @ISA);
 use Exporter;
 
@@ -41,7 +41,7 @@ use ASPSMS::userhandler;
 use ASPSMS::Message;
 use ASPSMS::Storage;
 use ASPSMS::DiscoNetworks;
-use Presence;
+use ASPSMS::Presence;
 
 
 my $admin_jid	= $config::admin_jid;

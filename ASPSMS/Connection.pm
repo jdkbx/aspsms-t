@@ -21,7 +21,7 @@ use Exporter;
 @ISA                    = qw(Exporter);
 @EXPORT                 = qw(exec_SendTextSMS);
 
-use config;
+use ASPSMS::config;
 use IO::Socket;
 use ASPSMS::aspsmstlog;
 use ASPSMS::xmlmodel;

@@ -12,7 +12,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-package InMessage;
+package ASPSMS::InMessage;
 
 use strict;
 use vars qw(@EXPORT @ISA);
@@ -23,7 +23,7 @@ use ASPSMS::Jid;
 use ASPSMS::Message;
 use ASPSMS::Storage;
 use ASPSMS::ShowBalance;
-use Presence;
+use ASPSMS::Presence;
 
 use Exporter;
 use Sys::Syslog;
