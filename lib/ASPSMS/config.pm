@@ -22,7 +22,10 @@ use XML::Smart;
 use ASPSMS::aspsmstlog;
 use ASPSMS::ContactCredits;
 
-our $release = " 1.2.5-trunk";
+# Legacy to perl module
+our $VERSION   = "1.2.5";
+# $release is our primary version used in this  module.
+our $release = $VERSION;
 
 our $config_file;
 our $aspsmssocket;
@@ -73,6 +76,7 @@ our $Connection;
 
 @ISA 			= qw(Exporter);
 @EXPORT 		= qw(	set_config
+				$VERSION
 				$aspsms_connection
 				$service_name
 				$server

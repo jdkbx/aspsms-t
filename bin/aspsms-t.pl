@@ -14,7 +14,7 @@
 # GNU General Public License for more details.
 
 use strict;
-use lib "./";
+use lib "./lib";
 
 use ASPSMS::config;
 
