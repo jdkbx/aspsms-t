@@ -1,12 +1,21 @@
-aspsms-t by Marco Balmer <ml-git@micressor.ch> @2009
-----------------------------------------------------
+aspsms-t -----------------------------------------------------------------------
+
 Check this site for the latest version of this software.
-http://web.swissjabber.ch/index.php/Aspsms-t
+http://www.swissjabber.ch/index.php/Aspsms-t
 http://github.com/micressor/aspsms-t
 
 
-Features
---------
+Overview -----------------------------------------------------------------------
+
+aspsms-t is an open source jabber2sms transport, which 
+allows you to send sms messages over the jabber network through the 
+gateway-system of aspsms.com (https://www.aspsms.com). A lot of networks are 
+supported.
+
+Normal TextSMS messages usually costs 1 aspsms Credit. aspsms-t deliver very 
+fast and will send you a jabber status message. A second message will receive,
+if your sms was successfully delivered to the mobile device.
+
 * It supports simple text SMS with a maximum of 160 characters. If your message 
   is >160 characters, aspsms-t will split it automatically in more than one 
   part.
@@ -16,26 +25,16 @@ Features
   or a short text with a maximum of 11 characters.
 
 
-Requirements for Debian
------------------------
-apt-get install libnet-jabber-perl libnet-xmpp-perl libobject-multitype-perl libauthen-sasl-perl libdigest-sha1-perl libxml-smart-perl libxml-parser-perl libwww-perl liburi-perl libunicode-string-perl wget libfile-pid-perl
+Requirements for Debian --------------------------------------------------------
+
+apt-get install libnet-jabber-perl libnet-xmpp-perl libobject-multitype-perl \
+  libauthen-sasl-perl libdigest-sha1-perl libxml-smart-perl \
+  libxml-parser-perl libwww-perl liburi-perl libunicode-string-perl \
+  wget libfile-pid-perl
 
 
-Overview
---------
-aspsms-t is an open source /*GPL*/ 
-(http://www.fsf.org/licensing/licenses/gpl.txt) jabber2sms transport, which 
-allows you to send sms messages over the jabber network through the 
-gateway-system of aspsms.com (https://www.aspsms.com). A lot of networks are 
-supported.
+Configuration with jabbed14 ----------------------------------------------------
 
-Normal TextSMS messages usually costs 1 aspsms Credit. aspsms-t deliver very 
-fast and will send you a jabber status message. A second message will receive,
-if your sms was successfully delivered to the mobile device.
-
-
-Configuration with jabbed14
----------------------------
 1) Add the following lines to jabber.xml for jabberd14:
 
 <service id='sms-linker'>
@@ -50,8 +49,8 @@ Configuration with jabbed14
 
 Restart your jabberd.
 
-Configuration with ejabberd
----------------------------
+Configuration with ejabberd ----------------------------------------------------
+
 vi ejabberd.cfg:
 %% ASPSMS Transport
 {5245, ejabberd_service, [
@@ -61,37 +60,54 @@ vi ejabberd.cfg:
 			]},
 
 
-DNS configuration
------------------
-Add the SRV Record to the dns zone:
-_xmpp-server._tcp.sms.domain.ch. 900 IN SRV 1 1 5269 domain.ch.
+DNS configuration --------------------------------------------------------------
 
-Restart your nameserver.
+1. Add the SRV Record to the dns zone:
+
+  _xmpp-server._tcp.aspsms.domain.ch. 900 IN SRV 1 1 5269 domain.ch.
+
+2. Restart your nameserver.
 
 
-aspsms-t configuration
-----------------------
-1. Copy ./etc/aspsms-t.xml.dist to aspsms.xml and configure it
+aspsms-t configuration ---------------------------------------------------------
+
+1. Copy ./etc/aspsms-t.xml.dist to /etc/aspsms-t.xml and configure it
 2. (optional) Configuring the delivery notification agent 
 
-Running
--------
+Running directly from source ---------------------------------------------------
+
 $ cd $ASPSMS_DIR
-$ ./bin/aspsms-t.pl -c /etc/aspsms-t.xml
+$ ./bin/aspsms-t -c /etc/aspsms-t.xml
 
+aspsms-t web notification (optional) -------------------------------------------
 
-aspsms-t web notification (optional)
-------------------------------------
-  $ cd /home/www/website
-  $ mkdir aspsms
-  $ mkdir aspsms/etc
-  $ cd aspsms
-  $ cp $SRC/aspsms-t.notify.pl .
-  $ cp $SRC/etc/aspsms-t.notify.xml.dist etc/aspsms-aspsms-t.notify.xml
-  $ chmod 755 aspsms-t.notify.pl aspsms-t.notify.xml
-  $ vi ./etc/.htaccess
+1. Create a jabber account aspsms@domain.tld and update your aspsms-t.xml
+   and aspsms-t.notify.xml in section <notification/>
+2. Make aspsms-t.notify.pl available over an url for example like this:
+
+$ cd /home/www/website
+$ mkdir aspsms
+$ mkdir aspsms/etc
+$ cd aspsms
+$ cp $SRC/aspsms-t.notify.pl .
+$ cp $SRC/etc/aspsms-t.notify.xml.dist etc/aspsms-t.notify.xml
+$ chmod 755 aspsms-t.notify.pl aspsms-t.notify.xml
+$ vi ./etc/.htaccess
 	order deny,allow
 	deny from all
-  $ chmod 750 ./etc/.htaccess
+$ chmod 750 ./etc/.htaccess
 
-* Configuring the aspsms-t.notify.xml configuration file.
+3. Test your installation:
+
+  http://www.domain.tld/aspsms/aspsms-t.notify.pl
+
+Output:
+<aspsms>
+ <ident>aspsms-t</ident>
+ <stream/>
+ <reply>
+  <status>No xml-stream found</status>
+ </reply>
+</aspsms>
+
+means: Configuration is ok!
