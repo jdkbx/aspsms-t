@@ -15,7 +15,7 @@
 package ASPSMS::userhandler;
 
 use strict;
-use config;
+use ASPSMS::config;
 use ASPSMS::aspsmstlog;
 use ASPSMS::Connection;
 use ASPSMS::ConnectionASPSMS;

@@ -20,7 +20,7 @@ use vars qw(@EXPORT @ISA);
 use Exporter;
 use Sys::Syslog;
 
-use config;
+use ASPSMS::config;
 use ASPSMS::aspsmstlog;
 
 openlog($config::ident,'','user');

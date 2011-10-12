@@ -27,7 +27,7 @@ openlog($config::ident,'','user');
 @ISA 				= qw(Exporter);
 @EXPORT 			= qw(check_notification);
 
-use config;
+use ASPSMS::config;
 use LWP::UserAgent;
 use URI::URL;
 

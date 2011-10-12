@@ -15,7 +15,7 @@
 package Presence;
 
 use strict;
-use config;
+use ASPSMS::config;
 use vars qw(@EXPORT @ISA);
 use Exporter;
 
