@@ -10,7 +10,7 @@ Vcs-Browser: http://github.com/micressor/aspsms-t
 
 Package: aspsms-t
 Architecture: all
-Depends: ${misc:Depends},libnet-jabber-perl,libnet-xmpp-perl,libobject-multitype-perl,libauthen-sasl-perl,libdigest-sha1-perl,libxml-smart-perl,libxml-parser-perl,libwww-perl,liburi-perl,libunicode-string-perl,wget,libfile-pid-perl
+Depends: ${misc:Depends},libnet-jabber-perl,libnet-xmpp-perl,libobject-multitype-perl,libauthen-sasl-perl,libdigest-sha-perl,libxml-smart-perl,libxml-parser-perl,libwww-perl,liburi-perl,libunicode-string-perl,wget,libfile-pid-perl
 Description: xmpp/jabber to sms transport for aspsms
  Which allows you to send sms messages over the jabber network through the
  gateway-system of aspsms.com.
