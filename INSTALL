@@ -107,15 +107,15 @@ aspsms-t web notification (optional)
   $ mkdir aspsms
   $ mkdir aspsms/etc
   $ cd aspsms
-  $ cp $ASPSMS_PATH/web-notify.pl .
-  $ cp $ASPSMS_PATH/etc/aspsms-web-notify.xml.dist etc/aspsms-web-notify.xml
-  $ chmod 755 web-notify.pl aspsms-web-notify.xml
+  $ cp $ASPSMS_PATH/aspsms-t.notify.pl .
+  $ cp $ASPSMS_PATH/etc/aspsms-aspsms-t.notify.xml.dist etc/aspsms-aspsms-t.notify.xml
+  $ chmod 755 aspsms-t.notify.pl aspsms-aspsms-t.notify.xml
   $ vi ./etc/.htaccess
 	order deny,allow
 	deny from all
   $ chmod 750 ./etc/.htaccess
 
-* Configuring the aspsms-web-notify.xml configuration file.
+* Configuring the aspsms-aspsms-t.notify.xml configuration file.
 
 
 Support
