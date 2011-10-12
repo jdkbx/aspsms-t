@@ -1,9 +1,9 @@
-BUGS
+docs/BUGS
 INSTALL
-NEWS
-README.Operatorlist
-README.xmlsrv.asp
-test_strings.txt
-TODO
-UPGRADE
-xmlsvr18.pdf
+docs/NEWS
+docs/README.Operatorlist
+docs/README.xmlsrv.asp
+docs/test_strings.txt
+docs/TODO
+docs/UPGRADE
+docs/xmlsvr18.pdf
