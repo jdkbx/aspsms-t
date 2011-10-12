@@ -11,7 +11,7 @@
 	<!-- Notification url for aspsms.com. The system of aspsms will send 
 	     the delivery notifications to this url. It must point 
 	     aspsms.notification.pl from aspsms-t	-->
-	<notificationurl>http://url/aspsms.notification.pl</notificationurl>
+	<notificationurl>http://url/aspsms-t.notify</notificationurl>
 
 	<!-- Ident for syslog daemon 	-->
 	<ident>aspsms-t</ident>
