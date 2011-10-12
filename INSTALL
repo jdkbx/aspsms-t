@@ -18,24 +18,7 @@ Features
 
 Requirements for Debian
 -----------------------
-* apt-get install libobject-multitype-perl
-* apt-get install libauthen-sasl-perl
-* apt-get install libdigest-sha1-perl
-* apt-get install libxml-parser-perl
-* apt-get install libwww-perl
-* apt-get install liburi-perl
-* apt-get install libunicode-string-perl
-* apt-get install wget
-* apt-get install libfile-pid-perl
-
-
-Requirements for Fedora
------------------------
-yum install perl-Net-Server
-yum install perl-Authen-SASL
-yum install perl-Digest-SHA1
-yum install perl-XML-Parser
-yum install (liburi and libwww for perl???)
+apt-get install libnet-jabber-perl libnet-xmpp-perl libobject-multitype-perl libauthen-sasl-perl libdigest-sha1-perl libxml-smart-perl libxml-parser-perl libwww-perl liburi-perl libunicode-string-perl wget libfile-pid-perl
 
 
 Overview
@@ -88,17 +71,12 @@ Restart your nameserver.
 
 aspsms-t configuration
 ----------------------
-* Copy ./etc/aspsms.xml.dist to aspsms.xml and configure it
-
-* Configuring the delivery notification agent 
-  (not necessary for running aspsms-t --> optional)
+1. Copy ./etc/aspsms-t.xml.dist to aspsms.xml and configure it
+2. (optional) Configuring the delivery notification agent 
 
 Running
 -------
-./aspsms-t.pl -c ./aspsms.xml
-
-Better you're running aspsms-t under daemontools from djb 
-http://cr.yp.to/daemontools.html and then check /var/log/messages ;)
+$ aspsms-t.pl -c /etc/aspsms-t.xml
 
 
 aspsms-t web notification (optional)
@@ -107,18 +85,12 @@ aspsms-t web notification (optional)
   $ mkdir aspsms
   $ mkdir aspsms/etc
   $ cd aspsms
-  $ cp $ASPSMS_PATH/aspsms-t.notify.pl .
-  $ cp $ASPSMS_PATH/etc/aspsms-aspsms-t.notify.xml.dist etc/aspsms-aspsms-t.notify.xml
-  $ chmod 755 aspsms-t.notify.pl aspsms-aspsms-t.notify.xml
+  $ cp $SRC/aspsms-t.notify.pl .
+  $ cp $SRC/etc/aspsms-t.notify.xml.dist etc/aspsms-aspsms-t.notify.xml
+  $ chmod 755 aspsms-t.notify.pl aspsms-t.notify.xml
   $ vi ./etc/.htaccess
 	order deny,allow
 	deny from all
   $ chmod 750 ./etc/.htaccess
 
-* Configuring the aspsms-aspsms-t.notify.xml configuration file.
-
-
-Support
--------
-For support check ./docs/AUTHORS or visit us in muc room 
-support@conference.swissjabber.ch.
+* Configuring the aspsms-t.notify.xml configuration file.
