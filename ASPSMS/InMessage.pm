@@ -28,7 +28,7 @@ use ASPSMS::Presence;
 use Exporter;
 use Sys::Syslog;
 
-openlog($config::ident,'','user');
+openlog($ASPSMS::config::ident,'','user');
 
 
 @ISA 				= qw(Exporter);
@@ -43,8 +43,8 @@ sub InMessage {
 
   
   	
-	$config::aspsmst_stat_stanzas++;
-	$config::aspsmst_in_progress=1;
+	$ASPSMS::config::aspsmst_stat_stanzas++;
+	$ASPSMS::config::aspsmst_in_progress=1;
 
 	#
 	# Random transaction number for message
@@ -63,10 +63,10 @@ sub InMessage {
 	aspsmst_log('debug',"id:$aspsmst_transaction_id InMessage($barejid): Begin job");
 	aspsmst_log('debug',"id:$aspsmst_transaction_id InMessage($barejid): \$msg_id=$msg_id");
 
-	unless($config::aspsmst_flag_shutdown eq "0")
+	unless($ASPSMS::config::aspsmst_flag_shutdown eq "0")
  	 {
-	  sendError($message, $from, $to, 503, "Sorry, $config::ident has a lot of work or is shutting down at the moment, please try again later. Thanks.");
-	  $config::aspsmst_in_progress=0;
+	  sendError($message, $from, $to, 503, "Sorry, $ASPSMS::config::ident has a lot of work or is shutting down at the moment, please try again later. Thanks.");
+	  $ASPSMS::config::aspsmst_in_progress=0;
 	  return -1;
 	 }
 
@@ -81,25 +81,25 @@ sub InMessage {
 	 			$to,
 	 			$Credits_of_barejid,
 				$aspsmst_transaction_id);
-	 $config::aspsmst_in_progress=0;
+	 $ASPSMS::config::aspsmst_in_progress=0;
 	 return 0;
 	} ### END of  if ($body eq "!credits")
 
        #
        # If a user type !help or send a message direct to the transport address
        #
-       if (    $to eq $config::service_name 
-            or $to eq "$config::service_name/registered"
+       if (    $to eq $ASPSMS::config::service_name 
+            or $to eq "$ASPSMS::config::service_name/registered"
 	    or $body eq "!help")
 	{
   	 HelpMessage(		$from,
 	 			$to,
 				$aspsmst_transaction_id);
-	 $config::aspsmst_in_progress=0;
+	 $ASPSMS::config::aspsmst_in_progress=0;
 	 return 0;
-	} ### if (    $to eq $config::service_name...
+	} ### if (    $to eq $ASPSMS::config::service_name...
 	   
-       if ( $to eq $config::service_name."/notification" and $barejid eq $config::notificationjid) 
+       if ( $to eq $ASPSMS::config::service_name."/notification" and $barejid eq $ASPSMS::config::notificationjid) 
         {
 	 my $msg		= new Net::Jabber::Message();
 	 # Get the <stream/> from web-notify.pl
@@ -112,7 +112,7 @@ sub InMessage {
 	  if($streamtype eq "test")
 	   {
 	    aspsmst_log('info',"web-notify.pl is configured successfully");
-	    $config::aspsmst_in_progress=0;
+	    $ASPSMS::config::aspsmst_in_progress=0;
 	    return 0;
 	   }
 
@@ -133,16 +133,16 @@ sub InMessage {
 	 #
 	 # Check if user is existing
 	 #
-	 unless($userkey eq $config::transport_secret)
+	 unless($userkey eq $ASPSMS::config::transport_secret)
 	  {
 	   if($userdata == -2)
 	    {
 	     aspsmst_log("alert","id: $transid InMessage(): No user found for userkey=$userkey");
-	     $config::aspsmst_in_progress=0;
+	     $ASPSMS::config::aspsmst_in_progress=0;
 	     return -2;
 	    } ### END OF if($userdata == -2)
 
-	  } ### END OF unless($streamtype eq $config::transport_secret)
+	  } ### END OF unless($streamtype eq $ASPSMS::config::transport_secret)
 
 	 #
 	 # If $streamtype is notify via aspsms.notification.pl
@@ -154,13 +154,13 @@ sub InMessage {
 	    {
 	   	aspsmst_log("info","id: $transid InMessage(): Can not find file for userkey $userkey");
 		sendAdminMessage("info","id:$transid InMessage(): Can not find file for userkey $userkey");
-	        $config::aspsmst_in_progress=0;
+	        $ASPSMS::config::aspsmst_in_progress=0;
 		return undef;
 	    } ### END of if ($to_jid eq "No userkey file")
 
 	   aspsmst_log('info',"id:$transid InMessage($to_jid): Send `$notify_message` notification");
 
-	   SendMessage(	"$number\@$config::service_name",
+	   SendMessage(	"$number\@$ASPSMS::config::service_name",
 	   		$to_jid,
 			$transid,
 			$msg_id,
@@ -183,7 +183,7 @@ Date & Time: $now");
   	   $number =~ s/\+00/\+/g;
 
 	   aspsmst_log('info',"InMessage(): Incoming two-way message from $number to $to_jid");
- 	   SendMessage("$number\@$config::service_name",$to_jid,$transid,$msg_id,$msg_type,"Global Two-Way Message from $number",$notify_message);
+ 	   SendMessage("$number\@$ASPSMS::config::service_name",$to_jid,$transid,$msg_id,$msg_type,"Global Two-Way Message from $number",$notify_message);
 
 	  } ### END of if ($streamtype eq 'twoway')
 
@@ -206,12 +206,12 @@ Date & Time: $now");
 	   #
 	   $number		=~ s/\s/\_/g;
 
-	   if($userkey eq $config::transport_secret)
+	   if($userkey eq $ASPSMS::config::transport_secret)
 	    {
 	     aspsmst_log('info',"InMessage(): Incoming direct message from $number to $to_jid");
 	     if ($to_jid =~ /@/)
 	      { 
-	       SendMessage(	"$number\@$config::service_name",
+	       SendMessage(	"$number\@$ASPSMS::config::service_name",
 	       			$to_jid,
 				$transid,
 				$msg_id,
@@ -224,34 +224,34 @@ Date & Time: $now");
 	    }
 	   else
 	    {
-	     aspsmst_log('info',"InMessage(): Incoming direct message not delivered: secret:`$userkey` $config::transport_secret does not match");
+	     aspsmst_log('info',"InMessage(): Incoming direct message not delivered: secret:`$userkey` $ASPSMS::config::transport_secret does not match");
 	    }
 
 	  } ### END of if ($streamtype eq 'direct')
 
-	$config::aspsmst_stat_notification_counter++;
-	$config::aspsmst_in_progress=0;
+	$ASPSMS::config::aspsmst_stat_notification_counter++;
+	$ASPSMS::config::aspsmst_in_progress=0;
 	return;
-        } ### END of if ( $to eq $config::service_name or $to eq "$co.....
+        } ### END of if ( $to eq $ASPSMS::config::service_name or $to eq "$co.....
 
 
 
 	if ($msg_type eq 'error') {
 		aspsmst_log('debug',"InMessage(): Error received: \n\n" . $message->GetXML());
 		sendAdminMessage("debug","InMessage: Error received:\n\n".$message->GetXML()); 
-		$config::aspsmst_in_progress=0;
+		$ASPSMS::config::aspsmst_in_progress=0;
 		return;
 	}
   	if ( $number !~ /^\+[0-9]{3,50}$/ ) {
-		my $msg = "Invalid number $number got, try a number like: +41xxx\@$config::service_name";
+		my $msg = "Invalid number $number got, try a number like: +41xxx\@$ASPSMS::config::service_name";
 		sendError($message, $from, $to, 400, $msg);
-		$config::aspsmst_in_progress=0;
+		$ASPSMS::config::aspsmst_in_progress=0;
 		return;
 	}
 
 	if ( $body eq "" ) {
 		aspsmst_log("info","id:$aspsmst_transaction_id InMessage(): Dropping empty message from `$from' to number `$number'");
-		$config::aspsmst_in_progress=0;
+		$ASPSMS::config::aspsmst_in_progress=0;
 		return;
 	}
 
@@ -277,7 +277,7 @@ Date & Time: $now");
 	  unless($result eq "")
 	   {
 	    aspsmst_log('info',"id:$aspsmst_transaction_id InMessage($from_barejid): \$result=$result from Sendaspsms()");
-	    $config::aspsmst_stat_error_counter++;
+	    $ASPSMS::config::aspsmst_stat_error_counter++;
 	    sendError($message, $from, $to, 400, $ret);
 	   }
 	  else
@@ -286,14 +286,14 @@ Date & Time: $now");
 	    # Normal error message stanza with $result
 	    # code.
 	    #
-	    $config::aspsmst_stat_error_counter++;
+	    $ASPSMS::config::aspsmst_stat_error_counter++;
 	    sendError($message, $from, $to, $result, $ret);
 	   }
 	   
 	 } ### END OF unless($result ==1)
         else
 	 {
-	   SendMessage(	"$number\@$config::service_name",
+	   SendMessage(	"$number\@$ASPSMS::config::service_name",
 	   		$from,
 			$transid,
 			$msg_id,
@@ -303,12 +303,12 @@ Date & Time: $now");
 SMS recipient: $number
 Credits Used: $CreditsUsed / Balance:$Credits / Id: $transid");
 
-	   $config::aspsmst_stat_message_counter++;
+	   $ASPSMS::config::aspsmst_stat_message_counter++;
 	 } ### END OF else if($result==1)
 
 	 #}; ### END OF EVAL
 		
-$config::aspsmst_in_progress=0;
+$ASPSMS::config::aspsmst_in_progress=0;
 aspsmst_log('debug',"id:$aspsmst_transaction_id InMessage($from): End job");
 } ### END of InMessage
 

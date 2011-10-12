@@ -33,7 +33,7 @@ use Sys::Syslog;
 
 
 
-openlog($config::ident,'','$config::facility');
+openlog($ASPSMS::config::ident,'','$ASPSMS::config::facility');
 
 
 ########################################################################
@@ -41,7 +41,7 @@ sub getUserPass {
 ########################################################################
 my ($from,$banner,$aspsmst_transaction_id) = @_;
 my $barejid	= get_barejid($from);
-my $passfile 	= "$config::passwords/$barejid";
+my $passfile 	= "$ASPSMS::config::passwords/$barejid";
 my $user = {}; my $ret;
 
 $user = get_record("jid",$barejid);
@@ -78,8 +78,8 @@ my $aspsmsrequest       = xmlShowCredits($username,$password);
 my $completerequest    	= xmlGenerateRequest($aspsmsrequest);
 
 
-print $config::aspsmssocket $completerequest;
-@answer = <$config::aspsmssocket>;
+print $ASPSMS::config::aspsmssocket $completerequest;
+@answer = <$ASPSMS::config::aspsmssocket>;
 DisconnectAspsms();
 
 my $ret_parsed_response = parse_aspsms_response(\@answer);

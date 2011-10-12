@@ -35,15 +35,15 @@ my ($msg, $to, $from, $code, $text) = @_;
 
 #$text .= "
 #
-#Do you need support with $config::ident ?
-#Support contact is xmpp: $config::admin_jid";
+#Do you need support with $ASPSMS::config::ident ?
+#Support contact is xmpp: $ASPSMS::config::admin_jid";
 	
 $msg->SetType('error');
 $msg->SetFrom($from);
 $msg->SetTo($to);
 $msg->SetErrorCode($code);
 $msg->SetError($text);
-$config::Connection->Send($msg);
+$ASPSMS::config::Connection->Send($msg);
 
 aspsmst_log('warning',"sendError($to): $code,$text");
 #sendAdminMessage("info","sendError(): Message to \"$to $code,$text\"");	
@@ -56,7 +56,7 @@ sub InPresence {
 # actions, reply to probe presence with gateways presence.
 # On registration requests, accept and send a gateways status presence update.
 
-$config::aspsmst_stat_stanzas++;
+$ASPSMS::config::aspsmst_stat_stanzas++;
 
 my $sid 		= shift;
 my $presence 		= shift;
@@ -78,7 +78,7 @@ my $user = get_record("jid",$barejid);
   #
   if ($user == -2)
    {
-    aspsmst_log("warning","InPresence($barejid): Has no $config::ident account registered -- Send type `unsubscribed'");
+    aspsmst_log("warning","InPresence($barejid): Has no $ASPSMS::config::ident account registered -- Send type `unsubscribed'");
 
     #
     # send only if a @ is in the 
@@ -90,7 +90,7 @@ my $user = get_record("jid",$barejid);
 
 if ($type eq 'subscribe') 
  {
-  if ( ($number !~ /^\+[0-9]{3,50}$/) && ($to ne "$config::service_name/registered") ) 
+  if ( ($number !~ /^\+[0-9]{3,50}$/) && ($to ne "$ASPSMS::config::service_name/registered") ) 
    {
     aspsmst_log('err',"InPresence(): Error: Invalid number `$number' got.");
 
@@ -101,7 +101,7 @@ if ($type eq 'subscribe')
   aspsmst_log('info',"InPresence($barejid): Got type `$type' for number $number -- Send subscribed");
   sendPresence($from, $to, 'subscribed');
 
-  if ($to eq "$config::service_name/registered") 
+  if ($to eq "$ASPSMS::config::service_name/registered") 
    {
     sendPresence($from, $to, 'available');
    } 
@@ -118,10 +118,10 @@ elsif (($type eq '') or ($type eq 'probe'))
     sendGWNumPresences($number, $from);
    }
   
-  if ($to eq "$config::service_name/registered") 
+  if ($to eq "$ASPSMS::config::service_name/registered") 
    {
-     aspsmst_log('notice',"InPresence($barejid): Send presence status: \"Transport uptime: $config::transport_uptime_hours in hour(s) SMS/Hour: $config::aspsmst_stat_msg_per_hour\"");
-     sendPresence($from,$to,undef,$iq_show,"Transport uptime: $config::transport_uptime_hours SMS/h: $config::aspsmst_stat_msg_per_hour $config::release");
+     aspsmst_log('notice',"InPresence($barejid): Send presence status: \"Transport uptime: $ASPSMS::config::transport_uptime_hours in hour(s) SMS/Hour: $ASPSMS::config::aspsmst_stat_msg_per_hour\"");
+     sendPresence($from,$to,undef,$iq_show,"Transport uptime: $ASPSMS::config::transport_uptime_hours SMS/h: $ASPSMS::config::aspsmst_stat_msg_per_hour $ASPSMS::config::release");
    }
  } 
 elsif ($type eq 'unsubscribe') 
@@ -158,7 +158,7 @@ sub sendGWNumPresences
    #
    $prefix 	= substr($number, 0, $i);
    $prefix =~ s/\+/00/g;
-   $credits 	= $config::prefix_data->{"$prefix"};
+   $credits 	= $ASPSMS::config::prefix_data->{"$prefix"};
    aspsmst_log('debug',"sendGWNumPresences($to): Try $prefix credits=$credits");
    unless($credits eq "")
     { 
@@ -176,7 +176,7 @@ sub sendGWNumPresences
    aspsmst_log('debug',"sendGWNumPresences($to): No matching prefix found, set credits=$credits");
   }
   
- sendPresence($to,"$number\@$config::service_name",undef,undef,"Credits: $credits",5);
+ sendPresence($to,"$number\@$ASPSMS::config::service_name",undef,undef,"Credits: $credits",5);
 
  aspsmst_log('debug',"sendGWNumPresences($to): Sending presence for $number prefix=$prefix credits=$credits");
 
@@ -205,7 +205,7 @@ $pres->SetFrom($from);
 my $to_barejid = get_barejid($to);
 aspsmst_log('debug',"sendPresence($to_barejid): Sending presence type `$type', show `$show' and status `$status'");
 
-$config::Connection->Send($pres);
+$ASPSMS::config::Connection->Send($pres);
 
 }
 

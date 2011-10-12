@@ -21,7 +21,7 @@ use ASPSMS::aspsmstlog;
 use Exporter;
 use Sys::Syslog;
 
-openlog($config::ident,'','user');
+openlog($ASPSMS::config::ident,'','user');
 
 
 @ISA 				= qw(Exporter);

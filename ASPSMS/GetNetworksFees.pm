@@ -20,7 +20,7 @@ use vars qw(@EXPORT @ISA);
 use Exporter;
 use Sys::Syslog;
 
-openlog($config::ident,'','user');
+openlog($ASPSMS::config::ident,'','user');
 
 @ISA 				= qw(Exporter);
 @EXPORT 			= qw(update_networks_fees);

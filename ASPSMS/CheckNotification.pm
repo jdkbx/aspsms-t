@@ -21,7 +21,7 @@ use ASPSMS::aspsmstlog;
 use Exporter;
 use Sys::Syslog;
 
-openlog($config::ident,'','user');
+openlog($ASPSMS::config::ident,'','user');
 
 
 @ISA 				= qw(Exporter);
@@ -41,11 +41,11 @@ use URI::URL;
 sub check_notification 
  {
  
-   unless($config::notificationurl)
+   unless($ASPSMS::config::notificationurl)
     { return "notificationurl is not configured -- skip"; }
 
-   my $url = url($config::notificationurl);
-   aspsmst_log("info","check_notification(): url=$config::notificationurl");
+   my $url = url($ASPSMS::config::notificationurl);
+   aspsmst_log("info","check_notification(): url=$ASPSMS::config::notificationurl");
    
    $url->query_form(xml=>"test,,,test");
 
@@ -54,7 +54,7 @@ sub check_notification
    #
    my $ua = LWP::UserAgent->new;
    $ua->timeout(5);
-   $ua->agent("$config::ident Post");
+   $ua->agent("$ASPSMS::config::ident Post");
    my $request = HTTP::Request->new('GET', $url);
    my $response = $ua->request($request);
    my $url_response = $response->content;

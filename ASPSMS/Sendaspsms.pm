@@ -28,17 +28,17 @@ use IO::Socket;
 
 use Sys::Syslog;
 
-openlog($config::ident,'','user');
+openlog($ASPSMS::config::ident,'','user');
 
 
 @ISA 				= qw(Exporter);
 @EXPORT 			= qw(Sendaspsms);
 
 
-my $banner			= 	$config::banner;
-my $aspsmssocket		= 	$config::aspsmssocket;
-my $aspsms_ip                   =       $config::aspsms_ip;
-my $aspsms_port                 =       $config::aspsms_port;
+my $banner			= 	$ASPSMS::config::banner;
+my $aspsmssocket		= 	$ASPSMS::config::aspsmssocket;
+my $aspsms_ip                   =       $ASPSMS::config::aspsms_ip;
+my $aspsms_port                 =       $ASPSMS::config::aspsms_port;
 
 
 
@@ -63,7 +63,7 @@ if($user == -2)
                         {
 			    my $msg_register 
 			    = "Your jid `$from` is not " .
-			    "registered on \`$config::service_name\` for" .
+			    "registered on \`$ASPSMS::config::service_name\` for" .
 			    "using sms services. Please register first to".
 			    "this transport.";
                             aspsmst_log('warning',"Sendaspsms(): $msg_register");
@@ -90,9 +90,9 @@ my (	$result,
 
 
 if ($result == 1) 
- { $config::stat_message_counter++; } 
+ { $ASPSMS::config::stat_message_counter++; } 
 else 
- { $config::stat_error_counter++; }
+ { $ASPSMS::config::stat_error_counter++; }
 
 my $xmppanswerlog = "SMS from $from to $number (Balance: $Credits Used: " .
 "$CreditsUsed) has status --> $result ($resultdesc)";
@@ -107,7 +107,7 @@ Balance: $Credits / Used: $CreditsUsed
 SMS (for $number):
 $msg
 
-$config::ident Gateway system v$config::release
+$ASPSMS::config::ident Gateway system v$ASPSMS::config::release
 ";
 
 $resultdesc = $xmppanswer;

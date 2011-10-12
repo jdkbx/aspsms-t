@@ -63,7 +63,7 @@ my $msg_type		= shift;
 #
 # fix right url encoding for aspsms xmlsrv
 #
-$config::notificationurl = PrepareCharSet($config::notificationurl);
+$ASPSMS::config::notificationurl = PrepareCharSet($ASPSMS::config::notificationurl);
 
 #
 # Prepare charset
@@ -81,9 +81,9 @@ my $aspsmsrequest =
   <PhoneNumber>" . $target . "</PhoneNumber>
   <TransRefNumber>" . $random ."</TransRefNumber>
  </Recipient>
- <URLDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Delivered,,,</URLDeliveryNotification>
- <URLNonDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,NonDelivered,,,</URLNonDeliveryNotification>
- <URLBufferedMessageNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Buffered,,,</URLBufferedMessageNotification>
+ <URLDeliveryNotification>$ASPSMS::config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Delivered,,,</URLDeliveryNotification>
+ <URLNonDeliveryNotification>$ASPSMS::config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,NonDelivered,,,</URLNonDeliveryNotification>
+ <URLBufferedMessageNotification>$ASPSMS::config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Buffered,,,</URLBufferedMessageNotification>
  <MessageData>" .$mess . "</MessageData>
  <Action>SendTextSMS</Action>
  <UsedCredits>1</UsedCredits>
@@ -117,7 +117,7 @@ my $msg_type		= shift;
 #
 # fix right url encoding for aspsms xmlsrv
 #
-$config::notificationurl = PrepareCharSet($config::notificationurl);
+$ASPSMS::config::notificationurl = PrepareCharSet($ASPSMS::config::notificationurl);
 
 #
 # Prepare charset
@@ -135,9 +135,9 @@ my $aspsmsrequest =
   <PhoneNumber>" . $target . "</PhoneNumber>
   <TransRefNumber>" . $random ."</TransRefNumber>
  </Recipient>
- <URLDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Delivered,,,</URLDeliveryNotification>
- <URLNonDeliveryNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,NonDelivered,,,</URLNonDeliveryNotification>
- <URLBufferedMessageNotification>$config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Buffered,,,</URLBufferedMessageNotification>
+ <URLDeliveryNotification>$ASPSMS::config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Delivered,,,</URLDeliveryNotification>
+ <URLNonDeliveryNotification>$ASPSMS::config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,NonDelivered,,,</URLNonDeliveryNotification>
+ <URLBufferedMessageNotification>$ASPSMS::config::notificationurl?xml=notify,,,".$random.",,,".$msg_id.",,,".$msg_type.",,,".$login.",,,".$numbernotification.",,,Buffered,,,</URLBufferedMessageNotification>
  <MessageData>" .$mess . "</MessageData>
  <XSer>020108</XSer>
  <Action>SendBinaryData</Action>
@@ -175,7 +175,7 @@ $url 	= PrepareCharSet($url);
 
 
 # fix right url encoding for aspsms xmlsrv
-$config::notificationurl = PrepareCharSet($config::notificationurl);
+$ASPSMS::config::notificationurl = PrepareCharSet($ASPSMS::config::notificationurl);
 
 my $aspsmsrequest =
 

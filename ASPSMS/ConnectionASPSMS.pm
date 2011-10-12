@@ -32,7 +32,7 @@ use ASPSMS::aspsmstlog;
 
 use Sys::Syslog;
 
-openlog($config::ident,'','user');
+openlog($ASPSMS::config::ident,'','user');
 
 sub exec_ConnectionASPSMS
  {
@@ -43,7 +43,7 @@ sub exec_ConnectionASPSMS
 	
   # /Generate SMS Request
   unless(ConnectAspsms($aspsmst_transaction_id) eq '0') 
-   { return ('-1',"Sorry, $config::ident transport is up and running but it ".
+   { return ('-1',"Sorry, $ASPSMS::config::ident transport is up and running but it ".
    		"is not able to reach one of the aspsms servers for ".
 		"delivering your sms message. Please try again later. ".
 		"Thank you!"); }
@@ -51,7 +51,7 @@ sub exec_ConnectionASPSMS
   # Send request to socket
   aspsmst_log('debug',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): ".
   "Sending: $completerequest");
-  print $config::aspsmssocket $completerequest;
+  print $ASPSMS::config::aspsmssocket $completerequest;
 
   my @answer;
 
@@ -59,7 +59,7 @@ sub exec_ConnectionASPSMS
    {
     # Timeout alarm
     alarm(10);
-    @answer = <$config::aspsmssocket>;
+    @answer = <$ASPSMS::config::aspsmssocket>;
     aspsmst_log('debug',"id:$aspsmst_transaction_id ".
     "exec_ConnectionASPSMS(): \@answer=@answer");
     alarm(0);
@@ -110,18 +110,18 @@ while ()
 
   aspsmst_log('debug',"id:$aspsmst_transaction_id ConnectAspsms(): Connecting ".
   "to server $connection_num ".
-  "(".$config::aspsms_connection{"host_$connection_num"}.
-  ":".$config::aspsms_connection{"port_$connection_num"}.
+  "(".$ASPSMS::config::aspsms_connection{"host_$connection_num"}.
+  ":".$ASPSMS::config::aspsms_connection{"port_$connection_num"}.
   ") \$connect_retry=$connect_retry");
 
   #
   # Setup a socket connection to the selected
   # server
   # 
-  $config::aspsmssocket 
+  $ASPSMS::config::aspsmssocket 
   = IO::Socket::INET->new( 
-  PeerAddr => $config::aspsms_connection{"host_$connection_num"},
-  PeerPort => $config::aspsms_connection{"port_$connection_num"},
+  PeerAddr => $ASPSMS::config::aspsms_connection{"host_$connection_num"},
+  PeerPort => $ASPSMS::config::aspsms_connection{"port_$connection_num"},
   Proto    => 'tcp',
   Timeout  => 3,
   Type     => SOCK_STREAM) or $status = -1;
@@ -148,8 +148,8 @@ while ()
    { 
     aspsmst_log('info',"id:$aspsmst_transaction_id ConnectAspsms(): Connecting".
     "to server $connection_num ".
-    "(".$config::aspsms_connection{"host_$connection_num"}.
-    ":".$config::aspsms_connection{"port_$connection_num"}.
+    "(".$ASPSMS::config::aspsms_connection{"host_$connection_num"}.
+    ":".$ASPSMS::config::aspsms_connection{"port_$connection_num"}.
     ") failed \$status=$status \$connect_retry=$connect_retry");
     $status = undef;
    }
@@ -171,7 +171,7 @@ return $status;
 sub DisconnectAspsms {
 my $aspsmst_transaction_id = shift;
 aspsmst_log('debug',"id:$aspsmst_transaction_id DisconnectAspsms()");
-close($config::aspsmssocket);
+close($ASPSMS::config::aspsmssocket);
 
 ########################################################################
 }

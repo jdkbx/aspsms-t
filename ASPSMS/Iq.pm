@@ -44,15 +44,15 @@ use ASPSMS::DiscoNetworks;
 use ASPSMS::Presence;
 
 
-my $admin_jid	= $config::admin_jid;
-my $passwords	= $config::passwords;
+my $admin_jid	= $ASPSMS::config::admin_jid;
+my $passwords	= $ASPSMS::config::passwords;
 
 sub InIQ {
 
  # Incoming IQ. Handle jabber:iq:registration with add/remove source 
  # dialog, return error 501 for other NS's.
 
- $config::aspsmst_stat_stanzas++;
+ $ASPSMS::config::aspsmst_stat_stanzas++;
 
  my $sid 	= shift;
  my $iq 	= shift;
@@ -66,7 +66,7 @@ sub InIQ {
 
 aspsmst_log('debug',"InIQ->GetXML(): $xml");
 
-if ($to eq "$config::service_name/xmlsrv.asp") 
+if ($to eq "$ASPSMS::config::service_name/xmlsrv.asp") 
  {
   my $ret = jabber_iq_xmlsrv($sid,$iq,$from,$to,$id,$type,$query,$xml);
  } ### END jabber:iq:xmlsrv.asp ###
@@ -110,21 +110,21 @@ elsif ($xmlns eq 'jabber:iq:version')
      $iq->SetType('result');
      $iq->SetFrom($iq->GetTo());
      $iq->SetTo($from);
-     $query->SetName($config::browseservicename);
-     $query->SetVer($config::release);
+     $query->SetName($ASPSMS::config::browseservicename);
+     $query->SetVer($ASPSMS::config::release);
      $query->SetOS($^O);
-     $config::Connection->Send($iq);
+     $ASPSMS::config::Connection->Send($iq);
     }
    else 
     {
      sendError($iq, $from, $to, 501, 
-     		"Sorry, $config::ident does not support $xmlns");
+     		"Sorry, $ASPSMS::config::ident does not support $xmlns");
     }
    }
   else 
    {
     sendError($iq, $from, $to, 501, 
-    		"Sorry, $config::ident does not support $xmlns");
+    		"Sorry, $ASPSMS::config::ident does not support $xmlns");
    }
 
 } ### END of InPresence ###
@@ -143,11 +143,11 @@ my $iq;
                        	to		=>$to,
                        	errorcode	=>$errorcode,
                        	error		=>$error,
-			from		=>$config::service_name,
+			from		=>$ASPSMS::config::service_name,
                       	id		=>$id);			
 
 
-$config::Connection->Send($iq);
+$ASPSMS::config::Connection->Send($iq);
 }
 
 sub jabber_register
@@ -161,7 +161,7 @@ my $id 		= $iq->GetID();
 my $type 	= $iq->GetType();
 my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
-my $banner	= $config::banner;
+my $banner	= $ASPSMS::config::banner;
 
   if ($type eq 'get') 
    {
@@ -169,12 +169,12 @@ my $banner	= $config::banner;
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
     aspsmst_log('info',"jabber_register(): Send instructions to $from");
-    $query->SetInstructions("$config::ident $config::release transport
+    $query->SetInstructions("$ASPSMS::config::ident $ASPSMS::config::release transport
 
 Please enter Username 
 (https://www.aspsms.ch/userkey.asp) and 
 password of your aspsms.com account.
-Support contact xmpp: $config::admin_jid");
+Support contact xmpp: $ASPSMS::config::admin_jid");
 
     my $ret_user 	= getUserPass($from,$banner);
     my $user 		=  {};
@@ -198,7 +198,7 @@ Support contact xmpp: $config::admin_jid");
     $query->SetURL($user->{signature});
     $query->SetPhone($user->{phone});
     $query->SetPassword('');
-    $config::Connection->Send($iq);
+    $ASPSMS::config::Connection->Send($iq);
    }
   elsif ($type eq 'set') 
    {
@@ -210,7 +210,7 @@ Support contact xmpp: $config::admin_jid");
     my $remove		= $query->GetRemove();
 
   my ($barefrom)  	= get_barejid($from);
-  my $passfile 		= "$config::passwords/$barefrom";
+  my $passfile 		= "$ASPSMS::config::passwords/$barefrom";
   $phone          	=~ s/\+/00/g;
 
   #
@@ -274,14 +274,14 @@ Support contact xmpp: $config::admin_jid");
   $iq->SetType('result');
   $iq->SetFrom($iq->GetTo());
   $iq->SetTo($from);
-  $config::Connection->Send($iq);
+  $ASPSMS::config::Connection->Send($iq);
   sendAdminMessage("info","RegisterManager.Complete: set_record(): Return: $ret_record for $from $name:$phone:$pass:$signature");
 
   my $presence = new Net::Jabber::Presence();
   
   aspsmst_log('info',"jabber_register(): RegisterManager.Complete: for $from $name:$phone:$pass:$signature");
   
-  sendPresence($from,"$config::service_name/registered", 'subscribe');
+  sendPresence($from,"$ASPSMS::config::service_name/registered", 'subscribe');
  } else 
     {
      sendError($iq, $from, $to, 501, 'feature-not-implemented: jabber:iq:register');
@@ -307,7 +307,7 @@ my $xml		= $iq->GetXML();
       $iq->SetTo($from);
       $query->SetDesc('Choose your destination number like: +4179xxxxxxx');
       $query->SetPrompt('Number');
-      $config::Connection->Send($iq);
+      $ASPSMS::config::Connection->Send($iq);
 
       aspsmst_log('info',"jabber_iq_gateway($from): Send gateway information");
      } 
@@ -324,9 +324,9 @@ my $xml		= $iq->GetXML();
    $iq->SetType('result');
    $iq->SetFrom($iq->GetTo());
    $iq->SetTo($from);
-   $query->SetPrompt("$number\@$config::service_name");
-   $query->SetJID("$number\@$config::service_name");
-   $config::Connection->Send($iq);
+   $query->SetPrompt("$number\@$ASPSMS::config::service_name");
+   $query->SetJID("$number\@$ASPSMS::config::service_name");
+   $ASPSMS::config::Connection->Send($iq);
   }
  else 
   {
@@ -355,12 +355,12 @@ my $barejid	= get_barejid($from);
     $iq->SetType('result');
     $iq->SetFrom($iq->GetTo());
     $iq->SetTo($from);
-    $query->SetJID($config::service_name);
+    $query->SetJID($ASPSMS::config::service_name);
     $query->SetCategory("service");
-    $query->SetType($config::browseservicetype);
-    $query->SetName($config::browseservicename);
+    $query->SetType($ASPSMS::config::browseservicetype);
+    $query->SetName($ASPSMS::config::browseservicename);
     $query->SetNS($namespaces);
-    $config::Connection->Send($iq);
+    $ASPSMS::config::Connection->Send($iq);
     
    }
   else 
@@ -382,7 +382,7 @@ my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
 my $barejid	= get_barejid($from);
 
-if($to eq $config::service_name)
+if($to eq $ASPSMS::config::service_name)
  {
    if ($type eq 'get')
     {
@@ -396,7 +396,7 @@ if($to eq $config::service_name)
 
     $iqQuery->AddIdentity(	category=>"gateway",
                         	type=>"sms",
-				name=>$config::browseservicename);
+				name=>$ASPSMS::config::browseservicename);
 
     $iqQuery->AddFeature(var=>"http://jabber.org/protocol/disco");
     $iqQuery->AddFeature(var=>"http://www.aspsms.com/xml/doc/xmlsvr18.pdf");
@@ -404,11 +404,11 @@ if($to eq $config::service_name)
     $iqQuery->AddFeature(var=>"jabber:iq:gateway");
     $iqQuery->AddFeature(var=>"jabber:iq:version");
 
-    $config::Connection->Send($iq);
+    $ASPSMS::config::Connection->Send($iq);
 
 
     } # END of if ($type eq 'get'
-} ### END of if($to eq $config::service_name)
+} ### END of if($to eq $ASPSMS::config::service_name)
 
 } ### END of jabber_iq_disco_info ###
 
@@ -435,12 +435,12 @@ my $barejid	= get_barejid($from);
     # Offer supported networks
     #
 
-    if($to eq $config::service_name)
+    if($to eq $ASPSMS::config::service_name)
      {
       aspsmst_log('debug',"jabber_iq_disco_items($barejid): Display transport items");
-      $iqQuery->AddItem(jid=>"countries\@$config::service_name",
+      $iqQuery->AddItem(jid=>"countries\@$ASPSMS::config::service_name",
     			name=>"Supported sms networks");
-     } ### END of if($to eq $config::service_name)
+     } ### END of if($to eq $ASPSMS::config::service_name)
 
 
     #
@@ -454,7 +454,7 @@ my $barejid	= get_barejid($from);
       	$iq->SetFrom($iq->GetTo());
       	$iq->SetTo($from);
       	$iq->SetID($id);
-      	$config::Connection->Send($iq);
+      	$ASPSMS::config::Connection->Send($iq);
         aspsmst_log('debug',"jabber_iq_disco_items($barejid): Processing finished");
     }
 } ### END of jabber_iq_disco_items ###
@@ -492,9 +492,9 @@ aspsmst_log('info',"id=$id jabber_iq_xmlsrv($barejid): Processing xmlsrv.asp que
            $iq_xmlsrv_result->SetTo($from);
 	   my $ret_parsed_response = parse_aspsms_response(\@ret_CompleteRequest,undef);
 	   $iq_xmlsrv_result->InsertRawXML($ret_parsed_response);
-           $config::Connection->Send($iq_xmlsrv_result);
+           $ASPSMS::config::Connection->Send($iq_xmlsrv_result);
 	   return undef;
-	 } ### END of if ( $to eq $config::service_name."/xmlsrv.asp")
+	 } ### END of if ( $to eq $ASPSMS::config::service_name."/xmlsrv.asp")
 
 	#
 	# END of Direct access to the aspsms:com xml srv
@@ -530,7 +530,7 @@ sub jabber_iq_remove
     # 
     
     my $presence = new Net::Jabber::Presence;	
-    sendPresence($presence, $from,"$config::service_name/registered", 'unsubscribe');
+    sendPresence($presence, $from,"$ASPSMS::config::service_name/registered", 'unsubscribe');
     
     #
     # send iq result
@@ -539,19 +539,19 @@ sub jabber_iq_remove
     my $iq	= new Net::Jabber::IQ;
     $iq->SetIQ(	type	=>"result",
               	to	=>$barefrom,
-		from	=>$config::service_name,
+		from	=>$ASPSMS::config::service_name,
                	id	=>$id);			
 
-    $config::Connection->Send($iq);
+    $ASPSMS::config::Connection->Send($iq);
 
     my $message = new Net::Jabber::Message();
     $message->SetMessage(
 			type	=>"",
 			to	=>$barefrom,
-			from	=>$config::service_name,
+			from	=>$ASPSMS::config::service_name,
 			body	=>"Sucessfully unregistred" );
 
-    $config::Connection->Send($message);
+    $ASPSMS::config::Connection->Send($message);
     }
 
 return $ret_unlink;

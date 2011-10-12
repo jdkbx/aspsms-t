@@ -23,7 +23,7 @@ use Sys::Syslog;
 use ASPSMS::config;
 use ASPSMS::aspsmstlog;
 
-openlog($config::ident,'','user');
+openlog($ASPSMS::config::ident,'','user');
 
 
 @ISA 				= qw(Exporter);
@@ -37,12 +37,12 @@ sub disco_get_aspsms_networks
  my $from	= shift;
  my $to		= shift;
 
-      my @countries	= $config::xml_networks->{networks}{country}('[@]','name');
+      my @countries	= $ASPSMS::config::xml_networks->{networks}{country}('[@]','name');
 
       #
       # Generate disco item for each country
       #
-      if($to eq "countries\@".$config::service_name)
+      if($to eq "countries\@".$ASPSMS::config::service_name)
       {
        foreach my $i (@countries)
        {
@@ -55,14 +55,14 @@ sub disco_get_aspsms_networks
         $i =~ s/\s/\_/g;
         unless($i eq "")
          {
-          $iqQuery->AddItem(	jid=>"$i\@".$config::service_name,
+          $iqQuery->AddItem(	jid=>"$i\@".$ASPSMS::config::service_name,
         			name=>$i);
          } ### END of unless($li eq "")
        } ### END of foreach my $i (@countries)
-      } ### END of if($to eq "countries\@⅛.$config::service_name")
+      } ### END of if($to eq "countries\@⅛.$ASPSMS::config::service_name")
 
     my @select_country = split(/@/,$to);
-    if($to eq $select_country[0]."@".$config::service_name)
+    if($to eq $select_country[0]."@".$ASPSMS::config::service_name)
      {
       
       #
@@ -76,8 +76,8 @@ sub disco_get_aspsms_networks
       # Change country to uppercase
       #
       $select_country[0] =~ tr/a-z/A-Z/;
-      my @networks	= $config::xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','name');
-      my @credits	= $config::xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','credits');
+      my @networks	= $ASPSMS::config::xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','name');
+      my @credits	= $ASPSMS::config::xml_networks->{"networks"}{"country"}('name','eq',"$select_country[0]"){"network"}('[@]','credits');
 
       my @prefixes;
 
@@ -85,7 +85,7 @@ sub disco_get_aspsms_networks
       my $counter_prefixes	=0;
       foreach my $i (@networks)
       {
-       @prefixes = $config::xml_fees->{"fees"}{"country"}('name','eq',"$select_country[0]"){"network"}('name','eq',"$i"){"prefix"}('[@]','number');
+       @prefixes = $ASPSMS::config::xml_fees->{"fees"}{"country"}('name','eq',"$select_country[0]"){"network"}('name','eq',"$i"){"prefix"}('[@]','number');
 
        #
        # Generate disco item for each country
@@ -96,7 +96,7 @@ sub disco_get_aspsms_networks
 	{
 	 $i =~ s/\s/\_/g;
          $iqQuery->AddItem(	name=>"Network: $i",
-	 			jid=>"$i\@$config::service_name");
+	 			jid=>"$i\@$ASPSMS::config::service_name");
 	 $i =~ s/\_/\s/g;
         } ### END of unless($i eq "")
 
@@ -113,14 +113,14 @@ sub disco_get_aspsms_networks
 	   
            $iqQuery->AddItem(
 	name=>"Network prefix: $i_prefix [Credits:$credits[0]]",
-	jid=>"$i_prefix\@$config::service_name");
+	jid=>"$i_prefix\@$ASPSMS::config::service_name");
 	  }
 	 $counter_prefixes++;
 	} ### END of foreach my $i (@prefixes)
        $counter_networks++;
       } ### END of foreach my $i (@countries)
 
-     } ### END of if($to eq "networks\@$config::service_name")
+     } ### END of if($to eq "networks\@$ASPSMS::config::service_name")
 
  return $iqQuery;
 } ### END of disco_get_aspsms_networks ###

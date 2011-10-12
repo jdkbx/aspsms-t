@@ -47,17 +47,17 @@ sub sendAdminMessage
     }
 
    aspsmst_log("debug","id: $msg_id SendAdminMessage(): to ".
-   "$config::admin_jid \$msg_id=$msg_id");
+   "$ASPSMS::config::admin_jid \$msg_id=$msg_id");
 
-   SendMessage( $config::service_name,
-             	$config::admin_jid,
+   SendMessage( $ASPSMS::config::service_name,
+             	$ASPSMS::config::admin_jid,
              	$msg_id,
              	$msg_id,
              	"message",
-             	"$config::ident Core Message",
+             	"$ASPSMS::config::ident Core Message",
 	     	"\n$type: $msg\n\n
 ---				 
-$config::ident Gateway system v$config::release
+$ASPSMS::config::ident Gateway system v$ASPSMS::config::release
 http://github.com/micressor/aspsms-t");
 
 
@@ -74,18 +74,18 @@ sub ShowBalanceMessage
    unless($Credits == -2)
    {
     $send_msg .= "
-You are a registered $config::ident user and your credit balance is: $Credits";
+You are a registered $ASPSMS::config::ident user and your credit balance is: $Credits";
    } ### unless($Credits == -2)
   else
    {
     $send_msg .= "
-You are not a registered user of $config::service_name !
+You are not a registered user of $ASPSMS::config::service_name !
 
-If you wish to use $config::service_name, 
+If you wish to use $ASPSMS::config::service_name, 
 1. please register an https://www.aspsms.com account
-2. Afterwards register to $config::service_name with the account information 
+2. Afterwards register to $ASPSMS::config::service_name with the account information 
    of aspsms.com.
-3. Send sms to jid's like +4178xxxxxxx@$config::service_name.";
+3. Send sms to jid's like +4178xxxxxxx@$ASPSMS::config::service_name.";
    } ### unless($Credits == -2)
 
 SendMessage( $to,
@@ -93,7 +93,7 @@ SendMessage( $to,
              $msg_id,
              $msg_id,
              "chat",
-             "$config::ident information",
+             "$ASPSMS::config::ident information",
              $send_msg);
   	 
    aspsmst_log("info","id: $msg_id ShowBalanceMessage(): to $from ".
@@ -108,7 +108,7 @@ sub HelpMessage
    my $msg_id	= shift;
 
    my $send_msg = "
-Hello, this is $config::ident at $config::service_name. It is a sms-transport 
+Hello, this is $ASPSMS::config::ident at $ASPSMS::config::service_name. It is a sms-transport 
 gateway.
 
 The following commands are available:
@@ -117,7 +117,7 @@ The following commands are available:
 !help      This help message
 
 ---
-$config::ident build $config::release
+$ASPSMS::config::ident build $ASPSMS::config::release
 http://www.micressor.ch/content/projects/aspsms-t";
 
 SendMessage( $to,
@@ -125,7 +125,7 @@ SendMessage( $to,
              $msg_id,
              $msg_id,
              "chat",
-             "$config::ident information",
+             "$ASPSMS::config::ident information",
              $send_msg);
 
    aspsmst_log("info","id: $msg_id HelpMessage(): to $from");
@@ -152,9 +152,9 @@ aspsmst_log("debug","id: $transid SendMessage(): to $to \$msg_id=$msg_id");
 				 id	 	=>$msg_id,
                                  from    	=>$from,
                                  body    	=>
-				 "$text\n\n$config::jabber_banner");
+				 "$text\n\n$ASPSMS::config::jabber_banner");
 
-$config::Connection->Send($msg);
+$ASPSMS::config::Connection->Send($msg);
 
  }
 

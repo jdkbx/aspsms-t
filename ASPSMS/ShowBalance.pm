@@ -30,7 +30,7 @@ use ASPSMS::Connection;
 use ASPSMS::ConnectionASPSMS;
 use Sys::Syslog;
 
-openlog($config::ident,'','user');
+openlog($ASPSMS::config::ident,'','user');
 
 sub ShowBalance 
  {

@@ -31,7 +31,7 @@ use ASPSMS::Regex;
 use ASPSMS::UCS2;
 use Sys::Syslog;
 
-openlog($config::ident,'','user');
+openlog($ASPSMS::config::ident,'','user');
 
 sub exec_SendTextSMS 
  {
@@ -84,7 +84,7 @@ sub exec_SendTextSMS
 						$aspsmst_transaction_id ,
 						$jid,
 						$numbernotification,
-						$config::affiliateid,
+						$ASPSMS::config::affiliateid,
 						$msg_id,
 						$msg_type);
 
@@ -105,7 +105,7 @@ sub exec_SendTextSMS
 						$aspsmst_transaction_id ,
 						$jid,
 						$numbernotification,
-						$config::affiliateid,
+						$ASPSMS::config::affiliateid,
 						$msg_id,
 						$msg_type);
 

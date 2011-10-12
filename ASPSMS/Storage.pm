@@ -35,14 +35,14 @@ sub get_record
   
   my $user = {};
 
-  opendir(DIR,"$config::passwords") or die "Can not open spool dir $config::passwords";
+  opendir(DIR,"$ASPSMS::config::passwords") or die "Can not open spool dir $ASPSMS::config::passwords";
   while (defined(my $file = readdir(DIR))) 
    {
-    aspsmst_log("debug","get_record($get_type): Processing file $config::passwords/$file");
+    aspsmst_log("debug","get_record($get_type): Processing file $ASPSMS::config::passwords/$file");
     
     eval
     {
-     open(F, "<$config::passwords/$file") or die "Problem: $!\n";
+     open(F, "<$ASPSMS::config::passwords/$file") or die "Problem: $!\n";
     };
 
     #
