@@ -76,7 +76,8 @@ aspsms-t configuration
 
 Running
 -------
-$ aspsms-t.pl -c /etc/aspsms-t.xml
+$ cd $ASPSMS_DIR
+$ ./bin/aspsms-t.pl -c /etc/aspsms-t.xml
 
 
 aspsms-t web notification (optional)
