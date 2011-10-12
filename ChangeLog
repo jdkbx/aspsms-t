@@ -1,6 +1,8 @@
 2011-10-12 Marco Balmer  <marco@balmer.name>
 
     * Staged sourcecode for debian packaging
+    * aspsms-t.pl renamed to aspsms-t
+    * web-notify.pl renamed to aspsms-t.notify.pl
 
 2011-10-11 Marco Balmer  <marco@balmer.name>
 
