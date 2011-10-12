@@ -154,11 +154,6 @@ aspsmst_log("info","set_config(): Load ./etc/networks.xml and ./etc/fees.xml net
 $xml_networks  	= XML::Smart->new("./etc/networks.xml") or return -1;
 $xml_fees	= XML::Smart->new("./etc/fees.xml") or return -1;
 
-#
-# Loading prefix data
-#
-aspsmst_log("info","set_config(): Load prefix data from etc/fees.xml");
-load_prefix_data();
 
 } ### END of set_config ###
 
