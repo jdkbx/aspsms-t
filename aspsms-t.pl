@@ -16,7 +16,7 @@
 use strict;
 use lib "./";
 
-use config;
+use ASPSMS::config;
 
 use File::Pid;
 
@@ -25,8 +25,8 @@ use Net::Jabber qw(Component);
 use XML::Parser;
 use XML::Smart;
 
-use Iq;
-use Presence;
+use ASPSMS::Iq;
+use ASPSMS::Presence;
 use ASPSMS::Jid;
 use ASPSMS::Message;
 use ASPSMS::Connection;
@@ -34,7 +34,7 @@ use ASPSMS::aspsmstlog;
 use ASPSMS::ContactCredits;
 use ASPSMS::CheckNotification;
 use ASPSMS::GetNetworksFees;
-use InMessage;
+use ASPSMS::InMessage;
 				  
 ### BEGIN CONFIGURATION ###
 

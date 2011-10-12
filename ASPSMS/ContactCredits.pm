@@ -17,6 +17,7 @@ package ASPSMS::ContactCredits;
 use strict;
 use vars qw(@EXPORT @ISA);
 use ASPSMS::aspsmstlog;
+use ASPSMS::config;
 
 use Exporter;
 use Sys::Syslog;
@@ -31,6 +32,7 @@ openlog($config::ident,'','user');
 
 sub load_prefix_data 
  {
+  #print "debug:",$config::aspsmst_flag_shutdown;
   my @countries		= $config::xml_fees->{"fees"}{"country"}('[@]','name');
   my @networks;
 
