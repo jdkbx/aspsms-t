@@ -1,6 +1,12 @@
-Known bugs in aspsms-t
-----------------------
+Known bugs in aspsms-t ---------------------------------------------------------
 
-* Bug: Delivery notification should be sent to the right online ressource
-       if more than one is online.
-* Bug: Special characters in utf-8 for example € does not work yet.
+
+* (bug) Special characters in utf-8 for example € does not work yet.
+
+* (feature) Delivery notification should be sent to the right online ressource
+	    if more than one is online.
+
+* (feature) Full Two-Way support for everyone. A separate two-way number is 
+	    not longer necessary
+
+* (feature) Full support for arabic and other oriental characters (UTF-8).
