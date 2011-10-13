@@ -1,26 +1,87 @@
-.\"
-.\" File Name macro.  This used to be `.PN', for Path Name,
-.\" but Sun doesn't seem to like that very much.
-.\"
 .de FN
 \fI\|\\$1\|\fP
 ..
 .TH "aspsms-t.notify" "1" "1.3.0"
 .SH NAME
-aspsms-t.notify \- Delivery notification script for aspsms-t
+aspsms-t.notify \- Delivery notification helper script
 .SH SYNOPSIS
-aspsms-t.notify xml="xml stream"
+aspsms-t.notify xml="stream"
 .SH DESCRIPTION
-Script is a xml stream...
+For each sms that you send with aspsms-t you may (optionally) get an
+.FN sms 
+.FN delivery 
+.FN notification.
+.PP
+How does this work:
+.PP
+.B 1.
+aspsms-t send the sms to the gateway with an URL that will be connected, 
+when a message is delivered.
+.PP
+.B 2.
+This URL has the following syntax:
+ http://www.domain.tld/aspsms/aspsms.notify?xml="<stream/>"
+The stream contains information about the jabber user, which has sent the sms
+and the coresponding sms status.
+.PP
+.B 3.
+.FN aspsms-t.notify
+uses this information from the stream and put it via jabber account (which 
+is defined in
+.FN aspsms-t.xml
+and
+.FN aspsms-t.notify.xml)
+to our transport which is listening at aspsms.domain.tld.
+.PP
+.B 4.
+.FN aspsms-t
+send the final delivery notification to the sending jabber user with
+.FN FROM
+header: +4178XXXXXXX@aspsms.domain.tld.
+.SH ASPSMS-T WEB NOTIFICATION
+1. Create a jabber account aspsms@domain.tld and update your 
+.FN aspsms-t.xml
+and 
+.FN aspsms-t.notify.xml 
+in section <notification/>
+.PP
+2. Make
+.FN aspsms-t.notify
+available over an url for example like this:
+.PP
+ $ cd /home/www/website
+ $ mkdir aspsms
+ $ mkdir aspsms/etc
+ $ cd aspsms
+ $ cp $SRC/aspsms-t.notify .
+ $ cp $SRC/etc/aspsms-t.notify.xml.dist etc/aspsms-t.notify.xml
+ $ chmod 755 aspsms-t.notify aspsms-t.notify.xml
+ $ vi ./etc/.htaccess
+     order deny,allow
+     deny from all
+ $ chmod 750 ./etc/.htaccess
+.PP
+3. Test your installation:
+.FN http://www.domain.tld/aspsms/aspsms-t.notify
+.PP
+Output:
+ <aspsms>
+   <ident>aspsms-t</ident>
+   <stream/>
+   <reply>
+     <status>No xml-stream found</status>
+   </reply>
+ </aspsms>
+.PP
+means: Configuration is ok!
 .SH SEE ALSO
 \fBaspsms-t\fR(1)
 .PP
-.SH FILES
-.PD 0
-.TP 
-.FN aspsms-t.notify.xml
-The aspsms-t.notify configuration file
+.SH AUTHORS
+Written by Marco Balmer
+.PP
 .SH RESOURCES
 .TP
-aspsms-t git website 
-http://github.com/micressor/aspsms-t
+http://github.com/micressor/aspsms-t/
+.TP
+http://www.aspsms.com/documentation/
