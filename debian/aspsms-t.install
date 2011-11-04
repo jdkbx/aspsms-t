@@ -1,3 +1,6 @@
 bin/aspsms-t usr/bin
 bin/aspsms-t.notify usr/bin
-
+etc/aspsms-t.notify.xml.dist etc/aspsms-t
+etc/aspsms-t.xml.dist etc/aspsms-t
+etc/fees.xml etc/aspsms-t
+etc/networks.xml etc/aspsms-t
