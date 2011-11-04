@@ -11,31 +11,24 @@ Vcs-Browser: http://github.com/micressor/aspsms-t
 Package: aspsms-t
 Architecture: all
 Depends: ${misc:Depends},${perl:Depends},libaspsms-perl,libnet-jabber-perl,libnet-xmpp-perl,libxml-smart-perl,libxml-parser-perl,libwww-perl,liburi-perl,libunicode-string-perl,libfile-pid-perl
-Description: xmpp/jabber to sms transport for aspsms
- Which allows you to send sms messages over the jabber network through the
- gateway-system of aspsms.com.
+Description: sms transport for your xmpp/jabber server
+ With aspsms-t your jabber users are able to send sms messages
+ through the gateway-system of aspsms.com.
  .
- A lot of networks are supported. Normal TextSMS messages usually costs 1 
- aspsms Credit. 
+ A lot of networks are supported.
  .
- aspsms-t deliver very fast and will send you a jabber status message. A 
- second message will receive,If your sms was successfully delivered to the 
- mobile device. 
+ Deliver is very fast and will send your users a confirmation jabber message.
+ Jabber users can set their own mobile number as originator. 
  .
- It supports simple text SMS with a maximum of 160 characters. If your message
- is >160 characters, aspsms-t will split it automatically in more than one 
- part.
+ Jabber messages which are longer than the maximum allowed characters of an
+ sms, aspsms-t will split it into a multiple sms. Don´t worry!
  .
- Support for Arabic and other oriental characters up to 87 characters each 
- sms.
- .
- Delivery notification for each sms with a unique transaction number
- It can set alphanumeric originator of every sms. This can be a mobile phone 
- or a short text with a maximum of 11 characters.
+ Special arabic and other oriental characters are supported to a maximum
+ of 87 characters for each message.
 
 Package: libaspsms-perl
 Section: perl
 Architecture: all
 Depends: ${misc:Depends},${perl:Depends},libxml-smart-perl,libxml-parser-perl,libwww-perl,liburi-perl,libunicode-string-perl,wget,libfile-pid-perl
-Description: Perl modules for accessing the ASPSMS xml protocol, to send sms/mms
+Description: Perl module for accessing the aspsms xml protocol
  Detailed description...
