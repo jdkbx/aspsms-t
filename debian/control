@@ -30,5 +30,8 @@ Package: libaspsms-perl
 Section: perl
 Architecture: all
 Depends: ${misc:Depends},${perl:Depends},libxml-smart-perl,libxml-parser-perl,libwww-perl,liburi-perl,libunicode-string-perl,wget,libfile-pid-perl
-Description: Perl module for accessing the aspsms xml protocol
- Detailed description...
+Description: Perl module providing an easy sms interface
+ This library provides an easy perl interface to the aspsms xml protocol.
+ .
+ Sample scripts shows you how to send normal text, wap push, mms and
+ binary sms messages.
