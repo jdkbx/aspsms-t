@@ -1,54 +1,54 @@
 #!/usr/bin/make -f
-#%:
-	#dh $@
+# This debian/rules file is provided as a template for normal perl
+# packages. It was created by Marc Brockschmidt <marc@dch-faq.de> for
+# the Debian Perl Group (http://pkg-perl.alioth.debian.org/) but may
+# be used freely wherever it is useful.
 
-clean:	
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# If set to a true value then MakeMaker's prompt function will
+# always return the default without waiting for user input.
+export PERL_MM_USE_DEFAULT=1
+
+PERL   ?= /usr/bin/perl
+PACKAGE = $(shell dh_listpackages)
+TMP_LIBASPSMS_LIBASPSMS = $(CURDIR)/debian/libaspsms-perl
+
+build: build-libaspsms
+build-libaspsms:
+	dh_testdir -p libaspsms-perl
+	$(PERL) Makefile.PL INSTALLDIRS=vendor
+	$(MAKE)
+	$(MAKE) test
+	touch $@
+
+clean:
 	dh_testdir
-	dh_auto_clean
-
-build: 
-	dh_testdir
-	dh_auto_configure
-	dh_auto_build
-	dh_auto_test
-
-binary:
 	dh_testroot
-	dh_prep
-	dh_installdirs
-	dh_auto_install
-	dh_install
+	dh_clean build-libaspsms install-libaspsms
+	[ ! -f Makefile ] || $(MAKE) realclean
+
+install: install-libaspsms
+install-libaspsms: build-libaspsms
+	dh_testdir -p libaspsms-perl
+	dh_testroot -p libaspsms-perl
+	dh_prep -p libaspsms-perl
+	$(MAKE) install DESTDIR=$(TMP_LIBASPSMS_LIBASPSMS) PREFIX=/usr
+	#[ ! -d $(TMP_LIBASPSMS)/usr/lib/perl5 ] || \
+	#	rmdir --ignore-fail-on-non-empty --parents --verbose \
+	#	$(TMP_LIBASPSMS)/usr/lib/perl5
+	touch $@
+
+binary-arch:
+# We have nothing to do here for an architecture-independent package
+
+binary-indep: build install
+	dh_testdir
+	dh_testroot
 	dh_installdocs
-	dh_installchangelogs
-	dh_installexamples
-	dh_installman
-	#dh_installcatalogs
-	#dh_installcron
-	#dh_installdebconf
-	#dh_installemacsen
-	#dh_installifupdown
-	#dh_installinfo
-	#dh_pysupport
-	#dh_installinit
-	#dh_installmenu
-	#dh_installmime
-	#dh_installmodules
-	#dh_installlogcheck
-	#dh_installlogrotate
-	#dh_installpam
-	#dh_installppp
-	#dh_installudev
-	#dh_installwm
-	#dh_installxfonts
-	#dh_installgsettings
-	#dh_bugfiles
-	#dh_ucf
-	dh_lintian
-	#dh_gconf
-	#dh_icons
+	dh_installchangelogs 
 	dh_perl
-	dh_usrlocal
-	dh_link
 	dh_compress
 	dh_fixperms
 	dh_installdeb
@@ -56,3 +56,5 @@ binary:
 	dh_md5sums
 	dh_builddeb
 
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install
