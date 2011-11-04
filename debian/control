@@ -10,7 +10,7 @@ Vcs-Browser: http://github.com/micressor/aspsms-t
 
 Package: aspsms-t
 Architecture: all
-Depends: ${misc:Depends},libnet-jabber-perl,libnet-xmpp-perl,libobject-multitype-perl,libauthen-sasl-perl,libdigest-sha-perl,libxml-smart-perl,libxml-parser-perl,libwww-perl,liburi-perl,libunicode-string-perl,wget,libfile-pid-perl
+Depends: ${misc:Depends},${perl:Depends},libnet-jabber-perl,libnet-xmpp-perl,libxml-smart-perl,libxml-parser-perl,libwww-perl,liburi-perl,libunicode-string-perl,libfile-pid-perl
 Description: xmpp/jabber to sms transport for aspsms
  Which allows you to send sms messages over the jabber network through the
  gateway-system of aspsms.com.
@@ -32,3 +32,9 @@ Description: xmpp/jabber to sms transport for aspsms
  Delivery notification for each sms with a unique transaction number
  It can set alphanumeric originator of every sms. This can be a mobile phone 
  or a short text with a maximum of 11 characters.
+
+Package: libaspsms-perl
+Architecture: all
+Depends: ${misc:Depends},${perl:Depends},libxml-smart-perl,libxml-parser-perl,libwww-perl,liburi-perl,libunicode-string-perl,wget,libfile-pid-perl,wget
+Description: Perl modules for accessing the ASPSMS xml protocol, to send sms/mms
+ Detailed description...
