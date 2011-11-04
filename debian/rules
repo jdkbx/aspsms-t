@@ -42,6 +42,7 @@ install-libaspsms: build-libaspsms
 	dh_prep -p libaspsms-perl
 	$(MAKE) install DESTDIR=$(TMP) PREFIX=/usr
 	dh_installdocs -p libaspsms-perl
+	dh_installexamples -p libaspsms-perl
 	dh_installchangelogs -p libaspsms-perl
 	touch $@
 
