@@ -12,10 +12,9 @@
 export PERL_MM_USE_DEFAULT=1
 
 PERL   ?= /usr/bin/perl
-PACKAGE = $(shell dh_listpackages)
-TMP_LIBASPSMS_LIBASPSMS = $(CURDIR)/debian/libaspsms-perl
+TMP = $(CURDIR)/debian/libaspsms-perl
 
-build: build-libaspsms
+build: build-libaspsms build-aspsms-t
 build-libaspsms:
 	dh_testdir -p libaspsms-perl
 	$(PERL) Makefile.PL INSTALLDIRS=vendor
@@ -23,30 +22,33 @@ build-libaspsms:
 	$(MAKE) test
 	touch $@
 
+build-aspsms-t:
+	dh_testdir -p aspsms-t
+
 clean:
 	dh_testdir
 	dh_testroot
 	dh_clean build-libaspsms install-libaspsms
 	[ ! -f Makefile ] || $(MAKE) realclean
 
-install: install-libaspsms
-install-libaspsms: build-libaspsms
+install: install-libaspsms install-aspsms-t
+install-libaspsms: build-libaspsms 
 	dh_testdir -p libaspsms-perl
 	dh_testroot -p libaspsms-perl
 	dh_prep -p libaspsms-perl
-	$(MAKE) install DESTDIR=$(TMP_LIBASPSMS_LIBASPSMS) PREFIX=/usr
-	#[ ! -d $(TMP_LIBASPSMS)/usr/lib/perl5 ] || \
-	#	rmdir --ignore-fail-on-non-empty --parents --verbose \
-	#	$(TMP_LIBASPSMS)/usr/lib/perl5
+	$(MAKE) install DESTDIR=$(TMP) PREFIX=/usr
+	dh_installdocs -p libaspsms-perl
 	touch $@
+
+install-aspsms-t:
+	dh_install -p aspsms-t
+	dh_installman -p aspsms-t
+	dh_installdocs -p aspsms-t
 
 binary-arch:
 # We have nothing to do here for an architecture-independent package
 
 binary-indep: build install
-	dh_testdir
-	dh_testroot
-	dh_installdocs
 	dh_installchangelogs 
 	dh_perl
 	dh_compress
