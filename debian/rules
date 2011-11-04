@@ -42,18 +42,19 @@ install-libaspsms: build-libaspsms
 	dh_prep -p libaspsms-perl
 	$(MAKE) install DESTDIR=$(TMP) PREFIX=/usr
 	dh_installdocs -p libaspsms-perl
+	dh_installchangelogs -p libaspsms-perl
 	touch $@
 
 install-aspsms-t:
 	dh_install -p aspsms-t
 	dh_installman -p aspsms-t
 	dh_installdocs -p aspsms-t
+	dh_installchangelogs -p aspsms-t
 
 binary-arch:
 # We have nothing to do here for an architecture-independent package
 
 binary-indep: build install
-	dh_installchangelogs 
 	dh_perl
 	dh_compress
 	dh_fixperms
