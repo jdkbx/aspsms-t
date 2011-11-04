@@ -34,7 +34,8 @@ Description: xmpp/jabber to sms transport for aspsms
  or a short text with a maximum of 11 characters.
 
 Package: libaspsms-perl
+Section: perl
 Architecture: all
-Depends: ${misc:Depends},${perl:Depends},libxml-smart-perl,libxml-parser-perl,libwww-perl,liburi-perl,libunicode-string-perl,wget,libfile-pid-perl,wget
+Depends: ${misc:Depends},${perl:Depends},libxml-smart-perl,libxml-parser-perl,libwww-perl,liburi-perl,libunicode-string-perl,wget,libfile-pid-perl
 Description: Perl modules for accessing the ASPSMS xml protocol, to send sms/mms
  Detailed description...
