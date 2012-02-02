@@ -51,7 +51,8 @@ sub get_record
 
     if($@)
      {
-      aspsmst_log("alert","get_record($get_type,$jid_userkey): Problem to open passfile $file");
+      aspsmst_log("alert","get_record($get_type,$jid_userkey): Problem to open passfile $file:");
+      aspsmst_log("alert","get_record($get_type,$jid_userkey): $@");
       return -2;
      }
      

@@ -23,7 +23,7 @@ use ASPSMS::aspsmstlog;
 use ASPSMS::ContactCredits;
 
 # Legacy to perl module
-our $VERSION   = "1.2.5";
+our $VERSION   = "1.3.0";
 # $release is our primary version used in this  module.
 our $release = $VERSION;
 
