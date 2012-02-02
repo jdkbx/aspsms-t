@@ -4,7 +4,7 @@ use ExtUtils::MakeMaker;
 # the contents of the Makefile that is written.
 WriteMakefile(
     NAME              => 'ASPSMS',
-    VERSION_FROM      => 'ASPSMS/lib/ASPSMS.pm', # finds $VERSION
+    VERSION_FROM      => 'lib/ASPSMS/ASPSMS.pm', # finds $VERSION
     PREREQ_PM         => {
 				File::Pid,
 				Net::Jabber,
@@ -13,6 +13,6 @@ WriteMakefile(
 				Sys::Syslog 
 			}, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM  => 'ASPSMS/lib/ASPSMS.pm', # retrieve abstract from module
+      (ABSTRACT_FROM  => 'lib/ASPSMS/ASPSMS.pm', # retrieve abstract from module
        AUTHOR         => 'Marco balmer <marco@balmer.name>') : ()),
 );
