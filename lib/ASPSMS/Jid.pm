@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -19,6 +18,19 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
 
+=head1 NAME
+
+aspsms-t - convert jid to bare jid
+
+=head1 DESCRIPTION
+
+This module converts a jid user@domain.tld/ressource to a normal jid without
+ressource user@domain.tld which is used for most actions in aspsms-t.
+
+=head1 METHODS
+
+=cut
+
 package ASPSMS::Jid;
 
 use strict;
@@ -32,6 +44,11 @@ use Exporter;
 use Sys::Syslog;
 use ASPSMS::aspsmstlog;
 
+=head2 get_barejid()
+
+my $barejid = get_barejid($jid);
+
+=cut
 
 sub get_barejid
  {
@@ -41,3 +58,12 @@ sub get_barejid
  } # END of get_barejid
 
 1;
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,14 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - regex functions for xml interface
+
+=head1 METHODS
+
+=cut
 
 package ASPSMS::Regex;
 
@@ -43,12 +50,23 @@ my $mess        = shift;
 my $number      = shift;
 my $signature   = shift;
 
+=head2 regexes()
+
+Prepare message and add optional signatur to the message, if it can
+be placed in one sms (<160).
+
+=cut
+
         # Translations / Substitutionen
         $number         = "00" . $number;
         $mess =~ s/\xC3(.)/chr(ord($1)+64)/egs;
 
-	# stupid aspsms xmlsrv failure fixes. These are characters,
-	# the aspsms xml server has problems. 
+=head2
+
+This function cut's some characters away with wich has aspsms.com xml 
+server problems.
+
+=cut
 	$mess =~ s/\&//g;
 	$mess =~ s/\|//g;
 	$mess =~ s/\>//g;
@@ -72,3 +90,11 @@ return ($mess,$number);
 
 1;
 
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

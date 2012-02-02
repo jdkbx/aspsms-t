@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,14 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - How much credits do I have?
+
+=head1 METHODS
+
+=cut
 
 package ASPSMS::ShowBalance;
 
@@ -44,6 +51,13 @@ sub ShowBalance
   my $barejid			= shift;
   my $aspsms_transaction_id	= shift;
 
+=head2 ShowBalance()
+
+What we get from the caller is a barejid. Is the user existing, checked
+by getUserPass().
+
+=cut
+
   aspsmst_log('debug',"id:$aspsms_transaction_id ShowBalance():");
 
   my $userdata = getUserPass($barejid,"null",$aspsms_transaction_id);
@@ -53,6 +67,14 @@ sub ShowBalance
 
   my $login 	=	$userdata->{name};
   my $password 	= 	$userdata->{password};
+
+=head2
+
+Generate a specific xml request with xmlShowCredits($login,$password).
+Add the http stuff with xmlGenerateRequest($aspsms_request) and finally
+send it to exec_ConnectionASPSMS().
+
+=cut
 
   my $aspsms_request	= xmlShowCredits($login,$password);
   my $request_xml	= xmlGenerateRequest($aspsms_request);
@@ -82,6 +104,12 @@ unless($ErrorCode == 1)
   return $ErrorDescription;
  } ### unless($ErrorCode == 1)
 
+=head2
+
+And finally we return the parsed credit balance back.
+
+=cut
+
 return ($Credits);
 
 } ### END of ShowBalance()
@@ -89,3 +117,11 @@ return ($Credits);
 
 1;
 
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,14 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - main function to send an jabber to sms.
+
+=head1 METHODS
+
+=cut
 
 package ASPSMS::Sendaspsms;
 
@@ -60,9 +67,25 @@ my (	$number,
 	$msg_type) = @_;
 my $xmppanswer;
 
+=head2 Sendaspsms()
+
+This function handle the interaction between jabber and sms.
+
+=cut
+
 aspsmst_log('debug',"id:$aspsmst_transaction_id Sendaspsms(): Begin");
 
 $number = substr($number, 1, 50);
+
+=head2
+
+=over 4
+
+=item * Do we have a correct registered user?
+
+=back 
+
+=cut
 
 my $user = getUserPass($from,$banner,$aspsmst_transaction_id);
 
@@ -79,6 +102,16 @@ if($user == -2)
 
 
 aspsmst_log('debug',"id:$aspsmst_transaction_id Sendaspsms(): sending message to number $number");
+
+=head2
+
+=over 4
+
+=item * If ok we put it through exec_SendTextSMS() function.
+
+=back
+
+=cut
 
 my (	$result,
 	$resultdesc,
@@ -121,6 +154,18 @@ $resultdesc = $xmppanswer;
 }
 
 aspsmst_log('debug',"Sendaspsms(): id:$aspsmst_transaction_id End $xmppanswerlog");
+
+=head2
+
+=over 4
+
+=item * And finally we give the status of this transaction als a return
+value back
+
+=back
+
+=cut
+
 return ($result,$resultdesc,$Credits,$CreditsUsed,$random);
 
 ########################################################################
@@ -129,3 +174,11 @@ return ($result,$resultdesc,$Credits,$CreditsUsed,$random);
 
 1;
 
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

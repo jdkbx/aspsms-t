@@ -1,3 +1,6 @@
+# http://www.swissjabber.ch/
+# https://github.com/micressor/aspsms-t
+#
 # Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
 #
 # This program is free software; you can redistribute it and/or modify it

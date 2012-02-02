@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,14 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - jabber message handler
+
+=head1 METHODS
+
+=cut
 
 package ASPSMS::InMessage;
 
@@ -44,18 +51,28 @@ openlog($ASPSMS::config::ident,'','user');
 
 
 sub InMessage {
-  # Incoming message. Let's try to send it via SMS.
-  # If error we've got, we log it... ;-)
 
+=head2 InMessage()
 
+This function is called via a hook of the main program. Let's send this via
+sms to the requested destination.
+
+=cut
   
   	
 	$ASPSMS::config::aspsmst_stat_stanzas++;
 	$ASPSMS::config::aspsmst_in_progress=1;
 
-	#
-	# Random transaction number for message
-	#
+=head2
+
+=over 4
+
+=item * The function gives us all necessary information to handle this call. A
+random transaction number we get via get_transaction_id().
+
+=back
+
+=cut
 	my $sid 		= shift;
 	my $message 		= shift;
 	my $from 		= $message->GetFrom();
@@ -77,10 +94,17 @@ sub InMessage {
 	  return -1;
 	 }
 
+=head2
 
-       #
-       # If a user type !credits
-       #
+=over 4
+
+=item * If a user type '!credits` we call ShowBalance($barejid) to get
+users current credit balance.
+
+=back
+
+=cut
+
        if ($body eq "!credits") 
         {
 	 my $Credits_of_barejid = ShowBalance($barejid);
@@ -92,9 +116,16 @@ sub InMessage {
 	 return 0;
 	} ### END of  if ($body eq "!credits")
 
-       #
-       # If a user type !help or send a message direct to the transport address
-       #
+=head2
+
+=over 4
+
+=item * If a user type '!help` or send a message direct to the transport 
+address so we call HelpMessage().
+
+=back
+
+=cut
        if (    $to eq $ASPSMS::config::service_name 
             or $to eq "$ASPSMS::config::service_name/registered"
 	    or $body eq "!help")
@@ -105,15 +136,27 @@ sub InMessage {
 	 $ASPSMS::config::aspsmst_in_progress=0;
 	 return 0;
 	} ### if (    $to eq $ASPSMS::config::service_name...
+
+=head2
+
+=over 4
+
+=item * Delivery notification from aspsms.com we receive via http request. The
+perl binary aspsms-t.notify uses a jabber account and send this information
+to aspsms.domain.tld/notification. There is also a test function implemented.
+
+=back
+
+=cut
 	   
        if ( $to eq $ASPSMS::config::service_name."/notification" and $barejid eq $ASPSMS::config::notificationjid) 
         {
 	 my $msg		= new Net::Jabber::Message();
-	 # Get the <stream/> from web-notify.pl
+	 # Get the <stream/> from aspsms-t.notify binary
 	 my @stattmp 		= split(/,,,/, $body);
 	 my $streamtype		= $stattmp[0];
 	  #
-	  # If test of web-notify.pl, make log entry and
+	  # If test of aspsms-t.notify binary, make log entry and
 	  # return 0
 	  #
 	  if($streamtype eq "test")
@@ -124,7 +167,7 @@ sub InMessage {
 	   }
 
  	 #
-	 # Ok, let's read the stream parameters which comes via web-notify.pl
+	 # Ok, let's read the stream parameters which comes via aspsms-t.notify
 	 #
 
 	 my $transid 		= $stattmp[1];
@@ -137,9 +180,16 @@ sub InMessage {
 
 	 my $userdata		= get_record("userkey",$userkey);
 
-	 #
-	 # Check if user is existing
-	 #
+=head2
+
+=over 4
+
+=item * If no registered aspsms-t user was found, InMessage() send an error
+back via jabber.
+
+=back
+
+=cut
 	 unless($userkey eq $ASPSMS::config::transport_secret)
 	  {
 	   if($userdata == -2)
@@ -152,7 +202,7 @@ sub InMessage {
 	  } ### END OF unless($streamtype eq $ASPSMS::config::transport_secret)
 
 	 #
-	 # If $streamtype is notify via aspsms.notification.pl
+	 # If $streamtype is notify via aspsms-t.notify
 	 #
          if ($streamtype eq 'notify')
 	  {
@@ -167,6 +217,17 @@ sub InMessage {
 
 	   aspsmst_log('info',"id:$transid InMessage($to_jid): Send `$notify_message` notification");
 
+=head2
+
+=over 4
+
+=item * If $streamtype was 'notify`, we send back a delivery notification to
+the jabber user.
+
+=back
+
+=cut
+
 	   SendMessage(	"$number\@$ASPSMS::config::service_name",
 	   		$to_jid,
 			$transid,
@@ -179,10 +240,16 @@ Delivery status: === $notify_message ===
 Date & Time: $now");
 
           } # END of if ($streamtype eq 'notify')
-	
-	 #
-	 # If $streamtype is twoway via aspsms.notification.pl
-	 #
+=head2
+
+=over 4
+
+=item * If $streamtype is 'twoway` via aspsms-t.notify, we send incoming 
+sms via http to the jabber user via jabber.
+
+=back
+
+=cut
 	 if ($streamtype eq 'twoway')
 	  {
 	   my $to_jid = $userdata->{jid};
@@ -266,13 +333,22 @@ Date & Time: $now");
 	my $from_barejid	= get_barejid($from);
 	aspsmst_log('info',"id:$aspsmst_transaction_id InMessage($from_barejid): To  number `$number'.");
 
-	# no send the real sms message by Sendaspsms();
-	my ($result,$ret,$Credits,$CreditsUsed,$transid) = Sendaspsms(	$number,
-									$barejid, 
-									$body,
-									$aspsmst_transaction_id,
-									$msg_id,
-									$msg_type);
+=head2
+
+=over 4
+
+=item * Now we send the real sms message via Sendaspsms() through aspsms.com.
+
+=back
+
+=cut
+	my ($result,$ret,$Credits,$CreditsUsed,$transid) = 
+	  Sendaspsms(	$number,
+			$barejid, 
+			$body,
+			$aspsmst_transaction_id,
+			$msg_id,
+			$msg_type);
 
 	# If we have no success from aspsms.com, send an error
 	unless($result == 1)
@@ -321,3 +397,11 @@ aspsmst_log('debug',"id:$aspsmst_transaction_id InMessage($from): End job");
 
 1;
 
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

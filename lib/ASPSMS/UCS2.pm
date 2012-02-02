@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,14 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - ucs2 converter
+
+=head1 METHODS
+
+=cut
 
 package ASPSMS::UCS2;
 
@@ -41,14 +48,19 @@ use ASPSMS::Jid;
 use Unicode::String qw(utf8 latin1 utf16);
 
 sub convert_to_ucs2
-#
-# Description: Encoding utf8 --> UCS2
-# Example: "Hello" in UCS2 is: "00480065006c006c006f"
-#
  {
   my $msg = shift;
   my $utf8 = utf8($msg);
   my $ucs2 = $utf8->hex;
+
+=head2 convert_to_ucs2()
+
+This function convert an utf-8 string to an UCS2 string. It looks like:
+
+"Hello" in UCS2 is: "00480065006c006c006f"
+
+=cut
+
   
   $ucs2 = remove_ucs2_overhead($ucs2);
 
@@ -57,12 +69,17 @@ sub convert_to_ucs2
  } ### END of convert_to_ucs2()
 
 sub check_for_ucs2
-#
-# Description:  This function checks, is ucs2 encoding necessary
-# 		for delivery.
-#
  {
   my $msg	= shift;
+
+=head2 check_for_ucs2()
+
+This function checks, when ucs2 encoding is necessary to deliver an sms. It 
+returns 1 if ucs2 encoding is necessary and 0 if it can be sent as a normal
+sms.
+
+=cut
+
 
   #
   # Split string $utf8 into an array @data
@@ -96,12 +113,22 @@ sub remove_ucs2_overhead
 #
  {
   my $ucs2	= shift;
-  #
-  # Remove not necessary characters from
-  # U+0048 U+0065 U+006c U+006c U+006f
-  # to
-  # 00480065006c006c006f
-  #
+
+=head2 remove_ucs2_overhead()
+
+This function removes not necessary characters from an ucs2 string.
+
+=over 4
+
+=item * U+0048 U+0065 U+006c U+006c U+006f
+
+=item * to
+
+=item * 00480065006c006c006f
+
+=back
+
+=cut
   $ucs2 =~ s/\+//g;
   $ucs2 =~ s/U//g;
   $ucs2 =~ s/\s//g;
@@ -110,3 +137,12 @@ sub remove_ucs2_overhead
  } ### remove_ucs2_overhead()
 
 1;
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

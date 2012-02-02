@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -19,6 +18,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
 
+=head1 NAME
+
+aspsms-t - xml model/templates for aspsms xml servers.
+
+=head1 METHODS
+
+=cut
+
 package ASPSMS::xmlmodel;
 
 use strict;
@@ -34,6 +41,13 @@ sub xmlShowCredits {
 
 my $login 		= shift;
 my $password		= shift;
+
+=head2 xmlShowCredits()
+
+This function contains an aspsms xml request to query credit balance.
+
+=cut
+
 
 my $aspsmsrequest = 
 
@@ -66,6 +80,12 @@ my $numbernotification	= shift;
 my $affiliateid		= shift;
 my $msg_id		= shift;
 my $msg_type		= shift;
+
+=head2 xmlSendTextSMS()
+
+This function contains an aspsms xml request to send a normal text sms.
+
+=cut
 
 #
 # fix right url encoding for aspsms xmlsrv
@@ -120,6 +140,12 @@ my $numbernotification	= shift;
 my $affiliateid		= shift;
 my $msg_id		= shift;
 my $msg_type		= shift;
+
+=head2 xmlSendBinarySMS()
+
+This function contains an aspsms xml request to send a binary sms.
+
+=cut
 
 #
 # fix right url encoding for aspsms xmlsrv
@@ -177,6 +203,12 @@ my $affiliateid		= shift;
 my $msg_id		= shift;
 my $msg_type		= shift;
 
+=head2 xmlSendWAPPushSMS()
+
+This function contains an aspsms xml request to send a wap push sms.
+
+=cut
+
 $mess 	= PrepareCharSet($mess);
 $url 	= PrepareCharSet($url);
 
@@ -216,6 +248,13 @@ sub xmlGenerateRequest {
 my $aspsmsrequest	= shift;
 my $requestlength 	= length($aspsmsrequest);
 
+=head2 xmlGenerateRequest()
+
+We use the http interface of aspsms.com. So this function create the
+http header information.
+
+=cut
+
 my $aspsmsheader = "
 POST /xmlsvr.asp HTTP/1.0
 Content-Type: text/xml
@@ -235,12 +274,15 @@ sub PrepareCharSet {
 ########################################################################
 my $data = shift;
 
-#
+=head2 PrepareCharSet()
+
+This function fixes url encoding for aspsms xmlsrv.
+
+=cut
+
 # With this line enabled, delivery notification does not work.
 # /maba 24.09.2007
-#
 #$data =~ s/\&/\&\#38\;/g;
-
 $data =~ s/\:/\&\#58\;/g;
 $data =~ s/\</\&\#60\;/g;
 $data =~ s/\>/\&\#62\;/g;
@@ -253,3 +295,11 @@ return $data;
 
 1;
 
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

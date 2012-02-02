@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,19 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - connection module
+
+=head1 DESCRIPTION
+
+This module is an interface between the jabber world and the sms/aspsms.com
+related world.
+
+=head1 METHODS
+
+=cut
 
 package ASPSMS::Connection;
 
@@ -53,6 +65,15 @@ sub exec_SendTextSMS
 	my $aspsmst_transaction_id 	= shift; 
 	my $msg_id			= shift;
 	my $msg_type			= shift;
+
+=head2 exec_SendTextSMS()
+
+my ($errorcode,$errormessage) = exec_SendTextSMS(11 vars);
+
+We read all login information, sms message, passwords and more to
+generate an xml request.
+
+=cut
         aspsmst_log('debug',"id:$aspsmst_transaction_id ".
 	"exec_SendTextSMS(): Begin");
 
@@ -62,10 +83,14 @@ sub exec_SendTextSMS
         aspsmst_log('debug',"id:$aspsmst_transaction_id exec_SendTextSMS(): " .
 	"check_for_ucs2(): $flag_ucs2_mess");
 
-	#
-	# If flag_ucs2_mess is 1, send the message as binary.
-	#
+=head2
 
+=over 4
+
+=item * flag_ucs2_mess (1=true), we convert the message to an binary ucs2
+message. ucs2 messages are only supported up to 83 characters.
+
+=cut
 
         if($flag_ucs2_mess == 1)
 	 {
@@ -99,9 +124,15 @@ sub exec_SendTextSMS
 	else
 	 {
 
-	#
-	# If flag_ucs2_mess is 0, send the message normal text message.
-	#
+=back
+
+=over 4
+
+=item * If flag_ucs2_mess is 0, we send the message normal as text message
+
+=back
+
+=cut
 
 	  ($mess,$number,$signature) 	= regexes($mess,$number,$signature);
 	  $aspsmsrequest = xmlSendTextSMS(	$login,
@@ -145,6 +176,14 @@ my $CreditsUsed         =       $DeliveryStatus->{aspsms}{CreditsUsed};
 # Generate ShowCredits Request
 ##########################################################################
 
+=head2
+
+Finally this function calls again the aspsms xml interface to query
+current credit balance. This is not in one query possible, that's 
+because we do that in a second call.
+
+=cut
+
 my $Credits = ShowBalance($jid,$aspsmst_transaction_id);
 
 aspsmst_log('debug',"id:$aspsmst_transaction_id exec_SendTextSMS(): ".
@@ -161,3 +200,11 @@ return (	$ErrorCode,
 
 1;
 
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

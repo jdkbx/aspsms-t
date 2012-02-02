@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,22 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - logging interface
+
+=head1 SYNOPSIS
+
+ use ASPSMS::aspsmstlog;
+ aspsmst_log("info","Starting up...");
+
+=head1 DESCRIPTION
+
+This function logs to debug messages to STDOUT and normal
+log messages to a syslog daemon.
+
+=cut
 
 package ASPSMS::aspsmstlog;
 
@@ -67,3 +82,11 @@ sub aspsmst_log
 
 1;
 
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

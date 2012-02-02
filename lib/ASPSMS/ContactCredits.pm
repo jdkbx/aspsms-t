@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,20 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - price list module
+
+=head1 DESCRIPTION
+
+This module load all network provider and credit price lists into local
+vars. aspsms-t use this vars to give a jabber user via status message
+an information how much an sms costs.
+
+=head1 METHODS
+
+=cut
 
 package ASPSMS::ContactCredits;
 
@@ -41,6 +54,13 @@ sub load_prefix_data
  {
   my @countries		= $ASPSMS::config::xml_fees->{"fees"}{"country"}('[@]','name');
   my @networks;
+
+=head2 load_prefix_data()
+
+This function load from etc/networks.xml and etc/fees.xml information about
+costs. This data will be loaded at startup time of aspsms-t one time.
+
+=cut
 
   foreach my $country_i (@countries)
    {
@@ -72,3 +92,12 @@ sub load_prefix_data
 
 1;
 
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

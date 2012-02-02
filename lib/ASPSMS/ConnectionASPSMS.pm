@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,19 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - connection handler
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+This module create io sockets and transport the sms message to the
+xml gateway of aspsms.com.
+
+=cut
 
 package ASPSMS::ConnectionASPSMS;
 
@@ -41,6 +53,22 @@ use Sys::Syslog;
 
 openlog($ASPSMS::config::ident,'','user');
 
+=head1 METHODS
+
+=head2 exec_ConnectionASPSMS()
+
+=over 2
+
+my $response = exec_ConnectionASPSMS($complete_http_request,
+   $aspsmst_transaction_id)
+
+=back
+
+This function send a complete http+xml request to the aspsms.com 
+xml service. 
+
+=cut
+
 sub exec_ConnectionASPSMS
  {
   my $completerequest 		= shift;
@@ -48,12 +76,19 @@ sub exec_ConnectionASPSMS
   aspsmst_log('debug',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): ".
   "Begin");
 	
+=head2
+
+An exeption handler gives response back to the jabber user
+
+=cut
+
   # /Generate SMS Request
   unless(ConnectAspsms($aspsmst_transaction_id) eq '0') 
    { return ('-1',"Sorry, $ASPSMS::config::ident transport is up and running but it ".
    		"is not able to reach one of the aspsms servers for ".
 		"delivering your sms message. Please try again later. ".
 		"Thank you!"); }
+
  
   # Send request to socket
   aspsmst_log('debug',"id:$aspsmst_transaction_id exec_ConnectionASPSMS(): ".
@@ -102,16 +137,15 @@ my $connect_retry 		= 0;
 my $max_connect_retry		= 4;
 my $connection_num		= 0;
 
-#
-# If connection failed we are trying to reconnect on another
-# aspsms xml server
-#
+=head2 ConnectAspsms()
+
+Connect to one of the configured aspsms.com xml services. If connection
+failed, the function trying to reconnect to another xml service ip.
+
+=cut
 
 while ()
  {
-  #
-  # Select on of the 4 servers
-  #
   $connection_num++;
 
 
@@ -121,10 +155,12 @@ while ()
   ":".$ASPSMS::config::aspsms_connection{"port_$connection_num"}.
   ") \$connect_retry=$connect_retry");
 
-  #
-  # Setup a socket connection to the selected
-  # server
-  # 
+=head2
+
+The function create a socket connection to the selected server.
+
+=cut
+
   $ASPSMS::config::aspsmssocket 
   = IO::Socket::INET->new( 
   PeerAddr => $ASPSMS::config::aspsms_connection{"host_$connection_num"},
@@ -162,9 +198,12 @@ while ()
    }
   else
    {
-    #
-    # Return connection sucessfully
-    #
+=head2
+
+If connection was successfully, function will return 0.
+
+=cut
+
     return 0;
    }
 
@@ -191,6 +230,13 @@ sub parse_aspsms_response
    my @xml				= @{$pointer_xml};
    my $tmp;
 
+=head2 parse_aspsms_response()
+
+From the http+xml response this function cuts all what we do not need.
+All between <aspsms> and </aspsms> is interessting for this function.
+
+=cut
+
    foreach $_ (@xml)
     {
      aspsmst_log("debug","id:$aspsmst_transaction_id parse_aspsms_response():".
@@ -201,8 +247,22 @@ sub parse_aspsms_response
    $tmp =~ s/(.*(<aspsms>.*<\/aspsms>).*|.*)/$2/gis;
    aspsmst_log("debug","id:$aspsmst_transaction_id parse_aspsms_response(): ".
    "Return: $tmp");
+=head2
+
+Return is cutted result.
+
+=cut
+
    return $tmp;
  }
 
 1;
 
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut
