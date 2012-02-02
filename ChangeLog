@@ -1,3 +1,8 @@
+2012-02-02 Marco Balmer  <marco@balmer.name>
+
+    * Migrating lib/ASPSMS/ to ASPSMS/ in a native perl module
+    * Copyright and License headers updated
+
 2011-10-13 Marco Balmer  <marco@balmer.name>
 
     * Staged sourcecode for debian packaging
