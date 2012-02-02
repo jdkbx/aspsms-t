@@ -1,2 +1,2 @@
-bin/aspsms-t usr/bin
-bin/aspsms-t.notify usr/bin
+aspsms-t usr/bin
+aspsms-t.notify usr/bin
