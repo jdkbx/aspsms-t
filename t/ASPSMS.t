@@ -5,11 +5,25 @@
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 
-use Test::More tests => 1;
-BEGIN { use_ok('ASPSMS') };
-
-#########################
-
-# Insert your test code below, the Test::More module is use()ed here so read
-# its man page ( perldoc Test::More ) for help writing this test script.
-
+use Test::More tests => 21;
+BEGIN { use_ok('ASPSMS::xmlmodel') };
+BEGIN { use_ok('ASPSMS::aspsmstlog') };
+BEGIN { use_ok('ASPSMS::CheckNotification') };
+BEGIN { use_ok('ASPSMS::config') };
+BEGIN { use_ok('ASPSMS::ConnectionASPSMS') };
+BEGIN { use_ok('ASPSMS::Connection') };
+BEGIN { use_ok('ASPSMS::ContactCredits') };
+BEGIN { use_ok('ASPSMS::DiscoNetworks') };
+BEGIN { use_ok('ASPSMS::GetNetworksFees') };
+BEGIN { use_ok('ASPSMS::InMessage') };
+BEGIN { use_ok('ASPSMS::Iq') };
+BEGIN { use_ok('ASPSMS::Jid') };
+BEGIN { use_ok('ASPSMS::Message') };
+BEGIN { use_ok('ASPSMS::Presence') };
+BEGIN { use_ok('ASPSMS::Regex') };
+BEGIN { use_ok('ASPSMS::Sendaspsms') };
+BEGIN { use_ok('ASPSMS::ShowBalance') };
+BEGIN { use_ok('ASPSMS::Storage') };
+BEGIN { use_ok('ASPSMS::UCS2') };
+BEGIN { use_ok('ASPSMS::userhandler') };
+BEGIN { use_ok('ASPSMS::xmlmodel') };
