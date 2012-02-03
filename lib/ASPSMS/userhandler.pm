@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,14 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - userhandler
+
+=head1 METHODS
+
+=cut
 
 package ASPSMS::userhandler;
 
@@ -51,6 +58,13 @@ my $barejid	= get_barejid($from);
 my $passfile 	= "$ASPSMS::config::passwords/$barejid";
 my $user = {}; my $ret;
 
+=head2 getUserPass()
+
+This function read a user object based on the jid (jabber-id). If no user
+exists, this function return -2 otherwise the user object.
+
+=cut
+
 $user = get_record("jid",$barejid);
 
 if($user == -2)
@@ -75,6 +89,14 @@ sub CheckNewUser {
 my $username =	shift;
 my $password = 	shift;
 my @answer;
+
+=head2 CheckNewUser()
+
+This function checks the given user/pass with the aspsms xml-server. In
+this case we use an already existing function xmlShowCredits() to do 
+that. 
+
+=cut
 
 aspsmst_log('info',"CheckNewUser(): Check new user on aspsms xml-server $username/$password");
 unless(ConnectAspsms() eq '0') {
@@ -105,3 +127,11 @@ return ($ErrorCode,$ErrorDescription);
 
 1;
 
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

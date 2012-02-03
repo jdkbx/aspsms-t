@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -19,6 +18,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
 
+=head1 NAME
+
+aspsms-t - notification module.
+
+=head1 SYNOPSIS
+
+my $ret = check_notification();
+
+=head1 DESCRIPTION
+
+Check configuration of aspsms.notify and make a syslog entry if it was 
+successfully.
+
+=cut
+
 package ASPSMS::CheckNotification;
 
 use strict;
@@ -38,13 +52,21 @@ use ASPSMS::config;
 use LWP::UserAgent;
 use URI::URL;
 
+=head1 Methods
 
-#
-# Send check url to verify configuration of
-# aspsms.notification.pl. This request will
-# make an syslog entry, that aspsms.notification.pl 
-# is successfully configured.
-#
+
+=over 1
+
+=item * check_notification()
+
+Send check url to verify configuration of aspsms.notify. This 
+request will make an syslog entry, that aspsms.notify is successfully
+configured.
+
+=back
+
+=cut
+
 sub check_notification 
  {
  
@@ -85,3 +107,11 @@ sub check_notification
 
 1;
 
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

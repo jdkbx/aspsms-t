@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -19,51 +18,52 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
 
-package ASPSMS::aspsmstlog;
+=head1 NAME
+
+aspsms-t - convert jid to bare jid
+
+=head1 DESCRIPTION
+
+This module converts a jid user@domain.tld/ressource to a normal jid without
+ressource user@domain.tld which is used for most actions in aspsms-t.
+
+=head1 METHODS
+
+=cut
+
+package ASPSMS::Jid;
 
 use strict;
+use ASPSMS::config;
 use vars qw(@EXPORT @ISA);
 use Exporter;
 
 @ISA 			= qw(Exporter);
-@EXPORT 		= qw(aspsmst_log);
-
+@EXPORT 		= qw(get_barejid);
 
 use Sys::Syslog;
+use ASPSMS::aspsmstlog;
 
+=head2 get_barejid()
 
-sub aspsmst_log
+my $barejid = get_barejid($jid);
+
+=cut
+
+sub get_barejid
  {
-   my $type      = shift;
-   my $msg       = shift;
-
-   unless ($type eq 'debug')
-
-    {
-     print "\n[$type]  $msg";
-
-     eval
-      {
-       syslog($type,"[$type] $msg");
-      };
-     
-     #
-     # If we have a problem logging a message, we logging a 
-     # warning.
-     #
-     if($@)
-      {
-       syslog($type,"aspsmst_log(): Exeption: We have problem to log a message -- Ignore");
-      }
-    }
-
-   else
-
-    {
-     print "\n[debug] $msg";
-    }
-
- } ### END of aspsmst_log
+   my $jid = shift;
+   my ($barejid)                 = split (/\//, $jid);
+   return $barejid;
+ } # END of get_barejid
 
 1;
 
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

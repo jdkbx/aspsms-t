@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,14 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - message handler, help messages and other functions
+
+=head1 METHODS
+
+=cut
 
 package ASPSMS::Message;
 
@@ -44,10 +51,15 @@ sub sendAdminMessage
    my $msg	= shift;
    my $msg_id	= shift;
 
-   #
+=head2 sendAdminMessage()
+
+If something happen which is necessary to inform the admin of the transport,
+this function send all necessary information to the admin.
+
+=cut
+
    # If we have no transaction id, 
    # generate one.
-   # 
    unless($msg_id)
     {
      $msg_id = get_transaction_id();
@@ -77,6 +89,14 @@ sub ShowBalanceMessage
    my $Credits	= shift;
    my $msg_id	= shift;
    my $send_msg;
+
+=head2 ShowBalanceMessage()
+
+If you had requested how much credits you have at aspsms.com, this function
+will generate the message with balance information and send it to the 
+jabber user.
+
+=cut
 
    unless($Credits == -2)
    {
@@ -114,6 +134,13 @@ sub HelpMessage
    my $to 	= shift;
    my $msg_id	= shift;
 
+=head2 HelpMessage()
+
+If you sent '!help` to the transport, it will call this function and send you
+a help message.
+
+=cut
+
    my $send_msg = "
 Hello, this is $ASPSMS::config::ident at $ASPSMS::config::service_name. It is a sms-transport 
 gateway.
@@ -125,7 +152,7 @@ The following commands are available:
 
 ---
 $ASPSMS::config::ident build $ASPSMS::config::release
-http://www.micressor.ch/content/projects/aspsms-t";
+https://github.com/micressor/aspsms-t";
 
 SendMessage( $to,
              $from,
@@ -149,6 +176,13 @@ sub SendMessage
    my $subject	= shift;
    my $text	= shift;
 
+=head2 SendMessage()
+
+This is a fuction used by aspsms-t to send messages mith several content
+to the jabber users.
+
+=cut
+
 aspsmst_log("debug","id: $transid SendMessage(): to $to \$msg_id=$msg_id");
 
    my $msg= new Net::Jabber::Message();
@@ -165,6 +199,13 @@ $ASPSMS::config::Connection->Send($msg);
 
  }
 
+=head2 get_transaction_id()
+
+Get a random integer transaction id to idetify sms messages between aspsms.com
+and jabber. 
+
+=cut
+
 sub get_transaction_id
  {
   my $trans_id = int( rand(10000)) + 10000;
@@ -173,3 +214,12 @@ sub get_transaction_id
 
 
 1;
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

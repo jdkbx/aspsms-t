@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -19,15 +18,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
 
+=head1 NAME
+
+ASPSMS - Perl module providing an easy sms interface
+
+=head1 SYNOPSIS
+
+ use ASPSMS::config;
+ my $ret_config = set_config($xmlconfigfile);
+
+=cut
+
 package ASPSMS::config;
 
 use strict;
-use vars qw(@EXPORT @ISA);
-use Exporter;
+use warnings;
 
 use XML::Smart;
 use ASPSMS::aspsmstlog;
 use ASPSMS::ContactCredits;
+
+require Exporter;
+
+our @ISA = qw(Exporter);
+
+use vars qw(@EXPORT @ISA);
+
 
 # Legacy to perl module
 our $VERSION   = "1.3.0";
@@ -69,9 +85,12 @@ our $transport_uptime_hours;
 our $aspsmst_stat_stanzas 	= 0;
 our $aspsmst_in_progress 	= 0;
 
-#
-# 1=Enable xmpp debug messages 0=Disabled
-#
+=head2 OPTIONS
+
+xmpp_debuglevel (1=Enable xmpp debug messages,0=Disabled)
+
+=cut
+
 our $xmpp_debuglevel		= 0;
 
 our $aspsmst_flag_shutdown	= 0;
@@ -167,3 +186,11 @@ $xml_fees	= XML::Smart->new("./etc/fees.xml") or return -1;
 
 1;
 
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

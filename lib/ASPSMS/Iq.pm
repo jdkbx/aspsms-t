@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,18 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - jabber iq (information query) handler
+
+=head1 DESCRIPTION
+
+This module handles all transport register and service discovery requests.
+
+=head1 METHODS
+
+=cut
 
 package Iq;
 
@@ -55,9 +66,12 @@ my $admin_jid	= $ASPSMS::config::admin_jid;
 my $passwords	= $ASPSMS::config::passwords;
 
 sub InIQ {
+=head2 InIQ()
 
- # Incoming IQ. Handle jabber:iq:registration with add/remove source 
- # dialog, return error 501 for other NS's.
+Incoming Iq. Handle jabber:iq:registration with add/remove source 
+dialog, return error 501 for other NS's.
+
+=cut
 
  $ASPSMS::config::aspsmst_stat_stanzas++;
 
@@ -143,6 +157,15 @@ my $errorcode 	= shift;
 my $error 	= shift;
 my $iq;
 
+=head2 SendIQError()
+
+If something at aspsms-t does not work, we have to inform the jabber user.
+This function generates an information query (iq) error and send them
+to the jabber user. This function can be called from any place in the
+aspsms-t code.
+
+=cut
+
   aspsmst_log('info',"SendIQError(): Sending IQ to $to");
   $iq = new Net::Jabber::IQ();
 
@@ -170,6 +193,19 @@ my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
 my $banner	= $ASPSMS::config::banner;
 
+=head2 jabber_register()
+
+Via this function, a jabber user can register his jabber id at the aspsms-t
+transport.
+
+=over 4
+
+=item * If request type is 'get`, we send him a registration form via jabber.
+
+=back
+
+=cut
+
   if ($type eq 'get') 
    {
     $iq->SetType('result');
@@ -182,6 +218,18 @@ Please enter Username
 (https://www.aspsms.ch/userkey.asp) and 
 password of your aspsms.com account.
 Support contact xmpp: $ASPSMS::config::admin_jid");
+
+=head2
+
+=over 4
+
+=item * Via getUserPass() we read users properties if his jabber id was 
+already existing. This case is if a user would like to change his
+registration or passwort.
+
+=back
+
+=cut
 
     my $ret_user 	= getUserPass($from,$banner);
     my $user 		=  {};
@@ -230,7 +278,16 @@ Support contact xmpp: $ASPSMS::config::admin_jid");
     return;
    } # if ($remove) {
 
-    # check aspsms user trough gateway of aspsms.com
+=head2
+
+=over 4
+
+=item * Via CheckNewUser() we call aspsms.com to check is the USERKEY and 
+password at aspsms.com correct.
+
+=back
+
+=cut
     my ($ErrorCode,$ErrorDescription) = CheckNewUser($name,$pass);
     unless($ErrorCode == 1)
      {
@@ -242,13 +299,17 @@ Support contact xmpp: $ASPSMS::config::admin_jid");
       SendIQError($id,$from,$ErrorCode,$ErrorDescription);
       return;
      };
+=head2
+
+=over 4
+
+=item * If already another jabber id is registered with the same aspsms USERKEY,
+we reject them, because we can not handle delivery notifications for more
+than one registration with the same USERKEY.
 			
-  #
-  # Check: Is already another jid with the same USERKEY 
-  # 	   registered? If yes, reject registration of
-  # 	   this jid.
-  #
-  #
+=back
+
+=cut
 
   my $check_two_userdata 	= get_record("userkey",$name);
 
@@ -262,10 +323,16 @@ Support contact xmpp: $ASPSMS::config::admin_jid");
      } ### unless($barefrom eq $check_two_jid)
    } ### unless($check_two_userdate == -2)
 
-  #
-  # store configuration to the spool directory
-  # via set_record();
-  #
+=head2
+
+=over 4
+
+=item * If everything is ok, we store the registration info to the spool
+directory of aspsms-t. To do this we call the function set_record().
+
+=back
+
+=cut
 
   my $userdata = {};
   $userdata->{gateway} 	= $gateway; 
@@ -287,6 +354,17 @@ Support contact xmpp: $ASPSMS::config::admin_jid");
   my $presence = new Net::Jabber::Presence();
   
   aspsmst_log('info',"jabber_register(): RegisterManager.Complete: for $from $name:$phone:$pass:$signature");
+
+=head2
+
+=over 4
+
+=item * And send to the jabber user a roster item via SendPresence() which is 
+necessary to handle furthur sms send requests.
+
+=back
+
+=cut
   
   sendPresence($from,"$ASPSMS::config::service_name/registered", 'subscribe');
  } else 
@@ -306,6 +384,16 @@ my $id 		= $iq->GetID();
 my $type 	= $iq->GetType();
 my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
+
+=head2 jabber_iq_gateway()
+
+It enables a client to send a legacy username to the gateway and receive a 
+properly-formatted JID in return. To do so, the client sends the legacy 
+address to the gateway as the character data of the <prompt/> element and the 
+gateway returns a valid JID as the character data of the <jid/> element.
+http://xmpp.org/extensions/xep-0100.html#addressing-iqgateway
+
+=cut
 
      if ($type eq 'get') 
      {
@@ -354,6 +442,21 @@ my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();  
 my $barejid	= get_barejid($from);
 
+=head2 jabber_iq_browse()
+
+The Jabber world is a diverse place, with lots of services, transports, 
+software agents, users, groupchat rooms, translators, headline tickers, and 
+just about anything that might interact on a real-time basis using 
+conversational messages or presence. Every JabberID (JID) is a node that can 
+be interacted with via messages, presence, and special purpose IQ namespaces. 
+Some JIDs are parents (such as transports), and often many JIDs have 
+relationships with other JIDs (such as a user to their resources, a server to 
+its services, etc.). We need a better way to structure and manage this culture 
+of multi-namespace JID stew. The answer: Jabber Browsing.
+http://xmpp.org/extensions/xep-0011.html
+
+=cut
+
   my $namespaces = [ 'jabber:iq:register', 'jabber:iq:gateway','jabber:iq:version' ];
 
   if ($type eq 'get') 
@@ -388,6 +491,20 @@ my $type 	= $iq->GetType();
 my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
 my $barejid	= get_barejid($from);
+
+=head2 jabber_iq_disco_info()
+
+The ability to discover information about entities on the Jabber network is 
+extremely valuable. Such information might include features offered or 
+protocols supported by the entity, the entity's type or identity, and 
+additional entities that are associated with the original entity in some 
+way (often thought of as "children" of the "parent" entity). While mechanisms 
+for doing so are not defined in XMPP Core [1], several protocols have been 
+used in the past within the Jabber community for service discovery, 
+specifically Jabber Browsing [2] and Agent Information [3].
+http://xmpp.org/extensions/xep-0030.html#intro
+
+=cut
 
 if($to eq $ASPSMS::config::service_name)
  {
@@ -431,6 +548,12 @@ my $type 	= $iq->GetType();
 my $query 	= $iq->GetQuery();
 my $xml		= $iq->GetXML();
 my $barejid	= get_barejid($from);
+
+=head2 jabber_iq_disco_items()
+
+According to jabber_iq_disco_info.
+
+=cut
 
     my $iqQuery = $iq->NewQuery("http://jabber.org/protocol/disco#items");
 
@@ -478,9 +601,14 @@ my $xml		= $iq->GetXML();
 my $barejid	= get_barejid($from);
 aspsmst_log('info',"id=$id jabber_iq_xmlsrv($barejid): Processing xmlsrv.asp query");
 
-	#
-	# Direct access to the aspsms:com xml srv
-	#
+=head2 jabber_iq_xmlsrv()
+
+Via jabber you are able to access to the xml interface from aspsms.com directly
+with an iq (information query). Send an iq to aspsms.domain.tld/xmlsrv.asp
+and it will directly forwarded to the aspsms.com. The result is the response
+from aspsms.com xml interface via a regulary jabber iq message.
+
+=cut
 
 	if ($type eq 'set')
 	 {
@@ -515,6 +643,13 @@ sub jabber_iq_remove
  my $passfile	= shift;
  my $barejid	= get_barejid($from);
 
+=head2 jabber_iq_remove()
+
+If a jabber user deletes aspsms.domain.tld from his roster, jabber_iq_remove()
+will be called and his registration information via delete_record() removed.
+
+=cut
+
     aspsmst_log('info',"jabber_register($barejid): Execute remove registration of $passfile");
 
     #
@@ -524,10 +659,11 @@ sub jabber_iq_remove
     my $ret_unlink = delete_record("jabber_register",$passfile);
     aspsmst_log('info',"jabber_register($barejid): Execute remove completed delete_record($passfile): Return $ret_unlink");
 
-    #
-    # If delete of passfile was successfully then send presence 
-    # unsubscribe
-    #
+=head2
+
+If delete of passfile was successfully then send presence unsubscribe.
+
+=cut
 
     if($ret_unlink == 0)
     {
@@ -566,3 +702,12 @@ return $ret_unlink;
 
 
 1;
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

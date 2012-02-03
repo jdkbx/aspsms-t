@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,14 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - jabber presence handler
+
+=head1 METHODS
+
+=cut
 
 package Presence;
 
@@ -40,10 +47,12 @@ use ASPSMS::Storage;
 sub sendError {
 my ($msg, $to, $from, $code, $text) = @_;
 
-#$text .= "
-#
-#Do you need support with $ASPSMS::config::ident ?
-#Support contact is xmpp: $ASPSMS::config::admin_jid";
+=head2 sendError()
+
+If something goes wrong, this function send a jabber error iq message to
+the jabber user.
+
+=cut
 	
 $msg->SetType('error');
 $msg->SetFrom($from);
@@ -59,9 +68,14 @@ aspsmst_log('warning',"sendError($to): $code,$text");
 
 
 sub InPresence {
-# Incoming presence. Reply to subscription requests with proper subscription 
-# actions, reply to probe presence with gateways presence.
-# On registration requests, accept and send a gateways status presence update.
+
+=head2 InPresence()
+
+Incoming presence. Reply to subscription requests with proper subscription 
+actions, reply to probe presence with gateways presence.
+On registration requests, accept and send a gateways status presence update.
+
+=cut
 
 $ASPSMS::config::aspsmst_stat_stanzas++;
 
@@ -152,6 +166,16 @@ sub sendGWNumPresences
  my $prefix = substr($number, 0, 5);
  my $presence = new Net::Jabber::Presence();
 
+=head2 sendGWNumPresences()
+
+If you have added sms numbers as a jabber roster contact. This function will
+set the status of this contacts to online if everything is ok with aspsms-t.
+
+Additionally it add costs for an sms to this contact in the status line
+of this jabber roster user.
+
+=cut
+
  #
  # How much costs this number prefix.
  #
@@ -160,9 +184,20 @@ sub sendGWNumPresences
  
  for (my $i=3;$i<=14;$i++)
   {
-   #
-   # Check prefix between 3 and 14 numbers 
-   #
+
+=head2
+
+=over 4
+
+=item * Check prefix between 3 and 14 numbers
+
+=item * If a prefix was found it add corresponding costs in credits to
+the status line of this contact.
+
+=back
+
+=cut
+
    $prefix 	= substr($number, 0, $i);
    $prefix =~ s/\+/00/g;
    $credits 	= $ASPSMS::config::prefix_data->{"$prefix"};
@@ -193,6 +228,12 @@ sub sendGWNumPresences
 sub sendPresence {
 my ($to, $from, $type, $show, $status) = @_;
 
+=head2 sendPresence()
+
+This fucntion sends all presence stanzas which going out from aspsms-t.
+
+=cut
+
 my $pres = new Net::Jabber::Presence();
 
 $pres->SetType($type);
@@ -217,3 +258,12 @@ $ASPSMS::config::Connection->Send($pres);
 }
 
 1;
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

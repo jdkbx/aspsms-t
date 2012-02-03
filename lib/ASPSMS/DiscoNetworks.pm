@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,20 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - jabber disco service presendation
+
+
+=head1 DESCRIPTION
+
+This module shows via jabber disco service which networks are supported
+and how much cost an sms to a number.
+
+=head1 METHODS
+
+=cut
 
 package ASPSMS::DiscoNetworks;
 
@@ -43,6 +56,15 @@ sub disco_get_aspsms_networks
  my $iqQuery	= shift;
  my $from	= shift;
  my $to		= shift;
+
+=head2 disco_get_aspsms_networks($iqQuery,$from,$to)
+
+iqQueries (jabber information queries) are routed directly to this function.
+If a jabber user browse through the service discovery browser and look into
+the aspsms-t service. This function shows all supported networks and
+number prefix and sms costs.
+
+=cut
 
       my @countries	= $ASPSMS::config::xml_networks->{networks}{country}('[@]','name');
 
@@ -134,3 +156,11 @@ sub disco_get_aspsms_networks
 
 1;
 
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

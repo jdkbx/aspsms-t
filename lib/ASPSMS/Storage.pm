@@ -1,4 +1,3 @@
-# aspsms-t
 # http://www.swissjabber.ch/
 # https://github.com/micressor/aspsms-t
 #
@@ -18,6 +17,14 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
+
+=head1 NAME
+
+aspsms-t - spool storage manipulation functions
+
+=head1 METHODS
+
+=cut
 
 package ASPSMS::Storage;
 
@@ -39,6 +46,15 @@ sub get_record
  {
   my $get_type 		= shift;
   my $jid_userkey	= shift;
+
+=head2 get_record()
+
+my $userobject = get_record($type,$jid or $userkey)
+
+Based on what we need, we can read USERKEY or jid (jabber-id) from spool 
+storage.
+
+=cut
   
   my $user = {};
 
@@ -122,6 +138,17 @@ sub set_record
    my $passfile	= shift;
    my $userdata	= shift;
 
+=head2 set_record()
+
+my $ret = set_record($jid,$userdataobject);
+
+This function is called from jabber register functions to store new user
+configurations to the spool/ directory.
+
+It returns 0 for ok and -1 for a failure.
+
+=cut
+
    aspsmst_log("debug","set_record($set_by,$passfile): Store passfile $passfile");
    
    my $data = join(':',	
@@ -153,6 +180,16 @@ sub delete_record
    my $set_by	= shift;
    my $passfile	= shift;
 
+=head2 delete_record()
+
+my $ret = delete_record($set_by,$passfile);
+
+This function remove a registration of a jabber user. This function is called
+by jabber_iq_remove() if a user want to unregister his configuration 
+from aspsms-t.
+
+=cut
+
    aspsmst_log("info","delete_record($set_by,$passfile): Delete passfile $passfile");
    
   eval {
@@ -171,3 +208,12 @@ return 0;
 
 
 1;
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut
