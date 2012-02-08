@@ -8,6 +8,7 @@
     * aspsms-t: Migrate manpage file to po documentation
     * aspsms-t.notify: same
     * Remove etc/{networks,fees}.xml from source distribution
+    * Relocate docs/ to .
 
 2012-02-02 Marco Balmer  <marco@balmer.name>
 
