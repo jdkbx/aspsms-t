@@ -42,11 +42,13 @@ and the coresponding sms status.
 
 notify example
 
-aspsms-t.notify?xml=notify,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
+aspsms-t.notify?xml="notify,,,004179xyzx,,,$USERKEY,,,<Originator>,,,
+<MessageData>"
 
 twoway example
 
-aspsms-t.notify?xml=twoway,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
+aspsms-t.notify?xml="twoway,,,004179xyzx,,,$USERKEY,,,<Originator>,,,
+<MessageData>"
 
 
 aspsms-t.notify uses this information from the stream and put it via jabber 
