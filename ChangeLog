@@ -9,6 +9,7 @@
     * aspsms-t.notify: same
     * Remove etc/{networks,fees}.xml from source distribution
     * Relocate docs/ to .
+    * lib/ASPSMS/Iq.pm: Fix a registration/remove bug.
 
 2012-02-02 Marco Balmer  <marco@balmer.name>
 
