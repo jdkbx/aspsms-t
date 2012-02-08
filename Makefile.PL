@@ -15,4 +15,7 @@ WriteMakefile(
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/ASPSMS/config.pm', # retrieve abstract from module
        AUTHOR         => 'Marco balmer <marco@balmer.name>') : ()),
+    MAN1PODS         => { 
+  'aspsms-t.notify'    => 'blib/man3/aspsms-t.notify.3p',  
+  'aspsms-t'    => 'blib/man1/aspsms-t.1p' } 
 );
