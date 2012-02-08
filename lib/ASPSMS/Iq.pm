@@ -30,7 +30,7 @@ This module handles all transport register and service discovery requests.
 
 =cut
 
-package Iq;
+package ASPSMS::Iq;
 
 use strict;
 use ASPSMS::config;
@@ -272,7 +272,7 @@ registration or passwort.
   # Remove = 1 ?????
   #
   aspsmst_log('notice',"jabber_register(): remove flag: $remove for $from");
-  unless ($remove == 1) 
+  if ($remove == 1) 
    {
     jabber_iq_remove($from,$id,$passfile);
     return;

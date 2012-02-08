@@ -1,3 +1,17 @@
+2012-02-08 Marco Balmer  <marco@balmer.name>
+
+    * update_networks_fees() load before set_config
+    * update_networks_fees(): Move to new cachedir
+    * lib/ASPSMS/Storage: Remove eval; improove exeption handling
+    * lib/ASPSMS/aspsmstlog.pm: Fix if we cannot log to syslog.
+    * README: update documentation
+    * aspsms-t: Migrate manpage file to po documentation
+    * aspsms-t.notify: same
+    * Remove etc/{networks,fees}.xml from source distribution
+    * Relocate docs/ to .
+    * lib/ASPSMS/Iq.pm: Fix a registration/remove bug.
+    * Update pod documentation
+
 2012-02-02 Marco Balmer  <marco@balmer.name>
 
     * Migrating lib/ASPSMS/ to ASPSMS/ in a native perl module

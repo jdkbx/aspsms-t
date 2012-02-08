@@ -68,7 +68,7 @@ sub aspsmst_log
      #
      if($@)
       {
-       syslog($type,"aspsmst_log(): Exeption: We have problem to log a message -- Ignore");
+       print "\n[debug] aspsmst_log(): Exeption: We have problem to log a message -- Ignore";
       }
     }
 

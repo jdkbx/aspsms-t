@@ -63,16 +63,10 @@ storage.
    {
     aspsmst_log("debug","get_record($get_type): Processing file $ASPSMS::config::passwords/$file");
     
-    eval
-    {
-     open(F, "<$ASPSMS::config::passwords/$file") or die "Problem: $!\n";
-    };
+    my $ret_open =  open(F, "<$ASPSMS::config::passwords/$file");
 
-    #
     # If we can not open the passfile, return -2 (user not registered)
-    #
-
-    if($@)
+    if($ret_open ne "1")
      {
       aspsmst_log("alert","get_record($get_type,$jid_userkey): Problem to open passfile $file:");
       aspsmst_log("alert","get_record($get_type,$jid_userkey): $@");
@@ -159,18 +153,16 @@ It returns 0 for ok and -1 for a failure.
 	$userdata->{signature}
 	);
 
-eval {
-      open(F, ">$passfile");
-      print(F "$data\n");
-      close(F);
-     };
+      my $ret_open = open(F, ">$passfile");
 
-if($@)
+if($ret_open ne "1")
  {
   aspsmst_log("alert","set_record($set_by,$passfile): Problem to read passfile $passfile");
   return -1;
  }
  
+      print(F "$data\n");
+      close(F);
 
 return 0;
  } ### END of get_data_from_storage ###
@@ -192,11 +184,9 @@ from aspsms-t.
 
    aspsmst_log("info","delete_record($set_by,$passfile): Delete passfile $passfile");
    
-  eval {
-        unlink($passfile);
-       };
+  my $ret_delete = unlink($passfile);
 
-if($@)
+if($ret_delete eq "0")
  {
   aspsmst_log("alert","delete_record($set_by,$passfile): Problem to delete passfile $passfile");
   return -1;

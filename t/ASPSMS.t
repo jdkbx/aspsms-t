@@ -5,7 +5,7 @@
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 
-use Test::More tests => 21;
+use Test::More tests => 29;
 BEGIN { use_ok('ASPSMS::xmlmodel') };
 BEGIN { use_ok('ASPSMS::aspsmstlog') };
 BEGIN { use_ok('ASPSMS::CheckNotification') };
@@ -27,3 +27,12 @@ BEGIN { use_ok('ASPSMS::Storage') };
 BEGIN { use_ok('ASPSMS::UCS2') };
 BEGIN { use_ok('ASPSMS::userhandler') };
 BEGIN { use_ok('ASPSMS::xmlmodel') };
+BEGIN { use_ok('File::Pid') };
+BEGIN { use_ok('Net::Jabber') };
+BEGIN { use_ok('XML::Parser') };
+BEGIN { use_ok('XML::Smart') };
+BEGIN { use_ok('Sys::Syslog') };
+BEGIN { use_ok('LWP::UserAgent') };
+BEGIN { use_ok('URI::URL') };
+BEGIN { use_ok('Sys::Syslog') };
+

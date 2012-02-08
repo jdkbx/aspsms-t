@@ -7,6 +7,9 @@
 
 	<!-- IMPORTANT: Data spool folder -->
 	<spooldir>/home/jabberd/spool/aspsms.jabberserver.ch</spooldir>
+
+	<!-- IMPORTANT: Data cache folder -->
+	<cachedir>/home/jabberd/spool/aspsms.jabberserver.ch</cachedir>
  
 	<!-- Notification url for aspsms.com. The system of aspsms will send 
 	     the delivery notifications to this url. It must point 

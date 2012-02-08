@@ -26,7 +26,7 @@ aspsms-t - jabber presence handler
 
 =cut
 
-package Presence;
+package ASPSMS::Presence;
 
 use strict;
 use ASPSMS::config;

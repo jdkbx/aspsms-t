@@ -20,8 +20,175 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
 
+=head1 NAME
+
+aspsms-t - xmpp/jabber to sms transport for aspsms
+
+=head1 SYNOPSIS
+
+aspsms-t -c <configfile>
+
+=head1 DESCRIPTION
+
+aspsms-t is an open source jabber2sms transport, which
+allows you to send sms messages over the jabber network through the 
+gateway-system of aspsms.com (https://www.aspsms.com). A lot of networks 
+are supported.                                                                      
+Normal TextSMS messages usually costs 1 aspsms Credit. aspsms-t deliver 
+very fast and will send you a jabber status message. A second message will 
+receive, if your sms was successfully delivered to the mobile device.
+
+=over 2
+
+=item * It supports simple text SMS with a maximum of 160 characters. If your 
+message is >160 characters, aspsms-t will split it automatically in more 
+than one part.
+
+=item * Support for Arabic and other oriental characters up to 87 characters 
+each sms.
+
+=item * Delivery notification for each sms with a unique transaction number
+
+=item * It can set alphanumeric originator of every sms. This can be a mobile 
+phone or a short text with a maximum of 11 characters.
+
+=back
+
+=head1 JABBERD14 CONFIGURATION
+
+Add the following lines to jabber.xml for jabberd14:
+
+=over 4
+
+<service id='sms-linker'>
+ <host>sms.domain.ch</host>
+ <accept>
+   <ip>127.0.0.1</ip>
+   <port>5245</port>
+   <secret>secret</secret>
+   <timeout>30</timeout>
+ </accept>
+ </service>
+
+=back
+
+Restart your jabberd.
+
+
+=head1 EJABBERD CONFIGURATION
+
+vi ejabberd.cfg:
+
+=over 4
+
+ %% ASPSMS Transport
+ {5245, ejabberd_service, 
+   [ {ip, {127, 0, 0, 1}},
+     {access, all},
+     {host, "aspsms.domain.tld", [{password, "secret"}]}
+ ]},
+
+=back
+
+=head1 DNS CONFIGURATION
+
+1. Add the SRV Record to the dns zone:
+
+=over 4
+
+  _xmpp-server._tcp.aspsms.domain.ch. 900 IN SRV 1 1 5269 domain.ch.
+
+=back
+
+2. Restart your nameserver.
+
+=head1 ASPSMS-T CONFIGURATION
+
+=over 2
+
+=item * Copy ./etc/aspsms-t.xml.dist to /etc/aspsms-t.xml and configure it
+
+=item * (optional) Configuring the delivery notification agent 
+
+=back
+
+=head1 ASPSMS-T WEB NOTIFICATION
+
+=over 2
+
+=item * Create a jabber account aspsms@domain.tld and update your 
+aspsms-t.xml and aspsms-t.notify.xml in section <notification/>
+
+=item * Make aspsms-t.notify available over an url for example like this:
+
+ $ cd /home/www/website
+ $ mkdir aspsms
+ $ mkdir aspsms/etc
+ $ cd aspsms
+ $ cp $SRC/aspsms-t.notify .
+ $ cp $SRC/etc/aspsms-t.notify.xml.dist etc/aspsms-t.notify.xml
+ $ chmod 755 aspsms-t.notify aspsms-t.notify.xml
+ $ vi ./etc/.htaccess
+     order deny,allow
+     deny from all
+ $ chmod 750 ./etc/.htaccess
+
+=item * Test your installation: http://www.domain.tld/aspsms/aspsms-t.notify
+
+=back
+
+Output:
+ <aspsms>
+   <ident>aspsms-t</ident>
+   <stream/>
+   <reply>
+     <status>No xml-stream found</status>
+   </reply>
+ </aspsms>
+
+means: Configuration is ok!
+
+=head1 NETWORKS
+
+List of supported networks:
+ http://xml1.aspsms.com:5061/opinfo/networks.xml
+List of networks with termination fees:
+ http://xml1.aspsms.com:5061/opinfo/fees.xml
+
+=head1 OPTIONS
+
+Select configuration <aspsms-t.xml>
+
+=head1 EXAMPLES
+
+aspsms-t -c /etc/aspsms-t.xml
+
+=head1 SEE ALSO
+
+aspsms-t.notify(1)
+
+=head1 FILES
+
+/etc/aspsms-t.xml
+The main aspsms-t configuration file
+
+=head1 AUTHORS
+
+Written by Marco Balmer
+
+=head1 RESOURCES
+
+http://github.com/micressor/aspsms-t/
+http://www.aspsms.com/documentation/
+
+=head1 METHODS
+
+=head2 main()
+
+=cut
+
 use strict;
-use lib "./lib";
+use lib "./lib"; # For development only
 
 use ASPSMS::config;
 
@@ -40,10 +207,19 @@ use ASPSMS::Connection;
 use ASPSMS::aspsmstlog;
 use ASPSMS::ContactCredits;
 use ASPSMS::CheckNotification;
-use ASPSMS::GetNetworksFees;
 use ASPSMS::InMessage;
 				  
 ### BEGIN CONFIGURATION ###
+
+=head2
+
+=over 4
+
+=item * Set pid file
+
+=back
+
+=cut
 
 aspsmst_log("info","Starting up..."); 
 my $pidfile = File::Pid->new({
@@ -58,30 +234,41 @@ if ( my $num = $pidfile->running ) {
   
 $pidfile->write;
 
+=head2
+
+=over 4
+
+=item * set_config to read ./aspsms.xml and set all necessary vars.
+
+=back
+
+=cut
+
   my $ret_config = set_config($ARGV[1]);
   unless($ret_config == 0 and $ARGV[0] eq "-c")
    { 
-    aspsmst_log("debug","Error: read config file $ARGV[1]");
+    aspsmst_log("error","Error: stage config file $ARGV[1]");
     aspsmst_log("debug","Exit: $ret_config");
     aspsmst_log("debug","Usage: ./aspsms-t.pl -c aspsms.xml");
     print "\n";
     exit($ret_config);
    } ### END of unless($ret_config == 0)
 
-#
-# Loading prefix data
-#
-aspsmst_log("info","set_config(): Load prefix data from etc/fees.xml");
-update_networks_fees();
-load_prefix_data();
-
 
 use Sys::Syslog;
 openlog($ASPSMS::config::ident,'',"$ASPSMS::config::facility");
 
+=head2
 
-# Initialisation timer for message and notification statistic to syslog
-# Every 300 seconds, it will generate a syslog entry with statistic infos
+=over 4
+
+=item * Initialisation timer for message and notification statistic to syslog 
+Every 300 seconds, it will generate a syslog entry with statistic infos
+
+=back
+
+=cut
+
 my $timer					= 295;
 $ASPSMS::config::transport_uptime			= 0;
 
@@ -102,10 +289,17 @@ $SIG{ABRT} 	= sub { $ASPSMS::config::aspsmst_flag_shutdown="ABRT"; 	};
 #$SIG{SEGV} 	= sub { $ASPSMS::config::aspsmst_flag_shutdown="SEGV"; 	};
 $SIG{ALRM} 	= sub { die "Unexepted Timeout" 		};
 
-#
-# Check configuration of aspsms.notification.pl 
-# and make a syslog entry if it is successfully.
-#
+=head2
+
+=over 4
+
+=item * Check configuration of aspsms-t.notify and make a syslog entry if it 
+is successfully.
+
+=back
+
+=cut
+
 my $ret_check_notification = check_notification();
 aspsmst_log('info',"Init(): check_notification(): Return: $ret_check_notification");
 
@@ -114,17 +308,32 @@ Connect();
 
 sendAdminMessage("info","Init(): \$service_name=$ASPSMS::config::service_name \$release=$ASPSMS::config::release");
 
-#
-# aspsms-t main loop until we're finished.
-#
+=head2
+
+=over 4
+
+=item * starting aspsms-t main loop
+
+=back
+
+=cut
+
 while () 
  {
 
   $ASPSMS::config::transport_uptime++;$timer++;
 
-  #
-  # Check every second for work (Process(1))
-  #
+=head2
+
+=over 4
+
+=item * Check every second for work (Process(1))
+
+=item * Calculate messages/stanzas/uptime every 300 secs
+
+=back
+
+=cut
 
   ReConnect() unless defined($ASPSMS::config::Connection->Process(1));
   if($timer == 300)
@@ -164,9 +373,16 @@ while ()
     $timer = 0;
    } 
 
- #
- # Entry point for shutdown if flag is set
- #
+=head2
+
+=over 4
+
+=item * Entry point for shutdown if flag ($ASPSMS::config::aspsmst_flag_shutdown is 0.
+
+=back
+
+=cut
+
  unless($ASPSMS::config::aspsmst_flag_shutdown eq "0")
   {
    Stop($ASPSMS::config::aspsmst_flag_shutdown);
@@ -177,8 +393,14 @@ while ()
 Stop("The connection was killed...");
 
 sub Stop {
-# Terminate the SMS component's current run.
 my $err = shift;
+
+=head2 Stop()
+
+Terminate the SMS component's current run.
+
+=cut
+
 aspsmst_log('info',"Stop(): Shutting down aspsms-t \$aspsmst_in_progress=$ASPSMS::config::aspsmst_in_progress \$aspsmst_flag_shutdown=$ASPSMS::config::aspsmst_flag_shutdown");
 
 
@@ -197,6 +419,13 @@ exit(0);
 
 sub SetupConnection {
 
+=head2 SetupConnection()
+
+Setup jabber component connection. This is used to connect as component
+of the jabber server and not as a normal user.
+
+=cut
+
 $ASPSMS::config::Connection = new Net::Jabber::Component(debuglevel=>$ASPSMS::config::xmpp_debuglevel, debugfile=>"stdout");
 
 my $status = $ASPSMS::config::Connection->Connect("hostname" => $ASPSMS::config::server, "port" => $ASPSMS::config::port, "secret" => $ASPSMS::config::secret, "componentname" => $ASPSMS::config::service_name);
@@ -206,12 +435,24 @@ if (!(defined($status))) {
   aspsmst_log("info","SetupConnection(): Error: Jabber server is down or connection was not allowed. $!\n");
 }
 
+=head2
+
+If setup was successful we setting call backs 
+
+=cut
+
 $ASPSMS::config::Connection->SetCallBacks("message" => \&InMessage, "presence" => \&InPresence, "iq" => \&InIQ);
 
 } # END of sub SetupConnection;
 
 
 sub Connect {
+
+=head2 Connect()
+
+This function do all stuff to connect to the jabber server as a component.
+
+=cut
 
 my $status = $ASPSMS::config::Connection->Connected();
 aspsmst_log('info',"Connect(): Transport connected to jabber-server $ASPSMS::config::server:$ASPSMS::config::port") if($status == 1);
@@ -220,6 +461,12 @@ aspsmst_log('info',"Connect(): aspsms-t running and ready for queries") if ($sta
 
 if ($status == 0)
 	{
+
+=head2
+
+If we cannot connect to the jabber-server, we wait 5 seconds and try again
+
+=cut
 
 		aspsmst_log('info',"Connect(): Transport not connected, waiting 5 seconds...");
 		sleep(5);
@@ -230,6 +477,13 @@ if ($status == 0)
 
 sub ReConnect {
 
+=head2 ReConnect()
+
+This function wait 2 seconds and call again SetupConnection() and Connect() 
+functions.
+
+=cut
+
 aspsmst_log('info',"ReConnect(): Connection to jabber lost, waiting 2 seconds...");
 sleep(2);
 aspsmst_log('info',"ReConnect(): Reconnecting...");
@@ -237,3 +491,12 @@ SetupConnection();
 Connect();
 
 }
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut

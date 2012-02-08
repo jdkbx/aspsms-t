@@ -84,7 +84,7 @@ sub check_for_file_update
 
   my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
          $atime,$mtime,$ctime,$blksize,$blocks)
-   = stat("./etc/$filename");
+   = stat("$ASPSMS::config::cachedir/$filename");
 
   my $diff = time() - $ctime;
 
@@ -121,7 +121,7 @@ The real download with os command wget.
 =cut
 
   system("wget -q http://xml1.aspsms.com:5061/opinfo/$filename -O ".
-  "./etc/$filename.new");
+  "$ASPSMS::config::cachedir/$filename.new");
 
   unless($? == 0)
    {
@@ -132,7 +132,7 @@ The real download with os command wget.
    {
     aspsmst_log("info","do_file_update(): Download of $filename was".
     " successfully.");
-    system("mv ./etc/$filename.new ./etc/$filename");
+    system("mv $ASPSMS::config::cachedir/$filename.new $ASPSMS::config::cachedir/$filename");
    }
 
  } ### do_file_update()

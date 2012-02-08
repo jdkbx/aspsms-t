@@ -19,14 +19,99 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
 # USA.
-#
-# Notify example
-# web-notify.pl?xml=notify,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
-#
-# twoway example
-# web-notify.pl?xml=twoway,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
 
-use lib "./";
+=head1 NAME
+
+
+aspsms-t.notify - Delivery notification helper script
+
+=head1 DESCRIPTION
+
+For each sms that you send with aspsms-t you may (optionally) get an
+sms delivery notification.
+
+How does this work:
+
+aspsms-t send the sms to the gateway with an URL that will be connected, 
+when a message is delivered.
+
+This URL has the following syntax:
+ http://www.domain.tld/aspsms/aspsms.notify?xml="<stream/>"
+The stream contains information about the jabber user, which has sent the sms
+and the coresponding sms status.
+
+notify example
+
+aspsms-t.notify?xml=notify,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
+
+twoway example
+
+aspsms-t.notify?xml=twoway,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
+
+
+aspsms-t.notify uses this information from the stream and put it via jabber 
+account (which is defined in aspsms-t.xml and aspsms-t.notify.xml)
+to our transport which is listening at aspsms.domain.tld.
+
+aspsms-t send the final delivery notification to the sending jabber user 
+with FROM header: +4178XXXXXXX@aspsms.domain.tld.
+
+=head1 ASPSMS-T WEB NOTIFICATION
+
+=over 2
+
+=item * Create a jabber account aspsms@domain.tld and update your aspsms-t.xml
+and aspsms-t.notify.xml in section <notification/>
+
+=item * Make aspsms-t.notify available over an url for example like this:
+
+ $ cd /home/www/website
+ $ mkdir aspsms
+ $ mkdir aspsms/etc
+ $ cd aspsms
+ $ cp $SRC/aspsms-t.notify .
+ $ cp $SRC/etc/aspsms-t.notify.xml.dist etc/aspsms-t.notify.xml
+ $ chmod 755 aspsms-t.notify aspsms-t.notify.xml
+ $ vi ./etc/.htaccess
+     order deny,allow
+     deny from all
+ $ chmod 750 ./etc/.htaccess
+
+=item * Test your installation:
+
+http://www.domain.tld/aspsms/aspsms-t.notify
+
+Output:
+ <aspsms>
+   <ident>aspsms-t</ident>
+   <stream/>
+   <reply>
+     <status>No xml-stream found</status>
+   </reply>
+ </aspsms>
+
+means: Configuration is ok!
+
+=back
+
+=head1 SEE ALSO
+
+aspsms-t(1)
+
+=head1 AUTHORS
+
+Written by Marco Balmer
+
+=head1 RESOURCES
+
+http://github.com/micressor/aspsms-t/
+http://www.aspsms.com/documentation/
+
+=head1 METHODS
+
+=cut
+
+#use lib "./"; # For development only
 
 use CGI qw(:standard);
 use Sys::Syslog;
@@ -36,12 +121,17 @@ use XML::Smart;
 
 # Variables --------------------------------------------------------------------
 
-#
-# Please set the path to the configuration file.
-# Important: Absolut path!
-# Example: /home/jabber/aspsms-t/etc/aspsms-web-notify.xml
-#
-my $config_file = "/home/jabber/aspsms-t/etc/aspsms-web-notify.xml";
+=head2 main()
+
+Please set the path to the configuration file.
+Important: Absolut path! Or relative to the web directory.
+Example: /home/jabber/aspsms-t/etc/aspsms-web-notify.xml
+
+my $config_file = "./aspsms-t.xml";
+
+=cut
+
+my $config_file = "./aspsms-t.xml";
 
 my (	$hostname,
 	$port,
@@ -77,6 +167,18 @@ else
   syslog("notice","Got a response <stream> (but not recorded)");
  }
 
+=head2
+
+=over 4
+
+=item * Connect to the notification jabber account
+
+=item * Send xml stream to aspsms.domain.tld/notification via jabber
+
+=back
+
+=cut
+
 my $ret_connect_status 	= 	connect_client();
 
 unless($ret_connect_status == 0)
@@ -90,6 +192,13 @@ Stop($ret_send_message);
 
 sub read_configuration
  {
+
+=head2 read_configuration()
+
+Read xml configuration from aspsms.xml
+
+=cut
+
   $hostname	= $Config->{aspsms}{notification}{hostname};
   $port		= $Config->{aspsms}{notification}{port};
   $username	= $Config->{aspsms}{notification}{username};
@@ -105,6 +214,12 @@ sub http_response
   my $xml	= shift;
   my $status	= shift;
 
+=head2 http_response()
+
+Print read xml stream to the web browser or connected socket
+
+=cut
+
   print "Content-Type: text/xml
 
 <?xml version=\'1.0\'?>
@@ -119,6 +234,12 @@ sub http_response
 } ### END of http_response();
 
 sub connect_client {
+
+=head2 connect_client()
+
+This function connects to the configured jabber account
+
+=cut
 
 eval {
 
@@ -155,6 +276,13 @@ sub send_xml_to_aspsmst
  {
   my $xml_send = shift;
   my $msg = new Net::Jabber::Message();
+
+=head2 send_xml_to_aspsmst()
+
+This function send the xml stream to aspsms.domain.tld/notification
+
+=cut
+
   eval 
    {
   $msg->SetMessage(type    =>"message",
@@ -174,6 +302,13 @@ Stop("Successfully accepted");
 sub Stop 
  {
   my $ret = shift;
+
+=head2 Stop()
+
+This function shutdown the jabber connection and calls http_response()
+
+=cut
+
   eval
   {
    $Con->Disconnect;
@@ -192,3 +327,12 @@ sub Stop
 
   exit(0);
  } ### Stop()
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+
+The Debian packaging is licensed under the 
+GPL, see `/usr/share/common-licenses/GPL-2'.
+
+=cut
