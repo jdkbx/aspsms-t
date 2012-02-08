@@ -30,7 +30,7 @@ This module handles all transport register and service discovery requests.
 
 =cut
 
-package Iq;
+package ASPSMS::Iq;
 
 use strict;
 use ASPSMS::config;
