@@ -26,7 +26,87 @@
 # twoway example
 # web-notify.pl?xml=twoway,,,004179xyzx,,,$USERKEY,,,<Originator>,,,<MessageData>
 
-use lib "./";
+=head1 NAME
+
+
+aspsms-t.notify - Delivery notification helper script
+
+=head1 DESCRIPTION
+
+For each sms that you send with aspsms-t you may (optionally) get an
+sms delivery notification.
+
+How does this work:
+
+aspsms-t send the sms to the gateway with an URL that will be connected, 
+when a message is delivered.
+
+This URL has the following syntax:
+ http://www.domain.tld/aspsms/aspsms.notify?xml="<stream/>"
+The stream contains information about the jabber user, which has sent the sms
+and the coresponding sms status.
+
+aspsms-t.notify uses this information from the stream and put it via jabber 
+account (which is defined in aspsms-t.xml and aspsms-t.notify.xml)
+to our transport which is listening at aspsms.domain.tld.
+
+aspsms-t send the final delivery notification to the sending jabber user 
+with FROM header: +4178XXXXXXX@aspsms.domain.tld.
+
+=head1 ASPSMS-T WEB NOTIFICATION
+
+=over 2
+
+=item * Create a jabber account aspsms@domain.tld and update your aspsms-t.xml
+and aspsms-t.notify.xml in section <notification/>
+
+=item * Make aspsms-t.notify available over an url for example like this:
+
+ $ cd /home/www/website
+ $ mkdir aspsms
+ $ mkdir aspsms/etc
+ $ cd aspsms
+ $ cp $SRC/aspsms-t.notify .
+ $ cp $SRC/etc/aspsms-t.notify.xml.dist etc/aspsms-t.notify.xml
+ $ chmod 755 aspsms-t.notify aspsms-t.notify.xml
+ $ vi ./etc/.htaccess
+     order deny,allow
+     deny from all
+ $ chmod 750 ./etc/.htaccess
+
+=item * Test your installation:
+
+http://www.domain.tld/aspsms/aspsms-t.notify
+
+Output:
+ <aspsms>
+   <ident>aspsms-t</ident>
+   <stream/>
+   <reply>
+     <status>No xml-stream found</status>
+   </reply>
+ </aspsms>
+
+means: Configuration is ok!
+
+=back
+
+=head1 SEE ALSO
+
+aspsms-t(1)
+
+=head1 AUTHORS
+
+Written by Marco Balmer
+
+=head1 RESOURCES
+
+http://github.com/micressor/aspsms-t/
+http://www.aspsms.com/documentation/
+
+=cut
+
+use lib "./"; # For development only
 
 use CGI qw(:standard);
 use Sys::Syslog;

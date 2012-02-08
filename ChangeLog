@@ -5,6 +5,7 @@
     * lib/ASPSMS/aspsmstlog.pm: Fix if we cannot log to syslog.
     * README: update documentation
     * aspsms-t: Migrate manpage file to po documentation
+    * aspsms-t.notify: same
 
 2012-02-02 Marco Balmer  <marco@balmer.name>
 
