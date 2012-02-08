@@ -1,6 +1,7 @@
 2012-02-08 Marco Balmer  <marco@balmer.name>
 
     * update_network_fees() load before set_config
+    * lib/ASPSMS/Storage: Remove eval; improove exeption handling
 
 2012-02-02 Marco Balmer  <marco@balmer.name>
 
