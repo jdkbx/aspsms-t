@@ -16,6 +16,6 @@ WriteMakefile(
       (ABSTRACT_FROM  => 'lib/ASPSMS/config.pm', # retrieve abstract from module
        AUTHOR         => 'Marco balmer <marco@balmer.name>') : ()),
     MAN1PODS         => { 
-  'aspsms-t.notify'    => 'blib/man3/aspsms-t.notify.3p',  
+  'aspsms-t.notify'    => 'blib/man1/aspsms-t.notify.1p',  
   'aspsms-t'    => 'blib/man1/aspsms-t.1p' } 
 );
