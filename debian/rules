@@ -51,6 +51,8 @@ install-aspsms-t:
 	dh_installman -p aspsms-t
 	dh_installdocs -p aspsms-t
 	dh_installchangelogs -p aspsms-t
+	dh_installinit -p aspsms-t
+	dh_lintian -p aspsms-t
 
 binary-arch:
 # We have nothing to do here for an architecture-independent package
