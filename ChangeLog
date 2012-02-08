@@ -1,11 +1,13 @@
 2012-02-08 Marco Balmer  <marco@balmer.name>
 
-    * update_network_fees() load before set_config
+    * update_networks_fees() load before set_config
+    * update_networks_fees(): Move to new cachedir
     * lib/ASPSMS/Storage: Remove eval; improove exeption handling
     * lib/ASPSMS/aspsmstlog.pm: Fix if we cannot log to syslog.
     * README: update documentation
     * aspsms-t: Migrate manpage file to po documentation
     * aspsms-t.notify: same
+    * Remove etc/{networks,fees}.xml from source distribution
 
 2012-02-02 Marco Balmer  <marco@balmer.name>
 

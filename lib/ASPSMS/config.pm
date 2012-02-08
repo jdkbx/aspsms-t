@@ -37,6 +37,7 @@ use warnings;
 use XML::Smart;
 use ASPSMS::aspsmstlog;
 use ASPSMS::ContactCredits;
+use ASPSMS::GetNetworksFees;
 
 require Exporter;
 
@@ -67,6 +68,7 @@ our $admin_jid;
 our $facility;
 our $ident;
 our $passwords;
+our $cachedir;
 our $notificationurl;
 our $notificationjid;
 our $browseservicename;
@@ -109,6 +111,7 @@ our $Connection;
 				$port
 				$secret
 				$passwords
+				$cachedir
 				$release
 				$banner
 				$jabber_banner
@@ -166,6 +169,7 @@ sub set_config
   $facility 		= $Config->{aspsms}{facility};
   $ident 		= $Config->{aspsms}{ident};
   $passwords		= $Config->{aspsms}{spooldir};
+  $cachedir		= $Config->{aspsms}{cachedir};
   $notificationurl	= $Config->{aspsms}{notificationurl};
   $notificationjid	= $Config->{aspsms}{notificationjid};
   $browseservicename  	= $Config->{aspsms}{jabber}{browse}{servicename};
@@ -174,12 +178,20 @@ sub set_config
 
 #
 # Load Network and fees information
-#
-
+update_networks_fees();
 aspsmst_log("info","set_config(): Load ./etc/networks.xml and ./etc/fees.xml network and billing information");
-$xml_networks  	= XML::Smart->new("./etc/networks.xml") or return -1;
-$xml_fees	= XML::Smart->new("./etc/fees.xml") or return -1;
 
+eval {
+$xml_networks  	= XML::Smart->new("$cachedir/networks.xml") or die;
+$xml_fees	= XML::Smart->new("$cachedir/fees.xml") or die;
+};
+
+if($@) {
+  aspsmst_log("warning","Cannot read billing information from $cachedir/{networks,fees}.xml: $!");
+  return -1;
+}
+
+load_prefix_data();
 
 } ### END of set_config ###
 
