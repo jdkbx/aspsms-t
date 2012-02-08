@@ -21,7 +21,7 @@
 # USA.
 
 use strict;
-use lib "./lib";
+use lib "./lib"; # For development only
 
 use ASPSMS::config;
 
@@ -55,6 +55,7 @@ if ( my $num = $pidfile->running ) {
     exit(1);
 }
 
+update_networks_fees();
   
 $pidfile->write;
 
@@ -72,7 +73,6 @@ $pidfile->write;
 # Loading prefix data
 #
 aspsmst_log("info","set_config(): Load prefix data from etc/fees.xml");
-update_networks_fees();
 load_prefix_data();
 
 

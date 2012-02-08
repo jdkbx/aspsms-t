@@ -1,3 +1,7 @@
+2012-02-08 Marco Balmer  <marco@balmer.name>
+
+    * update_network_fees() load before set_config
+
 2012-02-02 Marco Balmer  <marco@balmer.name>
 
     * Migrating lib/ASPSMS/ to ASPSMS/ in a native perl module
