@@ -3,8 +3,13 @@
 set -e
 
 # Install application user, if it does not exist.
-id aspsms 2>&1 >/dev/null
-[ "$?" -ne "0" ] && useradd -m -d /var/cache/aspsms aspsms
+if ! id aspsms 2>&1 >/dev/null;
+then
+  useradd -d /var/cache/aspsms aspsms
+  # Create spooldir if it does not exist.
+  mkdir -p /var/cache/aspsms/spool
+  chown -R aspsms: /var/cache/aspsms
+fi
 
 # Copy example config file to /etc/aspsms 
 if [ ! -d /etc/aspsms ]; then mkdir -p /etc/aspsms
@@ -12,12 +17,6 @@ fi
 if [ ! -r /etc/aspsms/aspsms-t.xml.dist ] && [ ! -r /etc/aspsms/aspsms-t.xml ];
 then
   cp /usr/share/doc/aspsms-t/examples/aspsms-t.xml.dist /etc/aspsms
-fi
-
-# Create spooldir if it does not exist.
-if [ ! -d /var/cache/aspsms/spool ];
-then
-  mkdir -p /var/cache/aspsms/spool
 fi
 
 ##DEBHELPER##
