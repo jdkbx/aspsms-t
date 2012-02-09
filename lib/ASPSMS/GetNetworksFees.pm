@@ -48,8 +48,6 @@ openlog($ASPSMS::config::ident,'','user');
 
 use ASPSMS::config;
 use ASPSMS::aspsmstlog;
-use LWP::UserAgent;
-use URI::URL;
 
 sub update_networks_fees
  {
