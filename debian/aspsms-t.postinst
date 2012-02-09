@@ -2,9 +2,13 @@
 
 set -e
 
-if ! id aspsms 2>&1 > /dev/null ;
+id aspsms 2>&1 >/dev/null
+
+[ "$?" -ne "0" ] && useradd -m -d /var/cache/aspsms aspsms
+
+if [ ! -r /etc/aspsms/aspsms-t.xml.dist ] && [ ! -r /etc/aspsms/aspsms-t.xml ];
 then
-  useradd -m -d /var/cache/aspsms  aspsms
+  cp /usr/share/doc/aspsms-t/examples/aspsms-t.xml.dist /etc/aspsms
 fi
 
 ##DEBHELPER##
