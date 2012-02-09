@@ -66,8 +66,9 @@ sequence."
 
   fi
 
-# don't do it using start-stop-daemon. it does not seem to work properly :(
-exec su - aspsms -c "cd $STARTDIR && $DAEMON $DAEMON_ARGS " 2>&1 > /dev/null &
+# start-stop-daemon does not work in this case.
+exec su - aspsms -c "cd $STARTDIR && $DAEMON $DAEMON_ARGS 2>&1 >/dev/null" \
+  2>&1 > /dev/null &
 
 [ "$?" -eq "0" ] && RESULT=0 || echo "couldn't start $NAME"
 if [ "$RESULT" -eq "0" ];
