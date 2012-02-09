@@ -1,2 +1,2 @@
 version=3
-http://githubredir.debian.net/github/micressor/aspsms-t/([\d\.]*).tar.gz
+https://github.com/micressor/aspsms-t/tags .*/tarball/upstream/(\d[\d\.]+)
