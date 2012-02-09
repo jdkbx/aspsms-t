@@ -7,6 +7,8 @@ id aspsms 2>&1 >/dev/null
 [ "$?" -ne "0" ] && useradd -m -d /var/cache/aspsms aspsms
 
 # Copy example config file to /etc/aspsms 
+if [ ! -d /etc/aspsms ]; then mkdir -p /etc/aspsms
+fi
 if [ ! -r /etc/aspsms/aspsms-t.xml.dist ] && [ ! -r /etc/aspsms/aspsms-t.xml ];
 then
   cp /usr/share/doc/aspsms-t/examples/aspsms-t.xml.dist /etc/aspsms
