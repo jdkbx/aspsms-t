@@ -6,10 +6,10 @@
  	<adminjid>admin@localhost</adminjid>
 
 	<!-- IMPORTANT: Data spool folder -->
-	<spooldir>/home/jabberd/spool/aspsms.jabberserver.ch</spooldir>
+	<spooldir>/var/cache/aspsms/spool</spooldir>
 
 	<!-- IMPORTANT: Data cache folder -->
-	<cachedir>/home/jabberd/spool/aspsms.jabberserver.ch</cachedir>
+	<cachedir>/var/cache/aspsms</cachedir>
  
 	<!-- Notification url for aspsms.com. The system of aspsms will send 
 	     the delivery notifications to this url. It must point 
