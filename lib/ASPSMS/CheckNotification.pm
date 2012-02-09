@@ -38,6 +38,7 @@ package ASPSMS::CheckNotification;
 use strict;
 use vars qw(@EXPORT @ISA);
 use ASPSMS::aspsmstlog;
+use URI::URL;
 
 use Exporter;
 use Sys::Syslog;
