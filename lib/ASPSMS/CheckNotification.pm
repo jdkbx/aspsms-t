@@ -50,7 +50,6 @@ openlog($ASPSMS::config::ident,'','user');
 
 use ASPSMS::config;
 use LWP::UserAgent;
-use URI::URL;
 
 =head1 Methods
 
