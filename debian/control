@@ -2,7 +2,7 @@ Source: aspsms-t
 Section: net
 Priority: extra
 Maintainer: Marco Balmer <marco@balmer.name>
-Build-Depends: debhelper (>= 7)
+Build-Depends: debhelper (>= 7),libaspsms-perl,libnet-jabber-perl,libnet-xmpp-perl,libxml-smart-perl,libxml-parser-perl,libwww-perl,liburi-perl,libunicode-string-perl,libfile-pid-perl
 Standards-Version: 3.9.2
 Homepage: http://github.com/micressor/aspsms-t
 Vcs-Git: https://github.com/micressor/aspsms-t.git
