@@ -188,7 +188,7 @@ http://www.aspsms.com/documentation/
 =cut
 
 use strict;
-use lib "./lib"; # For development only
+#use lib "./lib"; # For development only
 
 use ASPSMS::config;
 
