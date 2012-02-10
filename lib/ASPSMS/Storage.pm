@@ -29,7 +29,9 @@ aspsms-t - spool storage manipulation functions
 package ASPSMS::Storage;
 
 use strict;
+use IO::File;
 use ASPSMS::config;
+use ASPSMS::Message;
 use vars qw(@EXPORT @ISA);
 use Exporter;
 
@@ -58,38 +60,32 @@ storage.
   
   my $user = {};
 
-  opendir(DIR,"$ASPSMS::config::passwords") or die "Can not open spool dir $ASPSMS::config::passwords";
+  opendir(DIR,"$ASPSMS::config::passwords") or 
+	die "Can not open spool dir $ASPSMS::config::passwords";
   while (defined(my $file = readdir(DIR))) 
    {
-    aspsmst_log("debug","get_record($get_type): Processing file $ASPSMS::config::passwords/$file");
+    aspsmst_log("debug",
+	"get_record($get_type): Processing file $ASPSMS::config::passwords/$file");
     
-    my $ret_open =  open(F, "<$ASPSMS::config::passwords/$file");
+    my $fh = new IO::File("$ASPSMS::config::passwords/$file", "r");
 
     # If we can not open the passfile, return -2 (user not registered)
-    if($ret_open ne "1")
-     {
-      aspsmst_log("alert","get_record($get_type,$jid_userkey): Problem to open passfile $file:");
-      aspsmst_log("alert","get_record($get_type,$jid_userkey): $@");
-      return -2;
-     }
+    unless(defined $fh) {
+      aspsmst_log("alert",
+	"get_record($get_type,$jid_userkey): Problem to open passfile $file");
+      sendAdminMessage("alert",
+	"Problem to open passfile $ASPSMS::config::passwords/$file"); 
+      return -2; }
      
-    seek(F, 0, 0);
-    local $/ = "\n";
+    my $line = $fh->getline();
+    ($user->{gateway}, 
+    $user->{name}, 
+    $user->{password}, 
+    $user->{phone},
+    $user->{signature}) = split(':',$line);
+    $user->{jid} = $file;
 
-    while (<F>) 
-     {
-      chop;
-    	(	
-	$user->{gateway}, 
-    	$user->{name}, 
-	$user->{password}, 
-	$user->{phone},
-	$user->{signature}
-	) = split(':');
-	$user->{jid} = $file;
-
-     } ### END of while (<F>)
-    close(F);
+    $fh->close(); 
 
      if ($get_type eq "userkey")
       {
@@ -153,16 +149,14 @@ It returns 0 for ok and -1 for a failure.
 	$userdata->{signature}
 	);
 
-      my $ret_open = open(F, ">$passfile");
-
-if($ret_open ne "1")
- {
-  aspsmst_log("alert","set_record($set_by,$passfile): Problem to read passfile $passfile");
-  return -1;
- }
+      my $fh = new IO::File("$passfile", "w");
+      unless(defined $fh) {
+	aspsmst_log("alert",
+	"set_record($set_by,$passfile): Problem to read passfile $passfile");
+	return -1; }
  
-      print(F "$data\n");
-      close(F);
+      print $fh "$data\n";
+      $fh->close();
 
 return 0;
  } ### END of get_data_from_storage ###
