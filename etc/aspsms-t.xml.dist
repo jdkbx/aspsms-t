@@ -65,6 +65,7 @@
   <notification>
     <jabberid>aspsms@yourserver.tld</jabberid>
     <hostname>yourserver.tld</hostname>
+    <port>5222</port>
     <username>aspsms</username>
     <password>secret</password>
   </notification>

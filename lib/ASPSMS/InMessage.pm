@@ -161,7 +161,7 @@ to aspsms.domain.tld/notification. There is also a test function implemented.
 	  #
 	  if($streamtype eq "test")
 	   {
-	    aspsmst_log('info',"web-notify.pl is configured successfully");
+	    aspsmst_log('info',"aspsms-t.notify: is configured successfully");
 	    $ASPSMS::config::aspsmst_in_progress=0;
 	    return 0;
 	   }

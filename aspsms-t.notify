@@ -172,10 +172,6 @@ unless($xml)
  {
   Stop("No xml-stream found");
  }
-else
- {
-  syslog("notice","Got a response <stream> (but not recorded)");
- }
 
 =head2
 
@@ -267,7 +263,7 @@ if($@)
 unless($transid)
  { Stop("Problem with given stream (Values missing?)"); }
 
-my @ret_auth = $Con->AuthIQAuth (
+my @ret_auth = $Con->AuthSend (
                  username=>      $username,
                  password=>      $password,
                  resource=>      $transid
