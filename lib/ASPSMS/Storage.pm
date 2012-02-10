@@ -75,7 +75,7 @@ storage.
 	"get_record($get_type,$jid_userkey): Problem to open passfile $file");
       sendAdminMessage("alert",
 	"Problem to open passfile $ASPSMS::config::passwords/$file"); 
-      return -2; }
+      next; }
      
     my $line = $fh->getline();
     ($user->{gateway}, 
