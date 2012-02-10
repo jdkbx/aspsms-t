@@ -22,7 +22,7 @@
 
 =head1 NAME
 
-aspsms-t - xmpp/jabber to sms transport for aspsms
+aspsms-t - sms transport for your xmpp/jabber server
 
 =head1 SYNOPSIS
 
@@ -112,41 +112,13 @@ vi ejabberd.cfg:
 
 =back
 
-=head1 ASPSMS-T WEB NOTIFICATION
+=head1 ASPSMS-T DELIVERY NOTIFICATION
 
-=over 2
+For each sms that you send with aspsms-t you may (optionally) get an
+sms delivery notification.
 
-=item * Create a jabber account aspsms@domain.tld and update your 
-aspsms-t.xml and aspsms-t.notify.xml in section <notification/>
-
-=item * Make aspsms-t.notify available over an url for example like this:
-
- $ cd /home/www/website
- $ mkdir aspsms
- $ mkdir aspsms/etc
- $ cd aspsms
- $ cp $SRC/aspsms-t.notify .
- $ cp $SRC/etc/aspsms-t.notify.xml.dist etc/aspsms-t.notify.xml
- $ chmod 755 aspsms-t.notify aspsms-t.notify.xml
- $ vi ./etc/.htaccess
-     order deny,allow
-     deny from all
- $ chmod 750 ./etc/.htaccess
-
-=item * Test your installation: http://www.domain.tld/aspsms/aspsms-t.notify
-
-=back
-
-Output:
- <aspsms>
-   <ident>aspsms-t</ident>
-   <stream/>
-   <reply>
-     <status>No xml-stream found</status>
-   </reply>
- </aspsms>
-
-means: Configuration is ok!
+If you like to configure delivery notification, please 
+read aspsms-t.notify(1) manpage 
 
 =head1 NETWORKS
 

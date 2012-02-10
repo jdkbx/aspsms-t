@@ -1,7 +1,8 @@
 aspsms-t -----------------------------------------------------------------------
 
-Check this site for the latest version of this software.
-http://github.com/micressor/aspsms-t
+Check this site for the latest version of this software:
+  http://github.com/micressor/aspsms-t
+  http://www.swissjabber.ch/index.php/Sms
 
 
 Overview -----------------------------------------------------------------------
@@ -22,28 +23,35 @@ sms transport for your xmpp/jabber server
  Special arabic and other oriental characters are supported to a maximum
  of 87 characters for each message.
 
- Check manpage files:
-  aspsms-t.1
-  aspsms-t.notify
-
- Usefull link:
- http://www.swissjabber.ch/index.php/Sms
-
 
 Requirements for Debian --------------------------------------------------------
 
-apt-get install libaspsms-perl libnet-jabber-perl libnet-xmpp-perl \
-  libxml-smart-perl libxml-parser-perl libwww-perl liburi-perl \
-  libunicode-string-perl libfile-pid-perl
+  apt-get install libaspsms-perl libnet-jabber-perl libnet-xmpp-perl \
+    libxml-smart-perl libxml-parser-perl libwww-perl liburi-perl \
+    libunicode-string-perl libfile-pid-perl
+
+Building -----------------------------------------------------------------------
+
+  cd $src
+  Perl Makefile.PL
+  make
+  make test
+  make install
+  cp ./aspsms-t /usr/local/bin
+
+  cp etc/aspsms-t.xml.dist /etc/aspsms/aspsms.xml
+    (edit according to comments and aspsms-t manpage)
+  aspsms-t -c /etc/aspsms/aspsms-t.xml
+
+Starting up (without debug messages):
+  aspsms-t -c /etc/aspsms/aspsms-t.xml 2>&1 > /dev/null
 
 
-Running directly from source ---------------------------------------------------
+Building Debian packages from source -------------------------------------------
 
-1. Check manpage file aspsms-t.1 and aspsms-t.notify to configure
-   aspsms-t transport together with jabberd14 or ejabberd or another
-   jabber transport wich supports the xmpp transport protocol.
-
-2. Starting up:
-
-$ cd $ASPSMS_DIR
-$ ./bin/aspsms-t -c /etc/aspsms-t.xml
+  git clone https://github.com/micressor/aspsms-t
+  cd aspsms-t
+  git checkout debian
+  dpkg-buildpackage -us -uc
+  dpkg -i ../libaspsms-perl_X.X.X-X_all.deb
+  dpkg -i ../aspsms-t_X.X.X-X_all.deb
