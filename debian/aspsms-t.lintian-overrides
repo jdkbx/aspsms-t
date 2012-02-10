@@ -1,3 +1,6 @@
 # Manpage of aspsms-t is in package libaspsms-perl which is in Depends of
 # aspsms-t
 aspsms-t: binary-without-manpage usr/bin/aspsms-t
+# Manpage of aspsms-t.notify is in package libaspsms-perl which is in Depends of
+# aspsms-t
+aspsms-t: binary-without-manpage usr/bin/aspsms-t.notify
