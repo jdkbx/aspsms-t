@@ -7,6 +7,8 @@
     * README: update documentation
     * aspsms-t: Migrate manpage file to po documentation
     * aspsms-t.notify: same
+    * aspsms-t.notify: Bugfix authentication changed.
+    * etc/aspsms-t.xml.dist: Missing tag <notification><port/></notification>
     * Remove etc/{networks,fees}.xml from source distribution
     * Relocate docs/ to .
     * lib/ASPSMS/Iq.pm: Fix a registration/remove bug.
