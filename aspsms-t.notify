@@ -23,7 +23,7 @@
 =head1 NAME
 
 
-aspsms-t.notify - Delivery notification helper script
+aspsms-t.notify - Delivery notification helper script for aspsms-t
 
 =head1 DESCRIPTION
 
@@ -67,17 +67,23 @@ and aspsms-t.notify.xml in section <notification/>
 
 =item * Make aspsms-t.notify available over an url for example like this:
 
- $ cd /home/www/website
+ $ cd /srv/www
  $ mkdir aspsms
- $ mkdir aspsms/etc
- $ cd aspsms
- $ cp $SRC/aspsms-t.notify .
- $ cp $SRC/etc/aspsms-t.notify.xml.dist etc/aspsms-t.notify.xml
- $ chmod 755 aspsms-t.notify aspsms-t.notify.xml
- $ vi ./etc/.htaccess
-     order deny,allow
-     deny from all
- $ chmod 750 ./etc/.htaccess
+ $ cp $SRC/aspsms-t.notify aspsms/
+
+Apache configuration:
+
+vim /etc/apache2/conf.d/aspsms-t
+
+<Directory /home/www/website/aspsms>
+  SetHandler perl-script
+  PerlResponseHandler ModPerl::Registry
+  PerlOptions +ParseHeaders
+  Options +ExecCGI
+  Order allow,deny
+  Allow from all
+
+</Directory>
 
 =item * Test your installation:
 
@@ -93,6 +99,8 @@ Output:
  </aspsms>
 
 means: Configuration is ok!
+
+Please check also section main() in this manpage.
 
 =back
 
@@ -129,11 +137,11 @@ Please set the path to the configuration file.
 Important: Absolut path! Or relative to the web directory.
 Example: /home/jabber/aspsms-t/etc/aspsms-web-notify.xml
 
-my $config_file = "./aspsms-t.xml";
+my $config_file = "/etc/aspsms/aspsms-t.xml";
 
 =cut
 
-my $config_file = "./aspsms-t.xml";
+my $config_file = "/etc/aspsms/aspsms-t.xml";
 
 my (	$hostname,
 	$port,
