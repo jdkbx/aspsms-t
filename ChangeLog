@@ -1,8 +1,14 @@
+2012-02-13 Marco Balmer  <marco@balmer.name>
+
+    * README: Update documentation
+
 2012-02-08 Marco Balmer  <marco@balmer.name>
 
     * update_networks_fees() load before set_config
     * update_networks_fees(): Move to new cachedir
     * lib/ASPSMS/Storage: Remove eval; improove exeption handling
+    * lib/ASPSMS/Storage: Change to IO::File functions.
+    * lib/ASPSMS/Storage: Closes: https://github.com/micressor/aspsms-t/issues/1
     * lib/ASPSMS/aspsmstlog.pm: Fix if we cannot log to syslog.
     * README: update documentation
     * aspsms-t: Migrate manpage file to po documentation
