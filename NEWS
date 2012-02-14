@@ -1,8 +1,21 @@
+aspsms-t release 1.3.0
+----------------------
+* Migrated aspsms-t functions into a native perl module ASPSMS::
+* Renamed aspsms-t.pl into aspsms-t
+* Renamed web-notify.pl into aspsms-t.notify
+* lib/ASPSMS/Storage.pm: Bugfix github issue: #1
+* lib/ASPSMS/Iq.pm: Bugfix of a registration/remove request.
+* Copyright and License headers updated
+* Complete documentation of the whole sourcecode with pod
+* Made source ready for debian packaging
+
+
 aspsms-t release 1.2.4
 ----------------------
 * Bugfix: ASPSMS changed their xml1.aspsms.com behaviour. This is a little
           fix for this bug.
 * Bugfix: aspsms-t was hanging sometimes (SEGV).
+
 
 aspsms-t release 1.2.3
 ----------------------
@@ -14,6 +27,7 @@ aspsms-t release 1.2.3
 	   only 83 characteres supported
 * Bugfix:  Unexpected crash bugfix.
 
+
 aspsms-t release 1.2.2
 ----------------------
 * Feature: First support for Arabic & other oriental characters
@@ -22,11 +36,13 @@ aspsms-t release 1.2.2
 * Bugfix:  Registration response messages
 * Bugfix:  Better exeptionhandling for delivery notifications
 
+
 aspsms-t release 1.2.1
 ----------------------
 * Bugfix:  affiliate id (Was not working)
 * Bugfix:  sms2jabber functionality
 * Bugfix:  of some transport crashes
+
 
 aspsms-t release 1.2.0
 ----------------------
@@ -39,13 +55,16 @@ aspsms-t release 1.2.0
 * Feature: Credit information in the status message of each roster contact.
 * Bugfix:  A lot of crash bugfixes
 
+
 aspsms-t release 1.0.2 - 1.0.4
 ------------------------------
 * Bugfix:  Bug fix releases
 
+
 aspsms-t release 1.0.1
 ----------------------
 * Feature: Direct aspsms xml interface by iq query
+
 
 aspsms-t release 1.0
 --------------------
