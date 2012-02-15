@@ -78,6 +78,10 @@ storage.
       next; }
      
     my $line = $fh->getline();
+
+    # remove newline;
+    $line =~ s/\n//g;
+
     ($user->{gateway}, 
     $user->{name}, 
     $user->{password}, 

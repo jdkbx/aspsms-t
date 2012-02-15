@@ -112,7 +112,7 @@ If you wish to use $ASPSMS::config::service_name,
 1. please register an https://www.aspsms.com account
 2. Afterwards register to $ASPSMS::config::service_name with the account information 
    of aspsms.com.
-3. Send sms to jid's like +4178xxxxxxx@$ASPSMS::config::service_name.";
+3. Send sms to jid's like +4178xxxxxxx\@$ASPSMS::config::service_name.";
    } ### unless($Credits == -2)
 
 SendMessage( $to,

@@ -126,9 +126,7 @@ address so we call HelpMessage().
 =back
 
 =cut
-       if (    $to eq $ASPSMS::config::service_name 
-            or $to eq "$ASPSMS::config::service_name/registered"
-	    or $body eq "!help")
+       if (    $to eq $ASPSMS::config::service_name or $body eq "!help")
 	{
   	 HelpMessage(		$from,
 	 			$to,
