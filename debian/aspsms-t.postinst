@@ -6,17 +6,14 @@ set -e
 if ! id aspsms 2>&1 >/dev/null;
 then
   useradd -d /var/cache/aspsms aspsms
-  # Create spooldir if it does not exist.
-  mkdir -p /var/cache/aspsms/spool
-  chown -R aspsms: /var/cache/aspsms
+  # Fix permissions for application
+  chown aspsms: /var/cache/aspsms /etc/aspsms /var/lib/aspsms
 fi
 
-# Copy example config file to /etc/aspsms 
-if [ ! -d /etc/aspsms ]; then mkdir -p /etc/aspsms
-fi
 if [ ! -r /etc/aspsms/aspsms-t.xml.dist ] && [ ! -r /etc/aspsms/aspsms-t.xml ];
 then
-  cp /usr/share/doc/aspsms-t/examples/aspsms-t.xml.dist /etc/aspsms
+  install -g aspsms -o aspsms -m 640  \
+	/usr/share/doc/aspsms-t/examples/aspsms-t.xml.dist /etc/aspsms
 fi
 
 ##DEBHELPER##

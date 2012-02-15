@@ -50,6 +50,7 @@ install-aspsms-t:
 	dh_install -p aspsms-t
 	dh_installman -p aspsms-t
 	dh_installdocs -p aspsms-t
+	dh_installdirs -p aspsms-t
 	dh_installexamples -p aspsms-t
 	dh_installchangelogs -p aspsms-t
 	dh_installinit -p aspsms-t
