@@ -344,17 +344,15 @@ directory of aspsms-t. To do this we call the function set_record().
 
   my $ret_record = set_record("jabber_register",$passfile,$userdata);
 
-  aspsmst_log('info',"jabber_register(): RegisterManager.Execute: set_record(): Return: $ret_record for $from");
+  aspsmst_log('info',"jabber_register($from): Starting registration");
 
   $iq->SetType('result');
   $iq->SetFrom($iq->GetTo());
   $iq->SetTo($from);
   $ASPSMS::config::Connection->Send($iq);
-  sendAdminMessage("info","RegisterManager.Complete: set_record(): Return: $ret_record for $from $name:$phone:$pass:$signature");
+  sendAdminMessage("info","Registration successfully: set_record(): Return: $ret_record for $from $name:$phone:$pass:$signature");
 
-  my $presence = new Net::Jabber::Presence();
-  
-  aspsmst_log('info',"jabber_register(): RegisterManager.Complete: for $from $name:$phone:$pass:$signature");
+  aspsmst_log('info',"jabber_register($from): registration successfully");
 
 =head2
 
@@ -367,7 +365,8 @@ necessary to handle furthur sms send requests.
 
 =cut
   
-  sendPresence($from,"$ASPSMS::config::service_name/registered", 'subscribe');
+  sendPresence($from,"$ASPSMS::config::service_name", 'subscribe');
+  sendPresence($from,"$ASPSMS::config::service_name", undef);
  } else 
     {
      sendError($iq, $from, $to, 501, 'feature-not-implemented: jabber:iq:register');
@@ -669,12 +668,8 @@ If delete of passfile was successfully then send presence unsubscribe.
     if($ret_unlink == 0)
     {
     
-    #
     # send unsubscribe presence
-    # 
-    
-    my $presence = new Net::Jabber::Presence;	
-    sendPresence($presence, $from,"$ASPSMS::config::service_name/registered", 'unsubscribe');
+    sendPresence($from,"$ASPSMS::config::service_name", 'unsubscribe');
     
     #
     # send iq result

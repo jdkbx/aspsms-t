@@ -1,9 +1,11 @@
 2012-02-15 Marco Balmer  <marco@balmer.name>
 
-    * lib/ASPSMS/Presence.pm: transport status issue, automatic remove 
-      registration, if transport jid got an unsubscribe request.
+    * lib/ASPSMS/Presence.pm: clean up presence system
+    * lib/ASPSMS/Iq.pm: same
+    * lib/ASPSMS/InMessage.pm: same
     * lib/ASPSMS/Iq.pm: export jabber_iq_remove()
-      Thanks to github.com/copi
+
+Thanks to github.com/copi
 
 2012-02-13 Marco Balmer  <marco@balmer.name>
 

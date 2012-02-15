@@ -87,67 +87,64 @@ my ($number) 		= split(/@/, $to);
 my $type 		= $presence->GetType();
 my $iq_show 		= $presence->GetShow();
 my $status 		= $presence->GetStatus();
+my $xml			= $presence->GetXML();
 my $barejid 		= get_barejid($from);
 
-aspsmst_log('debug',"InPresence($barejid): Got `$type' type presence from $number");
+aspsmst_log('debug',"InPresence($barejid): Got type=$type to=$to number=$number");
 
 my $user = get_record("jid",$barejid);
 
+if ($type eq "error") {
+  # We do nothing in this case (loops)
+  aspsmst_log('debug',"InPresence($barejid): xml=$xml");
+  return; }
+
   # If we get no record we will send a unsubscribed
   if ($user == -2) {
-
-    aspsmst_log("warning","InPresence($barejid): Has no $ASPSMS::config::ident account registered -- Send type `unsubscribed'");
+    aspsmst_log("warning","InPresence($from): Has no $ASPSMS::config::ident account registered -- Send type `unsubscribed'");
+    sendPresence($from, $to, 'unsubscribed');
     return 0;
 
   } ### if ($user == -2)
 
 if ($type eq 'subscribe') {
 
-  aspsmst_log('debug',"InPresence(): type=$type to=$to number=$number");
-
-  if (($number !~ /^\+[0-9]{3,50}$/) && ($to =~ /\@/)) {
-
+  if (($number !~ /^\+[0-9]{3,50}$/) and ($to =~ /\@/)) {
     aspsmst_log('err',"InPresence(): Error: Invalid number `$number' got.");
     sendPresence($from, $to, 'unsubscribed');
     return;
-
    } ### (($number !~
   
-  aspsmst_log('info',"InPresence($barejid): Got type `$type' for number $number -- Send subscribed");
   sendPresence($from, $to, 'subscribed');
+  sendPresence($from, $to, undef);
 
-  if ($to eq "$ASPSMS::config::service_name/registered") {
-    sendPresence($from, $to, 'available');
-  } else {
+  if (($number =~ /^\+[0-9]{3,50}$/) and ($to =~ /\@/)) {
     sendGWNumPresences($number, $from);
+  } else {
+    sendPresence($from, $to, 'subscribed');
   }
 
  } ### ($type eq 'subscribe')
+
 elsif (($type eq '') or ($type eq 'probe')) {
 
   if ( $number =~ /^\+[0-9]{3,50}$/ ) {
-
-    sendGWNumPresences($number, $from);
-
-  }
+    sendGWNumPresences($number, $from); }
   
-  if (($to eq "$ASPSMS::config::service_name/registered") or
-     ($to eq "$ASPSMS::config::service_name")) {
+  if ($to eq "$ASPSMS::config::service_name") {
     aspsmst_log('notice',"InPresence($barejid): Send presence status: \"Transport uptime: $ASPSMS::config::transport_uptime_hours in hour(s) SMS/Hour: $ASPSMS::config::aspsmst_stat_msg_per_hour\"");
     sendPresence($from,$to,undef,$iq_show,"Transport uptime: $ASPSMS::config::transport_uptime_hours SMS/h: $ASPSMS::config::aspsmst_stat_msg_per_hour $ASPSMS::config::release");
   }
 } 
 elsif ($type eq 'unsubscribe') {
-  aspsmst_log('info',"InPresence($barejid): Got type `$type' for jid $number -- Send unsubscribed");
- if (($to eq "$ASPSMS::config::service_name/registered") or
-     ($to eq "$ASPSMS::config::service_name")) {
+ if ($to eq "$ASPSMS::config::service_name") {
     ASPSMS::Iq::jabber_iq_remove($from,undef,
 	"$ASPSMS::config::passwords/$barejid");
  }
     sendPresence($from, $to, 'unsubscribed');
  }
 elsif ($type eq 'unavailable') {
-  aspsmst_log('debug',"InPresence($barejid): Got type `$type' for jid $number -- Send unavailable");
+  aspsmst_log('debug',"InPresence($barejid): Send 'unavailable`");
   sendPresence($from, $to, 'unavailable');
  }
 
@@ -233,20 +230,20 @@ my ($to, $from, $type, $show, $status) = @_;
 
 This fucntion sends all presence stanzas which going out from aspsms-t.
 
+We have to use ¨type '` instead of 'available', because this does not work
+with all jabber servers.
+
 =cut
 
 my $pres = new Net::Jabber::Presence();
 
 $pres->SetType($type);
-unless($show eq "")
- {
-  $pres->SetShow($show);
- }
 
-unless($status eq "")
- {
-  $pres->SetStatus($status);
- }
+unless($show eq "") {
+  $pres->SetShow($show); }
+
+unless($status eq "") {
+  $pres->SetStatus($status); }
 
 $pres->SetTo($to);
 $pres->SetFrom($from);
