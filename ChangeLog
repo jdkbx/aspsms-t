@@ -7,6 +7,8 @@
 
 Thanks to github.com/copi
 
+    * etc/aspsms-t.xml.dist: move default <spooldir/>
+
 2012-02-13 Marco Balmer  <marco@balmer.name>
 
     * README: Update documentation
