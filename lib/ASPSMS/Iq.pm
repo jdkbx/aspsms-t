@@ -44,6 +44,7 @@ use Exporter;
 				jabber_iq_gateway
 				jabber_iq_register 
 				jabber_iq_browse 
+				jabber_iq_remove 
 				jabber_iq_disco_info 
 				jabber_iq_disco_items 
 				jabber_iq_xmlsrv
