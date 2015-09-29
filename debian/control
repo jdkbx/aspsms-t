@@ -2,11 +2,11 @@ Source: aspsms-t
 Section: net
 Priority: extra
 Maintainer: Marco Balmer <marco@balmer.name>
-Build-Depends: debhelper (>= 7),libnet-jabber-perl,libnet-xmpp-perl,libxml-smart-perl,libxml-parser-perl,libwww-perl,liburi-perl,libunicode-string-perl,libfile-pid-perl
-Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 9),libnet-jabber-perl,libnet-xmpp-perl,libxml-smart-perl,libxml-parser-perl,libwww-perl,liburi-perl,libunicode-string-perl,libfile-pid-perl
+Standards-Version: 3.9.4
 Homepage: http://github.com/micressor/aspsms-t
 Vcs-Git: https://github.com/micressor/aspsms-t.git
-Vcs-Browser: http://github.com/micressor/aspsms-t
+Vcs-Browser: https://github.com/micressor/aspsms-t/tree/debian
 
 Package: aspsms-t
 Architecture: all
