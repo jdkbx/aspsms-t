@@ -41,21 +41,36 @@ use vars qw(@EXPORT @ISA);
 use Exporter;
 
 @ISA 			= qw(Exporter);
-@EXPORT 		= qw(aspsmst_log);
-
+@EXPORT 		= qw(aspsmst_log aspsmst_init_log);
 
 use Sys::Syslog;
 
+use Log::Log4perl qw(:easy);
+
+my $initialized = 0;
+
+sub aspsmst_init_log
+ {
+   my $log_file  = shift;
+   Log::Log4perl->easy_init( { level   => $DEBUG,
+                            file    => ">>$log_file" } );
+   $initialized = 1;
+ }
 
 sub aspsmst_log
  {
    my $type      = shift;
    my $msg       = shift;
 
+   unless ($initialized)
+    {
+     return;
+    }
+
    unless ($type eq 'debug')
 
     {
-     print "\n[$type]  $msg";
+     INFO("$msg");
 
      eval
       {
@@ -68,14 +83,14 @@ sub aspsmst_log
      #
      if($@)
       {
-       print "\n[debug] aspsmst_log(): Exeption: We have problem to log a message -- Ignore";
+       DEBUG("aspsmst_log(): Exeption: We have problem to log a message -- Ignore");
       }
     }
 
    else
 
     {
-     print "\n[debug] $msg";
+     DEBUG("$msg");
     }
 
  } ### END of aspsmst_log
