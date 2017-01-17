@@ -42,8 +42,9 @@ use Exporter;
 
 use ASPSMS::config;
 use IO::Socket;
+use ASPSMS::soapmodel;
+use SOAP::Lite;
 use ASPSMS::aspsmstlog;
-use ASPSMS::xmlmodel;
 use ASPSMS::ShowBalance;
 use ASPSMS::ConnectionASPSMS;
 use ASPSMS::Regex;
@@ -71,14 +72,27 @@ sub exec_SendTextSMS
 my ($errorcode,$errormessage) = exec_SendTextSMS(11 vars);
 
 We read all login information, sms message, passwords and more to
-generate an xml request.
+generate an soap request.
 
 =cut
         aspsmst_log('debug',"id:$aspsmst_transaction_id ".
 	"exec_SendTextSMS(): Begin");
 
+#	my $ret_ShowCredits = soapShowCredits($login,$password);
+#	my $creditsstr = $ret_ShowCredits->result;
+#	if (substr($creditsstr, 0, 11) eq "StatusCode:") {
+#		my $errCode = substr($creditsstr, 11, length($creditsstr) - 11);
+#		return ($errCode,
+#		soapGetStatusCodeDescription($errCode),
+#		0,
+#		0,
+#		$aspsmst_transaction_id);
+#	}
+#	my $oldBalance = substr($creditsstr, 7, length($creditsstr) - 7);
+	my $oldCredits = ShowBalance($jid,$aspsmst_transaction_id);
+
 	# Generate SMS Request
-	my $aspsmsrequest;
+	my $soapresponse;
 	my $flag_ucs2_mess = check_for_ucs2($mess);
         aspsmst_log('debug',"id:$aspsmst_transaction_id exec_SendTextSMS(): " .
 	"check_for_ucs2(): $flag_ucs2_mess");
@@ -94,21 +108,21 @@ message. ucs2 messages are only supported up to 83 characters.
 
         if($flag_ucs2_mess == 1)
 	 {
-	  $mess 	 = convert_to_ucs2($mess);
+		 #$mess 	 = convert_to_ucs2($mess);
 	  #
 	  # Check length of message.
 	  #
 	  my $mess_length = length($mess);
-	  if($mess_length > 160)
+	  if($mess_length > 1120)
 	   {
 		
 		return (	501,
-				"Arabic & other oriental characters are only up to 83 characteres supported",
+				"non-ascii characters are only up to 280 characteres supported",
 				undef,
 				undef,
 				$aspsmst_transaction_id);
 	   } ### END of if($mess_length > 160)
-	  $aspsmsrequest = xmlSendBinarySMS(	$login,
+	  $soapresponse = soapSendBinarySMS(	$login,
 						$password,
 						$phone,
 						$number,
@@ -135,7 +149,7 @@ message. ucs2 messages are only supported up to 83 characters.
 =cut
 
 	  ($mess,$number,$signature) 	= regexes($mess,$number,$signature);
-	  $aspsmsrequest = xmlSendTextSMS(	$login,
+	  $soapresponse = soapSendTextSMS(	$login,
 						$password,
 						$phone,
 						$number,
@@ -149,28 +163,27 @@ message. ucs2 messages are only supported up to 83 characters.
 
 	 } ### if($flag_ucs2_mess == 1)
 
-	my $completerequest     = xmlGenerateRequest($aspsmsrequest);
-	my @ret_CompleteRequest 
-	= exec_ConnectionASPSMS($completerequest,
-				$aspsmst_transaction_id);
-
-	if($ret_CompleteRequest[0] eq "-1")
+	if($soapresponse->fault)
 	 {
 	  #
 	  # We have a problem with connection and will stop
 	  # here processing.
 	  #
-	  return ($ret_CompleteRequest[0],$ret_CompleteRequest[1]);
+	  return (1,$soapresponse->faultstring);
 	 }
 
-# Parse XML of SMS request
-my $ret_parsed_response = parse_aspsms_response(\@ret_CompleteRequest,
-						$aspsmst_transaction_id);
+# Parse SMS response
+my $response = $soapresponse->result;
+my $ErrorCode = substr($response, 11, length($response) - 11);
+my $ErrorDescription = soapGetStatusCodeDescription($ErrorCode);
 
-my $DeliveryStatus      =       XML::Smart->new($ret_parsed_response);
-my $ErrorCode           =       $DeliveryStatus->{aspsms}{ErrorCode};
-my $ErrorDescription    =       $DeliveryStatus->{aspsms}{ErrorDescription};
-my $CreditsUsed         =       $DeliveryStatus->{aspsms}{CreditsUsed};
+#my $ret_parsed_response = parse_aspsms_response(\@ret_CompleteRequest,
+#						$aspsmst_transaction_id);
+
+#my $DeliveryStatus      =       XML::Smart->new($ret_parsed_response);
+#my $ErrorCode           =       $DeliveryStatus->{aspsms}{ErrorCode};
+#my $ErrorDescription    =       $DeliveryStatus->{aspsms}{ErrorDescription};
+#my $CreditsUsed         =       $DeliveryStatus->{aspsms}{CreditsUsed};
 
 ##########################################################################
 # Generate ShowCredits Request
@@ -178,14 +191,14 @@ my $CreditsUsed         =       $DeliveryStatus->{aspsms}{CreditsUsed};
 
 =head2
 
-Finally this function calls again the aspsms xml interface to query
+Finally this function calls again the aspsms soap interface to query
 current credit balance. This is not in one query possible, that's 
 because we do that in a second call.
 
 =cut
 
 my $Credits = ShowBalance($jid,$aspsmst_transaction_id);
-
+my $CreditsUsed         = $oldCredits - $Credits;
 aspsmst_log('debug',"id:$aspsmst_transaction_id exec_SendTextSMS(): ".
 "return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,".
 "$aspsmst_transaction_id)");

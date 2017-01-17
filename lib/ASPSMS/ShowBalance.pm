@@ -39,7 +39,7 @@ use ASPSMS::config;
 use IO::Socket;
 use ASPSMS::aspsmstlog;
 use ASPSMS::userhandler;
-use ASPSMS::xmlmodel;
+use ASPSMS::soapmodel;
 use ASPSMS::Connection;
 use ASPSMS::ConnectionASPSMS;
 use Sys::Syslog;
@@ -68,41 +68,7 @@ by getUserPass().
   my $login 	=	$userdata->{name};
   my $password 	= 	$userdata->{password};
 
-=head2
-
-Generate a specific xml request with xmlShowCredits($login,$password).
-Add the http stuff with xmlGenerateRequest($aspsms_request) and finally
-send it to exec_ConnectionASPSMS().
-
-=cut
-
-  my $aspsms_request	= xmlShowCredits($login,$password);
-  my $request_xml	= xmlGenerateRequest($aspsms_request);
-
-  my @ret_ShowCredits = 
-			exec_ConnectionASPSMS(	$request_xml,
-						$aspsms_transaction_id);
-
-# Parse XML of SMS request
-my $ret_parsed_response_ShowCredits = 
-			parse_aspsms_response(	\@ret_ShowCredits,
-						$aspsms_transaction_id);
-
-DisconnectAspsms($aspsms_transaction_id);
-
-my $CreditStatus        =       XML::Smart->new($ret_parsed_response_ShowCredits);
-my $Credits             =       $CreditStatus->{aspsms}{Credits};
-my $ErrorCode		=       $CreditStatus->{aspsms}{ErrorCode};
-my $ErrorDescription	=       $CreditStatus->{aspsms}{ErrorDescription};
-
-#
-# If we are not authorized, send error back to user.
-#
-
-unless($ErrorCode == 1)
- {
-  return $ErrorDescription;
- } ### unless($ErrorCode == 1)
+  my $ret_ShowCredits = soapShowCredits($login,$password);
 
 =head2
 
@@ -110,7 +76,7 @@ And finally we return the parsed credit balance back.
 
 =cut
 
-return ($Credits);
+return $ret_ShowCredits;
 
 } ### END of ShowBalance()
 

@@ -33,7 +33,7 @@ use ASPSMS::config;
 use ASPSMS::aspsmstlog;
 use ASPSMS::Connection;
 use ASPSMS::ConnectionASPSMS;
-use ASPSMS::xmlmodel;
+use ASPSMS::soapmodel;
 use ASPSMS::Storage;
 use ASPSMS::Jid;
 use vars qw(@EXPORT @ISA);
@@ -92,30 +92,38 @@ my @answer;
 
 =head2 CheckNewUser()
 
-This function checks the given user/pass with the aspsms xml-server. In
-this case we use an already existing function xmlShowCredits() to do 
+This function checks the given user/pass with the aspsms server. In
+this case we use an already existing function soapShowCredits() to do 
 that. 
 
 =cut
 
-aspsmst_log('info',"CheckNewUser(): Check new user on aspsms xml-server $username/$password");
-unless(ConnectAspsms() eq '0') {
-my $value1 = $_[0]; my $value2 = $_[1];
-return ($value1,$value2); }
+aspsmst_log('info',"CheckNewUser(): Check new user on aspsms server $username/$password");
+#unless(ConnectAspsms() eq '0') {
+#my $value1 = $_[0]; my $value2 = $_[1];
+#return ($value1,$value2); }
 
-my $aspsmsrequest       = xmlShowCredits($username,$password);
-my $completerequest    	= xmlGenerateRequest($aspsmsrequest);
+#my $aspsmsrequest       = xmlShowCredits($username,$password);
+#my $completerequest    	= xmlGenerateRequest($aspsmsrequest);
+my $credits = soapShowCredits($username,$password);
 
+#print $ASPSMS::config::aspsmssocket $completerequest;
+#@answer = <$ASPSMS::config::aspsmssocket>;
+#DisconnectAspsms();
 
-print $ASPSMS::config::aspsmssocket $completerequest;
-@answer = <$ASPSMS::config::aspsmssocket>;
-DisconnectAspsms();
+#my $ret_parsed_response = parse_aspsms_response(\@answer);
 
-my $ret_parsed_response = parse_aspsms_response(\@answer);
+#my $ErrorStatus         =       XML::Smart->new($ret_parsed_response);
+#my $ErrorCode           =       $ErrorStatus->{aspsms}{ErrorCode};
+#my $ErrorDescription    =       $ErrorStatus->{aspsms}{ErrorDescription};
 
-my $ErrorStatus         =       XML::Smart->new($ret_parsed_response);
-my $ErrorCode           =       $ErrorStatus->{aspsms}{ErrorCode};
-my $ErrorDescription    =       $ErrorStatus->{aspsms}{ErrorDescription};
+my $ErrorCode           = 1;
+my $ErrorDescription    = "OK";
+
+unless (substr($credits, 0, 8) eq "Credits:" ) {
+$ErrorCode = substr($credits, 11, length($credits) - 11);
+$ErrorDescription = soapGetErrorDescription($credits);
+}
 
 aspsmst_log('info',"CheckNewUser(): Result for $username is: $ErrorDescription");
 

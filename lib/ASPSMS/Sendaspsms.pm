@@ -33,7 +33,6 @@ use vars qw(@EXPORT @ISA);
 use ASPSMS::aspsmstlog;
 use ASPSMS::Connection;
 use ASPSMS::userhandler;
-use ASPSMS::xmlmodel;
 use ASPSMS::Regex;
 
 use Exporter;

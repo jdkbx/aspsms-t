@@ -54,7 +54,7 @@ use Exporter;
 use Sys::Syslog;
 use ASPSMS::aspsmstlog;
 use ASPSMS::Jid;
-use ASPSMS::xmlmodel;
+use ASPSMS::soapmodel;
 use ASPSMS::Connection;
 use ASPSMS::userhandler;
 use ASPSMS::Message;
