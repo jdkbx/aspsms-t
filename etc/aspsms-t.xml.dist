@@ -10,11 +10,13 @@
   <cachedir>/var/cache/aspsms</cachedir>
   <!--  Important: Data spool folder. It contains all registered jabber
 	users.  -->
-  <spooldir>/var/lib/aspsms/spool</spooldir>
+  <spooldir>/var/spool/jabber</spooldir>
+  <!--  Important: pid folder. It contains the pid file.  -->
+  <piddir>/var/run/jabber</piddir>
   <!--  For each sms that you send with aspsms-t you may (optionally) get an
 	sms delivery notification. Please read manpage aspsms-t.notify
 	how to configure this correctly. -->
-  <notificationurl>http://url/aspsms-t.notify</notificationurl>
+  <notificationurl>https://url/aspsms-t.notify</notificationurl>
   <!-- Ident for syslog daemon -->
   <ident>aspsms-t</ident>
   <facility>local4</facility>

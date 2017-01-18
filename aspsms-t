@@ -26,7 +26,7 @@ aspsms-t - sms transport for your xmpp/jabber server
 
 =head1 SYNOPSIS
 
-aspsms-t -c <configfile>
+aspsms-t -c <configfile> -l <logfile>
 
 =head1 DESCRIPTION
 
@@ -133,7 +133,7 @@ Select configuration <aspsms-t.xml>
 
 =head1 EXAMPLES
 
-aspsms-t -c /etc/aspsms-t.xml
+aspsms-t -c /etc/jabber/aspsms-t.xml
 
 =head1 SEE ALSO
 
@@ -141,12 +141,13 @@ aspsms-t.notify(1)
 
 =head1 FILES
 
-/etc/aspsms-t.xml
+/etc/jabber/aspsms-t.xml
 The main aspsms-t configuration file
 
 =head1 AUTHORS
 
 Written by Marco Balmer
+Adapted by jdkbx
 
 =head1 RESOURCES
 
@@ -163,7 +164,7 @@ use strict;
 #use lib "./lib"; # For development only
 
 use ASPSMS::config;
-
+use Getopt::Long;
 use File::Pid;
 
 use Net::Jabber qw(Component);
@@ -187,41 +188,31 @@ use ASPSMS::InMessage;
 
 =over 4
 
-=item * Set pid file
+=item * set_config to read ./aspsms-t.xml and set all necessary vars.
 
 =back
 
 =cut
 
-aspsmst_log("info","Starting up..."); 
-my $pidfile = File::Pid->new({
-    file => '/var/lock/aspsms-t.pid',
-});
+  my $log_file;
+  my $config_file;
 
-if ( my $num = $pidfile->running ) {
-    aspsmst_log("Already running: $num\n");
-    exit(1);
-}
+  GetOptions ("configfile=s" => \$config_file,
+              "logfile:s"    => \$log_file)
+   or die("Error in command line arguments\n");
 
-  
-$pidfile->write;
+  unless(defined $config_file)
+   {
+     print "Usage: ./aspsms-t -c aspsms-t.xml -l log.txt\n";
+     exit(-1);
+   }
 
-=head2
-
-=over 4
-
-=item * set_config to read ./aspsms.xml and set all necessary vars.
-
-=back
-
-=cut
-
-  my $ret_config = set_config($ARGV[1]);
-  unless($ret_config == 0 and $ARGV[0] eq "-c")
+  my $ret_config = set_config($config_file);
+  unless($ret_config == 0)
    { 
-    aspsmst_log("error","Error: stage config file $ARGV[1]");
+    aspsmst_log("error","Error: stage config file $config_file");
     aspsmst_log("debug","Exit: $ret_config");
-    aspsmst_log("debug","Usage: ./aspsms-t.pl -c aspsms.xml");
+    aspsmst_log("debug","Usage: ./aspsms-t -c aspsms.xml -l log.txt");
     print "\n";
     exit($ret_config);
    } ### END of unless($ret_config == 0)
@@ -229,6 +220,25 @@ $pidfile->write;
 
 use Sys::Syslog;
 openlog($ASPSMS::config::ident,'',"$ASPSMS::config::facility");
+aspsmst_init_log($log_file);
+
+=head2
+
+=over 4
+
+=item * Set pid file
+
+=back
+
+=cut
+
+aspsmst_log("info","Starting up...");
+my $pidfile = File::Pid->new({
+    file => $ASPSMS::config::piddir."/aspsms-t.pid",
+});
+
+$pidfile->write;
+
 
 =head2
 
@@ -385,7 +395,6 @@ unless($ASPSMS::config::aspsmst_in_progress==0)
 sendAdminMessage("info","Stop(): \$aspsmst_in_progress=$ASPSMS::config::aspsmst_in_progress \$aspsmst_flag_shutdown=$ASPSMS::config::aspsmst_flag_shutdown \$err=$err");
 aspsmst_log('info',"Stop(): Shutting down aspsms-t because sig: $err\n");
 $ASPSMS::config::Connection->Disconnect();
-$pidfile->remove;
 exit(0);
 }
 
