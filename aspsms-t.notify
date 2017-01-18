@@ -65,25 +65,18 @@ with FROM header: +4178XXXXXXX@aspsms.domain.tld.
 =item * Create a jabber account aspsms@domain.tld and update your aspsms-t.xml
 and aspsms-t.notify.xml in section <notification/>
 
-=item * Make aspsms-t.notify available over an url for example like this:
+=item * Make aspsms-t.notify accessable over an url for example like this:
 
  $ cd /srv/www
  $ mkdir aspsms
- $ cp $SRC/aspsms-t.notify aspsms/
 
-Apache configuration:
+nginx configuration:
 
-vim /etc/apache2/conf.d/aspsms-t
+vim /etc/nginx/nginx.conf
 
-<Directory /home/www/website/aspsms>
-  SetHandler perl-script
-  PerlResponseHandler ModPerl::Registry
-  PerlOptions +ParseHeaders
-  Options +ExecCGI
-  Order allow,deny
-  Allow from all
-
-</Directory>
+location /aspsms {
+	proxy_pass http://127.0.0.1:8000;
+}
 
 =item * Test your installation:
 
@@ -111,6 +104,7 @@ aspsms-t(1)
 =head1 AUTHORS
 
 Written by Marco Balmer
+Adapted by jdkbx
 
 =head1 RESOURCES
 
@@ -122,12 +116,50 @@ http://www.aspsms.com/documentation/
 =cut
 
 #use lib "./"; # For development only
+package AspsmsNotifyServer;
 
-use CGI qw(:standard);
+use Getopt::Long;
+use File::Pid;
+
+use HTTP::Server::Simple::CGI;
+use base qw(HTTP::Server::Simple::CGI);
 use Sys::Syslog;
+use Log::Log4perl qw(:easy);
+Log::Log4perl->easy_init($INFO);
+
 use strict;
 use Net::Jabber qw(Client);
 use XML::Smart;
+
+#this is the server request we react on
+my %dispatch = (
+  '/aspsms/aspsms-t.notify' => \&resp,
+  # ...
+);
+
+my $conf;
+#my $log;
+
+sub handle_request {
+     my $self = shift;
+     my $cgi  = shift;
+	     
+     my $path = $cgi->path_info();
+     my $handler = $dispatch{$path};
+		     
+     if (ref($handler) eq "CODE") {
+           print "HTTP/1.0 200 OK\r\n";
+           $handler->($cgi);
+             
+     } else {
+          print "HTTP/1.0 404 Not found\r\n";
+          print $cgi->header,
+          $cgi->start_html('Not found'),
+          $cgi->h1('Not found'),
+          $cgi->end_html;
+     }
+}
+
 
 # Variables --------------------------------------------------------------------
 
@@ -141,7 +173,9 @@ my $config_file = "/etc/aspsms/aspsms-t.xml";
 
 =cut
 
-my $config_file = "/etc/aspsms/aspsms-t.xml";
+
+#my $config_file = "/etc/jabber/aspsms-t.xml";
+my $config_file;
 
 my (	$hostname,
 	$port,
@@ -151,19 +185,29 @@ my (	$hostname,
 	$facility,
 	$ident);
 
+my $Con;
+my $transid;
+my $xml;
+
 # Main ------------------------------------------------------------------------
 
-my $xml 	= param("xml");
+sub resp {
+    my $cgi  = shift;   # CGI.pm object
+    return if !ref $cgi;
+
+    $xml = $cgi->param('xml');
+
+#my $xml 	= param("xml");
 my @tmpstat	= split(/,,,/,$xml);
-my $transid	= $tmpstat[1];
+$transid	= $tmpstat[1];
 
 # Read configuration
-my $Config = XML::Smart->new($config_file) or 
-	Stop("Cannot open configuration file; Exit: $?");
+#my $Config = XML::Smart->new($config_file) or 
+#	Stop("Cannot open configuration file; Exit: $?");
 
 openlog($ident,'',$facility);
 
-my $Con			
+$Con			
 = new Net::Jabber::Client(debuglevel=>0,debugfile=>"stdout");
 
 read_configuration();
@@ -171,6 +215,7 @@ read_configuration();
 unless($xml)
  {
   Stop("No xml-stream found");
+  return;
  }
 
 =head2
@@ -188,11 +233,14 @@ unless($xml)
 my $ret_connect_status 	= 	connect_client();
 
 unless($ret_connect_status == 0)
- { Stop("Internal aspsms-t problem"); }
+ { Stop("Internal aspsms-t problem"); return; }
 
 my $ret_send_message = send_xml_to_aspsmst($xml);
 
-Stop($ret_send_message);
+unless($ret_send_message == 1)
+ { Stop($ret_send_message); }
+
+}
 
 # Functions --------------------------------------------------------------------
 
@@ -204,6 +252,10 @@ sub read_configuration
 Read xml configuration from aspsms.xml
 
 =cut
+
+# Read configuration
+my $Config = XML::Smart->new($config_file) or
+    Stop("Cannot open configuration file; Exit: $?");
 
   $hostname	= $Config->{aspsms}{notification}{hostname};
   $port		= $Config->{aspsms}{notification}{port};
@@ -252,6 +304,8 @@ eval {
 $Con->Connect(
                 hostname                => $hostname,
                 port                    => $port,
+		tls			=> 1,
+		ssl_ca_path 		=> "/etc/ssl/certs",
                 timeout                 => "5"
               );
 
@@ -270,7 +324,7 @@ my @ret_auth = $Con->AuthSend (
                );
 
 unless($ret_auth[0] eq "ok")
- { return $ret_auth[0]; }
+ { Stop("Authentication failed, $ret_auth[0] $ret_auth[1]"); return $ret_auth[0]; }
 
 $Con->PresenceSend();
 $Con->RosterGet();
@@ -326,12 +380,13 @@ This function shutdown the jabber connection and calls http_response()
   http_response($ident,
 		$xml,
 		$ret);
+  
+  ERROR("$ret");
+#  syslog('notice',"$ret");
 
-  syslog('notice',"$ret");
+#  print "\n";
 
-  print "\n";
-
-  exit(0);
+#  exit(0);
  } ### Stop()
 
 =head1 COPYRIGHT AND LICENSE
@@ -342,3 +397,45 @@ The Debian packaging is licensed under the
 GPL, see `/usr/share/common-licenses/GPL-2'.
 
 =cut
+
+my $log_file;
+my $port;
+
+GetOptions ("configfile=s" => \$config_file,
+            "logfile:s"    => \$log_file,
+	    "port:8000"       => \$port)
+ or die("Error in command line arguments\n"); 
+
+unless(defined $config_file)
+ {
+     print "Usage: ./aspsms-t.notify -c aspsms-t.xml -l log.txt -p 8000\n";
+     exit(-1);
+ }
+
+Log::Log4perl->easy_init( { level   => $INFO,
+                            file    => ">>$log_file" } );
+
+#$conf = q(
+#    log4perl.category.aspsms-t.notify  = INFO, Logfile, Screen
+#    log4perl.appender.Logfile          = Log::Log4perl::Appender::File
+#    log4perl.appender.Logfile.filename = ${log_file}
+#    log4perl.appender.Logfile.layout   = Log::Log4perl::Layout::PatternLayout
+#    log4perl.appender.Logfile.layout.ConversionPattern = [%r] %F %L %m%n
+#    log4perl.appender.Screen         = Log::Log4perl::Appender::Screen
+#    log4perl.appender.Screen.stderr  = 0
+#    log4perl.appender.Screen.layout = Log::Log4perl::Layout::SimpleLayout
+#  );
+
+#Log::Log4perl::init( \$conf );
+
+# start the server on port
+my $pid = AspsmsNotifyServer->new($port)->background();
+my $pidfile = File::Pid->new({
+    file => '/var/run/jabber/aspsms-t.notify.pid',
+    pid => $pid,
+});
+
+$pidfile->write;
+
+#$log = Log::Log4perl::get_logger("aspsms-t.notify");
+INFO("Use 'kill $pid' to stop server.");
