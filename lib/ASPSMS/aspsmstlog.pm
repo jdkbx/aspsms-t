@@ -51,11 +51,19 @@ my $initialized = 0;
 
 sub aspsmst_init_log
  {
-   my $level = shift;
+   my $verbose = shift;
    my $log_file  = shift;
 
-   Log::Log4perl->easy_init( { level   => $level,
+   unless ($verbose eq '')
+    {
+      Log::Log4perl->easy_init( { level   => $DEBUG,
                             file    => ">>$log_file" } );
+    }
+   else
+    {
+      Log::Log4perl->easy_init( { level   => $INFO,
+                            file    => ">>$log_file" } );
+    }
    $initialized = 1;
  }
 

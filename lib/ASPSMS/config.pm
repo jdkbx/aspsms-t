@@ -54,7 +54,7 @@ our $release = $VERSION;
 our $config_file;
 our $aspsmssocket;
 
-our %aspsms_connection 	= {};
+our $aspsmsserver;
 our %prefix_data	= {};
 
 our $service_name;
@@ -105,7 +105,7 @@ our $Connection;
 @ISA 			= qw(Exporter);
 @EXPORT 		= qw(	set_config
 				$VERSION
-				$aspsms_connection
+				$aspsmsserver
 				$service_name
 				$server
 				$port
@@ -149,14 +149,8 @@ sub set_config
 
   my $Config  =       XML::Smart->new($config_file);
 
-  for (my $i=1;$i<=4;$i++)
-   {
-    aspsmst_log("debug","set_config(): Read ip configuration for host $i");
-    $aspsms_connection{"host_$i"} 		= $Config->{aspsms}{server}('id','eq',"$i"){"host"};
-    $aspsms_connection{"port_$i"} 		= $Config->{aspsms}{server}('id','eq',"$i"){"port"};
-    $aspsms_connection{"xmlspec_$i"} 		= $Config->{aspsms}{server}('id','eq',"$i"){"xmlspec"};
-   }
-
+  aspsmst_log("debug","set_config(): Read ip configuration for webservice host ");
+  $aspsmsserver 	= $Config->{aspsms}{server};
   $affiliateid		= $Config->{aspsms}{affiliateid};
   $service_name		= $Config->{aspsms}{jabber}{serviceid};
   $server		= $Config->{aspsms}{jabber}{server};

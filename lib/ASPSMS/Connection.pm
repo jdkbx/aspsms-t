@@ -178,7 +178,12 @@ because we do that in a second call.
 =cut
 
 my $Credits = ShowBalance($jid,$aspsmst_transaction_id);
-my $CreditsUsed         = (($oldCredits * 100) - ($Credits * 100)) / 100;
+aspsmst_log('debug',"id:$aspsmst_transaction_id exec_SendTextSMS(): "."$Credits,$oldCredits");
+
+$Credits =~ s/(?<=\d)\,(?=\d)/./;
+$oldCredits =~ s/(?<=\d)\,(?=\d)/./;
+
+my $CreditsUsed         = $oldCredits - $Credits;
 
 aspsmst_log('debug',"id:$aspsmst_transaction_id exec_SendTextSMS(): ".
   "return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,".

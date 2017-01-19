@@ -29,3 +29,6 @@ my $som = $soap->call('CheckCredits',
 );
 die $som->faultstring if ($som->fault);
 print $som->result, "\n";
+my $x = $som->result;
+$x =~ s/(?<=\d)\,(?=\d)/./;
+print $x, "\n";

@@ -54,7 +54,7 @@ my $errmessage = soapGetStatusCodeDescription($errorcode)
 
 =cut
 	
-my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::server"
+my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::aspsmsserver"
   , ssl_opts => {
     SSL_ca_path => '/etc/ssl/certs'
   }
@@ -85,7 +85,7 @@ This function contains an aspsms soap request to query credit balance.
 
 =cut
 
-my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::server"
+my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::aspsmsserver"
   , ssl_opts => {
     SSL_ca_path => '/etc/ssl/certs'
   }
@@ -153,7 +153,7 @@ aspsmst_log('debug',"id:$random soapSendTextSMS(): " .
 aspsmst_log('debug',"id:$random notificationurl: " .
 	"$ASPSMS::config::notificationurl");
 
-my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::server"
+my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::aspsmsserver"
   , ssl_opts => {
     SSL_ca_path => '/etc/ssl/certs'
   }
@@ -208,7 +208,7 @@ This function contains an aspsms soap request to send a binary sms.
 
 =cut
 
-my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::server"
+my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::aspsmsserver"
   , ssl_opts => {
     SSL_ca_path => '/etc/ssl/certs'
   }
@@ -262,7 +262,7 @@ This function contains an aspsms soap request to send a wap push sms.
 
 =cut
 
-my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::server"
+my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::aspsmsserver"
   , ssl_opts => {
     SSL_ca_path => '/etc/ssl/certs'
   }

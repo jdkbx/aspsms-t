@@ -198,33 +198,27 @@ use Sys::Syslog;
 
 my $log_file;
 my $verbose = '';
-my $log_level = $INFO;
 my $config_file;
 
 GetOptions ("configfile=s" => \$config_file,
-	    "verbose"   => \$log_level,
+	    "verbose"   => \$verbose,
             "logfile:s"    => \$log_file)
  or die("Error in command line arguments\n");
 
 unless(defined $config_file)
  {
-   print "Usage: ./aspsms-t -c aspsms-t.xml -l log.txt\n";
+   print "Usage: ./aspsms-t -c aspsms-t.xml -l log.txt [-v]\n";
    exit(-1);
  }
 
-if($verbose)
- {
-   $log_level = $DEBUG;
- }
-
-aspsmst_init_log($log_level, $log_file);
+aspsmst_init_log($verbose, $log_file);
 
 my $ret_config = set_config($config_file);
 unless($ret_config == 0)
  { 
    aspsmst_log("error","Error: stage config file $config_file");
    aspsmst_log("debug","Exit: $ret_config");
-   aspsmst_log("debug","Usage: ./aspsms-t -c aspsms.xml -l log.txt");
+   aspsmst_log("debug","Usage: ./aspsms-t -c aspsms.xml -l log.txt [-v]");
    print "\n";
    exit($ret_config);
  } ### END of unless($ret_config == 0)
