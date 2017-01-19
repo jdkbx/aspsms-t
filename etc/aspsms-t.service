@@ -1,0 +1,10 @@
+[Unit]
+Description=aspsms-t is an aspsms transport for Jabber/XMPP
+
+[Service]
+ExecStart=/usr/bin/aspsms-t -c /etc/jabber/aspsms-t.xml -l /var/log/jabber/aspsms-t.log
+User=jabber
+Group=jabber
+
+[Install]
+WantedBy=multi-user.target

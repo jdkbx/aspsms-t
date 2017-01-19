@@ -2,7 +2,6 @@ lib/ASPSMS/aspsmstlog.pm
 lib/ASPSMS/CheckNotification.pm
 lib/ASPSMS/config.pm
 lib/ASPSMS/Connection.pm
-lib/ASPSMS/ConnectionASPSMS.pm
 lib/ASPSMS/ContactCredits.pm
 lib/ASPSMS/DiscoNetworks.pm
 lib/ASPSMS/GetNetworksFees.pm
@@ -17,6 +16,6 @@ lib/ASPSMS/ShowBalance.pm
 lib/ASPSMS/Storage.pm
 lib/ASPSMS/UCS2.pm
 lib/ASPSMS/userhandler.pm
-lib/ASPSMS/xmlmodel.pm
+lib/ASPSMS/soapmodel.pm
 Makefile.PL
 MANIFEST

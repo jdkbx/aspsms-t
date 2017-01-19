@@ -1,0 +1,11 @@
+[Unit]
+Description=aspsms-t.notify is a nnotification handler for aspsms-t transport for Jabber/XMPP
+Before=aspsms-t.service
+
+[Service]
+ExecStart=/usr/bin/aspsms-t.notify -c /etc/jabber/aspsms-t.xml -p 8000 -l /var/log/jabber/aspsms-t.notify.log
+User=jabber
+Group=jabber
+
+[Install]
+WantedBy=multi-user.target

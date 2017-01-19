@@ -46,7 +46,6 @@ use ASPSMS::soapmodel;
 use SOAP::Lite;
 use ASPSMS::aspsmstlog;
 use ASPSMS::ShowBalance;
-use ASPSMS::ConnectionASPSMS;
 use ASPSMS::Regex;
 use ASPSMS::UCS2;
 use Sys::Syslog;
@@ -78,17 +77,6 @@ generate an soap request.
         aspsmst_log('debug',"id:$aspsmst_transaction_id ".
 	"exec_SendTextSMS(): Begin");
 
-#	my $ret_ShowCredits = soapShowCredits($login,$password);
-#	my $creditsstr = $ret_ShowCredits->result;
-#	if (substr($creditsstr, 0, 11) eq "StatusCode:") {
-#		my $errCode = substr($creditsstr, 11, length($creditsstr) - 11);
-#		return ($errCode,
-#		soapGetStatusCodeDescription($errCode),
-#		0,
-#		0,
-#		$aspsmst_transaction_id);
-#	}
-#	my $oldBalance = substr($creditsstr, 7, length($creditsstr) - 7);
 	my $oldCredits = ShowBalance($jid,$aspsmst_transaction_id);
 
 	# Generate SMS Request
@@ -113,7 +101,7 @@ message. ucs2 messages are only supported up to 83 characters.
 	  # Check length of message.
 	  #
 	  my $mess_length = length($mess);
-	  if($mess_length > 1120)
+	  if($mess_length > 1377)
 	   {
 		
 		return (	501,
@@ -177,14 +165,6 @@ my $response = $soapresponse->result;
 my $ErrorCode = substr($response, 11, length($response) - 11);
 my $ErrorDescription = soapGetStatusCodeDescription($ErrorCode);
 
-#my $ret_parsed_response = parse_aspsms_response(\@ret_CompleteRequest,
-#						$aspsmst_transaction_id);
-
-#my $DeliveryStatus      =       XML::Smart->new($ret_parsed_response);
-#my $ErrorCode           =       $DeliveryStatus->{aspsms}{ErrorCode};
-#my $ErrorDescription    =       $DeliveryStatus->{aspsms}{ErrorDescription};
-#my $CreditsUsed         =       $DeliveryStatus->{aspsms}{CreditsUsed};
-
 ##########################################################################
 # Generate ShowCredits Request
 ##########################################################################
@@ -198,10 +178,11 @@ because we do that in a second call.
 =cut
 
 my $Credits = ShowBalance($jid,$aspsmst_transaction_id);
-my $CreditsUsed         = $oldCredits - $Credits;
+my $CreditsUsed         = (($oldCredits * 100) - ($Credits * 100)) / 100;
+
 aspsmst_log('debug',"id:$aspsmst_transaction_id exec_SendTextSMS(): ".
-"return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,".
-"$aspsmst_transaction_id)");
+  "return ($ErrorCode,$ErrorDescription,$Credits,$CreditsUsed,".
+  "$aspsmst_transaction_id)");
 
 return (	$ErrorCode,
 		$ErrorDescription,
@@ -216,6 +197,7 @@ return (	$ErrorCode,
 =head1 COPYRIGHT AND LICENSE
 
 Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+adapted by jdkbx
 
 The Debian packaging is licensed under the 
 GPL, see `/usr/share/common-licenses/GPL-2'.

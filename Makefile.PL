@@ -10,7 +10,10 @@ WriteMakefile(
 				Net::Jabber,
 				XML::Parser,
 				XML::Smart,
-				Sys::Syslog 
+				Sys::Syslog,
+				Log::Log4perl,
+				Getopt::Long,
+				SOAP::Lite
 			}, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/ASPSMS/config.pm', # retrieve abstract from module

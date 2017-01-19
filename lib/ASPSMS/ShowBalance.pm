@@ -41,7 +41,6 @@ use ASPSMS::aspsmstlog;
 use ASPSMS::userhandler;
 use ASPSMS::soapmodel;
 use ASPSMS::Connection;
-use ASPSMS::ConnectionASPSMS;
 use Sys::Syslog;
 
 openlog($ASPSMS::config::ident,'','user');

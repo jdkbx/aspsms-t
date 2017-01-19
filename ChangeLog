@@ -1,3 +1,37 @@
+2017-01-19 jdkbx  <gjdkbx@gmail.com>
+
+    * etc/aspsms-t.init: openrc init script
+    * etc/aspsms-t.notify.init: openrc init script
+    * etc/aspsms-t.service: systemd unit
+    * etc/aspsms-t.notify.service: systemd unit
+    * etc/aspsms-t.xml.dist: config for webservice host
+    * lib/ASPSMS/ConnectionASPSMS.pm: removed
+    * lib/ASPSMS/Connection.pm: cleanup
+    * lib/ASPSMS/Iq.pm: remove direct xml message functions
+    * lib/ASPSMS/ShowBalance.pm: cleanup
+    * lib/ASPSMS/soapmodel.pm: use webservice address from config file
+    * lib/ASPSMS/userhandler.pm: cleanup
+    * lib/ASPSMS/xmlmodel.pm: removed
+    * MANIFEST: adapted removed files
+    * Makefile.PL: new dependencies
+    * README.md: state debian dependencies
+    * README.xmlsrv: removed
+    * t/ASPSMS.t: adapted to changed files
+    * examples/aspsms.soapCheckCredits.pl: new soap example
+    * examples/aspsms.soapSendUnicodeSMS.pl: another soap example 
+
+2017-01-18 jdkbx  <gjdkbx@gmail.com>
+
+    * lib/ASPSMS/soapmodel.pm: new SOAP webservice backend
+    * lib/ASPSMS/Connection.pm: use soap backend
+    * lib/ASPSMS/ShowBalance.pm: use soap backend
+    * lib/ASPSMS/userhandler.pm: use soap backend
+    * lib/ASPSMS/Sendaspsms.pm: fix wrong use
+    * lib/ASPSMS/aspsmstlog.pm: change to Log4perl 
+    * aspsms-t.notify: standalone service based on HTTP::Server::Simple
+    * aspsms-t: daemonize, use Getopt::Long and Log::Log4perl
+    * etc/aspsms-t.xml.dist: use https, added piddir
+
 2012-02-15 Marco Balmer  <marco@balmer.name>
 
     * lib/ASPSMS/Presence.pm: clean up presence system

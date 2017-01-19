@@ -2,9 +2,8 @@
 
 Check this site for the latest version of this software:
 
-  <http://github.com/micressor/aspsms-t>
-  <http://www.swissjabber.ch/>
-
+  <http://github.com/jdkbx/aspsms-t>
+  <http://github.com/micressor/aspsms-t> (original)
 
 # Overview
 
@@ -14,21 +13,22 @@ With aspsms-t your jabber users are able to send sms messages through the gatewa
 
 * A lot of networks are supported.
 
-* Deliver is very fast and will send your users a confirmation jabber message.
+* Delivery is very fast and will send your users a confirmation jabber message.
   Jabber users can set their own mobile number as originator.
 
 * Jabber messages which are longer than the maximum allowed characters of an
   sms, aspsms-t will split it into a multiple sms. Don´t worry!
 
-* Special arabic and other oriental characters are supported to a maximum
-  of 87 characters for each message.
+* Unicode message support.
 
 
 # Requirements for Debian
 
 	apt-get install libaspsms-perl libnet-jabber-perl libnet-xmpp-perl \
 	  libxml-smart-perl libxml-parser-perl libwww-perl liburi-perl \
-	libunicode-string-perl libfile-pid-perl
+	  libunicode-string-perl libfile-pid-perl liblog-log4perl-perl \
+	  libgetopt-long-descriptive-perl libsoap-lite-perl \
+	  libhttp-server-simple-perl
 
 
 # Building
@@ -39,16 +39,7 @@ With aspsms-t your jabber users are able to send sms messages through the gatewa
 	make test
 	make install
 	cp ./aspsms-t /usr/local/bin
-
-# Building Debian packages from source
-
-	git clone https://github.com/micressor/aspsms-t
-	cd aspsms-t
-	git checkout debian
-	dpkg-buildpackage -us -uc
-	dpkg -i ../libaspsms-perl_X.X.X-X_all.deb
-	dpkg -i ../aspsms-t_X.X.X-X_all.deb
-
+	cp ./aspsms-t.notify /usr/local/bin
 
 # Configuring
 
@@ -71,9 +62,6 @@ Without debug log messages:
 
 	aspsms-t -c /etc/aspsms/aspsms-t.xml 2>&1 > /dev/null
 
-An /etc/init.d script you can find at the debian branch of this repository:
-
-	git checkout debian
-	less debian/aspsms-t.init
+Openrc /etc/init.d scripts and systemd units can be found in the etc directory:
 
 Have fun!

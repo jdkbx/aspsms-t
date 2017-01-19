@@ -1,0 +1,24 @@
+#!/sbin/openrc-run
+# Copyright 1999-2016 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
+depend() {
+	need net
+	use jabber-server
+}
+
+start() {
+	ebegin "Starting aspsms-t Jabber Transport"
+	checkpath -q -d -m 0755 -o jabber:jabber /var/run/jabber/
+	start-stop-daemon --start --pidfile /var/run/jabber/aspsms-t.pid -u jabber -g jabber -b \
+		--exec /usr/bin/aspsms-t -- \
+		-c /etc/jabber/aspsms-t.xml -l /var/log/jabber/aspsms-t.log
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping aspsms-t Jabber Transport"
+	start-stop-daemon --stop --quiet --pidfile /var/run/jabber/aspsms-t.pid
+	eend $?
+}

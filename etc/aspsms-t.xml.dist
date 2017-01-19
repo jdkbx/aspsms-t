@@ -44,26 +44,7 @@
 	functionality of the service or billing. To disable, change
 	it to <affiliateid/> -->
   <affiliateid>82723</affiliateid>
-  <server id="1">
-    <host>xml1.aspsms.com</host>
-    <port>5061</port>
-    <xmlspec>1.8</xmlspec>
-  </server>
-  <server id="2">
-    <host>xml1.aspsms.com</host>
-    <port>5098</port>
-    <xmlspec>1.8</xmlspec>
-  </server>
-  <server id="3">
-    <host>xml2.aspsms.com</host>
-    <port>5061</port>
-    <xmlspec>1.8</xmlspec>
-  </server>
-  <server id="4">
-    <host>xml2.aspsms.com</host>
-    <port>5098</port>
-    <xmlspec>1.8</xmlspec>
-  </server>
+  <server>https://soap.aspsms.com/aspsmsx2.asmx</server>
   <!--  aspsms-t.notify - Delivery notification
 	This part is used from aspsms-t.notify script. Please read manpage 
 	aspsms-t.notify how to configure this correctly.-->

@@ -44,8 +44,17 @@ sub soapGetStatusCodeDescription {
 ########################################################################
 
 my $statusCode = shift;
+
+=head2 soapGetStatusCodeDescription()
+
+This function gets the errordescription to an errorcode through an
+aspsms soap request.
+
+my $errmessage = soapGetStatusCodeDescription($errorcode)
+
+=cut
 	
-my $soap = SOAP::Lite->new( proxy => 'https://soap.aspsms.com/aspsmsx2.asmx'
+my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::server"
   , ssl_opts => {
     SSL_ca_path => '/etc/ssl/certs'
   }
@@ -76,7 +85,7 @@ This function contains an aspsms soap request to query credit balance.
 
 =cut
 
-my $soap = SOAP::Lite->new( proxy => 'https://soap.aspsms.com/aspsmsx2.asmx'
+my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::server"
   , ssl_opts => {
     SSL_ca_path => '/etc/ssl/certs'
   }
@@ -91,13 +100,6 @@ my $som = $soap->call('CheckCredits',
 );
 
 my $credits             =       $som->result;
-#my $ErrorCode		=       $CreditStatus->{aspsms}{ErrorCode};
-#my $ErrorDescription	=       $CreditStatus->{aspsms}{ErrorDescription};
-
-#
-# If we are not authorized, send error back to user.
-#
-
 my $ErrorCode           = 1;
 my $ErrorDescription    = "OK";
 
@@ -148,19 +150,10 @@ This function contains an aspsms soap request to send a normal text sms.
 aspsmst_log('debug',"id:$random soapSendTextSMS(): " .
 	"Begin");
 
-#
-# fix right url encoding for aspsms xmlsrv
-#
-#$ASPSMS::config::notificationurl = PrepareCharSet($ASPSMS::config::notificationurl);
-
 aspsmst_log('debug',"id:$random notificationurl: " .
 	"$ASPSMS::config::notificationurl");
-#
-# Prepare charset
-#
-#$mess 	= PrepareCharSet($mess);
 
-my $soap = SOAP::Lite->new( proxy => 'https://soap.aspsms.com/aspsmsx2.asmx'
+my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::server"
   , ssl_opts => {
     SSL_ca_path => '/etc/ssl/certs'
   }
@@ -215,17 +208,7 @@ This function contains an aspsms soap request to send a binary sms.
 
 =cut
 
-#
-# fix right url encoding for aspsms xmlsrv
-#
-#$ASPSMS::config::notificationurl = PrepareCharSet($ASPSMS::config::notificationurl);
-
-#
-# Prepare charset
-#
-#$mess 	= PrepareCharSet($mess);
-
-my $soap = SOAP::Lite->new( proxy => 'https://soap.aspsms.com/aspsmsx2.asmx'
+my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::server"
   , ssl_opts => {
     SSL_ca_path => '/etc/ssl/certs'
   }
@@ -279,14 +262,7 @@ This function contains an aspsms soap request to send a wap push sms.
 
 =cut
 
-#$mess 	= PrepareCharSet($mess);
-#$url 	= PrepareCharSet($url);
-
-
-# fix right url encoding for aspsms xmlsrv
-#$ASPSMS::config::notificationurl = PrepareCharSet($ASPSMS::config::notificationurl);
-
-my $soap = SOAP::Lite->new( proxy => 'https://soap.aspsms.com/aspsmsx2.asmx'
+my $soap = SOAP::Lite->new( proxy => "$ASPSMS::config::server"
   , ssl_opts => {
     SSL_ca_path => '/etc/ssl/certs'
   }
@@ -312,30 +288,6 @@ my $som = $soap->call('SimpleWAPPush',
 );
 
 return $som;
-
-########################################################################
-}
-########################################################################
-
-########################################################################
-sub PrepareCharSet {
-########################################################################
-my $data = shift;
-
-=head2 PrepareCharSet()
-
-This function fixes url encoding for aspsms xmlsrv.
-
-=cut
-
-# With this line enabled, delivery notification does not work.
-# /maba 24.09.2007
-#$data =~ s/\&/\&\#38\;/g;
-$data =~ s/\:/\&\#58\;/g;
-$data =~ s/\</\&\#60\;/g;
-$data =~ s/\>/\&\#62\;/g;
-
-return $data;
 
 ########################################################################
 }

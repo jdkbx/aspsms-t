@@ -32,7 +32,6 @@ use strict;
 use ASPSMS::config;
 use ASPSMS::aspsmstlog;
 use ASPSMS::Connection;
-use ASPSMS::ConnectionASPSMS;
 use ASPSMS::soapmodel;
 use ASPSMS::Storage;
 use ASPSMS::Jid;
@@ -99,24 +98,7 @@ that.
 =cut
 
 aspsmst_log('info',"CheckNewUser(): Check new user on aspsms server $username/$password");
-#unless(ConnectAspsms() eq '0') {
-#my $value1 = $_[0]; my $value2 = $_[1];
-#return ($value1,$value2); }
-
-#my $aspsmsrequest       = xmlShowCredits($username,$password);
-#my $completerequest    	= xmlGenerateRequest($aspsmsrequest);
 my $credits = soapShowCredits($username,$password);
-
-#print $ASPSMS::config::aspsmssocket $completerequest;
-#@answer = <$ASPSMS::config::aspsmssocket>;
-#DisconnectAspsms();
-
-#my $ret_parsed_response = parse_aspsms_response(\@answer);
-
-#my $ErrorStatus         =       XML::Smart->new($ret_parsed_response);
-#my $ErrorCode           =       $ErrorStatus->{aspsms}{ErrorCode};
-#my $ErrorDescription    =       $ErrorStatus->{aspsms}{ErrorDescription};
-
 my $ErrorCode           = 1;
 my $ErrorDescription    = "OK";
 

@@ -151,6 +151,7 @@ Adapted by jdkbx
 
 =head1 RESOURCES
 
+http://github.com/jdkbx/aspsms-t/
 http://github.com/micressor/aspsms-t/
 http://www.aspsms.com/documentation/
 
@@ -181,7 +182,8 @@ use ASPSMS::aspsmstlog;
 use ASPSMS::ContactCredits;
 use ASPSMS::CheckNotification;
 use ASPSMS::InMessage;
-				  
+use Sys::Syslog;
+
 ### BEGIN CONFIGURATION ###
 
 =head2
@@ -194,33 +196,40 @@ use ASPSMS::InMessage;
 
 =cut
 
-  my $log_file;
-  my $config_file;
+my $log_file;
+my $verbose = '';
+my $log_level = $INFO;
+my $config_file;
 
-  GetOptions ("configfile=s" => \$config_file,
-              "logfile:s"    => \$log_file)
-   or die("Error in command line arguments\n");
+GetOptions ("configfile=s" => \$config_file,
+	    "verbose"   => \$log_level,
+            "logfile:s"    => \$log_file)
+ or die("Error in command line arguments\n");
 
-  unless(defined $config_file)
-   {
-     print "Usage: ./aspsms-t -c aspsms-t.xml -l log.txt\n";
-     exit(-1);
-   }
+unless(defined $config_file)
+ {
+   print "Usage: ./aspsms-t -c aspsms-t.xml -l log.txt\n";
+   exit(-1);
+ }
 
-  my $ret_config = set_config($config_file);
-  unless($ret_config == 0)
-   { 
-    aspsmst_log("error","Error: stage config file $config_file");
-    aspsmst_log("debug","Exit: $ret_config");
-    aspsmst_log("debug","Usage: ./aspsms-t -c aspsms.xml -l log.txt");
-    print "\n";
-    exit($ret_config);
-   } ### END of unless($ret_config == 0)
+if($verbose)
+ {
+   $log_level = $DEBUG;
+ }
 
+aspsmst_init_log($log_level, $log_file);
 
-use Sys::Syslog;
+my $ret_config = set_config($config_file);
+unless($ret_config == 0)
+ { 
+   aspsmst_log("error","Error: stage config file $config_file");
+   aspsmst_log("debug","Exit: $ret_config");
+   aspsmst_log("debug","Usage: ./aspsms-t -c aspsms.xml -l log.txt");
+   print "\n";
+   exit($ret_config);
+ } ### END of unless($ret_config == 0)
+
 openlog($ASPSMS::config::ident,'',"$ASPSMS::config::facility");
-aspsmst_init_log($log_file);
 
 =head2
 
@@ -476,6 +485,7 @@ Connect();
 =head1 COPYRIGHT AND LICENSE
 
 Copyright (C) 2006-2012 Marco Balmer <marco@balmer.name>
+adapted by jdkbx
 
 The Debian packaging is licensed under the 
 GPL, see `/usr/share/common-licenses/GPL-2'.

@@ -51,8 +51,10 @@ my $initialized = 0;
 
 sub aspsmst_init_log
  {
+   my $level = shift;
    my $log_file  = shift;
-   Log::Log4perl->easy_init( { level   => $DEBUG,
+
+   Log::Log4perl->easy_init( { level   => $level,
                             file    => ">>$log_file" } );
    $initialized = 1;
  }

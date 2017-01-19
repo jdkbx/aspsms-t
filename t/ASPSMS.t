@@ -5,12 +5,11 @@
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 
-use Test::More tests => 28;
-BEGIN { use_ok('ASPSMS::xmlmodel') };
+use Test::More tests => 29;
+BEGIN { use_ok('ASPSMS::soapmodel') };
 BEGIN { use_ok('ASPSMS::aspsmstlog') };
 BEGIN { use_ok('ASPSMS::CheckNotification') };
 BEGIN { use_ok('ASPSMS::config') };
-BEGIN { use_ok('ASPSMS::ConnectionASPSMS') };
 BEGIN { use_ok('ASPSMS::Connection') };
 BEGIN { use_ok('ASPSMS::ContactCredits') };
 BEGIN { use_ok('ASPSMS::DiscoNetworks') };
@@ -26,7 +25,6 @@ BEGIN { use_ok('ASPSMS::ShowBalance') };
 BEGIN { use_ok('ASPSMS::Storage') };
 BEGIN { use_ok('ASPSMS::UCS2') };
 BEGIN { use_ok('ASPSMS::userhandler') };
-BEGIN { use_ok('ASPSMS::xmlmodel') };
 BEGIN { use_ok('File::Pid') };
 BEGIN { use_ok('Net::Jabber') };
 BEGIN { use_ok('XML::Parser') };
@@ -34,4 +32,8 @@ BEGIN { use_ok('XML::Smart') };
 BEGIN { use_ok('Sys::Syslog') };
 BEGIN { use_ok('LWP::UserAgent') };
 BEGIN { use_ok('Sys::Syslog') };
+BEGIN { use_ok('SOAP::Lite') };
+BEGIN { use_ok('Log::Log4perl') };
+BEGIN { use_ok('Getopt::Long') };
+#BEGIN { use_ok('HTTP::Server::Simple') };
 

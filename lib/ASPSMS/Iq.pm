@@ -47,7 +47,6 @@ use Exporter;
 				jabber_iq_remove 
 				jabber_iq_disco_info 
 				jabber_iq_disco_items 
-				jabber_iq_xmlsrv
 			   );
 
 
@@ -87,11 +86,6 @@ dialog, return error 501 for other NS's.
  my $barejid	= get_barejid($from);
 
 aspsmst_log('debug',"InIQ->GetXML(): $xml");
-
-if ($to eq "$ASPSMS::config::service_name/xmlsrv.asp") 
- {
-  my $ret = jabber_iq_xmlsrv($sid,$iq,$from,$to,$id,$type,$query,$xml);
- } ### END jabber:iq:xmlsrv.asp ###
 
 return unless $query;
 my $xmlns 	= $query->GetXMLNS();
@@ -588,53 +582,6 @@ According to jabber_iq_disco_info.
         aspsmst_log('debug',"jabber_iq_disco_items($barejid): Processing finished");
     }
 } ### END of jabber_iq_disco_items ###
-
-sub jabber_iq_xmlsrv
-{
-my $sid 	= shift;
-my $iq 		= shift;
-my $from 	= $iq->GetFrom();
-my $to 		= $iq->GetTo();
-my $id 		= $iq->GetID();
-my $type 	= $iq->GetType();
-my $xml		= $iq->GetXML();
-my $barejid	= get_barejid($from);
-aspsmst_log('info',"id=$id jabber_iq_xmlsrv($barejid): Processing xmlsrv.asp query");
-
-=head2 jabber_iq_xmlsrv()
-
-Via jabber you are able to access to the xml interface from aspsms.com directly
-with an iq (information query). Send an iq to aspsms.domain.tld/xmlsrv.asp
-and it will directly forwarded to the aspsms.com. The result is the response
-from aspsms.com xml interface via a regulary jabber iq message.
-
-=cut
-
-	if ($type eq 'set')
-	 {
-	   aspsmst_log('debug',"XMPP:\n $xml");
-	   
-	   # processing request to aspsms and wait for result
-	   my $xmlsrv_completerequest  = xmlGenerateRequest($xml);
-	   my $xmlsrv_completerequest_1 = $xmlsrv_completerequest . "\r\n\r\r\n";
-	   my @ret_CompleteRequest 	  	= exec_ConnectionASPSMS($xmlsrv_completerequest_1);
-
-    	   my $iq_xmlsrv_result = new Net::Jabber::IQ();
-	   
-    	   $iq_xmlsrv_result->SetType('result');
-           $iq_xmlsrv_result->SetFrom($iq->GetTo());
-           $iq_xmlsrv_result->SetID($id);
-           $iq_xmlsrv_result->SetTo($from);
-	   my $ret_parsed_response = parse_aspsms_response(\@ret_CompleteRequest,undef);
-	   $iq_xmlsrv_result->InsertRawXML($ret_parsed_response);
-           $ASPSMS::config::Connection->Send($iq_xmlsrv_result);
-	   return undef;
-	 } ### END of if ( $to eq $ASPSMS::config::service_name."/xmlsrv.asp")
-
-	#
-	# END of Direct access to the aspsms:com xml srv
-	#
-} ### END of jabber_iq_xmlsrv ###
 
 sub jabber_iq_remove
 {
