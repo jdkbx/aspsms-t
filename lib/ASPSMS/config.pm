@@ -47,7 +47,7 @@ use vars qw(@EXPORT @ISA);
 
 
 # Legacy to perl module
-our $VERSION   = "1.3.1";
+our $VERSION   = "1.4.0";
 # $release is our primary version used in this  module.
 our $release = $VERSION;
 
