@@ -69,6 +69,7 @@ our $facility;
 our $ident;
 our $passwords;
 our $cachedir;
+our $piddir;
 our $notificationurl;
 our $notificationjid;
 our $browseservicename;
@@ -112,6 +113,7 @@ our $Connection;
 				$secret
 				$passwords
 				$cachedir
+				$piddir
 				$release
 				$banner
 				$jabber_banner
@@ -164,6 +166,7 @@ sub set_config
   $ident 		= $Config->{aspsms}{ident};
   $passwords		= $Config->{aspsms}{spooldir};
   $cachedir		= $Config->{aspsms}{cachedir};
+  $piddir		= $Config->{aspsms}{piddir};
   $notificationurl	= $Config->{aspsms}{notificationurl};
   $notificationjid	= $Config->{aspsms}{notificationjid};
   $browseservicename  	= $Config->{aspsms}{jabber}{browse}{servicename};
